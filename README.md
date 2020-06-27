@@ -19,7 +19,7 @@
   
   ### 项目启动步骤
 1. 安装包（这里需要使用npm进行安装，如果用cnpm或者yarn会有热更新失效的问题）
-   cnpm install 
+   npm install 
 2. 开发运行
   npm run dev
 3. 生产打包
