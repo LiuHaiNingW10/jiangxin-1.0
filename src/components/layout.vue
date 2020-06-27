@@ -1,6 +1,6 @@
 <template>
 <a-layout class="layout" id="components-layout-demo-side" style="min-height: 100vh">
-  <a-layout-sider class="left-nav">
+  <a-layout-sider class="left-nav" v-if="showNav">
     <LaftNav />
   </a-layout-sider>
   <a-layout class="content">
@@ -26,6 +26,7 @@ export default {
   data() {
     return {
       collapsed: false,
+      showNav: true
     };
   },
   components: {
