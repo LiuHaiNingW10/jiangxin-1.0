@@ -1,31 +1,23 @@
 <template>
 <div class="container">
-    p4
+    <div class="header">百信智能聚变引擎</div>
+    <div class="main-content">
+      <div class="left">
+        <div>
+          
+        </div>
+      </div>
+      <div class="center">2</div>
+      <div class="right">3</div>
+    </div>
 </div>
 </template>
 
 <script>
 import SingleLine from "../../components/singleLineSecond.vue";
 export default {
-  mounted() {
-    
-  },
   data() {
     return {
-      allData: [
-        {
-          chartName: "贷款时点",
-          money: Math.floor(Math.random() * 100000)
-        },
-        {
-          chartName: "贷款客户数",
-          money: Math.floor(Math.random() * 100000)
-        }
-      ],
-      id: [
-        { width: "w50", value: "echarts01" },
-        { width: "w50", value: "echarts02" }
-      ],
       allDataB: [
         {
           chartName: "信贷客户数(表内)",
@@ -294,3 +286,41 @@ export default {
   }
 };
 </script>
+<style lang="less" scoped>
+  .container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    color: #fff;
+    background: url('../../assets/images/background.png') 100% 100%;
+    .header {
+        height: 8%;
+        text-align: center;
+        line-height: 40px;
+        font-size: 18px;
+        font-weight: 600;
+        font-family: sans-serif;
+        letter-spacing: 2px;
+        background: linear-gradient(to right, #fff, #ACC5FD);
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+    .main-content {
+      padding: 0 60px;
+      div {
+        display: inline-block;
+      }
+      .left {
+        width: 26%;
+      }
+      .center {
+        width: 48%;
+      }
+      .right {
+        width: 26%;
+      }
+    }
+  }
+</style>

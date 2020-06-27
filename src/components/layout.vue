@@ -5,13 +5,11 @@
   </a-layout-sider>
   <a-layout class="content">
     <a-layout-content>
-      <div :style="{ padding: '48px 0 0 0 ', minHeight: '360px' }">
         <transition>
           <keep-alive>
             <router-view></router-view>
           </keep-alive>
         </transition>
-      </div>
     </a-layout-content>
     <!-- <a-layout-footer style="text-align: center">
         Ant Design ©2018 Created by Ant UED
@@ -26,7 +24,7 @@ export default {
   data() {
     return {
       collapsed: false,
-      showNav: true
+      showNav: false // false --> closed leftNav
     };
   },
   components: {
