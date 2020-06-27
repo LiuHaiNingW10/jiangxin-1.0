@@ -1,60 +1,60 @@
 const menuList = [
-  {
-    title: '交易银行',
-    key: '/bank',
-    icon: 'appstore',
-    children: [ // 子菜单列表
-      {
-        title: '关键数据一览',
-        key: '/mainView',
-        icon: 'bars'
-      },
-      {
-        title: '管理分析',
-        key: '/manage',
-        icon: 'bars',
-        children:[
-          {
-            title: '负债分析',
-            key: '/manage/debts',
-            icon: 'bars'
-          },
-          {
-            title: '资产分析',
-            key: '/manage/money',
-            icon: 'bars'
-          },
-          {
-            title: '收入分析',
-            key: '/manage/salary',
-            icon: 'bars'
-          },
-          {
-            title: '产品分析',
-            key: '/manage/prd',
-            icon: 'bars',
-            children:[
-              {
-                title: '持有产品分析',
-                key: '/manage/prd',
-                icon: 'bars'
-              },
-              {
-                title: '发生额分析',
-                key: '/manage/prd/occur',
-                icon: 'bars'
-              },
-            ]
-          },
-        ]
-      },
-      {
-        title: '客户分析',
-        key: '/analysis',
-        icon: 'bars',
-      },
-    ]
-  },
+  // {
+  //   title: '交易银行',
+  //   key: '/bank',
+  //   icon: 'appstore',
+  //   children: [ // 子菜单列表
+  //     {
+  //       title: '关键数据一览',
+  //       key: '/mainView',
+  //       icon: 'bars'
+  //     },
+  //     {
+  //       title: '管理分析',
+  //       key: '/manage',
+  //       icon: 'bars',
+  //       children:[
+  //         {
+  //           title: '负债分析',
+  //           key: '/manage/debts',
+  //           icon: 'bars'
+  //         },
+  //         {
+  //           title: '资产分析',
+  //           key: '/manage/money',
+  //           icon: 'bars'
+  //         },
+  //         {
+  //           title: '收入分析',
+  //           key: '/manage/salary',
+  //           icon: 'bars'
+  //         },
+  //         {
+  //           title: '产品分析',
+  //           key: '/manage/prd',
+  //           icon: 'bars',
+  //           children:[
+  //             {
+  //               title: '持有产品分析',
+  //               key: '/manage/prd',
+  //               icon: 'bars'
+  //             },
+  //             {
+  //               title: '发生额分析',
+  //               key: '/manage/prd/occur',
+  //               icon: 'bars'
+  //             },
+  //           ]
+  //         },
+  //       ]
+  //     },
+  //     {
+  //       title: '客户分析',
+  //       key: '/analysis',
+  //       icon: 'bars',
+  //     },
+  //   ]
+  // },
   {
     title: '小企业',
     key: '/acrm',
@@ -65,6 +65,26 @@ const menuList = [
         key: '/manageSmall',
         icon: 'bar-chart',
         children: [
+          {
+            title: 'P1',
+            key: '/manage/P1',
+            icon: 'bars'
+          },
+          {
+            title: 'P2',
+            key: '/manage/P2',
+            icon: 'bars'
+          },
+          {
+            title: 'P3',
+            key: '/manage/P3',
+            icon: 'bars'
+          },
+          {
+            title: 'P4',
+            key: '/manage/P4',
+            icon: 'bars'
+          },
           {
             title: '默认首页',
             key: '/manageSmall/home',

@@ -27,6 +27,11 @@ const CustomView = ()=> import('../page/small/custome.vue')
 const ProductView = ()=> import('../page/small/product.vue')
 const interestRateView = ()=> import('../page/small/interestRate.vue')
 
+
+const p1 = ()=> import('../page/small/p1.vue')
+const p2 = ()=> import('../page/small/p2.vue')
+const p3 = ()=> import('../page/small/p3.vue')
+const p4 = ()=> import('../page/small/p4.vue')
 Vue.use(Router)
 
 export default new Router({
@@ -46,6 +51,22 @@ export default new Router({
         {
           path: '/',
           redirect:"debts"
+        },
+        {
+          path: 'p1',
+          component: loadable(p1),
+        },
+        {
+          path: 'p2',
+          component: loadable(p2),
+        },
+        {
+          path: 'p3',
+          component: loadable(p3),
+        },
+        {
+          path: 'p4',
+          component: loadable(p4),
         },
         {
           path: 'debts',
