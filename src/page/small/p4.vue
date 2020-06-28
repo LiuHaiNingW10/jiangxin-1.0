@@ -3,9 +3,7 @@
     <div class="header">百信智能聚变引擎</div>
     <div class="main-content">
       <div class="left">
-        <div>
-          
-        </div>
+          <table-auto :tableDatas='getChartData' :id='idA'>
       </div>
       <div class="center">2</div>
       <div class="right">3</div>
@@ -15,6 +13,8 @@
 
 <script>
 import SingleLine from "../../components/singleLineSecond.vue";
+import tableAuto from '../../components/p4/autoScroll-table.vue'
+const colum
 export default {
   data() {
     return {
@@ -70,6 +70,7 @@ export default {
           money: Math.floor(Math.random() * 100000)
         }
       ],
+      idA:['echarts01'],
       idB: ["echarts03", "echarts04"],
       allDataC: [
         {
@@ -126,15 +127,13 @@ export default {
       }
     };
   },
-  computed: {
-    getChartData() {
-      return this.id.reduce((pre, item, index) => {
-        pre.push(this.allData[index]);
-        return pre;
-      }, []);
-    }
+  mounted() {
+    this.init()
   },
   methods: {
+    init() {
+
+    },
     drawLineD(id, data) {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById(id));
@@ -282,7 +281,7 @@ export default {
     }
   },
   components: {
-    "single-line": SingleLine,
+    "table-auto": tableAuto,
   }
 };
 </script>
