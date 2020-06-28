@@ -3,128 +3,309 @@
     <div class="header">百信智能聚变引擎</div>
     <div class="main-content">
       <div class="left">
-          <table-auto :tableDatas='getChartData' :id='idA'>
+          <table-auto :tableDatas='tableDataA' :ids='idA' :columns="columnA" :heights="clientHeight" />
+          <line-right :tableDatas='tableDataB' :ids='idB' :heights="clientHeight" />
       </div>
-      <div class="center">2</div>
-      <div class="right">3</div>
+      <div class="center">
+        <big-head :tableDatas='tableDataC' :ids='idC' :heights="clientHeight" />
+      </div>
+      <div class="right">
+          <table-auto :tableDatas='tableDataC' :ids='idC' :columns="columnC" :heights="clientHeight" />
+          <div style="width: 100%;height:318px">
+
+          </div>
+      </div>
     </div>
 </div>
 </template>
 
 <script>
-import SingleLine from "../../components/singleLineSecond.vue";
+import Vue from 'vue'
 import tableAuto from '../../components/p4/autoScroll-table.vue'
-const colum
+import lineToRight from '../../components/p4/line-toRight.vue'
+import bigHeadVue from '../../components/p4/big-head.vue'
+
+const columnA = [
+  {
+    dataIndex: "telphoneNum",
+    key: "telphoneNum",
+    class: "table-td",
+    title:'手机号',
+    align: "center",
+    width: '20%'
+  },
+  {
+    dataIndex: "action",
+    key: "action",
+    class: "table-td",
+    title:'状态',
+    align: "center",
+    width: '20%'
+  },
+  {
+    dataIndex: "status",
+    key: 'status',
+    scopedSlots: { customRender: 'status' },
+    class: "table-td",
+    title:'问题定位',
+    align: "center",
+    width: '20%',
+  },
+  {
+    dataIndex: "response",
+    key: "response",
+    class: "table-td",
+    title:'智能处理',
+    align: "center",
+    width: '20%'
+  }
+];
+const columnC = [
+  {
+    dataIndex: "telphoneNum",
+    key: "telphoneNum",
+    class: "table-td",
+    title:'手机号',
+    align: "center",
+    width: '20%'
+  },
+  {
+    dataIndex: "area",
+    key: "area",
+    class: "table-td",
+    title:'口音识别',
+    align: "center",
+    width: '20%'
+  },
+  {
+    dataIndex: "status",
+    key: 'status',
+    class: "table-td",
+    title:'产品',
+    align: "center",
+    width: '20%',
+  },
+  {
+    dataIndex: "response",
+    key: "response",
+    class: "table-td",
+    title:'客户意图',
+    align: "center",
+    width: '24%'
+  }
+]
 export default {
   data() {
     return {
-      allDataB: [
+      tableDataA:[
         {
-          chartName: "信贷客户数(表内)",
-          yAxis:[ '信贷客户数'] ,
-          legend:[{
-              name: "个经贷款客户数",
-              icon: "roundRect"
-            },
-            {
-              name: "鑫伙伴客户数",
-              icon: "roundRect"
-            },
-            {
-              name: "非鑫伙伴客户数",
-              icon: "circle"
-            }],
-          money: Math.floor(Math.random() * 100000),
-          xAxis: [
-            '2019年01月',
-            '2019年02月',
-            '2019年03月',
-            '2019年04月',
-            '2019年05月',
-            '2019年06月',
-          ]
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          action:'打开首页',
+          status: ['1'],
+          response:''
         },
         {
-          chartName: "信贷资产余额(表内)",
-          yAxis:[ '信贷资产余额'] ,
-          legend:[{
-              name: "个经贷款客户数",
-              icon: "roundRect"
-            },
-            {
-              name: "鑫伙伴客户数",
-              icon: "roundRect"
-            },
-            {
-              name: "非鑫伙伴客户数",
-              icon: "circle"
-            }],
-          xAxis: [
-            '2019年01月',
-            '2019年02月',
-            '2019年03月',
-            '2019年04月',
-            '2019年05月',
-            '2019年06月',
-          ],
-          money: Math.floor(Math.random() * 100000)
-        }
-      ],
-      idA:['echarts01'],
-      idB: ["echarts03", "echarts04"],
-      allDataC: [
-        {
-          chartName: "信贷客户数(表内)",
-          legend:[{
-              name: "个经贷款客户数",
-              icon: "roundRect"
-            },
-            {
-              name: "鑫伙伴客户数",
-              icon: "roundRect"
-            },
-            {
-              name: "非鑫伙伴客户数",
-              icon: "circle"
-            }],
-          money: Math.floor(Math.random() * 100000)
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          action:'打开首页',
+          status:['-1'],
+          response:'四要素鉴权'
         },
         {
-          chartName: "信贷资产余额(表内)",
-          money: Math.floor(Math.random() * 100000),
-          legend:[{
-              name: "个经贷款客户数",
-              icon: "roundRect"
-            },
-            {
-              name: "鑫伙伴客户数",
-              icon: "roundRect"
-            },
-            {
-              name: "非鑫伙伴客户数",
-              icon: "circle"
-            }],
-        }
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          action:'打开首页',
+          status:['0'],
+          response:'短信召回'
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          action:'打开首页',
+          status: ['1'],
+          response:''
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          action:'打开首页',
+          status: ['0'],
+          response:'短信召回'
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          action:'打开首页',
+          status: ['1'],
+          response:''
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          action:'打开首页',
+          status: ['1'],
+          response:''
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          action:'打开首页',
+          status: ['1'],
+          response:''
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          action:'打开首页',
+          status: ['1'],
+          response:''
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          action:'打开首页',
+          status: ['1'],
+          response:''
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          action:'打开首页',
+          status: ['1'],
+          response:''
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          action:'打开首页',
+          status: ['1'],
+          response:''
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          action:'打开首页',
+          status: ['1'],
+          response:''
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          action:'打开首页',
+          status:['-1'],
+          response:'四要素鉴权'
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          action:'打开首页',
+          status:['0'],
+          response:'短信召回'
+        },
       ],
-      idC: ["echarts05", "echarts06"],
-      filterParams: {
-        org: [
-          { key: "1", value: "鼓楼支行" },
-          { key: "2", value: "江宁区支行" },
-          { key: "3", value: "建邺区支行" },
-          { key: "4", value: "浦口区支行" },
-          { key: "5", value: "六合区支行" },
-          { key: "6", value: "雨花台支行" }
-        ],
-        time: [
-          { key: "01", value: "2019年01月25日" },
-          { key: "02", value: "2019年02月25日" },
-          { key: "03", value: "2019年03月25日" },
-          { key: "04", value: "2019年04月25日" },
-          { key: "05", value: "2019年05月25日" },
-          { key: "06", value: "2019年06月25日" }
-        ]
-      }
+      idA:{
+        id:'echarts01',
+        title: '智能运营'
+      },
+      columnA: columnA,
+      tableDataB:[
+        {categroy:'还款用户数',num: 21044},
+        {categroy:'用信成功用户数',num: 23618},
+        {categroy:'授信通过用户数',num: 24396},
+        {categroy:'授信申请用户数',num: 25903},
+        {categroy:'好会花朴充信息页面浏览',num: 26258},
+        {categroy:'好会花申请按钮点击',num: 26758},
+        {categroy:'好会花Banner点击',num: 29632 },
+      ],
+      idB:{
+        id:'echarts02',
+        title: '用户转化',
+        action: '活动：信贷MGM'
+      },
+      tableDataC:[
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          area:'北京',
+          status: ['好会花'],
+          response:'承诺马上还款'
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          area:'安徽',
+          status:['好会花'],
+          response:'承诺近期还款'
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          area:'合肥',
+          status:['好会花'],
+          response:'未援酒'
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          area:'上海',
+          status: ['好会花'],
+          response:'延期还款'
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          area:'南京',
+          status: ['好会花'],
+          response:'未接听'
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          area:'苏州',
+          status: ['好会花'],
+          response:'承诺马上还款'
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          area:'西安',
+          status: ['好会花'],
+          response:'承诺马上还款'
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          area:'南通',
+          status: ['好会花'],
+          response:'未接听'
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          area:'北京',
+          status: ['好会花'],
+          response:'延期还款'
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          area:'南阳',
+          status: ['好会花'],
+          response:'承诺马上还款'
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          area:'吉安',
+          status: ['好会花'],
+          response:'延期还款'
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          area:'新疆',
+          status: ['好会花'],
+          response:'未接听'
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          area:'洛阳',
+          status: ['好会花'],
+          response:'延期还款'
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          area:'吉安',
+          status:['好会花'],
+          response:'承诺马上还款'
+        },
+        {
+          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
+          area:'吉安',
+          status:['好会花'],
+          response:'承诺马上还款'
+        },
+      ],
+      idC:{
+        id:'echarts03',
+        title: '智能客服'
+      },
+      columnC: columnC,
+      clientHeight: document.body.clientHeight
     };
   },
   mounted() {
@@ -132,156 +313,12 @@ export default {
   },
   methods: {
     init() {
-
     },
-    drawLineD(id, data) {
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(document.getElementById(id));
-      // 绘制图表
-      var a = data.chartName || "交易银行保证金存款产品结构分析";
-      var b = data.filterType || "2019年01月25日 ";
-      myChart.setOption({
-        title: {
-          text: [`{a|${a}  }`, `{b|${b}}`].join(""),
-          textStyle: {
-            rich: {
-              b: {
-                color: "gray",
-                fontSize: "14"
-              }
-            }
-          },
-          itemGap: 10,
-          margin: 10
-        },
-        color: ["#2F8156", "#BFAA3F", "#3B63AB"],
-        legend: {
-          data: data.legend,
-          align: "left",
-          top: 30,
-          itemHeight: 8,
-          itemWidth : 8,
-        },
-        tooltip: {
-          trigger: "axis",
-          formatter: function(option) {
-            var str = "<div class='echart-shadow tool-tip'>";
-            for (var i = 0, l = option.length; i < l; i++) {
-              str +=
-                i % 2 == 0
-                  ? '<span style="color:#000">' +
-                    option[i].name +
-                    "</span>" +
-                    "<br/>" +
-                    `<span style="color: ${option[i].color}" >` +
-                    option[i].seriesName +
-                    ": " +
-                    option[i].value +
-                    "亿" +
-                    "</span>" +
-                    "<br/>"
-                  : `<span style="color: ${option[i].color}" >` +
-                    option[i].seriesName +
-                    ": " +
-                    option[i].value +
-                    "亿" +
-                    "</span>";
-            }
-            return str + "</div>";
-          }
-        },
-        grid: {
-          top: 160,
-          bottom: 60,
-          left: "10%",
-          right: "10%",
-          borderWidth: 1
-        },
-        xAxis: {
-          type: "category",
-          data: data.xAxis ||  [
-            "进出口代付",
-            "进口信用证",
-            "口信用余额",
-            "保兑仓",
-            "进口押汇",
-            "出口押汇",
-            "融资性保函",
-            "非融资性保函"
-          ]
-        },
-        yAxis: {
-          name: data.yAxis && data.yAxis[0] ||"保证金存款产品",
-          nameGap: "80",
-          nameTextStyle: {
-            width: "200",
-            height: "200",
-            backgroundColor: {
-              image: "../assets/images/logo.png"
-            }
-          },
-          splitLine: {
-            show: false
-          },
-          axisLine: { show: false },
-          axisTick: { show: false },
-          axisLabel: {
-            formatter: "{value}亿"
-          }
-        },
-        series: [
-          {
-            name: data.legend&&data.legend[0].name || "贷款余额",
-            type: "bar",
-            stack: "余额",
-            label: {
-              normal: {
-                show: true,
-                position: "inside",
-                color: "#000",
-                formatter: "{c}亿"
-              }
-            },
-            data: ["5", "20", "36", "10", "10", "20", "36", "20"]
-          },
-          {
-            name: data.legend&&data.legend[1].name || "全行贷款余额",
-            type: "bar",
-            stack: "余额",
-            label: {
-              normal: {
-                show: true,
-                position: "inside",
-                color: "#000",
-                formatter: "{c}亿"
-              }
-            },
-            data: ["5", "20", "36", "10", "10", "20", "36", "79"]
-          },
-          {
-            name: data.legend&&data.legend[2].name ||"贷款客户数",
-            type: "bar",
-            stack: "余额",
-            label: {
-              normal: {
-                show: true,
-                position: "inside",
-                color: "#000",
-                formatter: "{c}亿"
-              }
-            },
-            data: ["5", "20", "36", "10", "10", "20", "36", "79"]
-          }
-        ]
-      });
-    },
-    getMsgFormSon(data) {
-      this.msgFormSon = data;
-      console.log(this.msgFormSon);
-    }
   },
   components: {
     "table-auto": tableAuto,
+    "line-right": lineToRight,
+    'big-head': bigHeadVue
   }
 };
 </script>
@@ -312,13 +349,13 @@ export default {
         display: inline-block;
       }
       .left {
-        width: 26%;
+        width: 22%;
       }
       .center {
-        width: 48%;
+        width: 56%;
       }
       .right {
-        width: 26%;
+        width: 22%;
       }
     }
   }

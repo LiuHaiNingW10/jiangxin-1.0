@@ -27,10 +27,18 @@ const numFormat = function (params) {
 const toBase64 = function (str) {
   return btoa(str)
 }
-
+const sortByValue = function( arr,value) {
+  arr.sort(function(x,y) {
+      const m = (value & x[value]) || x,
+      n = (value & y[value]) || y;
+      return n - m
+  })
+  return arr
+}
  
 export {
     isNullOrEmpty,
     numFormat,
-    toBase64
+    toBase64,
+    sortByValue
 }
