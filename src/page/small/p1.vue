@@ -4,7 +4,7 @@
     <div class="title-frame">
       <div class="title-left">
         <span>累计信贷服务金额：</span>
-        <span class="left-coin">¥ 390,802,158.58</span>
+        <span class="left-coin">¥ {{mockData.totalCoin}}</span>
       </div>
       <div class="global-title">普惠业务信贷数据平台</div>
       <div class="right-time">
@@ -18,15 +18,33 @@
         <div class="content-title">累计信贷服务金额</div>
         <indicator-chart :chartData="mockData.indicatorData[0]" />
         <line-chart :ids="id" :chartData="getChartData" class="line-chart" />
-        <left-indicator-chart :chartData="allDataIndicator"  />
+        <left-indicator-chart :chartData="allDataIndicator" />
+        <repeat-purchase
+          :ids="repeatPurchaseId"
+          :chartData="repeatPurchaseData"
+          class="repeat-purchase-chart"
+        />
       </div>
       <div class="current-amounts">
         <div class="content-title">当日信贷服务金额</div>
         <indicator-chart :chartData="mockData.indicatorData[1]" />
+
+        <!-- 地图 -->
+        <map-chart class="map-charts" />
       </div>
       <div class="accruing-person">
         <div class="content-title">累计信贷服务人数</div>
         <indicator-chart :chartData="mockData.indicatorData[2]" />
+        <columnar-chart :ids="columnarId" :chartData="columnarData" class="columnar-chart" />
+        <div class="distribution">
+          <div class="left-distribution single-distribution"></div>
+          <pie-chart
+            class="right-distribution single-distribution"
+            :id="pieId"
+            :chartData="pieData"
+          />
+        </div>
+        <form-chart :ids="formIds" :chartData="formData" class="form-charts" />
       </div>
     </div>
     <!-- <div class="title-frame"></div> -->
@@ -37,10 +55,21 @@
 import IndicatorChart from "../../components/first-screen/indicator.vue";
 import LineChart from "../../components/first-screen/lineChart.vue";
 import LeftIndicatorChart from "../../components/first-screen/leftIndicator.vue";
+import RepeatPurchase from "../../components/first-screen/repeatPurchase.vue";
+import ColumnarChart from "../../components/first-screen/columnarChart.vue";
+import PieChart from "../../components/first-screen/pieChart.vue";
+import FormChart from "../../components/first-screen/formChart.vue";
+import MapChart from "../../components/first-screen/mapChart.vue";
+
+import { setInterval, clearInterval } from "timers";
 export default {
-  mounted() {},
+  mounted() {
+    this.rollData();
+    this.getWeather();
+  },
   data() {
     return {
+      // 左侧实时放款数据
       allData: [
         {
           chartName: "当日实时放款/七日均值",
@@ -48,63 +77,8 @@ export default {
         }
       ],
       id: ["echarts01"],
-      allDataB: [
-        {
-          chartName: "信贷客户数(表内)",
-          yAxis: ["信贷客户数"],
-          legend: [
-            {
-              name: "个经贷款客户数",
-              icon: "roundRect"
-            },
-            {
-              name: "鑫伙伴客户数",
-              icon: "roundRect"
-            },
-            {
-              name: "非鑫伙伴客户数",
-              icon: "circle"
-            }
-          ],
-          money: Math.floor(Math.random() * 100000),
-          xAxis: [
-            "2019年01月",
-            "2019年02月",
-            "2019年03月",
-            "2019年04月",
-            "2019年05月",
-            "2019年06月"
-          ]
-        },
-        {
-          chartName: "信贷资产余额(表内)",
-          yAxis: ["信贷资产余额"],
-          legend: [
-            {
-              name: "个经贷款客户数",
-              icon: "roundRect"
-            },
-            {
-              name: "鑫伙伴客户数",
-              icon: "roundRect"
-            },
-            {
-              name: "非鑫伙伴客户数",
-              icon: "circle"
-            }
-          ],
-          xAxis: [
-            "2019年01月",
-            "2019年02月",
-            "2019年03月",
-            "2019年04月",
-            "2019年05月",
-            "2019年06月"
-          ],
-          money: Math.floor(Math.random() * 100000)
-        }
-      ],
-      idB: ["echarts03", "echarts04"],
+
+      // 左侧六个指标数据
       allDataIndicator: [
         {
           name: "余额",
@@ -138,63 +112,129 @@ export default {
         }
       ],
       idIndicator: ["card1", "card2", "card3", "card4", "card5", "card6"],
-      allDataC: [
-        {
-          chartName: "信贷客户数(表内)",
-          legend: [
+
+      // 左侧复购数据
+      repeatPurchaseData: {
+        linkRelativeRatio: {
+          echarts02: [
             {
-              name: "个经贷款客户数",
-              icon: "roundRect"
+              title: "环比上周",
+              data: "+23.19%"
             },
             {
-              name: "鑫伙伴客户数",
-              icon: "roundRect"
-            },
-            {
-              name: "非鑫伙伴客户数",
-              icon: "circle"
+              title: "环比上月",
+              data: "+15.19%"
             }
           ],
-          money: Math.floor(Math.random() * 100000)
-        },
-        {
-          chartName: "信贷资产余额(表内)",
-          money: Math.floor(Math.random() * 100000),
-          legend: [
+          echarts03: [
             {
-              name: "个经贷款客户数",
-              icon: "roundRect"
+              title: "环比上周",
+              data: "+12.19%"
             },
             {
-              name: "鑫伙伴客户数",
-              icon: "roundRect"
-            },
-            {
-              name: "非鑫伙伴客户数",
-              icon: "circle"
+              title: "环比上月",
+              data: "+10.19%"
             }
           ]
-        }
-      ],
-      idC: ["echarts05", "echarts06"],
-      filterParams: {
-        org: [
-          { key: "1", value: "鼓楼支行" },
-          { key: "2", value: "江宁区支行" },
-          { key: "3", value: "建邺区支行" },
-          { key: "4", value: "浦口区支行" },
-          { key: "5", value: "六合区支行" },
-          { key: "6", value: "雨花台支行" }
-        ],
-        time: [
-          { key: "01", value: "2019年01月25日" },
-          { key: "02", value: "2019年02月25日" },
-          { key: "03", value: "2019年03月25日" },
-          { key: "04", value: "2019年04月25日" },
-          { key: "05", value: "2019年05月25日" },
-          { key: "06", value: "2019年06月25日" }
+        },
+        dialPlate: ["34", "89"],
+        lineData: [
+          {
+            city: ["0", "4", "8", "12", "16", "20"],
+            num: ["40", "60", "22", "85", "50", "40"]
+          },
+          {
+            city: ["0", "4", "8", "12", "16", "20"],
+            num: ["40", "60", "22", "85", "50", "40"]
+          }
         ]
       },
+      repeatPurchaseId: [
+        {
+          id: "echarts02",
+          title: "30天复购"
+        },
+        {
+          id: "echarts03",
+          title: "90天复购"
+        }
+      ],
+
+      // 右侧柱状图数据
+      columnarData: {
+        totalData: ["234,561,345", "5,234,715"],
+        columnAllData: [
+          {
+            xAxis: [
+              "制造业",
+              "建筑业",
+              "农林牧渔",
+              "房地产",
+              "金融业",
+              "居民服务及其他"
+            ],
+            yAxis: [5000, 2600, 1300, 1300, 1250, 1500]
+          },
+          {
+            xAxis: [
+              "制造业",
+              "建筑业",
+              "农林牧渔",
+              "房地产",
+              "金融业",
+              "居民服务及其他"
+            ],
+            yAxis: [5000, 2600, 1300, 1300, 1250, 1500]
+          }
+        ]
+      },
+      columnarId: [
+        {
+          id: "echarts04",
+          title: "当日授信人数"
+        },
+        {
+          id: "echarts05",
+          title: "当日用信人数"
+        }
+      ],
+
+      // 右侧饼图
+      pieId: "echarts06",
+      pieData: [
+        { name: "南京a", value: 100 },
+        { name: "南京b", value: 136 },
+        { name: "南京c", value: 46 },
+        { name: "南京d", value: 78 },
+        { name: "南京e", value: 100 }
+      ],
+
+      // 右下表格
+      formIds: [
+        { id: "consume", title: "星座&剁手" },
+        { id: "scale", title: "地域&贷款规模" }
+      ],
+      formData: {
+        // 星座消费
+        consume: [
+          { name: "猴子", value: "345" },
+          { name: "兔子", value: "335" },
+          { name: "老虎", value: "325" },
+          { name: "螃蟹", value: "245" },
+          { name: "蝎子", value: "145" }
+        ],
+
+        // 地域贷款规模
+        scale: [
+          { name: "浙江", value: "345" },
+          { name: "广东", value: "335" },
+          { name: "山东", value: "325" },
+          { name: "北京", value: "245" },
+          { name: "江苏", value: "145" }
+        ]
+      },
+
+      // 伪造数据
       mockData: {
         leftTop: [
           "89,181,516.35",
@@ -202,6 +242,7 @@ export default {
           "34,181,146.35",
           "12,181,516.35"
         ],
+        totalCoin: "89,181,516.35",
         indicatorData: [15984981.56, 898498781.56, 35981981.56]
       }
     };
@@ -359,12 +400,63 @@ export default {
     getMsgFormSon(data) {
       this.msgFormSon = data;
       console.log(this.msgFormSon);
+    },
+
+    // 获取左上角累计金额ß
+    rollData() {
+      var _that = this;
+      var index = 0;
+      if (interval) clearInterval(interval);
+      var interval = setInterval(
+        () => {
+          _that.mockData.totalCoin = _that.mockData.leftTop[index];
+          index++;
+          if (index === _that.mockData.leftTop.length) index = 0;
+        },
+        2000,
+        _that,
+        index
+      );
+    },
+
+    getWeather() {
+      this.axios
+        .get(
+          "https://tianqiapi.com/api?version=v6&appid=71549884&appsecret=XH6bWw5A"
+        )
+        .then(function(response) {
+          console.log(response, " s");
+          // _this.localweather = response.data
+          // _this.weatherImg = 'http://tq.daodaoim.com//tianqiapi/skin/pitaya/' + response.data.wea_img +'.png'
+        })
+        .catch(() => {});
+
+      // this.axios({
+      //   url: "https://www.tianqiapi.com/api/?version=v1&cityid=101280601",
+      //   method: "get",
+      //   data: {
+      //     results: 10
+      //   },
+      //   type: "json"
+      // })
+      //   .then(res => {
+      //     // let datas = res.data.data[0];//下标为0即表示当天天气数据
+      //     console.log(res.data);
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
     }
   },
   components: {
     "indicator-chart": IndicatorChart,
     "line-chart": LineChart,
-    "left-indicator-chart": LeftIndicatorChart
+    "left-indicator-chart": LeftIndicatorChart,
+    "repeat-purchase": RepeatPurchase,
+    "columnar-chart": ColumnarChart,
+    "pie-chart": PieChart,
+    "form-chart": FormChart,
+    "map-chart": MapChart
   }
 };
 </script>
@@ -373,6 +465,8 @@ export default {
 .container {
   width: 4224px;
   height: 1536px;
+  // width: 100%;
+  // height: 100%;
   background: url("../../assets/images/background.png") no-repeat;
   background-size: 100% 100%;
   padding-top: 1%;
@@ -405,7 +499,6 @@ export default {
   .frame-content {
     display: flex;
     justify-content: space-between;
-    padding-top: 1%;
     .accruing-amounts,
     .accruing-person {
       width: 30%;
@@ -414,6 +507,10 @@ export default {
     .current-amounts {
       width: 40%;
       height: 100%;
+      .map-charts {
+        width: 100%;
+        height: 1200px;
+      }
     }
     .content-title {
       background: url("../../assets/images/fs-title-bg.png") no-repeat;
@@ -425,7 +522,27 @@ export default {
     }
     .accruing-amounts {
       .line-chart {
-        padding-top: 5%;
+        padding-top: 2%;
+      }
+    }
+    .accruing-person {
+      .columnar-chart {
+        height: 30%;
+      }
+      .distribution {
+        display: flex;
+        height: 25%;
+        .single-distribution {
+          width: 50%;
+          text-align: left;
+        }
+        .right-distribution {
+          height: 400px;
+        }
+      }
+      .form-charts {
+        width: 100%;
+        height: 300px;
       }
     }
   }

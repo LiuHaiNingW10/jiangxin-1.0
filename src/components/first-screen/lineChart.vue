@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "debt",
+  name: "lineChart",
   props: ["chartData", "ids"],
   data() {
     return {
@@ -46,7 +46,7 @@ export default {
 
           itemGap: 10,
           margin: 10,
-                    left: 'center',
+          left: "center"
         },
         color: ["#0078d7", "#e5b322"],
         legend: {
@@ -110,8 +110,15 @@ export default {
             color: "#FFF"
           },
           axisLine: {
+            show: false,
             lineStyle: {
               color: "#FFF"
+            }
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: "#32346c "
             }
           },
           data: data.xAxis || [
@@ -141,7 +148,10 @@ export default {
             show: false
           },
           splitLine: {
-            show: false
+            show: true,
+            lineStyle: {
+              color: "#32346c "
+            }
           },
           axisTick: {
             show: false
@@ -156,7 +166,7 @@ export default {
           {
             name: (data.legend && data.legend[0].name) || "活期存款时余额",
             type: "line",
-        smooth: 0.5,
+            smooth: 0.5,
             label: {
               normal: {
                 show: true,
@@ -181,7 +191,7 @@ export default {
           {
             name: (data.legend && data.legend[1].name) || "一般性存款时点余额",
             type: "line",
-        smooth: 0.5,
+            smooth: 0.5,
             label: {
               normal: {
                 show: true,

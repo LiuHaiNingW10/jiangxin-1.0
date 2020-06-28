@@ -35,7 +35,7 @@ export default {
   margin: 0 auto;
   display: flex;
   justify-content: center;
-  margin-top: 3%;
+  margin-top: 2%;
   .single-num {
     margin-left: 3%;
     &:first-child {
