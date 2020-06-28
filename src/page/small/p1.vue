@@ -8,7 +8,12 @@
       </div>
       <div class="global-title">普惠业务信贷数据平台</div>
       <div class="right-time">
-        <span>-5 C ~ 5 C 2019/05/05 10:24:51</span>
+        <div>
+          <img :src="currentImg" alt />
+          <span class>{{currentWeather.high}} ℃ ~ {{currentWeather.low}} ℃</span>
+          <span class="time-span">{{currentTime.date}}</span>
+          <span class="time-span">{{currentTime.time}}</span>
+        </div>
       </div>
     </div>
 
@@ -37,10 +42,14 @@
         <indicator-chart :chartData="mockData.indicatorData[2]" />
         <columnar-chart :ids="columnarId" :chartData="columnarData" class="columnar-chart" />
         <div class="distribution">
-          <div class="left-distribution single-distribution"></div>
+          <funnel-chart
+            class="left-distribution single-distribution"
+            :ids="funnelId"
+            :chartData="funnelData"
+          />
           <pie-chart
             class="right-distribution single-distribution"
-            :id="pieId"
+            :ids="pieId"
             :chartData="pieData"
           />
         </div>
@@ -58,14 +67,19 @@ import LeftIndicatorChart from "../../components/first-screen/leftIndicator.vue"
 import RepeatPurchase from "../../components/first-screen/repeatPurchase.vue";
 import ColumnarChart from "../../components/first-screen/columnarChart.vue";
 import PieChart from "../../components/first-screen/pieChart.vue";
+import FunnelChart from "../../components/first-screen/funnelChart.vue";
 import FormChart from "../../components/first-screen/formChart.vue";
 import MapChart from "../../components/first-screen/mapChart.vue";
+import Yin from "../../assets/images/yin.png";
+import Yu from "../../assets/images/yu.png";
 
 import { setInterval, clearInterval } from "timers";
 export default {
   mounted() {
     this.rollData();
-    this.getWeather();
+    this.getTime();
+    // this.getWeather();
+    // this.getCurrentWeather();
   },
   data() {
     return {
@@ -209,6 +223,16 @@ export default {
         { name: "南京e", value: 100 }
       ],
 
+      // 右侧漏斗图
+      funnelId: "echarts07",
+      funnelData: [
+        { value: 100, name: "意向" },
+        { value: 80, name: "方案" },
+        { value: 60, name: "商务" },
+        { value: 40, name: "即将成交" },
+        { value: 20, name: "赢单" }
+      ],
+
       // 右下表格
       formIds: [
         { id: "consume", title: "星座&剁手" },
@@ -233,6 +257,26 @@ export default {
           { name: "江苏", value: "145" }
         ]
       },
+
+      // 天气
+      localweather: [
+        { high: "29", low: "22" },
+        { high: "28", low: "23" },
+        { high: "27", low: "23" },
+        { high: "25", low: "23" },
+        { high: "26", low: "22" },
+
+        { high: "29", low: "22" },
+        { high: "29", low: "22" }
+      ],
+      weatherImg: [Yin, Yu, Yu, Yu, Yu, Yu, Yu],
+
+      currentWeather: {},
+      currentImg: "",
+
+      // 时间
+      currentTime: {},
+      currentDate: undefined,
 
       // 伪造数据
       mockData: {
@@ -406,8 +450,8 @@ export default {
     rollData() {
       var _that = this;
       var index = 0;
-      if (interval) clearInterval(interval);
-      var interval = setInterval(
+      if (coinInterval) clearInterval(coinInterval);
+      var coinInterval = setInterval(
         () => {
           _that.mockData.totalCoin = _that.mockData.leftTop[index];
           index++;
@@ -419,15 +463,70 @@ export default {
       );
     },
 
+    // 获取右上角当前时间
+    getTime() {
+      if (timeInterval) clearInterval(timeInterval);
+      var timeInterval = setInterval(this.nowTime, 1000);
+    },
+
+    nowTime() {
+      var myDate = new Date();
+      var y = myDate.getFullYear();
+      var M = myDate.getMonth() + 1; //获取当前月份(0-11,0代表1月)
+      var d = myDate.getDate(); //获取当前日(1-31)
+      var h = myDate.getHours(); //获取当前小时数(0-23)
+      var m = myDate.getMinutes(); //获取当前分钟数(0-59)
+      var s = myDate.getSeconds(); //获取当前秒数(0-59)
+
+      //检查是否小于10
+      M = this.check(M);
+      d = this.check(d);
+      h = this.check(h);
+      m = this.check(m);
+      s = this.check(s);
+      var dateStr = y + "/" + M + "/" + d;
+      var timeStr = h + ":" + m + ":" + s;
+      this.currentTime = Object.assign({}, { date: dateStr, time: timeStr });
+      // 获取当前天气
+      this.getCurrentWeather(myDate.getDate());
+      // document.getElementById("nowtime").innerHTML = "当前时间：" + timestr;
+    },
+
+    //时间数字小于10，则在之前加个“0”补位。
+    check(i) {
+      var num = i < 10 ? "0" + i : i;
+      return num;
+    },
+
+    // 写死天气
+    getCurrentWeather(d) {
+      if (this.currentDate === d) {
+        return;
+      }
+      var index = 0;
+      if (d > 6) {
+        this.currentWeather = this.localweather[index];
+        this.currentImg = this.weatherImg[index];
+      } else {
+        this.currentWeather = this.localweather[d];
+        this.currentImg = this.weatherImg[d];
+      }
+    },
+
+    // 获取当前天气
     getWeather() {
+      var _this = this;
       this.axios
         .get(
           "https://tianqiapi.com/api?version=v6&appid=71549884&appsecret=XH6bWw5A"
         )
         .then(function(response) {
-          console.log(response, " s");
-          // _this.localweather = response.data
-          // _this.weatherImg = 'http://tq.daodaoim.com//tianqiapi/skin/pitaya/' + response.data.wea_img +'.png'
+          _this.localweather = response.data;
+          _this.weatherImg =
+            "http://tq.daodaoim.com//tianqiapi/skin/pitaya/" +
+            response.data.wea_img +
+            ".png";
+          console.log(_this.weaterImg, "img");
         })
         .catch(() => {});
 
@@ -455,6 +554,7 @@ export default {
     "repeat-purchase": RepeatPurchase,
     "columnar-chart": ColumnarChart,
     "pie-chart": PieChart,
+    "funnel-chart": FunnelChart,
     "form-chart": FormChart,
     "map-chart": MapChart
   }
@@ -477,21 +577,30 @@ export default {
   .title-frame {
     width: 100%;
     height: 5%;
-    // background: url("../../assets/images/title-frame.png") no-repeat;
-    // background-size: 100% 100%;
+    background: url("../../assets/images/header.png") no-repeat;
+    background-size: 100% 100%;
     display: flex;
     justify-content: space-between;
+    padding: 0 1%;
     .title-left {
-      margin-left: 1%;
+      width: 33%;
       .left-coin {
         color: #ffcc22;
       }
     }
     .global-title {
-      width: 30%;
+      width: 33%;
       text-align: center;
       font-size: 40px;
       font-weight: bold;
+    }
+    .right-time {
+      width: 33%;
+      text-align: right;
+    }
+    .time-span {
+      display: inline-block;
+      margin-left: 5%;
     }
   }
 
@@ -535,6 +644,9 @@ export default {
         .single-distribution {
           width: 50%;
           text-align: left;
+        }
+        .eft-distribution {
+          height: 400px;
         }
         .right-distribution {
           height: 400px;

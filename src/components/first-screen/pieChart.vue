@@ -1,13 +1,13 @@
 <template>
-  <div class="pie-echarts" :id="id"></div>
+  <div class="pie-echarts" :id="ids"></div>
 </template>
 
 <script>
 export default {
   name: "education",
-  props: ["id", "chartData"],
+  props: ["ids", "chartData"],
   mounted() {
-    this.initPieChart(this.id, this.chartData);
+    this.initPieChart(this.ids, this.chartData);
   },
   data() {
     return {};
