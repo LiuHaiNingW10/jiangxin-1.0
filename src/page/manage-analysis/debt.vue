@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <v-filter :filterParams="filterParams" @func="getMsgFormSon"></v-filter>
+
     <line-chart :ids="id" :chartData="getChartData" />
     <v-bar :ids="ids" :chartData="getChartDataB" />
   </div>

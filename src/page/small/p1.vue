@@ -1,36 +1,59 @@
 <template>
-<div class="container">
-    p1
-</div>
+  <div class="container">
+    <!-- 头部 -->
+    <div class="title-frame">
+      <div class="title-left">
+        <span>累计信贷服务金额：</span>
+        <span class="left-coin">¥ 390,802,158.58</span>
+      </div>
+      <div class="global-title">普惠业务信贷数据平台</div>
+      <div class="right-time">
+        <span>-5 C ~ 5 C 2019/05/05 10:24:51</span>
+      </div>
+    </div>
+
+    <!-- 内容 -->
+    <div class="frame-content">
+      <div class="accruing-amounts">
+        <div class="content-title">累计信贷服务金额</div>
+        <indicator-chart :chartData="mockData.indicatorData[0]" />
+        <line-chart :ids="id" :chartData="getChartData" class="line-chart" />
+        <left-indicator-chart :chartData="allDataIndicator"  />
+      </div>
+      <div class="current-amounts">
+        <div class="content-title">当日信贷服务金额</div>
+        <indicator-chart :chartData="mockData.indicatorData[1]" />
+      </div>
+      <div class="accruing-person">
+        <div class="content-title">累计信贷服务人数</div>
+        <indicator-chart :chartData="mockData.indicatorData[2]" />
+      </div>
+    </div>
+    <!-- <div class="title-frame"></div> -->
+  </div>
 </template>
 
 <script>
-import SingleLine from "../../components/singleLineSecond.vue";
+import IndicatorChart from "../../components/first-screen/indicator.vue";
+import LineChart from "../../components/first-screen/lineChart.vue";
+import LeftIndicatorChart from "../../components/first-screen/leftIndicator.vue";
 export default {
-  mounted() {
-    
-  },
+  mounted() {},
   data() {
     return {
       allData: [
         {
-          chartName: "贷款时点",
-          money: Math.floor(Math.random() * 100000)
-        },
-        {
-          chartName: "贷款客户数",
+          chartName: "当日实时放款/七日均值",
           money: Math.floor(Math.random() * 100000)
         }
       ],
-      id: [
-        { width: "w50", value: "echarts01" },
-        { width: "w50", value: "echarts02" }
-      ],
+      id: ["echarts01"],
       allDataB: [
         {
           chartName: "信贷客户数(表内)",
-          yAxis:[ '信贷客户数'] ,
-          legend:[{
+          yAxis: ["信贷客户数"],
+          legend: [
+            {
               name: "个经贷款客户数",
               icon: "roundRect"
             },
@@ -41,21 +64,23 @@ export default {
             {
               name: "非鑫伙伴客户数",
               icon: "circle"
-            }],
+            }
+          ],
           money: Math.floor(Math.random() * 100000),
           xAxis: [
-            '2019年01月',
-            '2019年02月',
-            '2019年03月',
-            '2019年04月',
-            '2019年05月',
-            '2019年06月',
+            "2019年01月",
+            "2019年02月",
+            "2019年03月",
+            "2019年04月",
+            "2019年05月",
+            "2019年06月"
           ]
         },
         {
           chartName: "信贷资产余额(表内)",
-          yAxis:[ '信贷资产余额'] ,
-          legend:[{
+          yAxis: ["信贷资产余额"],
+          legend: [
+            {
               name: "个经贷款客户数",
               icon: "roundRect"
             },
@@ -66,23 +91,58 @@ export default {
             {
               name: "非鑫伙伴客户数",
               icon: "circle"
-            }],
+            }
+          ],
           xAxis: [
-            '2019年01月',
-            '2019年02月',
-            '2019年03月',
-            '2019年04月',
-            '2019年05月',
-            '2019年06月',
+            "2019年01月",
+            "2019年02月",
+            "2019年03月",
+            "2019年04月",
+            "2019年05月",
+            "2019年06月"
           ],
           money: Math.floor(Math.random() * 100000)
         }
       ],
       idB: ["echarts03", "echarts04"],
+      allDataIndicator: [
+        {
+          name: "余额",
+          index: "amount",
+          data: 4320
+        },
+        {
+          name: "笔均",
+          index: "avg",
+          data: 4320
+        },
+        {
+          name: "户均",
+          index: "savg",
+          data: "50%"
+        },
+        {
+          name: "平均期限",
+          index: "avg-deadline",
+          data: 4320
+        },
+        {
+          name: "贷款时长",
+          index: "loan-time",
+          data: "651min"
+        },
+        {
+          name: "授信成功率",
+          index: "rate",
+          data: "18%"
+        }
+      ],
+      idIndicator: ["card1", "card2", "card3", "card4", "card5", "card6"],
       allDataC: [
         {
           chartName: "信贷客户数(表内)",
-          legend:[{
+          legend: [
+            {
               name: "个经贷款客户数",
               icon: "roundRect"
             },
@@ -93,13 +153,15 @@ export default {
             {
               name: "非鑫伙伴客户数",
               icon: "circle"
-            }],
+            }
+          ],
           money: Math.floor(Math.random() * 100000)
         },
         {
           chartName: "信贷资产余额(表内)",
           money: Math.floor(Math.random() * 100000),
-          legend:[{
+          legend: [
+            {
               name: "个经贷款客户数",
               icon: "roundRect"
             },
@@ -110,7 +172,8 @@ export default {
             {
               name: "非鑫伙伴客户数",
               icon: "circle"
-            }],
+            }
+          ]
         }
       ],
       idC: ["echarts05", "echarts06"],
@@ -131,6 +194,15 @@ export default {
           { key: "05", value: "2019年05月25日" },
           { key: "06", value: "2019年06月25日" }
         ]
+      },
+      mockData: {
+        leftTop: [
+          "89,181,516.35",
+          "67,342,516.35",
+          "34,181,146.35",
+          "12,181,516.35"
+        ],
+        indicatorData: [15984981.56, 898498781.56, 35981981.56]
       }
     };
   },
@@ -169,7 +241,7 @@ export default {
           align: "left",
           top: 30,
           itemHeight: 8,
-          itemWidth : 8,
+          itemWidth: 8
         },
         tooltip: {
           trigger: "axis",
@@ -208,7 +280,7 @@ export default {
         },
         xAxis: {
           type: "category",
-          data: data.xAxis ||  [
+          data: data.xAxis || [
             "进出口代付",
             "进口信用证",
             "口信用余额",
@@ -220,7 +292,7 @@ export default {
           ]
         },
         yAxis: {
-          name: data.yAxis && data.yAxis[0] ||"保证金存款产品",
+          name: (data.yAxis && data.yAxis[0]) || "保证金存款产品",
           nameGap: "80",
           nameTextStyle: {
             width: "200",
@@ -240,7 +312,7 @@ export default {
         },
         series: [
           {
-            name: data.legend&&data.legend[0].name || "贷款余额",
+            name: (data.legend && data.legend[0].name) || "贷款余额",
             type: "bar",
             stack: "余额",
             label: {
@@ -254,7 +326,7 @@ export default {
             data: ["5", "20", "36", "10", "10", "20", "36", "20"]
           },
           {
-            name: data.legend&&data.legend[1].name || "全行贷款余额",
+            name: (data.legend && data.legend[1].name) || "全行贷款余额",
             type: "bar",
             stack: "余额",
             label: {
@@ -268,7 +340,7 @@ export default {
             data: ["5", "20", "36", "10", "10", "20", "36", "79"]
           },
           {
-            name: data.legend&&data.legend[2].name ||"贷款客户数",
+            name: (data.legend && data.legend[2].name) || "贷款客户数",
             type: "bar",
             stack: "余额",
             label: {
@@ -290,7 +362,72 @@ export default {
     }
   },
   components: {
-    "single-line": SingleLine,
+    "indicator-chart": IndicatorChart,
+    "line-chart": LineChart,
+    "left-indicator-chart": LeftIndicatorChart
   }
 };
 </script>
+
+<style lang="less">
+.container {
+  width: 4224px;
+  height: 1536px;
+  background: url("../../assets/images/background.png") no-repeat;
+  background-size: 100% 100%;
+  padding-top: 1%;
+  font-size: 28px;
+  color: #fff;
+
+  // 标题样式
+  .title-frame {
+    width: 100%;
+    height: 5%;
+    // background: url("../../assets/images/title-frame.png") no-repeat;
+    // background-size: 100% 100%;
+    display: flex;
+    justify-content: space-between;
+    .title-left {
+      margin-left: 1%;
+      .left-coin {
+        color: #ffcc22;
+      }
+    }
+    .global-title {
+      width: 30%;
+      text-align: center;
+      font-size: 40px;
+      font-weight: bold;
+    }
+  }
+
+  // 内容样式
+  .frame-content {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1%;
+    .accruing-amounts,
+    .accruing-person {
+      width: 30%;
+      height: 100%;
+    }
+    .current-amounts {
+      width: 40%;
+      height: 100%;
+    }
+    .content-title {
+      background: url("../../assets/images/fs-title-bg.png") no-repeat;
+      background-size: 100% 100%;
+      width: 40%;
+      height: 15%;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .accruing-amounts {
+      .line-chart {
+        padding-top: 5%;
+      }
+    }
+  }
+}
+</style>

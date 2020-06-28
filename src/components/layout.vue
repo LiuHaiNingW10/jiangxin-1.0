@@ -5,7 +5,7 @@
   </a-layout-sider>
   <a-layout class="content">
     <a-layout-content>
-      <div :style="{ padding: '48px 0 0 0 ', minHeight: '360px' }">
+      <div :style="{ padding: '0 0 0 0 ', minHeight: '360px' }">
         <transition>
           <keep-alive>
             <router-view></router-view>
@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       collapsed: false,
-      showNav: true
+      showNav: false
     };
   },
   components: {
