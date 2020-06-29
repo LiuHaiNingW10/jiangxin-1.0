@@ -8,12 +8,13 @@
       </div>
       <div class="global-title">普惠业务信贷数据平台</div>
       <div class="right-time">
-        <div>
-          <img :src="currentImg" alt />
-          <span class>{{currentWeather.high}} ℃ ~ {{currentWeather.low}} ℃</span>
-          <span class="time-span">{{currentTime.date}}</span>
-          <span class="time-span">{{currentTime.time}}</span>
-        </div>
+        <!-- <div class="weather-module">
+    <img :src="currentImg" alt />
+    <span class>{{currentWeather.high}} ℃ ~ {{currentWeather.low}} ℃</span>
+    <span class="time-span">{{currentTime.date}}</span>
+    <span class="time-span">{{currentTime.time}}</span>
+  </div> -->
+        <weather-com />
       </div>
     </div>
 
@@ -70,6 +71,7 @@ import PieChart from "../../components/first-screen/pieChart.vue";
 import FunnelChart from "../../components/first-screen/funnelChart.vue";
 import FormChart from "../../components/first-screen/formChart.vue";
 import MapChart from "../../components/first-screen/mapChart.vue";
+import WeatherCom from "../../components/weather.vue"
 import Yin from "../../assets/images/yin.png";
 import Yu from "../../assets/images/yu.png";
 
@@ -77,7 +79,7 @@ import { setInterval, clearInterval } from "timers";
 export default {
   mounted() {
     this.rollData();
-    this.getTime();
+    // this.getTime();
     // this.getWeather();
     // this.getCurrentWeather();
   },
@@ -556,7 +558,8 @@ export default {
     "pie-chart": PieChart,
     "funnel-chart": FunnelChart,
     "form-chart": FormChart,
-    "map-chart": MapChart
+    "map-chart": MapChart,
+    "weather-com" : WeatherCom
   }
 };
 </script>
