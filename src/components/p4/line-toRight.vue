@@ -4,12 +4,12 @@
       <span>{{id.title}}</span>
     </div>
     <div class="line-action">
-        <span>{{id.action}}</span>
+      <span>{{id.action}}</span>
     </div>
     <div class="line-body">
       <div :id="id.id"></div>
       <div class="line-data">
-        <span v-for="(item) in lineData" :key="item">{{item}}</span>
+        <span v-for="(item) in lineDatas" :key="item">{{item}}</span>
       </div>
     </div>
   </div>
@@ -24,16 +24,19 @@ export default {
       tableData: this.tableDatas,
       id: this.ids,
       height: this.heights,
-      lineData:[]
+      lineData: []
     };
   },
-  computed: {},
+  computed: {
+    lineDatas() {
+      return this.lineData.reverse()
+    }
+  },
   mounted() {
     this.init();
   },
   methods: {
     init() {
-      console.log(this.tableData);
       this.transLateData();
     },
     transLateData() {
@@ -46,12 +49,11 @@ export default {
         obj.series.push(el.num);
         obj.yAxis.push(el.categroy);
       });
-      this.lineData = obj.series
+      this.lineData = obj.series;
       this.drawLineG(this.id.id, obj);
     },
     drawLineG(ele, data) {
       var _this = this;
-      console.log(ele, data);
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById(ele));
       // 绘制图表
@@ -60,9 +62,9 @@ export default {
       myChart.setOption({
         color: ["#C98531", "#0177a9"],
         grid: {
-          top:'0',
+          top: "0",
           left: "44%",
-          right: "10%",
+          right: "10%"
         },
         xAxis: {
           type: "value",
@@ -73,10 +75,10 @@ export default {
             show: false
           },
           axisTick: {
-              show: false
+            show: false
           },
           axisLine: {
-            show: false,
+            show: false
           },
           nameGap: 25,
           boundaryGap: [0, 0.01],
@@ -89,15 +91,15 @@ export default {
           axisLabel: {
             //刻度标签文字的颜色
             show: true,
-            color: "#7397C4",
+            color: "#7397C4"
           },
           axisLine: {
             show: false
           },
           axisTick: {
-              show: false
+            show: false
           },
-          nameGap : 30,
+          nameGap: 30,
           data: data.yAxis
         },
         series: [
@@ -112,11 +114,11 @@ export default {
             roundCap: true,
             type: "bar",
             data: data.series,
-            barWidth : 6,
-            barCategoryGap: '0',
+            barWidth: 6,
+            barCategoryGap: "0",
             itemStyle: {
               normal: {
-                barBorderRadius:[10, 10, 10, 10],
+                barBorderRadius: [10, 10, 10, 10],
                 color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
                   {
                     offset: 0,
@@ -147,21 +149,17 @@ export default {
   position: relative;
   overflow: hidden;
   width: 100%;
+  background: url("../../assets/images/p4-table-title.png") no-repeat center;
+  background-size: 100% 100%;
+  padding: 14px 10px;
   .line-title {
     text-align: left;
-    span {
-      line-height: 40px;
-      font-size: 14px;
-      font-weight: 600;
-      font-family: sans-serif;
-      letter-spacing: 2px;
-      background: linear-gradient(to right, #76e6db, #6483bd);
-      -webkit-background-clip: text;
-      color: transparent;
-    }
+    padding-left: 24px;
+
   }
   .line-action {
-     color: #ccc;
+    color: #ccc;
+    margin: 16px 0;
   }
 }
 .line-body {
@@ -169,13 +167,11 @@ export default {
   .line-data {
     span {
       display: inline-block;
-      color: #0298E2;
+      color: #0298e2;
       font-size: 18ox;
       font-weight: 600;
       margin: 6.4px 0 4px 4px;
-      font-family: fantasy;
     }
   }
-
 }
 </style>
