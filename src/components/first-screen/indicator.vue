@@ -1,7 +1,7 @@
 <template>
   <div class="num-group">
     <!-- <div class="echarts w100 axis"></div> -->
-    <div class="single-num" v-for="(item, index) in indicatorData" :key="index" :id='index'>{{item}}</div>
+    <div class="single-num" v-for="(item, index) in indicatorData" :key="index" :id="index">{{item}}</div>
   </div>
 </template>
 
@@ -21,11 +21,10 @@ export default {
   },
   methods: {
     getData(chartData) {
-      this.indicatorData = [...['¥'].concat(chartData.toString().split(""))];
+      this.indicatorData = [...["¥"].concat(chartData.toString().split(""))];
     }
   }
 };
-
 </script>
 
 <style lang="less">
@@ -38,6 +37,12 @@ export default {
   margin-top: 2%;
   .single-num {
     margin-left: 3%;
+    width: 2%;
+    height: 2%;
+    background: url("../../assets/images/text-no-white.png") no-repeat;
+    // background: url("../../assets/images/text-bg.png") no-repeat;
+    background-size: 100% 100%;
+    text-align: center;
     &:first-child {
       margin-left: 0px;
     }

@@ -226,11 +226,11 @@ export default {
       // 右侧漏斗图
       funnelId: "echarts07",
       funnelData: [
-        { value: 100, name: "意向" },
-        { value: 80, name: "方案" },
-        { value: 60, name: "商务" },
-        { value: 40, name: "即将成交" },
-        { value: 20, name: "赢单" }
+        { value: 100, name: "20.0%" },
+        { value: 80, name: "20.2%" },
+        { value: 60, name: "20.1%" },
+        { value: 40, name: "20.5%" },
+        { value: 20, name: "20.6%" }
       ],
 
       // 右下表格
