@@ -1,5 +1,5 @@
 <template>
-    <div class="table-auto">
+    <div class="table-auto table-bg">
         <div class="table-title">
           <span>{{id.title}}</span>
         </div>
@@ -87,16 +87,7 @@ export default {
     overflow: hidden;
     .table-title {
       text-align: left;
-      span {
-          line-height: 40px;
-          font-size: 14px;
-          font-weight: 600;
-          font-family: sans-serif;
-          letter-spacing: 2px;
-          background: linear-gradient(to right, #76e6db, #6483bd);
-          -webkit-background-clip: text;
-          color: transparent;
-      }
+      padding-left: 24px;
     }
     .scroll-box {
       overflow: hidden;
@@ -128,5 +119,10 @@ export default {
         height: 4px;
         border-radius: 0px;
     }
+  }
+  .table-bg {
+    background: url('../../assets/images/p4-table-title.png') no-repeat center;
+    background-size: 100% 100%;
+    padding: 14px 10px;
   }
 </style>
