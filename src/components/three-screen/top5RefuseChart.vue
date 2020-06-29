@@ -25,11 +25,9 @@ export default {
                 x2: 1,
                 y2: 0,
                 colorStops: [{
-                    offset: 0, color: '#1F7CFF' // 0% 处的颜色
+                    offset: 0, color: '#151CE8 ' // 0% 处的颜色
                 }, {
-                    offset: 0.9, color: '#2BF1FF' 
-                }, {
-                    offset: 1, color: '#FFFFFF ' // 100% 处的颜色
+                    offset: 1, color: '#24F2FF ' // 100% 处的颜色
                 }],
                 global: false // 缺省为 false
             }
@@ -41,23 +39,14 @@ export default {
             }
         },
         grid: {
-            // left: '3%',
-            // right: '4%',
-            bottom: '10%',
-            // containLabel: true
+          top: "10%",
+          left: "10%",
+          right: "10%",
+          bottom: "5%",
+          containLabel: true
         },
         xAxis: {
-            type: 'value',
-            boundaryGap: [0, 0.01],
-            axisLabel: {
-              color: 'rgba(255,255,255)'
-            },
-            splitLine: {
-              show: true,
-              lineStyle: {
-                color: 'rgba(255,255,255,0.5)'
-              }
-            }
+           show: false
         },
         yAxis: {
             type: 'category',
@@ -71,6 +60,11 @@ export default {
                 name: '拦截金融',
                 type: 'bar',
                 barWidth: 15,
+                label: {
+                  show: true,
+                  position: 'right',
+                  color: 'rgba(255,255,255,0.7)'
+                },
                 data: [18203, 23489, 29034, 104970, 131744, 630230]
             }
         ]
@@ -84,6 +78,6 @@ export default {
 <style lang="less" scoped>
 .top5-refuse-chart{
   width: 100%;
-  height: 30%;
+  height: 18%;
 }
 </style>

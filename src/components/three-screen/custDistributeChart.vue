@@ -17,6 +17,7 @@ export default {
       let myChart = this.$echarts.init(document.getElementById('custDistributeChart'));
       // 绘制图表
       myChart.setOption({
+        color: ['rgba(255,196,32)','rgba(95,234,215)','rgba(40,158,255)'],
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -46,18 +47,19 @@ export default {
             }
           }
         },
-        legend: {
-            data: ['历史进件客群分布', '近一个月批核客群', '今日批核客群'],
-            bottom: 0,
-            textStyle: {
-              color: '#fff'
-            }
-        },
+        // legend: {
+        //     data: [ '近一个月批核客群', '今日批核客群','历史进件客群分布'],
+        //     bottom: 0,
+        //     textStyle: {
+        //       color: '#fff'
+        //     }
+        // },
         grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '10%',
-            containLabel: true
+          top: "10%",
+          left: "10%",
+          right: "10%",
+          bottom: "5%",
+          containLabel: true
         },
         toolbox: {
             feature: {
@@ -92,6 +94,20 @@ export default {
                 symbol: "circle",
                 showSymbol: false,
                 stack: '总量',
+                lineStyle: {
+                  width: 0
+                },
+                areaStyle: {
+                  color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                      offset: 0,
+                      color: 'rgba(95,234,215)'
+                  }, {
+                      offset: 1,
+                      color: 'rgba(95,234,215,0.5)'
+                  }]),
+                  shadowColor: "rgba(95,234,215,0.2)", //阴影颜色
+                  shadowBlur: 20
+                },
                 data: [120, 132, 101, 134, 90, 230, 210]
             },
             {
@@ -100,6 +116,20 @@ export default {
                 symbol: "circle",
                 showSymbol: false,
                 stack: '总量',
+                lineStyle: {
+                  width: 0
+                },
+                areaStyle: {
+                  color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                      offset: 0,
+                      color: 'rgba(255,196,32)'
+                  }, {
+                      offset: 1,
+                      color: 'rgba(255,196,32,0.5)'
+                  }]),
+                  shadowColor: "rgba(255,196,32,0.2)", //阴影颜色
+                  shadowBlur: 20
+                },
                 data: [220, 182, 191, 234, 290, 330, 310]
             },
             {
@@ -108,6 +138,20 @@ export default {
                 symbol: "circle",
                 showSymbol: false,
                 stack: '总量',
+                lineStyle: {
+                  width: 0
+                },
+                areaStyle: {
+                  color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                      offset: 0,
+                      color: 'rgba(40,158,255)'
+                  }, {
+                      offset: 1,
+                      color: 'rgba(40,158,255,0.5)'
+                  }]),
+                  shadowColor: "rgba(40,158,255,0.2)", //阴影颜色
+                  shadowBlur: 20
+                },
                 data: [150, 232, 201, 154, 190, 330, 410]
             }
         ]
@@ -121,6 +165,6 @@ export default {
 <style lang="less" scoped>
 .cust-distribute-chart{
   width: 100%;
-  height: 25%;
+  height: 18%;
 }
 </style>

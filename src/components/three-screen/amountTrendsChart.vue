@@ -47,11 +47,11 @@ export default {
           }
         },
         grid: {
-          // top: "18%",
-          // left: "15%",
-          // right: "5%",
-          bottom: "25%"
-          // containLabel: true
+          top: "10%",
+          left: "10%",
+          right: "10%",
+          bottom: "10%",
+          containLabel: true
         },
         xAxis: [
           {
@@ -61,13 +61,13 @@ export default {
               //坐标轴轴线相关设置。数学上的x轴
               show: true,
               lineStyle: {
-                color: "#092b5d"
+                color: 'rgba(255,255,255,0.3)'
               }
             },
             axisLabel: {
               //坐标轴刻度标签的相关设置
               textStyle: {
-                color: "#24c4ff",
+                color: 'rgba(255,255,255,0.7)',
                 margin: 15
               },
               formatter: function(data) {
@@ -82,28 +82,20 @@ export default {
         ],
         yAxis: [
           {
-            min: 0,
-            max: 100,
             splitLine: {
-              show: false,
-              lineStyle: {
-                color: "#092b5d"
-              }
+              show: false
             },
             axisLine: {
               show: true,
               lineStyle: {
-                color: "#092b5d"
+                color: 'rgba(255,255,255,0.3)'
               }
             },
             axisLabel: {
-              show: false,
+              show: true,
               textStyle: {
-                color: "#24c4ff"
+                color: 'rgba(255,255,255,0.7)',
               }
-            },
-            axisTick: {
-              show: false
             }
           }
         ],
@@ -111,15 +103,30 @@ export default {
           {
             name: "注册总量",
             type: "line",
-            symbol: "circle", // 默认是空心圆（中间是白色的），改成实心圆
-            // showAllSymbol: false,
+            symbol: "circle",
             showSymbol: false,
             smooth: 0.5,
             lineStyle: {
-              normal: {
-                color: "#00FFFF" // 线条颜色
-              },
-              borderColor: "rgba(0,0,0,.4)"
+              width: 5,
+              color: {
+                type: 'linear',
+                x: 0,
+                y: 0,
+                x2: 1,
+                y2: 0,
+                colorStops: [{
+                    offset: 0, color: '#00E3FF' 
+                }, {
+                    offset: 0.25, color: '#004AFF ' 
+                }, {
+                    offset: 0.5, color: '#00E3FF' 
+                }, {
+                    offset: 0.75, color: '#004AFF ' 
+                }, {
+                    offset: 1, color: '#00E3FF'
+                }],
+                global: false // 缺省为 false
+              }
             },
             itemStyle: {
               color: "rgba(0,255,255,1)",
@@ -154,16 +161,16 @@ export default {
                   [
                     {
                       offset: 0,
-                      color: "rgba(0,255,255,.3)"
+                      color: "rgba(0,74,255,.3)"
                     },
                     {
                       offset: 1,
-                      color: "rgba(0,255,255, 0)"
+                      color: "rgba(0,74,255, 0)"
                     }
                   ],
                   false
                 ),
-                shadowColor: "rgba(53,142,215, 0.9)", //阴影颜色
+                shadowColor: "rgba(0,74,255, 0.9)", //阴影颜色
                 shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
               }
             },
@@ -180,6 +187,6 @@ export default {
 <style lang="less" scoped>
 .amount-trends-chart{
   width: 100%;
-  height: 30%;
+  height: 24%;
 }
 </style>

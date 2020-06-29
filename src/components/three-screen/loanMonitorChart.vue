@@ -17,7 +17,19 @@ export default {
       let myChart = this.$echarts.init(document.getElementById('loanMonitorChart'));
       // 绘制图表
       myChart.setOption({
-        color: [ '#1F71FF', '#F5A623', '#ccc'],
+        color: [ '#289EFF', '#FFAF2B', {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [{
+              offset: 0, color: '#24F1FF' // 0% 处的颜色
+          }, {
+              offset: 1, color: '#173E8A' // 100% 处的颜色
+          }],
+          global: false // 缺省为 false
+        }],
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -48,21 +60,21 @@ export default {
           }
         },
         grid: {
-            top: '8%',
-            left: '10%',
-            right: '10%',
-            bottom: '20%',
-            containLabel: true,
+          top: "10%",
+          left: "10%",
+          right: "10%",
+          bottom: "5%",
+          containLabel: true
         },
-        legend: {
-            itemGap: 50,
-            data: ['放款量','户均额度' ,'批核率'],
-            textStyle: {
-                color: '#f9f9f9',
-                borderColor: '#fff'
-            },
-            bottom: 0
-        },
+        // legend: {
+        //     itemGap: 50,
+        //     data: ['放款量','户均额度' ,'批核率'],
+        //     textStyle: {
+        //         color: '#f9f9f9',
+        //         borderColor: '#fff'
+        //     },
+        //     bottom: 0
+        // },
         xAxis: [{
             type: 'category',
             boundaryGap: true,
@@ -85,13 +97,10 @@ export default {
         }],
         yAxis: [{
             type: 'value',
-            min: 0,
-            // max: 140,
-            splitNumber: 7,
             splitLine: {
                 show: true,
                 lineStyle: {
-                    color: '#0a3256'
+                    color: 'rgba(255,255,255,0.2)'
                 }
             },
             axisLine: {
@@ -111,56 +120,20 @@ export default {
         series: [{
             name: '户均额度',
             type: 'line',
-            symbol: 'circle',  // 默认是空心圆（中间是白色的），改成实心圆
-            showSymbol: false,
-            // lineStyle: {
-            //     normal: {
-            //         color: "#28ffb3", // 线条颜色
-            //     },
-            //     borderColor: '#f0f'
-            // },
-            // label: {
-            //     show: true,
-            //     position: 'top',
-            //     textStyle: {
-            //         color: '#fff',
-            //     }
-            // },
-            // itemStyle: {
-            //     normal: {
-            //         color: "#28ffb3",
-
-            //     }
-            // },
             tooltip: {
                 show: true
+            },
+            lineStyle: {
+              width: 3
             },
             data: [393, 438, 485, 631, 689, 824, 987,393,393,393,393,393,393,393,393,393,393,393,93, 438, 485, 631, 689, 824]
         }, 
         {
             name: '批核率',
             type: 'line',
-            symbol: 'circle',  // 默认是空心圆（中间是白色的），改成实心圆
-            showSymbol: false,
-            // lineStyle: {
-            //     normal: {
-            //         color: "rgba(0,255,255)", // 线条颜色
-            //     },
-            //     borderColor: '#f0f'
-            // },
-            // label: {
-            //     show: true,
-            //     position: 'top',
-            //     textStyle: {
-            //         color: '#fff',
-            //     }
-            // },
-            // itemStyle: {
-            //     normal: {
-            //         color: "#28ffb3",
-
-            //     }
-            // },
+            lineStyle: {
+              width: 3
+            },
             tooltip: {
                 show: true
             },
@@ -173,14 +146,7 @@ export default {
             tooltip: {
                 show: true
             },
-            // label: {
-            //     show: true,
-            //     position: 'top',
-            //     textStyle: {
-            //         color: '#fff',
-            //     }
-            // },
-            data: [800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800]
+            data: [200, 500, 400, 300, 800, 100, 300, 600, 200, 500, 400, 300, 800, 100, 300, 600, 200, 500, 400, 300, 800, 100, 300, 600]
         }]
       });
     }
@@ -192,6 +158,6 @@ export default {
 <style lang="less" scoped>
 .loan-monitor-chart{
   width: 100%;
-  height: 25%;
+  height: 18%;
 }
 </style>
