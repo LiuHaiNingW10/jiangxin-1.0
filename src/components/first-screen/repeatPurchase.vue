@@ -6,7 +6,9 @@
         <div class="left-indicator">
           <div v-for="(item, index) in chartData.linkRelativeRatio[item.id]" :key="index">
             <div>{{item.title}}</div>
-            <div class="indicator-data">{{item.data}}</div>
+            <div
+              :class="item.type === 'positive' ? 'positive-data': 'indicator-data'"
+            >{{item.data}}</div>
           </div>
         </div>
         <div :id="item.id + '-indicator'" class="right-indicator"></div>
@@ -313,6 +315,9 @@ export default {
         width: 30%;
         height: 100%;
         .indicator-data {
+          color: #dc143c;
+        }
+        .positive-data {
           color: #00ff00;
         }
       }

@@ -1,6 +1,6 @@
 <template>
   <div class="weather-module">
-    <img :src="currentImg" alt />
+    <img :src="currentImg" alt class="weather-img"/>
     <span class>{{currentWeather.high}} ℃ ~ {{currentWeather.low}} ℃</span>
     <span class="time-span">{{currentTime.date}}</span>
     <span class="time-span">{{currentTime.time}}</span>
@@ -90,6 +90,40 @@ export default {
         this.currentWeather = this.localweather[d];
         this.currentImg = this.weatherImg[d];
       }
+    },
+
+    // 获取当前天气
+    getWeather() {
+      var _this = this;
+      this.axios
+        .get(
+          "https://tianqiapi.com/api?version=v6&appid=71549884&appsecret=XH6bWw5A"
+        )
+        .then(function(response) {
+          //   _this.localweather = response.data;
+          //   _this.weatherImg =
+          //     "http://tq.daodaoim.com//tianqiapi/skin/pitaya/" +
+          //     response.data.wea_img +
+          //     ".png";
+          console.log(response, "response");
+        })
+        .catch(() => {});
+
+      // this.axios({
+      //   url: "https://www.tianqiapi.com/api/?version=v1&cityid=101280601",
+      //   method: "get",
+      //   data: {
+      //     results: 10
+      //   },
+      //   type: "json"
+      // })
+      //   .then(res => {
+      //     // let datas = res.data.data[0];//下标为0即表示当天天气数据
+      //     console.log(res.data);
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
     }
   },
   components: {}
@@ -97,4 +131,7 @@ export default {
 </script>
 
 <style lang="less">
+.weather-img {
+  width: 6%;
+}
 </style>

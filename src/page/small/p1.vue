@@ -4,7 +4,7 @@
     <div class="title-frame">
       <div class="title-left">
         <span>累计信贷服务金额：</span>
-        <span class="left-coin">¥ {{mockData.totalCoin}}</span>
+        <span class="left-coin">¥ {{totalMoney}}</span>
       </div>
       <div class="global-title">普惠业务信贷数据平台</div>
       <div class="right-time">
@@ -13,7 +13,7 @@
     <span class>{{currentWeather.high}} ℃ ~ {{currentWeather.low}} ℃</span>
     <span class="time-span">{{currentTime.date}}</span>
     <span class="time-span">{{currentTime.time}}</span>
-  </div> -->
+        </div>-->
         <weather-com />
       </div>
     </div>
@@ -22,39 +22,58 @@
     <div class="frame-content">
       <div class="accruing-amounts">
         <div class="content-title">累计信贷服务金额</div>
-        <indicator-chart :chartData="mockData.indicatorData[0]" />
-        <line-chart :ids="id" :chartData="getChartData" class="line-chart" />
-        <left-indicator-chart :chartData="allDataIndicator" />
+        <indicator-chart v-if="threeMoneyArr[0]" :chartData="threeMoneyArr[0]" />
+        <line-chart
+          :ids="id"
+          v-if="leftLineData"
+          :chartData="getChartData"
+          :trueData="leftLineData"
+          class="line-chart"
+        />
+        <left-indicator-chart v-if="allDataIndicator" :chartData="allDataIndicator" />
         <repeat-purchase
           :ids="repeatPurchaseId"
-          :chartData="repeatPurchaseData"
+          :v-if="linkRelativeRatio"
+          :chartData="{linkRelativeRatio: linkRelativeRatio,dialPlate: dialPlate,lineData: lineData}"
           class="repeat-purchase-chart"
         />
       </div>
       <div class="current-amounts">
         <div class="content-title">当日信贷服务金额</div>
-        <indicator-chart :chartData="mockData.indicatorData[1]" />
+        <indicator-chart v-if="threeMoneyArr[1]" :chartData="threeMoneyArr[1]" />
 
         <!-- 地图 -->
-        <map-chart class="map-charts" />
+        <map-chart v-if="mapData" :chartData="mapData" class="map-charts" />
       </div>
       <div class="accruing-person">
         <div class="content-title">累计信贷服务人数</div>
-        <indicator-chart :chartData="mockData.indicatorData[2]" />
-        <columnar-chart :ids="columnarId" :chartData="columnarData" class="columnar-chart" />
+        <indicator-chart v-if="threeMoneyArr[2]" :chartData="threeMoneyArr[2]" type="person" />
+        <columnar-chart
+          :ids="columnarId"
+          v-if="columnarData.totalData"
+          :chartData="columnarData"
+          class="columnar-chart"
+        />
         <div class="distribution">
           <funnel-chart
             class="left-distribution single-distribution"
             :ids="funnelId"
-            :chartData="funnelData"
+            :chartData="ageData || funnelData"
+            v-if="ageData || funnelData"
           />
           <pie-chart
             class="right-distribution single-distribution"
             :ids="pieId"
-            :chartData="pieData"
+            v-if="educationData || pieData"
+            :chartData="educationData || pieData"
           />
         </div>
-        <form-chart :ids="formIds" :chartData="formData" class="form-charts" />
+        <form-chart
+          :ids="formIds"
+          v-if="consume"
+          :chartData="{consume: consume, scale: scale}"
+          class="form-charts"
+        />
       </div>
     </div>
     <!-- <div class="title-frame"></div> -->
@@ -71,20 +90,35 @@ import PieChart from "../../components/first-screen/pieChart.vue";
 import FunnelChart from "../../components/first-screen/funnelChart.vue";
 import FormChart from "../../components/first-screen/formChart.vue";
 import MapChart from "../../components/first-screen/mapChart.vue";
-import WeatherCom from "../../components/weather.vue"
-import Yin from "../../assets/images/yin.png";
-import Yu from "../../assets/images/yu.png";
+import WeatherCom from "../../components/weather.vue";
 
 import { setInterval, clearInterval } from "timers";
 export default {
-  mounted() {
+  created() {
+    this.getLineData();
+    this.getMapData();
     this.rollData();
+    this.rollTimelyData();
+  },
+  mounted() {
     // this.getTime();
     // this.getWeather();
     // this.getCurrentWeather();
   },
   data() {
     return {
+      // 累计信贷服务金额
+      totalMoney: "",
+
+      // 三个数字栏目
+      threeMoneyArr: [],
+
+      // mapData
+      mapData: undefined,
+
+      // 当日人数
+      currentPerson: undefined,
+
       // 左侧实时放款数据
       allData: [
         {
@@ -92,79 +126,93 @@ export default {
           money: Math.floor(Math.random() * 100000)
         }
       ],
+      leftLineData: undefined,
       id: ["echarts01"],
 
       // 左侧六个指标数据
-      allDataIndicator: [
-        {
-          name: "余额",
-          index: "amount",
-          data: 4320
-        },
-        {
-          name: "笔均",
-          index: "avg",
-          data: 4320
-        },
-        {
-          name: "户均",
-          index: "savg",
-          data: "50%"
-        },
-        {
-          name: "平均期限",
-          index: "avg-deadline",
-          data: 4320
-        },
-        {
-          name: "贷款时长",
-          index: "loan-time",
-          data: "651min"
-        },
-        {
-          name: "授信成功率",
-          index: "rate",
-          data: "18%"
-        }
-      ],
+      allDataIndicator: undefined,
+      // allDataIndicator: [
+      //   {
+      //     name: "余额",
+      //     index: "amount",
+      //     data: 4320
+      //   },
+      //   {
+      //     name: "笔均",
+      //     index: "avg",
+      //     data: 4320
+      //   },
+      //   {
+      //     name: "户均",
+      //     index: "savg",
+      //     data: "50%"
+      //   },
+      //   {
+      //     name: "平均期限",
+      //     index: "avg-deadline",
+      //     data: 4320
+      //   },
+      //   {
+      //     name: "贷款时长",
+      //     index: "loan-time",
+      //     data: "651min"
+      //   },
+      //   {
+      //     name: "授信成功率",
+      //     index: "rate",
+      //     data: "18%"
+      //   }
+      // ],
       idIndicator: ["card1", "card2", "card3", "card4", "card5", "card6"],
 
       // 左侧复购数据
-      repeatPurchaseData: {
-        linkRelativeRatio: {
-          echarts02: [
-            {
-              title: "环比上周",
-              data: "+23.19%"
-            },
-            {
-              title: "环比上月",
-              data: "+15.19%"
-            }
-          ],
-          echarts03: [
-            {
-              title: "环比上周",
-              data: "+12.19%"
-            },
-            {
-              title: "环比上月",
-              data: "+10.19%"
-            }
-          ]
+      linkRelativeRatio: {},
+      dialPlate: [],
+      lineData: [
+        {
+          city: ["0", "4", "8", "12", "16", "20"],
+          num: ["40", "60", "22", "85", "50", "40"]
         },
-        dialPlate: ["34", "89"],
-        lineData: [
-          {
-            city: ["0", "4", "8", "12", "16", "20"],
-            num: ["40", "60", "22", "85", "50", "40"]
-          },
-          {
-            city: ["0", "4", "8", "12", "16", "20"],
-            num: ["40", "60", "22", "85", "50", "40"]
-          }
-        ]
-      },
+        {
+          city: ["0", "4", "8", "12", "16", "20"],
+          num: ["40", "60", "22", "85", "50", "40"]
+        }
+      ],
+      // repeatPurchaseData: {
+      //   linkRelativeRatio: {
+      //     echarts02: [
+      //       {
+      //         title: "环比上周",
+      //         data: "+23.19%"
+      //       },
+      //       {
+      //         title: "环比上月",
+      //         data: "+15.19%"
+      //       }
+      //     ],
+      //     echarts03: [
+      //       {
+      //         title: "环比上周",
+      //         data: "+12.19%"
+      //       },
+      //       {
+      //         title: "环比上月",
+      //         data: "+10.19%"
+      //       }
+      //     ]
+      //   },
+      //   dialPlate: ["34", "89"],
+      //   lineData: [
+      //     {
+      //       city: ["0", "4", "8", "12", "16", "20"],
+      //       num: ["40", "60", "22", "85", "50", "40"]
+      //     },
+      //     {
+      //       city: ["0", "4", "8", "12", "16", "20"],
+      //       num: ["40", "60", "22", "85", "50", "40"]
+      //     }
+      //   ]
+      // },
       repeatPurchaseId: [
         {
           id: "echarts02",
@@ -178,7 +226,7 @@ export default {
 
       // 右侧柱状图数据
       columnarData: {
-        totalData: ["234,561,345", "5,234,715"],
+        totalData: undefined,
         columnAllData: [
           {
             xAxis: [
@@ -240,46 +288,32 @@ export default {
         { id: "consume", title: "星座&剁手" },
         { id: "scale", title: "地域&贷款规模" }
       ],
-      formData: {
-        // 星座消费
-        consume: [
-          { name: "猴子", value: "345" },
-          { name: "兔子", value: "335" },
-          { name: "老虎", value: "325" },
-          { name: "螃蟹", value: "245" },
-          { name: "蝎子", value: "145" }
-        ],
+      // formData: {
+      //   // 星座消费
+      //   consume: [
+      //     { name: "猴子", value: "345" },
+      //     { name: "兔子", value: "335" },
+      //     { name: "老虎", value: "325" },
+      //     { name: "螃蟹", value: "245" },
+      //     { name: "蝎子", value: "145" }
+      //   ],
 
-        // 地域贷款规模
-        scale: [
-          { name: "浙江", value: "345" },
-          { name: "广东", value: "335" },
-          { name: "山东", value: "325" },
-          { name: "北京", value: "245" },
-          { name: "江苏", value: "145" }
-        ]
-      },
+      //   // 地域贷款规模
+      //   scale: [
+      //     { name: "浙江", value: "345" },
+      //     { name: "广东", value: "335" },
+      //     { name: "山东", value: "325" },
+      //     { name: "北京", value: "245" },
+      //     { name: "江苏", value: "145" }
+      //   ]
+      // },
 
-      // 天气
-      localweather: [
-        { high: "29", low: "22" },
-        { high: "28", low: "23" },
-        { high: "27", low: "23" },
-        { high: "25", low: "23" },
-        { high: "26", low: "22" },
+      consume: undefined,
+      scale: undefined,
 
-        { high: "29", low: "22" },
-        { high: "29", low: "22" }
-      ],
-      weatherImg: [Yin, Yu, Yu, Yu, Yu, Yu, Yu],
-
-      currentWeather: {},
-      currentImg: "",
-
-      // 时间
-      currentTime: {},
-      currentDate: undefined,
-
+      // 年龄/学历
+      ageData: undefined,
+      educationData: undefined,
       // 伪造数据
       mockData: {
         leftTop: [
@@ -302,6 +336,60 @@ export default {
     }
   },
   methods: {
+    // 格式化千分位
+    thousandFormat(value, fixed) {
+      fixed = fixed !== undefined ? fixed : 2;
+      if (value === null || value === undefined || isNaN(parseFloat(value))) {
+        return;
+      }
+      // 将数字进行千分位格式化
+      function toThousands(num) {
+        num = (num || 0).toString();
+        var parts = num.split(".");
+        var bigZeroPart = parts[0];
+        var result = "";
+        while (bigZeroPart.length > 3) {
+          result = "," + bigZeroPart.slice(-3) + result;
+          bigZeroPart = bigZeroPart.slice(0, bigZeroPart.length - 3);
+        }
+        if (bigZeroPart) {
+          result = bigZeroPart + result;
+        }
+        if (parts.length > 1) {
+          result += "." + parts[1].toString();
+        }
+        return result;
+      }
+
+      value = parseFloat(value).toFixed(fixed);
+      value = toThousands(value);
+      return value;
+    },
+
+    getLineData() {
+      var _that = this;
+      this.axios({
+        url: "/api/p1/loanTrend",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          var cdata = data.data.data;
+          _that.leftLineData = {};
+          _that.leftLineData.amt_cur = cdata.map(item => {
+            return item.amt_cur;
+          });
+          _that.leftLineData.amtavg = cdata.map(item => {
+            return item.amtavg;
+          });
+          _that.leftLineData.data_dt = cdata.map(item => {
+            return item.data_dt;
+          });
+        }
+      });
+    },
+
     drawLineD(id, data) {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById(id));
@@ -448,105 +536,327 @@ export default {
       console.log(this.msgFormSon);
     },
 
-    // 获取左上角累计金额ß
     rollData() {
+      this.getRollDataHandler();
       var _that = this;
       var index = 0;
       if (coinInterval) clearInterval(coinInterval);
       var coinInterval = setInterval(
         () => {
-          _that.mockData.totalCoin = _that.mockData.leftTop[index];
-          index++;
-          if (index === _that.mockData.leftTop.length) index = 0;
+          this.getRollDataHandler();
         },
-        2000,
+        3000,
         _that,
         index
       );
     },
 
-    // 获取右上角当前时间
-    getTime() {
-      if (timeInterval) clearInterval(timeInterval);
-      var timeInterval = setInterval(this.nowTime, 1000);
-    },
-
-    nowTime() {
-      var myDate = new Date();
-      var y = myDate.getFullYear();
-      var M = myDate.getMonth() + 1; //获取当前月份(0-11,0代表1月)
-      var d = myDate.getDate(); //获取当前日(1-31)
-      var h = myDate.getHours(); //获取当前小时数(0-23)
-      var m = myDate.getMinutes(); //获取当前分钟数(0-59)
-      var s = myDate.getSeconds(); //获取当前秒数(0-59)
-
-      //检查是否小于10
-      M = this.check(M);
-      d = this.check(d);
-      h = this.check(h);
-      m = this.check(m);
-      s = this.check(s);
-      var dateStr = y + "/" + M + "/" + d;
-      var timeStr = h + ":" + m + ":" + s;
-      this.currentTime = Object.assign({}, { date: dateStr, time: timeStr });
-      // 获取当前天气
-      this.getCurrentWeather(myDate.getDate());
-      // document.getElementById("nowtime").innerHTML = "当前时间：" + timestr;
-    },
-
-    //时间数字小于10，则在之前加个“0”补位。
-    check(i) {
-      var num = i < 10 ? "0" + i : i;
-      return num;
-    },
-
-    // 写死天气
-    getCurrentWeather(d) {
-      if (this.currentDate === d) {
-        return;
-      }
+    rollTimelyData() {
+      this.getTimelyData();
+      var _that = this;
       var index = 0;
-      if (d > 6) {
-        this.currentWeather = this.localweather[index];
-        this.currentImg = this.weatherImg[index];
-      } else {
-        this.currentWeather = this.localweather[d];
-        this.currentImg = this.weatherImg[d];
-      }
+      if (coinInterval) clearInterval(coinInterval);
+      var coinInterval = setInterval(
+        () => {
+          this.getTimelyData();
+        },
+        30000,
+        _that,
+        index
+      );
     },
 
-    // 获取当前天气
-    getWeather() {
-      var _this = this;
-      this.axios
-        .get(
-          "https://tianqiapi.com/api?version=v6&appid=71549884&appsecret=XH6bWw5A"
-        )
-        .then(function(response) {
-          _this.localweather = response.data;
-          _this.weatherImg =
-            "http://tq.daodaoim.com//tianqiapi/skin/pitaya/" +
-            response.data.wea_img +
-            ".png";
-          console.log(_this.weaterImg, "img");
-        })
-        .catch(() => {});
+    getRollDataHandler() {
+      var _that = this;
+      // 获取累计信贷服务金额
+      this.axios({
+        url: "/api/p1/accCredAmt",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          _that.totalMoney = _that.thousandFormat(data.data.data, 2) || 0;
+          _that.threeMoneyArr[0] = data.data.data.toString() || 0;
+        }
+      });
 
-      // this.axios({
-      //   url: "https://www.tianqiapi.com/api/?version=v1&cityid=101280601",
-      //   method: "get",
-      //   data: {
-      //     results: 10
-      //   },
-      //   type: "json"
-      // })
-      //   .then(res => {
-      //     // let datas = res.data.data[0];//下标为0即表示当天天气数据
-      //     console.log(res.data);
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
+      // 获取当日信贷服务金额
+      this.axios({
+        url: "/api/p1/currCredAmt",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          // _that.currentMoney = _that.thousandFormat(data.data.data, 2) || 0;
+          _that.threeMoneyArr[1] = data.data.data.toString() || 0;
+        }
+      });
+
+      // 获取当日信贷服务人数
+      this.axios({
+        url: "/api/p1/accCredNum",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          // _that.currentMoney = _that.thousandFormat(data.data.data, 2) || 0;
+          _that.threeMoneyArr[2] = data.data.data.toString() || 0;
+        }
+      });
+
+      // 获取当日人数
+      this.axios({
+        url: "/api/p1/currCustNum",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          // _that.currentMoney = _that.thousandFormat(data.data.data, 2) || 0;
+          var tData = data.data.data;
+          _that.columnarData.totalData =
+            [
+              this.thousandFormat(tData.shouxin),
+              this.thousandFormat(tData.yongxin)
+            ] || 0;
+        }
+      });
+    },
+
+    // 时间较久数据
+    getTimelyData() {
+      var _that = this; // 获取星座排行
+      this.axios({
+        url: "/api/p1/rank?flag=xz",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          // _that.currentMoney = _that.thousandFormat(data.data.data, 2) || 0;
+          var tData = data.data.data;
+          // _that.formData.consume =
+          //   tData.filter(item => {
+          //     return parseInt(item.ranking) <= 5;
+          //   }) || [];
+          _that.consume =
+            tData.filter(item => {
+              return parseInt(item.ranking) <= 5;
+            }) || [];
+
+          _that.consume.sort((a, b) => {
+            return a.ranking - b.ranking;
+          });
+
+          _that.consume = _that.consume.slice(0, 5);
+        }
+      });
+
+      // 获取星座排行
+      this.axios({
+        url: "/api/p1/rank?flag=region",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          // _that.currentMoney = _that.thousandFormat(data.data.data, 2) || 0;
+          var tData = data.data.data;
+          // _that.formData.scale =
+          //   tData.filter(item => {
+          //     return parseInt(item.ranking) <= 5;
+          //   }) || [];
+          // _that.formData.scale.sort((a, b) => {
+          //   return a - b < 0;
+          // });
+
+          _that.scale =
+            tData.filter(item => {
+              return parseInt(item.ranking) <= 5;
+            }) || [];
+
+          _that.scale.sort((a, b) => {
+            return a.ranking - b.ranking;
+          });
+          _that.scale = _that.scale.slice(0, 5);
+        }
+      });
+
+      // 获取年龄数据
+      this.axios({
+        url: "/api/p1/distribution?dcode=age",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          var tData = data.data.data;
+          _that.ageData = tData.map(item => {
+            return { value: 100, name: item.val };
+          });
+        }
+      });
+
+      // 获取学历数据
+      this.axios({
+        url: "/api/p1/distribution?dcode=education",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          var tData = data.data.data;
+          _that.educationData = tData.map(item => {
+            return { name: item.xid, value: item.val };
+          });
+        }
+      });
+
+      // 获取复购数据
+
+      this.axios({
+        url: "/api/p1/credBasic",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100 || data.data.data !== null) {
+          var tData = data.data.data;
+          // 六个指标
+          _that.allDataIndicator = [
+            {
+              name: "余额",
+              index: "amount",
+              data: tData ? tData.bal : ""
+            },
+            {
+              name: "笔均",
+              index: "avg",
+              data: tData ? tData.bijun : ""
+            },
+            {
+              name: "户均",
+              index: "savg",
+              data: tData ? tData.hujun : ""
+            },
+            {
+              name: "平均期限",
+              index: "avg-deadline",
+              data: tData ? tData.tenor : ""
+            },
+            {
+              name: "贷款时长",
+              index: "loan-time",
+              data: tData ? tData.ddsecond : ""
+            },
+            {
+              name: "授信成功率",
+              index: "rate",
+              data: tData ? tData.applyrate : ""
+            }
+          ];
+          _that.linkRelativeRatio = {
+            charts02: [
+              {
+                title: "环比上周",
+                data: tData ? tData.reloan30ratehuanbi : "",
+                type: tData
+                  ? Number(tData.reloan30ratehuanbi) > 0
+                    ? "positive"
+                    : "negative"
+                  : "positive"
+              },
+              {
+                title: "环比上月",
+                data: "+15.19%",
+                type: "positive"
+              }
+            ],
+            echarts03: [
+              {
+                title: "环比上周",
+                data: tData ? tData.reloan90ratehuanbi : "",
+                type: tData
+                  ? Number(tData.reloan90ratehuanbi) > 0
+                    ? "positive"
+                    : "negative"
+                  : "positive"
+              },
+              {
+                title: "环比上月",
+                data: "+10.19%",
+                type: "positive"
+              }
+            ]
+          };
+          // 复购
+          _that.dialPlate = [
+            tData ? tData.reloan30rate : "",
+            tData ? tData.reloan90rate : ""
+          ];
+        }
+      });
+    },
+
+    getMapData() {
+      this.getMapDataHandler();
+      var _that = this;
+      var index = 0;
+      if (mapInterval) clearInterval(mapInterval);
+      var mapInterval = setInterval(
+        () => {
+          _that.getMapDataHandler();
+        },
+        10000,
+        _that,
+        index
+      );
+    },
+
+    getMapDataHandler() {
+      var _that = this;
+      // 获取地图数据
+      this.axios({
+        url: "/api/p1/mapinfo",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          // var tData = data.data.data;
+          // _that.mapData = tData.map(item => {
+          //   return {
+          //     name: item.name,
+          //     age: item.age,
+          //     sex: item.sex,
+          //     type: item.trade_type,
+          //     sum: item.trade_amount,
+          //     value: [item.longitude, item.latitude, item.score]
+          //   }
+          // })
+          _that.mapData = [
+            {
+              name: "王**",
+              age: "28岁",
+              sex: "男",
+              type: "授信申请",
+              sum: "3000",
+              value: [116.4551, 40.2539, 48]
+            },
+            {
+              name: "王**",
+              age: "25岁",
+              sex: "女",
+              type: "授信申请",
+              sum: "7000",
+              value: [103.9526, 30.7617, 48]
+            }
+          ];
+        }
+      });
     }
   },
   components: {
@@ -559,7 +869,7 @@ export default {
     "funnel-chart": FunnelChart,
     "form-chart": FormChart,
     "map-chart": MapChart,
-    "weather-com" : WeatherCom
+    "weather-com": WeatherCom
   }
 };
 </script>
@@ -634,6 +944,7 @@ export default {
     }
     .accruing-amounts {
       .line-chart {
+        height: 400px;
         padding-top: 2%;
       }
     }

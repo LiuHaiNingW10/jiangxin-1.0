@@ -18,6 +18,14 @@ export default {
       var colors = ["#f36119", "#ff9921", "#20c8ff", "#2cb7ff", "#1785ef"];
       var myCharts = this.$echarts.init(document.getElementById(id));
       myCharts.setOption({
+        title: {
+          text: "年龄分布",
+          triggerEvent: true,
+          textStyle: {
+            fontSize: 14,
+            color: "#FFF"
+          }
+        },
         color: colors,
 
         series: [
