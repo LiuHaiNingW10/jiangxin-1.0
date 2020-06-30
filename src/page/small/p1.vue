@@ -23,7 +23,7 @@
       <div class="accruing-amounts">
         <div class="content-title">累计信贷服务金额</div>
         <!-- <indicator-chart v-if="threeMoneyArr.first" :chartData="threeMoneyArr.first" /> -->
-        <indicator-chart v-if="testN" :chartData="testN" />
+        <indicator-chart v-if="testN" :chartData="testN" chartId="total-money" />
         <line-chart
           :ids="id"
           v-if="leftLineData"
@@ -41,14 +41,23 @@
       </div>
       <div class="current-amounts">
         <div class="content-title">当日信贷服务金额</div>
-        <indicator-chart v-if="threeMoneyArr.second" :chartData="threeMoneyArr.second" />
+        <indicator-chart
+          v-if="threeMoneyArr.second"
+          :chartData="threeMoneyArr.second"
+          chartId="current-money"
+        />
 
         <!-- 地图 -->
         <map-chart v-if="mapData" :chartData="mapData" class="map-charts" />
       </div>
       <div class="accruing-person">
         <div class="content-title">累计信贷服务人数</div>
-        <indicator-chart v-if="threeMoneyArr.third" :chartData="threeMoneyArr.third" type="person" />
+        <indicator-chart
+          v-if="threeMoneyArr.third"
+          :chartData="threeMoneyArr.third"
+          type="person"
+          chartId="total-person"
+        />
         <columnar-chart
           :ids="columnarId"
           v-if="columnarData.totalData"
@@ -108,7 +117,7 @@ export default {
   },
   data() {
     return {
-      testN: 0,
+      testN: 100,
       // 累计信贷服务金额
       totalMoney: "",
 
@@ -586,7 +595,7 @@ export default {
           _that.threeMoneyArr = Object.assign({}, _that.threeMoneyArr, {
             first: data.data.data.toString() || 0
           });
-          _that.testN++;
+          _that.testN = _that.testN + 84;
         }
       });
 
