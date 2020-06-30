@@ -50,7 +50,6 @@ export default {
   },
   methods: {
     init() {
-      console.log(this.tableData);
       // this.transLateData();
     },
     transLateData() {
