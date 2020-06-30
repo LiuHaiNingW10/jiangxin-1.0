@@ -12,27 +12,56 @@
 export default {
   data() {
     return {
-        data: [
-            {
-                label: '反欺诈模型决策占比',
-                value: 40
-            },
-            {
-                label: '反欺诈策略决策占比',
-                value: 60
-            },
-            {
-                label: '反欺诈人工审核占比',
-                value: 25
-            }
-        ]
+      timer: null,
+      data: [
+        {
+            label: '反欺诈模型决策占比',
+            value: 0
+        },
+        {
+            label: '反欺诈策略决策占比',
+            value: 0
+        },
+        {
+            label: '反欺诈人工审核占比',
+            value: 0
+        }
+      ]
     };
   },
   mounted () {
-    
-    
+    this.timer = setInterval(() => {
+      setTimeout(this.getData, 0)
+    }, 3000)
   },
   methods: {
+    getData () {
+      this.axios.get('/api/p3/ratio')
+      .then((response) => {
+        const { cljczb, mxjczb, rgshzb } = response.data.data
+        this.data = [
+            {
+                label: '反欺诈模型决策占比',
+                value: parseInt(mxjczb)
+            },
+            {
+                label: '反欺诈策略决策占比',
+                value: parseInt(cljczb)
+            },
+            {
+                label: '反欺诈人工审核占比',
+                value: parseInt(rgshzb)
+            }
+        ]
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+    },
+  },
+  beforeDestroy () {
+    clearInterval(this.timer)  
+    this.timer = null
   },
   components: {}
 };

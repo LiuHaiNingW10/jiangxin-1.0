@@ -36,13 +36,14 @@
       </div>
       <div class="mc-c"></div>
       <div class="mc-r">
-        <div class="title">FRM命中分布</div>
-        <ul>
+        <div class="title">FRIM命中分布</div>
+        <div class="frim-chart" id='frimChart'></div>
+        <!-- <ul>
           <li>5%</li>
           <li>60%</li>
           <li>10%</li>
           <li>15%</li>
-        </ul>
+        </ul> -->
       </div>
     </div>
     <div class="mc-footer">当日小微信贷服务金额<span>0.00004%</span></div>
@@ -55,10 +56,137 @@ export default {
     return {};
   },
   mounted () {
-    
+    this.getLossRate()
+    this.getAttackRecent()
+    this.drawChart()
   },
   methods: {
-   
+    getLossRate () {
+      //欺诈损失率
+      this.axios.get('/api/p3/lossRate')
+      .then(function (response) {
+          console.log(response);
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+    },
+    getAttackRecent () {
+      //近一小时攻击数P3-4
+      this.axios.get('/api/p3/attackRecent')
+      .then(function (response) {
+          console.log(response);
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+    },
+    drawChart() {
+      let myChart = this.$echarts.init(document.getElementById('frimChart'));
+      // 绘制图表
+      myChart.setOption({
+        color: [
+            {
+                type: 'linear',
+                x: 0,
+                y: 0,
+                x2: 1,
+                y2: 0,
+                colorStops: [{
+                    offset: 0, color: '#1F7CFF' // 0% 处的颜色
+                }, {
+                    offset: 0.9, color: '#2BF1FF' 
+                }, {
+                    offset: 1, color: '#FFFFFF ' // 100% 处的颜色
+                }],
+                global: false // 缺省为 false
+            }
+        ],
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            },
+            formatter: function(params) {
+            return params[0].name + '<br/>' +
+                "<span style='display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:rgba(36,207,233,0.9)'></span>" +
+                params[0].seriesName + ' : ' + Number((params[0].value.toFixed(4) / 10000).toFixed(2)).toLocaleString() + ' 万元<br/>'
+            }
+        },
+        grid: {
+          top: "10%",
+          left: "10%",
+          right: "10%",
+          bottom: "10%",
+          containLabel: true
+        },
+        xAxis: {
+            show: false,
+            type: 'value',
+            boundaryGap: [0, 0.01],
+            axisLabel: {
+              color: 'rgba(255,255,255)'
+            },
+            splitLine: {
+              show: false
+            }
+        },
+        yAxis:[
+          {
+            type: 'category',
+            show: false
+          },
+        ],
+        series: [
+            {
+              name: '拦截金融',
+              type: 'bar',
+              zlevel: 1,
+              itemStyle: {
+                // barBorderRadius: 6,
+                color:  {
+                  type: 'linear',
+                  x: 0,
+                  y: 0,
+                  x2: 1,
+                  y2: 0,
+                  colorStops: [{
+                      offset: 0, color: '#1F7CFF' // 0% 处的颜色
+                  }, {
+                      offset: 0.9, color: '#2BF1FF' 
+                  }, {
+                      offset: 1, color: '#FFFFFF ' // 100% 处的颜色
+                  }],
+                  global: false // 缺省为 false
+                }
+              },
+              label: {
+                show: true,
+                position: 'right',
+                color: 'rgba(255,255,255)',
+                formatter: function(data){
+                  return data.value + '%'
+                }
+              },
+              barWidth: 30,
+              data: [15, 10, 60, 5]
+            },
+            {
+              name: '背景',
+              type: 'bar',
+              barWidth: 30,
+              barGap: '-100%',
+              data: [100, 100, 100, 100],
+              itemStyle: {
+                color: 'rgba(255,255,255,0)',
+                // barBorderRadius: 30,
+                borderWidth: 1,
+                borderColor: 'rgba(255,255,255,.4)'
+              },
+            }
+        ]
+      });
+    }
   },
   components: {}
 };
@@ -83,7 +211,7 @@ export default {
     display: flex;
     overflow: hidden;
     .mc-l{
-      margin-top: 40px;
+      margin-top: 55px;
       ul{
         list-style: none;
         li{
@@ -116,8 +244,9 @@ export default {
     }
     .mc-c{
       width: 212px;
-      height: 412px;
+      height: 450px;
       background: url('../../assets/images/p3/frm-c.png') no-repeat;
+      background-size: 100% 100%;
       margin: 0 46px 0 27px;
     }
     .mc-r{
@@ -125,11 +254,20 @@ export default {
       width: 160px;
       height: 410px;
       background: url('../../assets/images/p3/frm-r.png') no-repeat;
-      padding: 12px 24px;
+      padding: 12px 0;
+      text-align: center;
+      position: relative;
       .title{
         font-size: 18px;
         color: rgba(255,255,255,.7);
         margin-bottom: 10px;
+      }
+      .frim-chart{
+        position: absolute;
+        top: -25px;
+        left: 15px;
+        width: 140px;
+        height: 480px;
       }
       ul>li{
         list-style: none;

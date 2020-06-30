@@ -7,12 +7,27 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      timer: null
+    };
   },
   mounted () {
+    // this.timer = setInterval(() => {
+      setTimeout(this.getData, 0)
+    // }, 3000)
+    
     this.drawChart()
   },
   methods: {
+    getData () {
+      this.axios.get('/api/p3/interceptAmountTrend')
+      .then(function (response) {
+          console.log(response);
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+    },
     drawChart() {
       let myChart = this.$echarts.init(document.getElementById('amountTrendsChart'));
       // 绘制图表
@@ -179,6 +194,10 @@ export default {
         ]
       });
     }
+  },
+  beforeDestroy () {
+    clearInterval(this.timer)  
+    this.timer = null
   },
   components: {}
 };

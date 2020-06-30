@@ -185,6 +185,7 @@ export default {
         analyser.getByteFrequencyData(audioArray);
         // 填充为柱状图
         ctx.clearRect(0, 0, cWidth, cHeight);
+        ctx.fillStyle = '#60D7FB'
         for (var i = 0; i < audioArray.length; i++) {
           ctx.fillRect(i * 3, cHeight - audioArray[i], 2, cHeight);
         }

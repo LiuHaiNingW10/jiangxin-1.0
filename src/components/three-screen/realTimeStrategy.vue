@@ -28,8 +28,6 @@ export default {
       return []
     }
   },
-  mounted () {
-  },
   methods: {
     formatMoney(num, bool=false){
       if(!num && num !== 0) return 0
@@ -47,8 +45,7 @@ export default {
         }
       }
     }
-  },
-  components: {}
+  }
 };
 </script>
 

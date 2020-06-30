@@ -211,8 +211,12 @@ export default {
         type: "json"
       }).then(data => {
         let arr = data.data.data
-        arr.forEach(el => {
-          el.status = [el.status]
+        arr.forEach((el,i) => {
+          el.status = [
+            {
+              id: i,
+              value:el.status
+            }]
         });
         this.tableDataA = arr
         cb()
@@ -263,7 +267,6 @@ export default {
       return num;
     },
     fromHead( obj ) {
-      console.log(obj)
       this.headValue = obj.value
     }
     
@@ -331,6 +334,7 @@ export default {
     .main-content {
       padding: 0 30px;
       height: 93%;
+      display: flex;
       div {
         display: inline-block;
         width: 100%;
