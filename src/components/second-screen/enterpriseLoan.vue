@@ -3,22 +3,27 @@
     <div class="cloud-content enterprise-div">
       <div class="content-title">
         <span class="first-text-span">小微企业贷款</span>
+        <loan-chart />
       </div>
     </div>
     <div class="enterprise-atlas enterprise-div enterprise-content">
       <div class="second-title">
         <span class="text-span">企业图谱</span>
+
       </div>
     </div>
     <div class="enterprise-credit enterprise-div enterprise-content">
       <div class="second-title">
         <span class="text-span">企业信用</span>
+        <credit-chart />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import LoanChart from '@/components/second-screen/loanChart'
+import CreditChart from '@/components/second-screen/creditChart'
 export default {
   name: "",
   props: [],
@@ -28,7 +33,10 @@ export default {
   },
   computed: {},
   methods: {},
-  components: {}
+  components: {
+    LoanChart,
+    CreditChart
+  }
 };
 </script>
 
