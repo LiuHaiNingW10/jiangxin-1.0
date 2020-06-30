@@ -4,7 +4,19 @@
     <div class="title-frame">
       <div class="title-left">
         <span>累计信贷服务金额：</span>
-        <span class="left-coin">¥ {{totalMoney}}</span>
+        <div class="nwwest-roll" id="nwwest-roll">
+          <ul id="roll-ul" class="roll-ul">
+            <li
+              v-for="(item, index) in Totallist"
+              :key="index"
+              ref="rollul"
+              :class="{anim:animate==true}"
+            >
+              <span class="total-money-span">¥ {{item}}</span>
+            </li>
+          </ul>
+        </div>
+        <!-- <span class="left-coin">¥ {{totalMoney}}</span> -->
       </div>
       <div class="global-title">普惠业务信贷数据平台</div>
       <div class="right-time">
@@ -22,8 +34,12 @@
     <div class="frame-content">
       <div class="accruing-amounts">
         <div class="content-title">累计信贷服务金额</div>
-        <!-- <indicator-chart v-if="threeMoneyArr.first" :chartData="threeMoneyArr.first" /> -->
-        <indicator-chart v-if="testN" :chartData="testN" chartId="total-money" />
+        <indicator-chart
+          v-if="threeMoneyArr.first"
+          :chartData="threeMoneyArr.first"
+          chartId="total-money"
+        />
+        <!-- <indicator-chart v-if="testN" :chartData="testN" chartId="total-money" /> -->
         <line-chart
           :ids="id"
           v-if="leftLineData"
@@ -34,7 +50,7 @@
         <left-indicator-chart v-if="allDataIndicator" :chartData="allDataIndicator" />
         <repeat-purchase
           :ids="repeatPurchaseId"
-          :v-if="linkRelativeRatio"
+          :v-if="plateJudge"
           :chartData="{linkRelativeRatio: linkRelativeRatio,dialPlate: dialPlate,lineData: lineData}"
           class="repeat-purchase-chart"
         />
@@ -60,7 +76,7 @@
         />
         <columnar-chart
           :ids="columnarId"
-          v-if="columnarData.totalData"
+          v-if="currentPersonJudge"
           :chartData="columnarData"
           class="columnar-chart"
         />
@@ -68,14 +84,14 @@
           <funnel-chart
             class="left-distribution single-distribution"
             :ids="funnelId"
-            :chartData="ageData || funnelData"
-            v-if="ageData || funnelData"
+            :chartData="ageData"
+            v-if="ageJudge"
           />
           <pie-chart
             class="right-distribution single-distribution"
             :ids="pieId"
-            v-if="educationData || pieData"
-            :chartData="educationData || pieData"
+            v-if="educationJudge"
+            :chartData="educationData"
           />
         </div>
         <form-chart
@@ -109,6 +125,12 @@ export default {
     this.getMapData();
     this.rollData();
     this.rollTimelyData();
+
+    // let that = this; //模拟数字增长(也可以是数据库定时查的或ws中接收的)
+    // setInterval(function() {
+    //   that.testN = ++that.testN; //数字变化后调用滚动事件
+    //   that.scroll(that.testN, that.$refs);
+    // }, 3000);
   },
   mounted() {
     // this.getTime();
@@ -118,8 +140,12 @@ export default {
   data() {
     return {
       testN: 100,
+      animate: true,
+
+      Totallist: [0, 0],
       // 累计信贷服务金额
       totalMoney: "",
+      preTotalMoney: "",
 
       // 三个数字栏目
       threeMoneyArr: {
@@ -133,6 +159,7 @@ export default {
 
       // 当日人数
       currentPerson: undefined,
+      currentPersonJudge: false,
 
       // 左侧实时放款数据
       allData: [
@@ -182,17 +209,19 @@ export default {
 
       // 左侧复购数据
       linkRelativeRatio: {},
+      plateJudge: false,
       dialPlate: [],
-      lineData: [
-        {
-          city: ["0", "4", "8", "12", "16", "20"],
-          num: ["40", "60", "22", "85", "50", "40"]
-        },
-        {
-          city: ["0", "4", "8", "12", "16", "20"],
-          num: ["40", "60", "22", "85", "50", "40"]
-        }
-      ],
+      lineData: [],
+      // lineData: [
+      //   {
+      //     city: ["0", "4", "8", "12", "16", "20"],
+      //     num: ["40", "60", "22", "85", "50", "40"]
+      //   },
+      //   {
+      //     city: ["0", "4", "8", "12", "16", "20"],
+      //     num: ["40", "60", "22", "85", "50", "40"]
+      //   }
+      // ],
       // repeatPurchaseData: {
       //   linkRelativeRatio: {
       //     echarts02: [
@@ -241,31 +270,32 @@ export default {
 
       // 右侧柱状图数据
       columnarData: {
-        totalData: undefined,
-        columnAllData: [
-          {
-            xAxis: [
-              "制造业",
-              "建筑业",
-              "农林牧渔",
-              "房地产",
-              "金融业",
-              "居民服务及其他"
-            ],
-            yAxis: [5000, 2600, 1300, 1300, 1250, 1500]
-          },
-          {
-            xAxis: [
-              "制造业",
-              "建筑业",
-              "农林牧渔",
-              "房地产",
-              "金融业",
-              "居民服务及其他"
-            ],
-            yAxis: [5000, 2600, 1300, 1300, 1250, 1500]
-          }
-        ]
+        totalData: [],
+        columnAllData: []
+        // columnAllData: [
+        //   {
+        //     xAxis: [
+        //       "制造业",
+        //       "建筑业",
+        //       "农林牧渔",
+        //       "房地产",
+        //       "金融业",
+        //       "居民服务及其他"
+        //     ],
+        //     yAxis: [5000, 2600, 1300, 1300, 1250, 1500]
+        //   },
+        //   {
+        //     xAxis: [
+        //       "制造业",
+        //       "建筑业",
+        //       "农林牧渔",
+        //       "房地产",
+        //       "金融业",
+        //       "居民服务及其他"
+        //     ],
+        //     yAxis: [5000, 2600, 1300, 1300, 1250, 1500]
+        //   }
+        // ]
       },
       columnarId: [
         {
@@ -328,6 +358,8 @@ export default {
 
       // 年龄/学历
       ageData: undefined,
+      ageJudge: false,
+      educationJudge: false,
       educationData: undefined,
       // 伪造数据
       mockData: {
@@ -351,6 +383,20 @@ export default {
     }
   },
   methods: {
+    scroll(num, refs) {
+      if (refs === undefined || Object.keys(refs).length === 0) return;
+      let con1 = refs.rollul;
+      if (con1 === undefined) return;
+      con1[0].style.marginTop = "-30px";
+      this.animate = !this.animate;
+
+      var that = this;
+      setTimeout(function() {
+        that.Totallist = [num, num];
+        con1[0].style.marginTop = "12px";
+        that.animate = !that.animate;
+      }, 10);
+    },
     // 格式化千分位
     thousandFormat(value, fixed) {
       fixed = fixed !== undefined ? fixed : 2;
@@ -595,6 +641,10 @@ export default {
           _that.threeMoneyArr = Object.assign({}, _that.threeMoneyArr, {
             first: data.data.data.toString() || 0
           });
+          if (_that.totalMoney !== _that.preTotalMoney) {
+            _that.scroll(_that.totalMoney, _that.$refs);
+            _that.preTotalMoney = _that.totalMoney;
+          }
           _that.testN = _that.testN + 84;
         }
       });
@@ -629,9 +679,9 @@ export default {
         }
       });
 
-      // 获取当日人数
+      // 获取当日授信人数
       this.axios({
-        url: "/api/p1/currCustNum",
+        url: "/api/p1/currCustNum?eventType=授信",
         method: "get",
         data: "",
         type: "json"
@@ -639,11 +689,45 @@ export default {
         if (data.data.code === 100) {
           // _that.currentMoney = _that.thousandFormat(data.data.data, 2) || 0;
           var tData = data.data.data;
-          _that.columnarData.totalData =
-            [
-              this.thousandFormat(tData.shouxin),
-              this.thousandFormat(tData.yongxin)
-            ] || 0;
+          _that.columnarData.totalData[0] = tData[0] ? tData[0].val : 0;
+          _that.columnarData.columnAllData[0] = {
+            xAxis: tData
+              ? tData.map(item => {
+                  return item.event_hour;
+                })
+              : [],
+            yAxis: tData
+              ? tData.map(item => {
+                  return item.val;
+                })
+              : []
+          };
+        }
+      });
+      // 获取当日用信人数
+      this.axios({
+        url: "/api/p1/currCustNum?eventType=用信",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          // _that.currentMoney = _that.thousandFormat(data.data.data, 2) || 0;
+          var tData = data.data.data;
+          _that.columnarData.totalData[1] = tData[0] ? tData[0].val : 0;
+          _that.columnarData.columnAllData[1] = {
+            xAxis: tData
+              ? tData.map(item => {
+                  return item.event_hour;
+                })
+              : [],
+            yAxis: tData
+              ? tData.map(item => {
+                  return item.val;
+                })
+              : []
+          };
+          _that.currentPersonJudge = true;
         }
       });
     },
@@ -716,10 +800,17 @@ export default {
       }).then(data => {
         if (data.data.code === 100) {
           var tData = data.data.data;
-          _that.ageData = tData.map(item => {
-            return { value: 100, name: item.val };
+          if (tData == null) return;
+          var tmpVal = 100;
+          _that.ageData = tData.map((item, index) => {
+            return {
+              value: tmpVal - (100 / tData.length) * index,
+              name: item.xid,
+              num: item.val
+            };
           });
         }
+        _that.ageJudge = true;
       });
 
       // 获取学历数据
@@ -731,10 +822,15 @@ export default {
       }).then(data => {
         if (data.data.code === 100) {
           var tData = data.data.data;
+          var total = 0
+          tData.forEach(item => {
+            total += Number(item.val)
+          });
           _that.educationData = tData.map(item => {
-            return { name: item.xid, value: item.val };
+            return { name: item.xid, value: item.val ,total: total};
           });
         }
+        _that.educationJudge = true;
       });
 
       // 获取复购数据
@@ -762,7 +858,7 @@ export default {
             {
               name: "户均",
               index: "savg",
-              data: tData ? tData.hujun : ""
+              data: tData ? tData.hujun * 100 + "%" : ""
             },
             {
               name: "平均期限",
@@ -777,11 +873,11 @@ export default {
             {
               name: "授信成功率",
               index: "rate",
-              data: tData ? tData.applyrate : ""
+              data: tData ? tData.applyrate * 100 + "%" : ""
             }
           ];
           _that.linkRelativeRatio = {
-            charts02: [
+            echarts02: [
               {
                 title: "环比上周",
                 data: tData ? tData.reloan30ratehuanbi : "",
@@ -790,12 +886,12 @@ export default {
                     ? "positive"
                     : "negative"
                   : "positive"
-              },
-              {
-                title: "环比上月",
-                data: "+15.19%",
-                type: "positive"
               }
+              // {
+              //   title: "环比上年",
+              //   data: "+15.19%",
+              //   type: "positive"
+              // }
             ],
             echarts03: [
               {
@@ -806,12 +902,12 @@ export default {
                     ? "positive"
                     : "negative"
                   : "positive"
-              },
-              {
-                title: "环比上月",
-                data: "+10.19%",
-                type: "positive"
               }
+              // {
+              //   title: "环比上年",
+              //   data: "+10.19%",
+              //   type: "positive"
+              // }
             ]
           };
           // 复购
@@ -819,6 +915,47 @@ export default {
             tData ? tData.reloan30rate : "",
             tData ? tData.reloan90rate : ""
           ];
+          _that.plateJudge = true;
+        }
+      });
+
+      // 获取复购折线图数据
+      this.axios({
+        url: "/api/p1/credBasicTrend",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100 || data.data.data !== null) {
+          var tData = data.data.data;
+          _that.lineData = [
+            {
+              xAxis: tData.map(item => {
+                return item.data_dt;
+              }),
+              yAxis: tData.map(item => {
+                return item.reloan30rate * 100;
+              })
+            },
+            {
+              xAxis: tData.map(item => {
+                return item.data_dt;
+              }),
+              yAxis: tData.map(item => {
+                return item.reloan90rate * 100;
+              })
+            }
+          ];
+          // [
+          //     {
+          //       city: ["0", "4", "8", "12", "16", "20"],
+          //       num: ["40", "60", "22", "85", "50", "40"]
+          //     },
+          //     {
+          //       city: ["0", "4", "8", "12", "16", "20"],
+          //       num: ["40", "60", "22", "85", "50", "40"]
+          //     }
+          //   ]
         }
       });
     },
@@ -848,35 +985,35 @@ export default {
         type: "json"
       }).then(data => {
         if (data.data.code === 100) {
-          // var tData = data.data.data;
-          // _that.mapData = tData.map(item => {
-          //   return {
-          //     name: item.name,
-          //     age: item.age,
-          //     sex: item.sex,
-          //     type: item.trade_type,
-          //     sum: item.trade_amount,
-          //     value: [item.longitude, item.latitude, item.score]
+          var tData = data.data.data;
+          _that.mapData = tData.map(item => {
+            return {
+              name: item.name,
+              age: item.age,
+              sex: item.sex,
+              type: item.trade_type,
+              sum: item.trade_amount,
+              value: [item.longitude, item.latitude, item.score]
+            };
+          });
+          // _that.mapData = [
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000",
+          //     value: [116.4551, 40.2539, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000",
+          //     value: [103.9526, 30.7617, 48]
           //   }
-          // })
-          _that.mapData = [
-            {
-              name: "王**",
-              age: "28岁",
-              sex: "男",
-              type: "授信申请",
-              sum: "3000",
-              value: [116.4551, 40.2539, 48]
-            },
-            {
-              name: "王**",
-              age: "25岁",
-              sex: "女",
-              type: "授信申请",
-              sum: "7000",
-              value: [103.9526, 30.7617, 48]
-            }
-          ];
+          // ];
         }
       });
     }
@@ -907,7 +1044,29 @@ export default {
   padding-top: 1%;
   font-size: 28px;
   color: #fff;
+  .nwwest-roll {
+    display: inline-block;
+    height: 40px;
+    overflow: hidden;
+  }
 
+  .roll-ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .nwwest-roll li {
+    height: 35px;
+    line-height: 35px;
+  }
+  .total-money-span {
+    color: #ffcc22;
+  }
+
+  .anim {
+    transition: all 1s;
+  }
   // 标题样式
   .title-frame {
     width: 100%;

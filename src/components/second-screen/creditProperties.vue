@@ -11,7 +11,7 @@
         <div class="server-num num-span">
           <div class="num-span-title">服务人数</div>
           <div class="middle-rec"></div>
-          <div class="num-span-data">22,390人</div>
+          <div class="num-span-data">{{thousandFormat(indicatorData.applyperson, 0)}}人</div>
         </div>
       </div>
       <div class="top-middle"></div>
@@ -22,7 +22,7 @@
         <div class="shouxin-num num-span">
           <div class="num-span-title">授信金额</div>
           <div class="middle-rec"></div>
-          <div class="num-span-data">22,390,123,123元</div>
+          <div class="num-span-data">{{thousandFormat(indicatorData.applyvalue, 2)}}元</div>
         </div>
       </div>
     </div>
@@ -33,8 +33,20 @@
     </div>
 
     <div class="bottom-graph">
-      <div v-if="typeData.type === 1">
-        <div></div>
+      <div v-if="typeData.type === 1" class="top-graph-div">
+        <classification-account
+          class="company-columnar"
+          idsLeft="account-chart"
+          idsRight="account-columnar-chart"
+          v-if="classificationData"
+          :chartData="classificationData"
+        />
+        <income-level
+          class="company-columnar"
+          ids="company-columnar-chart"
+          :chartData="levelData"
+          v-if="levelData"
+        />
       </div>
       <div v-else-if="typeData.type === 2" class="bottom-graph-div">
         <person-columnar
@@ -45,6 +57,7 @@
         <person-columnar
           class="person-columnar"
           :ids="enterpriseColumnarId"
+          v-if="enterpriseJudge"
           :chartData="enterpriseColumnarData"
         />
       </div>
@@ -54,22 +67,134 @@
 
 <script>
 import PersonColumnar from "./personColumnar.vue";
+import ClassificationAccount from "./classificationAccount.vue";
+import IncomeLevel from "./incomeLevel.vue";
+
 export default {
   name: "",
-  props: ["typeData"],
+  props: ["typeData", "indicatorData"],
+  created() {
+    this.getClassificationData();
+    this.getLevelData();
+    this.getEnterpriseData();
+  },
   mounted() {},
   data() {
     return {
+      enterpriseJudge: false,
       industryColumnarData: {},
       industryColumnarId: "industryColumnar",
       enterpriseColumnarData: {},
-      enterpriseColumnarId: "enterpriseColumnar"
+      enterpriseColumnarId: "enterpriseColumnar",
+      classificationData: undefined,
+      levelData: {}
     };
   },
   computed: {},
-  methods: {},
+  methods: {
+    // 格式化千分位
+    thousandFormat(value, fixed) {
+      fixed = fixed !== undefined ? fixed : 2;
+      if (value === null || value === undefined || isNaN(parseFloat(value))) {
+        return;
+      }
+      // 将数字进行千分位格式化
+      function toThousands(num) {
+        num = (num || 0).toString();
+        var parts = num.split(".");
+        var bigZeroPart = parts[0];
+        var result = "";
+        while (bigZeroPart.length > 3) {
+          result = "," + bigZeroPart.slice(-3) + result;
+          bigZeroPart = bigZeroPart.slice(0, bigZeroPart.length - 3);
+        }
+        if (bigZeroPart) {
+          result = bigZeroPart + result;
+        }
+        if (parts.length > 1) {
+          result += "." + parts[1].toString();
+        }
+        return result;
+      }
+
+      value = parseFloat(value).toFixed(fixed);
+      value = toThousands(value);
+      return value;
+    },
+    getClassificationData() {
+      let that = this;
+      this.axios({
+        url: "/api/p2/category",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          var tData = data.data.data;
+          that.classificationData = tData.map(item => {
+            return {
+              name: item.description,
+              value: parseFloat(item.percent)
+            };
+          });
+        }
+      });
+    },
+    getLevelData() {
+      let that = this;
+      this.axios({
+        url: "/api/p2/incomeLevel",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          var tData = data.data.data;
+          let xAxis = [];
+          let yAxis = [];
+          tData.forEach(item => {
+            xAxis.push(item.description);
+            yAxis.push(parseFloat(item.percent));
+          });
+
+          that.levelData = Object.assign({}, { xAxis: xAxis, yAxis: yAxis });
+        }
+      });
+    },
+    getEnterpriseData() {
+      let that = this;
+      this.axios({
+        url: "/api/p2/cmpScale",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          var tData = data.data.data;
+          let xAxis = [];
+          let yAxis = [];
+          tData.forEach(item => {
+            xAxis.push(item.category);
+            yAxis.push(parseFloat(item.percent));
+          });
+          xAxis = xAxis.reverse();
+          yAxis = yAxis.reverse();
+
+          that.enterpriseColumnarData = Object.assign(
+            {},
+            { xAxis: xAxis, yAxis: yAxis }
+          );
+          this.$nextTick(() => {
+            this.enterpriseJudge = true;
+          });
+        }
+      });
+    }
+  },
   components: {
-    "person-columnar": PersonColumnar
+    "person-columnar": PersonColumnar,
+    "classification-account": ClassificationAccount,
+    "income-level": IncomeLevel
   }
 };
 </script>
@@ -157,12 +282,33 @@ export default {
   .bottom-graph {
     height: 57.7%;
     width: 100%;
+    .top-graph-div {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-wrap: nowrap;
+
+      .company-columnar {
+        height: 100%;
+        width: 45%;
+        &:first-child {
+          margin-right: 5%;
+        }
+      }
+    }
     .bottom-graph-div {
       height: 100%;
       width: 100%;
       display: flex;
       flex-wrap: nowrap;
       .person-columnar {
+        height: 100%;
+        width: 45%;
+        &:first-child {
+          margin-right: 5%;
+        }
+      }
+      .company-columnar {
         height: 100%;
         width: 45%;
         &:first-child {

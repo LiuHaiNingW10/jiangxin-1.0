@@ -6,9 +6,7 @@
         <div class="left-indicator">
           <div v-for="(item, index) in chartData.linkRelativeRatio[item.id]" :key="index">
             <div>{{item.title}}</div>
-            <div
-              :class="item.type === 'positive' ? 'positive-data': 'indicator-data'"
-            >{{item.data}}</div>
+            <div :class="item.type === 'positive' ? 'positive-data': 'indicator-data'">{{item.data}}</div>
           </div>
         </div>
         <div :id="item.id + '-indicator'" class="right-indicator"></div>
@@ -193,7 +191,7 @@ export default {
             axisTick: {
               show: false
             },
-            data: data.city
+            data: data ? data.xAxis : []
           }
         ],
         yAxis: [
@@ -289,13 +287,23 @@ export default {
                 shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
               }
             },
-            data: data.num
+            data: data ? data.yAxis : []
           }
         ]
       });
     }
   },
-  components: {}
+  components: {},
+  watch: {
+    chartData: function(newVal) {
+      for (let i in this.ids) {
+        //   this.drawLineH(this.ids[i], this.chartData[i]);
+        //   this.renderChartState(this.ids[i].id, this.chartData[i]);
+        this.drawDialPlate(this.ids[i].id + "-indicator", newVal.dialPlate[i]);
+        this.drawLineChart(this.ids[i].id + "-line", newVal.lineData[i]);
+      }
+    }
+  }
 };
 </script>
 

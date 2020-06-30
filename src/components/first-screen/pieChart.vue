@@ -50,6 +50,22 @@ export default {
           data: data.map(item => {
             return item.name;
           }),
+
+          formatter(name) {
+            if (data && data.length) {
+              for (var i = 0; i < data.length; i++) {
+                if (name === data[i].name) {
+                  return (
+                    `{uname|${name}}{unum|` +
+                    ((data[i].value / data[i].total * 100).toFixed(2) + "%") +
+                    `}`
+                  );
+                }
+              }
+            }
+          },
+
+          // formatter: "{uname|{b}}{unum|{d}}%",
           textStyle: {
             color: "#FFF",
             rich: {
@@ -60,15 +76,6 @@ export default {
                 color: "#4ed139",
                 width: 40,
                 align: "right"
-              }
-            }
-          },
-          formatter(name) {
-            if (data && data.length) {
-              for (var i = 0; i < data.length; i++) {
-                if (name === data[i].name) {
-                  return `{uname|${name}}{unum|` + data[i].value + `}`;
-                }
               }
             }
           }
@@ -92,7 +99,12 @@ export default {
       });
     }
   },
-  components: {}
+  components: {},
+  watch: {
+    chartData: function(newVal) {
+      this.initPieChart(this.ids, newVal);
+    }
+  }
 };
 </script>
 

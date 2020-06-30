@@ -15,11 +15,19 @@ export default {
   computed: {},
   methods: {
     initChart(id, data) {
+      let rightData = [];
+      data &&
+        data.forEach(item => {
+          rightData.push({
+            name: item.num,
+            value: item.value
+          });
+        });
       var colors = ["#f36119", "#ff9921", "#20c8ff", "#2cb7ff", "#1785ef"];
       var myCharts = this.$echarts.init(document.getElementById(id));
       myCharts.setOption({
         title: {
-          text: "年龄分布",
+          text: "",
           triggerEvent: true,
           textStyle: {
             fontSize: 14,
@@ -62,6 +70,7 @@ export default {
                 borderRadius: 4,
                 padding: [11, 25, 11, 25],
                 width: 50,
+                formatter: "{d} %",
                 /* formatter:function(d){
                         var ins='{aa|}'+d.percent;
                         console.log(ins)
@@ -102,13 +111,18 @@ export default {
                 opacity: 1
               }
             },
-            data: data
+            data: rightData
           }
         ]
       });
     }
   },
-  components: {}
+  components: {},
+  watch: {
+    chartData: function(newVal) {
+      this.initChart(this.ids, newVal);
+    }
+  }
 };
 </script>
 

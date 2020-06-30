@@ -132,7 +132,7 @@ export default {
 
 <style lang="less">
 .weather-img {
-  width: 6%;
+  width: 3%;
 }
 .time-span {
   display: inline-block;

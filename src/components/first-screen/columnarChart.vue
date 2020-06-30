@@ -109,7 +109,14 @@ export default {
       });
     }
   },
-  components: {}
+  components: {},
+  watch: {
+    chartData: function(newVal) {
+      for (let i in this.ids) {
+        this.initColumnarChart(this.ids[i].id, newVal.columnAllData[i]);
+      }
+    }
+  }
 };
 </script>
 
