@@ -2,12 +2,60 @@
   <div class="brain-content" @keyup.enter="keyEnter">
     <div class="brain-main">
       <div class="light-spot">
-        <img class="a" v-if="showImg" :src="require('../../assets/images/popup-c.png')" alt />
-        <img class="b" v-if="showImg" :src="require('../../assets/images/popup-d.png')" alt />
-        <img class="c" v-if="showImg" :src="require('../../assets/images/popup-e.png')" alt />
-        <img class="d" v-if="showImg" :src="require('../../assets/images/popup-b.png')" alt />
-        <img class="e" v-if="showImg" :src="require('../../assets/images/popup-f.png')" alt />
-        <img class="f" v-if="showImg" :src="require('../../assets/images/popup-a.png')" alt />
+        <div class="a" v-if="showImg">
+            <span class="a-address">
+              <i>{{tableData[0].accent}}</i>
+            </span>
+            <span class="a-tel">
+              <i>电话：{{tableData[0].mobile}}</i><br>
+              <i class="a-want">{{tableData[0].want}}</i>
+            </span>
+        </div>
+        <div class="b" v-if="showImg">
+            <span class="a-address">
+              <i>{{tableData[1].accent}}</i>
+            </span>
+            <span class="a-tel">
+              <i>电话：{{tableData[1].mobile}}</i><br>
+              <i class="a-want">{{tableData[1].want}}</i>
+            </span>
+        </div>
+        <div class="c" v-if="showImg">
+            <span class="a-address">
+              <i>{{tableData[2].accent}}</i>
+            </span>
+            <span class="a-tel">
+              <i>电话：{{tableData[2].mobile}}</i><br>
+              <i class="a-want">{{tableData[2].want}}</i>
+            </span>
+        </div>
+        <div class="d" v-if="showImg">
+            <span class="a-address">
+              <i>{{tableData[3].accent}}</i>
+            </span>
+            <span class="a-tel">
+              <i>电话：{{tableData[3].mobile}}</i><br>
+              <i class="a-want">{{tableData[3].want}}</i>
+            </span>
+        </div>
+        <div class="e" v-if="showImg">
+            <span class="e-address">
+              <i>{{tableData[4].accent}}</i>
+            </span>
+            <span class="a-tel">
+              <i>电话：{{tableData[4].mobile}}</i><br>
+              <i class="a-want">{{tableData[4].want}}</i>
+            </span>
+        </div>
+        <div class="f" v-if="showImg">
+            <span class="f-address">
+              <i>{{tableData[5].accent}}</i>
+            </span>
+            <span class="a-tel">
+              <i>电话：{{tableData[5].mobile}}</i><br>
+              <i class="a-want">{{tableData[5].want}}</i>
+            </span>
+        </div>
         <canvas id="audio-art"></canvas>
         <audio id="audio" :src="require('../../assets/video/shanxi.wav')" ref="audio"></audio>
       </div>
@@ -67,7 +115,14 @@ export default {
       height: this.heights,
       lineData: [],
       showImg: true,
-      analyser:{}
+      analyser:{},
+      want:{
+        '承诺还款':'color: #4DC4D3',
+        '未接听':'color: #4DC4D3',
+        '承诺还款':'color: #4DC4D3',
+        '承诺还款':'color: #4DC4D3',
+        '承诺还款':'color: #4DC4D3',
+      }
     };
   },
   computed: {},
@@ -79,6 +134,9 @@ export default {
       document.onkeydown = event => {
         let e = event || window.event || arguments.callee.caller.arguments[0];
         if (e && e.keyCode == 13) {
+          if(!this.showImg) {
+            return
+          }
           this.DrawVideo();
         }
       };
@@ -105,14 +163,13 @@ export default {
     DrawVideo() {
       this.showImg = false;
       this.$emit('func',{ value: false})
-      var AudioContext = window.AudioContext || webkitAudioContext;
-      var audio = document.getElementById("audio");
-      // let audio = new Audio();
-      // audio.src = require("../../assets/video/shanxi.wav");
+      var atx = new (window.AudioContext || webkitAudioContext);
+      // var audio = document.getElementById("audio");
+      let audio = new Audio();
+      audio.src = require("../../assets/video/shanxi.wav");
       var canvas = document.getElementById("audio-art");
       var ctx = canvas.getContext("2d");
 
-      var atx = new AudioContext();
       var source = atx.createMediaElementSource(audio);
       var analyser = atx.createAnalyser();
       source.connect(analyser);
@@ -159,37 +216,89 @@ export default {
     min-height: 400px;
     min-height: 450px;
     position: relative;
-    img {
+    div {
       display: inline-block;
       position: absolute;
       height: 20%;
+      width: 30%;
+      padding: 4px 20px;
     }
     audio {
       display: none;
     }
+    i {
+      font-style: normal;
+    }
+    .a-address {
+      display: inline-block;
+      height: 30px;
+      background: url('../../assets/images/p4icon1.png') no-repeat center;
+      background-position: 4px 0 ;
+      background-size: 24%;
+      padding: 2px 28px;
+    }
+    .e-address {
+      display: inline-block;
+      height: 30px;
+      background: url('../../assets/images/p4icon1.png') no-repeat center;
+      background-position: 4px 0 ;
+      background-size: 18%;
+      padding: 2px 28px;
+    }
+    .f-address {
+      display: inline-block;
+      height: 30px;
+      background: url('../../assets/images/p4icon1.png') no-repeat center;
+      background-position: 4px 0 ;
+      background-size: 26%;
+      padding: 2px 28px;
+    }
+    .a-tel {
+      display: inline-block;
+      width: 70%;
+      
+    }
+    .a-want {
+        color: #4DC4D3;
+    }
     .a {
-      top: 26px;
-      left: 80px;
+      top: 24px;
+      left: 46px;    
+      background: url('../../assets/images/popup-l.png') no-repeat center;
+      background-size: 100%;
     }
     .b {
-      top: 170px;
-      left: -4px;
+      top: 136px;
+      left: -43px;
+      background: url('../../assets/images/popup-l.png') no-repeat center;
+      background-size: 100%;
     }
     .c {
       top: 312px;
-      left: 152px;
+      left: 128px;
+      background: url('../../assets/images/popup-p.png') no-repeat center;
+      background-size: 100%;
     }
     .d {
       top: 170px;
-      left: 376px;
+      left: 336px;
+      background: url('../../assets/images/popup-o.png') no-repeat center;
+      background-size: 100%;
+      padding-left: 62px;
     }
     .e {
-      top: 44px;
-      right: 60px;
+      top: 48px;
+      right: 18px;
+      background: url('../../assets/images/popup-r.png') no-repeat center;
+      background-size: 100%;
+      padding-left: 60px;
     }
     .f {
-      top: 221px;
+      top: 246px;
       right: -40px;
+      background: url('../../assets/images/popup-o.png') no-repeat center;
+      background-size: 100%;
+      padding-left: 64px;
     }
   }
   .brain-foot {
@@ -201,6 +310,7 @@ export default {
       display: inline-block;
       width: 30%;
       height: 30px;
+
       background: url("../../assets/images/ai-foot.png") no-repeat center;
       background-size: 50%;
       margin-bottom: 30px;

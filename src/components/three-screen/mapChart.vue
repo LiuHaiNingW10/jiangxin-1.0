@@ -1,0 +1,335 @@
+<template>
+  <div class="map-charts">
+    <div id="middleMap"></div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "mapChart",
+  props: [],
+  mounted() {
+    this.initMap();
+  },
+  data() {
+    return {};
+  },
+  computed: {},
+  methods: {
+    initMap() {
+      var geoCoordMap = {
+        上海: [119.1803, 31.2891],
+        福建: [119.4543, 25.9222],
+        重庆: [108.384366, 30.439702],
+        北京: [116.4551, 40.2539],
+        辽宁: [123.1238, 42.1216],
+        河北: [114.4995, 38.1006],
+        天津: [117.4219, 39.4189],
+        山西: [112.3352, 37.9413],
+        陕西: [109.1162, 34.2004],
+        甘肃: [103.5901, 36.3043],
+        宁夏: [106.3586, 38.1775],
+        青海: [101.4038, 36.8207],
+        新疆: [87.9236, 43.5883],
+        西藏: [91.11, 29.97],
+        四川: [103.9526, 30.7617],
+        吉林: [125.8154, 44.2584],
+        山东: [117.1582, 36.8701],
+        河南: [113.4668, 34.6234],
+        江苏: [118.8062, 31.9208],
+        安徽: [117.29, 32.0581],
+        湖北: [114.3896, 30.6628],
+        浙江: [119.5313, 29.8773],
+        内蒙古: [110.3467, 41.4899],
+        江西: [116.0046, 28.6633],
+        湖南: [113.0823, 28.2568],
+        贵州: [106.6992, 26.7682],
+        云南: [102.9199, 25.4663],
+        广东: [113.12244, 23.009505],
+        广西: [108.479, 23.1152],
+        海南: [110.3893, 19.8516],
+        黑龙江: [127.9688, 45.368],
+        台湾: [121.4648, 25.563]
+      };
+
+      let myEcharts = this.$echarts.init(document.getElementById("middleMap"));
+      myEcharts.setOption({
+        legend: {
+          show: false
+        },
+        tooltip: {
+          show: true
+        },
+        geo: {
+          map: "china",
+          aspectScale: 0.75,
+          label: {
+            emphasis: {
+              show: false
+            }
+          },
+          regions: [
+            {
+              name: "南海诸岛",
+              value: 0,
+              itemStyle: {
+                normal: {
+                  opacity: 0,
+                  label: {
+                    show: false
+                  }
+                }
+              }
+            }
+          ],
+          itemStyle: {
+            normal: {
+              borderColor: "rgba(28, 180, 0, 0)",
+              borderWidth: 0.5,
+              areaColor: {
+                x: 1000,
+                y: 1000,
+                x2: 1000,
+                y2: 0,
+                colorStops: [
+                  {
+                    offset: 0,
+                    // color: "#69c5d8" // 0% 处的颜色
+                    color: "rgba(170,170,170, 0.5)"
+                  },
+                  {
+                    offset: 1,
+                    // color: "#126caf" // 50% 处的颜色
+                    color: "rgba(170,170,170, 0.5)"
+                  }
+                ],
+                global: true // 缺省为 false
+              },
+              opacity: 1
+            },
+            emphasis: {
+              show: false,
+              // areaColor: "#69c5d8"
+              areaColor: "rgba(170,170,170, 0.5)"
+            }
+          },
+          z: 2
+        },
+        series: [
+          {
+            type: "map",
+            map: "china",
+            tooltip: {
+              show: false
+            },
+            // label: {
+            //   emphasis: {
+            //     show: false,
+            //     color: "#fff"
+            //   }
+            // },
+            top: "9.5%",
+            // left: "12.5%",
+            aspectScale: 0.75,
+            // roam: false,
+            // itemStyle: {
+            //   normal: {
+            //     borderColor: "#2cb3dd",
+            //     borderWidth: 0.8,
+            //     areaColor: {
+            //       type: "linear-gradient",
+            //       x: 1000,
+            //       y: 600,
+            //       x2: 1000,
+            //       y2: 0,
+            //       colorStops: [
+            //         {
+            //           offset: 0,
+            //           color: "#274d68" // 0% 处的颜色
+            //         },
+            //         {
+            //           offset: 1,
+            //           color: "#09132c" // 50% 处的颜色
+            //         }
+            //       ],
+            //       global: true // 缺省为 false
+            //     }
+            //   },
+            //   emphasis: {
+            //     show: false,
+            //     areaColor: "#274d62"
+            //   }
+            // },
+            label: {
+              normal: {
+                show: false
+              },
+              emphasis: {
+                show: false,
+                textStyle: {
+                  color: "#fff"
+                }
+              }
+            },
+            roam: false,
+            itemStyle: {
+              normal: {
+                areaColor: "rgba(0, 187, 255, .3)",
+                borderColor: "#00FFFF",
+                borderWidth: 1
+              },
+              emphasis: {
+                areaColor: "#00FFFF"
+              }
+            },
+            animation: false,
+            zlevel: 1
+          },
+          {
+            type: "effectScatter",
+            coordinateSystem: "geo",
+            zlevel: 10,
+            data: [
+              {
+                name: "王**",
+                age: "28岁",
+                sex: "男",
+                type: "授信申请",
+                sum: "3000",
+                value: [116.4551, 40.2539, 48]
+              },
+              {
+                name: "王**",
+                age: "25岁",
+                sex: "女",
+                type: "授信申请",
+                sum: "7000",
+                value: [103.9526, 30.7617, 48]
+              }
+            ],
+            symbolSize: 40,
+            showEffectOn: "render",
+
+            // 涟漪的设置
+            rippleEffect: {
+              color: "#7FFFAA",
+              scale: 4,
+              brushType: "stroke"
+            },
+
+            // 标签
+            label: {
+              normal: {
+                show: true,
+                formatter: function(params) {
+                  return (
+                    params.data.name +
+                    "   " +
+                    params.data.age +
+                    "   " +
+                    params.data.sex +
+                    "\n" +
+                    "交易类型：" +
+                    params.data.type +
+                    "\n" +
+                    "交易金额：¥" +
+                    params.data.sum
+                  );
+                  // return (
+                  //   "{fline|" + " " + params.data.name + " " + "重点关注" + "}"
+                  // );
+                },
+                position: "top",
+                distance: 40,
+                backgroundColor: "rgba(0,0,0,.3)",
+                borderColor: "rgba(0,191,255,.9)",
+                borderWidth: 2,
+                padding: [20, 30],
+                borderRadius: 3,
+                lineHeight: 24,
+                verticalAlign: "middle",
+                color: "#fff",
+                z: 11,
+                rich: {
+                  fline: {
+                    padding: [0, 10],
+                    color: "#ffffff"
+                  }
+                }
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: "#7FFFAA",
+                shadowBlur: 2
+              }
+            }
+          },
+          {
+            type: "lines",
+            zlevel: 11,
+            effect: {
+              show: true,
+              period: 5,
+              color: "rgba(127,255,170, 1)"
+            },
+            lineStyle: {
+              normal: {
+                color: new this.$echarts.graphic.LinearGradient(
+                  0,
+                  0,
+                  0,
+                  1,
+                  [
+                    {
+                      offset: 0,
+                      color: "rgba(127,255,170, 1)"
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(127,255,170, 0)"
+                    }
+                  ],
+                  false
+                ),
+                width: 2,
+                opacity: 0.5,
+                curveness: 0
+              }
+            },
+            data: Object.keys(geoCoordMap).map(item => {
+              return {
+                fromName: 1,
+                toName: 1,
+                coords: [
+                  geoCoordMap[item],
+                  [geoCoordMap[item][0], geoCoordMap[item][1] + 3]
+                ]
+              };
+            })
+            // data: [
+            //   {
+            //     fromName: 1,
+            //     toName: 1,
+            //     coords: [
+            //       [116.24, 39.55],
+            //       [116.24, 42.55]
+            //     ]
+            //   }
+            // ]
+          }
+        ]
+      });
+    }
+  },
+  components: {}
+};
+</script>
+
+<style lang="less">
+.map-charts,
+#middleMap {
+  height: 100%;
+  width: 100%;
+}
+</style>

@@ -1,0 +1,192 @@
+<template>
+  <div class="amount-trends-chart" id='amountTrendsChart'>
+   
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {};
+  },
+  mounted () {
+    this.drawChart()
+  },
+  methods: {
+    drawChart() {
+      let myChart = this.$echarts.init(document.getElementById('amountTrendsChart'));
+      // 绘制图表
+      myChart.setOption({
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            lineStyle: {
+              color: {
+                type: "linear",
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [
+                  {
+                    offset: 0,
+                    color: "rgba(255,255,255,0)" // 0% 处的颜色
+                  },
+                  {
+                    offset: 0.5,
+                    color: "rgba(255,255,255,1)" // 100% 处的颜色
+                  },
+                  {
+                    offset: 1,
+                    color: "rgba(255,255,255,0)" // 100% 处的颜色
+                  }
+                ],
+                global: false // 缺省为 false
+              }
+            }
+          }
+        },
+        grid: {
+          top: "10%",
+          left: "10%",
+          right: "10%",
+          bottom: "10%",
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: "category",
+            boundaryGap: true,
+            axisLine: {
+              //坐标轴轴线相关设置。数学上的x轴
+              show: true,
+              lineStyle: {
+                color: 'rgba(255,255,255,0.3)'
+              }
+            },
+            axisLabel: {
+              //坐标轴刻度标签的相关设置
+              textStyle: {
+                color: 'rgba(255,255,255,0.7)',
+                margin: 15
+              },
+              formatter: function(data) {
+                return data + "点";
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            data: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+          }
+        ],
+        yAxis: [
+          {
+            splitLine: {
+              show: false
+            },
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color: 'rgba(255,255,255,0.3)'
+              }
+            },
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: 'rgba(255,255,255,0.7)',
+              }
+            }
+          }
+        ],
+        series: [
+          {
+            name: "注册总量",
+            type: "line",
+            symbol: "circle",
+            showSymbol: false,
+            smooth: 0.5,
+            lineStyle: {
+              width: 5,
+              color: {
+                type: 'linear',
+                x: 0,
+                y: 0,
+                x2: 1,
+                y2: 0,
+                colorStops: [{
+                    offset: 0, color: '#00E3FF' 
+                }, {
+                    offset: 0.25, color: '#004AFF ' 
+                }, {
+                    offset: 0.5, color: '#00E3FF' 
+                }, {
+                    offset: 0.75, color: '#004AFF ' 
+                }, {
+                    offset: 1, color: '#00E3FF'
+                }],
+                global: false // 缺省为 false
+              }
+            },
+            itemStyle: {
+              color: "rgba(0,255,255,1)",
+              borderColor: "#FFF",
+              borderWidth: 2
+            },
+            label: {
+              normal: {
+                show: true,
+                position: "top",
+                formatter: [" {a|{c}%}"].join(","),
+                rich: {
+                  a: {
+                    color: "#fff",
+                    align: "center"
+                  }
+                }
+              }
+            },
+            tooltip: {
+              show: true
+            },
+            areaStyle: {
+              //区域填充样式
+              normal: {
+                //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
+                color: new this.$echarts.graphic.LinearGradient(
+                  0,
+                  0,
+                  0,
+                  1,
+                  [
+                    {
+                      offset: 0,
+                      color: "rgba(0,74,255,.3)"
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(0,74,255, 0)"
+                    }
+                  ],
+                  false
+                ),
+                shadowColor: "rgba(0,74,255, 0.9)", //阴影颜色
+                shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
+              }
+            },
+            data: [12, 40, 50, 80, 90, 30, 20, 12, 40, 50, 80, 90, 30 ]
+          }
+        ]
+      });
+    }
+  },
+  components: {}
+};
+</script>
+
+<style lang="less" scoped>
+.amount-trends-chart{
+  width: 100%;
+  height: 24%;
+}
+</style>

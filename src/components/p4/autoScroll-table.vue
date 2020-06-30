@@ -8,7 +8,7 @@
             class="table-scroll"
             :style="{top}"
             :columns="columns"
-            :rowKey="(record,index) => record.telphoneNum+index"
+            :rowKey="(record,index) => record.mobile+index"
             :dataSource="tableData"
             :pagination="false"
             :showHeader="true"
@@ -16,12 +16,12 @@
             <span slot="status" slot-scope="status, record">
               <a-tag
                 v-for="tag in status"
-                :key="tag"
+                :key="record.id"
                 :class="status-tag"
-                :color="tag === '1' ? '#24C768' : tag === '-1'? '#D70907' : '#F8B551'"
+                :color="tag === '正常' ? '#24C768' : tag === '异常'? '#D70907' : '#F8B551'"
               >
               </a-tag>
-              {{record.status[0] === '1' ? '正常' : record.status[0] === '-1'? '问题' : '断点'}}
+              {{record.status[0]}}
             </span>
           </a-table>
         </div>
