@@ -7,14 +7,32 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      timer: null
+    };
   },
   mounted () {
-    this.drawChart()
+    this.timer = setInterval(() => {
+      setTimeout(this.getData, 0)
+    }, 3000)
   },
   methods: {
-    drawChart() {
+    getData () {
+      this.axios.get('/api/p3/interceptTradeAllType')
+      .then((response) => {
+        const { data } = response.data
+        this.drawChart(data)
+      })
+      .catch((error)=> {
+          console.log(error);
+      });
+    },
+    drawChart(data) {
       let myChart = this.$echarts.init(document.getElementById('amountTypeChart'));
+      if(!data || !data.length) return
+      var payAmounts = data.map(item=>item.payamount).reverse()
+      var totalAmount = payAmounts.reduce((x,y)=>x+y)
+      var totalArr = new Array(data.length).fill(parseFloat(totalAmount).toFixed(2))
       // 绘制图表
       myChart.setOption({
         color: [
@@ -42,7 +60,7 @@ export default {
             formatter: function(params) {
             return params[0].name + '<br/>' +
                 "<span style='display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:rgba(36,207,233,0.9)'></span>" +
-                params[0].seriesName + ' : ' + Number((params[0].value.toFixed(4) / 10000).toFixed(2)).toLocaleString() + ' 万元<br/>'
+                params[0].seriesName + ' : ' + Number(params[0].value).toLocaleString() + '<br/>'
             }
         },
         grid: {
@@ -69,7 +87,7 @@ export default {
             axisLabel: {
               color: 'rgba(255,255,255)'
             },
-            data: [ '其他','银联','理财','网联','代收', '支付', '转账', '提现', '充值']
+            data: data.map(item=>item.event).reverse()
           },
         ],
         series: [
@@ -77,6 +95,11 @@ export default {
               name: '拦截金融',
               type: 'bar',
               zlevel: 1,
+              label: {
+                show: true,
+                position: 'right',
+                color: 'rgba(255,255,255)'
+              },
               itemStyle: {
                 barBorderRadius: 6,
                 color:  {
@@ -93,10 +116,10 @@ export default {
                       offset: 1, color: '#FFFFFF ' // 100% 处的颜色
                   }],
                   global: false // 缺省为 false
-              }
+                }
               },
               barWidth: 12,
-              data: [50000000, 22000000, 10000000, 5000000, 2000000,50000000, 22000000, 10000000, 5000000]
+              data: payAmounts
             },
             {
               name: '背景',
@@ -108,7 +131,7 @@ export default {
                 position: 'right',
                 color: 'rgba(255,255,255)'
               },
-              data: [50000000, 50000000, 50000000, 50000000, 50000000,50000000, 50000000, 50000000, 50000000],
+              data: totalArr,
               itemStyle: {
                 color: 'rgba(255,255,255,0)',
                 barBorderRadius: 30,
@@ -119,6 +142,10 @@ export default {
         ]
       });
     }
+  },
+  beforeDestroy () {
+    clearInterval(this.timer)  
+    this.timer = null
   },
   components: {}
 };

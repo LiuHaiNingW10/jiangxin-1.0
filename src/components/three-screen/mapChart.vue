@@ -122,44 +122,8 @@ export default {
             tooltip: {
               show: false
             },
-            // label: {
-            //   emphasis: {
-            //     show: false,
-            //     color: "#fff"
-            //   }
-            // },
             top: "9.5%",
-            // left: "12.5%",
             aspectScale: 0.75,
-            // roam: false,
-            // itemStyle: {
-            //   normal: {
-            //     borderColor: "#2cb3dd",
-            //     borderWidth: 0.8,
-            //     areaColor: {
-            //       type: "linear-gradient",
-            //       x: 1000,
-            //       y: 600,
-            //       x2: 1000,
-            //       y2: 0,
-            //       colorStops: [
-            //         {
-            //           offset: 0,
-            //           color: "#274d68" // 0% 处的颜色
-            //         },
-            //         {
-            //           offset: 1,
-            //           color: "#09132c" // 50% 处的颜色
-            //         }
-            //       ],
-            //       global: true // 缺省为 false
-            //     }
-            //   },
-            //   emphasis: {
-            //     show: false,
-            //     areaColor: "#274d62"
-            //   }
-            // },
             label: {
               normal: {
                 show: false
@@ -173,11 +137,10 @@ export default {
             },
             roam: false,
             itemStyle: {
-              normal: {
-                areaColor: "rgba(0, 187, 255, .3)",
-                borderColor: "#00FFFF",
-                borderWidth: 1
-              },
+              color: 'red',
+              areaColor: "rgba(15,50,255,0)",
+              borderColor: "#00FFFF",
+              borderWidth: 1,
               emphasis: {
                 areaColor: "#00FFFF"
               }
@@ -207,16 +170,21 @@ export default {
                 value: [103.9526, 30.7617, 48]
               }
             ],
-            symbolSize: 40,
+            symbolSize: 20,
             showEffectOn: "render",
 
             // 涟漪的设置
             rippleEffect: {
-              color: "#7FFFAA",
+              color: "#F5B523",
               scale: 4,
               brushType: "stroke"
             },
-
+            itemStyle: {
+              normal: {
+                color: "#F5B523",
+                shadowBlur: 2
+              }
+            },
             // 标签
             label: {
               normal: {
@@ -234,18 +202,16 @@ export default {
                     "\n" +
                     "交易金额：¥" +
                     params.data.sum
-                  );
-                  // return (
-                  //   "{fline|" + " " + params.data.name + " " + "重点关注" + "}"
-                  // );
+                  )
                 },
-                position: "top",
-                distance: 40,
-                backgroundColor: "rgba(0,0,0,.3)",
-                borderColor: "rgba(0,191,255,.9)",
-                borderWidth: 2,
+                position: [-330, -60],
+                distance: 0,
+                width: 300,
+                height: 160,
+                backgroundColor: {
+                  image: require('@/assets/images/p3/map-modal.png')
+                },
                 padding: [20, 30],
-                borderRadius: 3,
                 lineHeight: 24,
                 verticalAlign: "middle",
                 color: "#fff",
@@ -257,66 +223,7 @@ export default {
                   }
                 }
               }
-            },
-            itemStyle: {
-              normal: {
-                color: "#7FFFAA",
-                shadowBlur: 2
-              }
             }
-          },
-          {
-            type: "lines",
-            zlevel: 11,
-            effect: {
-              show: true,
-              period: 5,
-              color: "rgba(127,255,170, 1)"
-            },
-            lineStyle: {
-              normal: {
-                color: new this.$echarts.graphic.LinearGradient(
-                  0,
-                  0,
-                  0,
-                  1,
-                  [
-                    {
-                      offset: 0,
-                      color: "rgba(127,255,170, 1)"
-                    },
-                    {
-                      offset: 1,
-                      color: "rgba(127,255,170, 0)"
-                    }
-                  ],
-                  false
-                ),
-                width: 2,
-                opacity: 0.5,
-                curveness: 0
-              }
-            },
-            data: Object.keys(geoCoordMap).map(item => {
-              return {
-                fromName: 1,
-                toName: 1,
-                coords: [
-                  geoCoordMap[item],
-                  [geoCoordMap[item][0], geoCoordMap[item][1] + 3]
-                ]
-              };
-            })
-            // data: [
-            //   {
-            //     fromName: 1,
-            //     toName: 1,
-            //     coords: [
-            //       [116.24, 39.55],
-            //       [116.24, 42.55]
-            //     ]
-            //   }
-            // ]
           }
         ]
       });
