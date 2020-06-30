@@ -14,22 +14,22 @@
           <li>
             <img src="../../assets/images/p3/frm-cricle2.png" alt="">
             <div>
-              <div class="title">固态层</div>
-              <div class="desc">已知风险防控策略调用量<span>700</span></div>
+              <div class="title">聚集层</div>
+              <div class="desc">批量风险防控策略调用量<span>1200</span></div>
             </div>
           </li>
           <li>
             <img src="../../assets/images/p3/frm-cricle1.png" alt="">
             <div>
-              <div class="title">固态层</div>
-              <div class="desc">已知风险防控策略调用量<span>700</span></div>
+              <div class="title">场景层</div>
+              <div class="desc">异常行为识别策略调用量<span>500</span></div>
             </div>
           </li>
           <li>
             <img src="../../assets/images/p3/frm-cricle2.png" alt="">
             <div>
-              <div class="title">固态层</div>
-              <div class="desc">已知风险防控策略调用量<span>700</span></div>
+              <div class="title">动态层</div>
+              <div class="desc">未知风险识别策略调用量<span>300</span></div>
             </div>
           </li>
         </ul>

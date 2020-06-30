@@ -10,9 +10,19 @@ export default {
     return {};
   },
   mounted () {
-    this.drawChart()
+    this.getData()
   },
   methods: {
+    getData () {
+      this.axios.get('/api/p3/refuseReasonSummary')
+      .then( (res)  => {
+        const { data } = res.data       
+        this.drawChart(data)
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+    },
     drawChart() {
       let myChart = this.$echarts.init(document.getElementById('top5RefuseChart'));
       // 绘制图表

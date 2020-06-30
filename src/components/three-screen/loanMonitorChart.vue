@@ -10,9 +10,20 @@ export default {
     return {};
   },
   mounted () {
+    this.getData()
     this.drawChart()
   },
   methods: {
+    getData () {
+      this.axios.get('/api/p3/creditConditions')
+      .then( (res)  => {
+        const { data } = res.data       
+        this.drawChart(data)
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+    },
     drawChart() {
       let myChart = this.$echarts.init(document.getElementById('loanMonitorChart'));
       // 绘制图表

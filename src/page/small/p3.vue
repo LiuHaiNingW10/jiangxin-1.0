@@ -28,7 +28,7 @@
         <div class="map-panel"></div>
       </div>
       <div class="right-box">
-        <div class="content-title"><span>实时调用决策变量239个  规则106条</span></div> 
+        <div class="content-title"><span>实时调用决策变量{{variableNum}}个  规则{{ruleNum}}条</span></div> 
         <rule-chart />
         <div class="content-title"><span>近24小时放款监测</span></div> 
         <loan-monitor-chart />
@@ -63,12 +63,15 @@ export default {
       usesTime:{
         year: 0,
         day: 0
-      }
+      },
+      variableNum: 0,
+      ruleNum: 0
+
     }
   },
   mounted(){
     this.getAccRiskAll()
-    this.numFun(200, 10000)
+    this.getVariable()
   },
   methods: {
     getAccRiskAll(){
@@ -84,8 +87,12 @@ export default {
           }
         })
       ]).then(this.axios.spread( ( ...obj ) => {
-        this.usesTime['year'] = obj[0].data.data;
-        this.usesTime['day'] = obj[1].data.data;
+        this.usesTime = {
+          year: obj[0].data.data,
+          day: obj[1].data.data
+        }
+        // this.numFun(this.usesTime.year,obj[0].data.data,'year')
+        // this.numFun(this.usesTime.year,obj[0].data.data,'day')
         this.$nextTick( () => {
           this.showUses = true
         })
@@ -94,22 +101,49 @@ export default {
           console.log(error);
       })
     },
-    numFun(startNum,maxNum) {
+    numFun(startNum,maxNum, name) {
       var that = this
       let numText = startNum;
       let golb; // 为了清除requestAnimationFrame
       function numSlideFun(){ // 数字动画
-          numText+=55; // 速度的计算可以为小数 。数字越大，滚动越快
+          numText+=10000; // 速度的计算可以为小数 。数字越大，滚动越快
           if(numText >= maxNum){
               numText = maxNum;
               cancelAnimationFrame(golb);
           }else {
               golb = requestAnimationFrame(numSlideFun);
           }
+        that.usesTime = {...that.usesTime, [name]:numText}
         that.amount=numText
       }
        numSlideFun(); // 调用数字动画
-    }
+    },
+    getVariable () {
+      this.axios.get('/api/p3/variable',{
+        params: {
+          indexname: 'bldy'
+        }
+      })
+      .then( (res)  => {
+         const { data } = res.data
+         this.variableNum = data
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+      this.axios.get('/api/p3/variable',{
+        params: {
+          indexname: 'gzdy'
+        }
+      })
+      .then( (res)  => {
+         const { data } = res.data
+         this.ruleNum = data
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+    },
   },
   components: {
     amountTrendsChart,
