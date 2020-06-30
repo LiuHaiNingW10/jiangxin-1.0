@@ -17,8 +17,8 @@
       </div>
       <div class="content-middle">
         <server-money class="server-money" />
-        <portrayal-exp class="portrayal-exp" />
-        <portrayal-server class="portrayal-server" />
+        <portrayal-exp v-if="showPortrayal" class="portrayal-exp" :tableDatas='OpperiodAndFinance' />
+        <portrayal-server v-if="showPortrayal" class="portrayal-server" :tableDatas='serverData'/>
       </div>
       <div class="content-right">
         <enterprise-loan class="enterprise-loan" />
@@ -47,11 +47,34 @@ export default {
         first: "个人经营贷",
         littleTitle: ["行业", "企业规模"],
         type: 2
-      }
+      },
+      showPortrayal: false,
+      OpperiodAndFinance: {},
+      serverData: [],
     };
   },
-  computed: {},
-  methods: {},
+  computed: {
+  },
+  created() {
+    this.getOpperiodAndFinance()
+  },
+  methods: {
+    getOpperiodAndFinance() {
+      this.axios.all([
+        this.axios.get("/api/p2/opperiodAndFinance?dcode=finance"),
+        this.axios.get("/api/p2/opperiodAndFinance?dcode=op_period"),
+        this.axios.get("/api/p2/area")
+      ]).then(this.axios.spread( ( ...obj ) => {
+        this.OpperiodAndFinance['finance'] = obj[0].data.data;
+        this.OpperiodAndFinance['op_period'] = obj[1].data.data;
+        this.serverData = obj[2].data.data
+        this.$nextTick( () => {
+          this.showPortrayal = true
+        })
+      }))
+       
+    }
+  },
   components: {
     "weather-com": WeatherCom,
     "credit-properties": CreditProperties,

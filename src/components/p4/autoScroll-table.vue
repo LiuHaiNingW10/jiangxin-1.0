@@ -16,12 +16,12 @@
             <span slot="status" slot-scope="status, record">
               <a-tag
                 v-for="tag in status"
-                :key="record.id"
+                :key="tag.id"
                 :class="status-tag"
-                :color="tag === '正常' ? '#24C768' : tag === '异常'? '#D70907' : '#F8B551'"
+                :color="tag.value === '正常' ? '#24C768' : tag.value === '异常'? '#D70907' : '#F8B551'"
               >
               </a-tag>
-              {{record.status[0]}}
+              {{record.status[0].value}}
             </span>
           </a-table>
         </div>
@@ -85,13 +85,13 @@ export default {
     font-size: 12px;
     position: relative;
     overflow: hidden;
+    height: 45%;
     .table-title {
       text-align: left;
       padding-left: 24px;
     }
     .scroll-box {
       overflow: hidden;
-      height: 280px;
     }
     .table-scroll {
       position: relative;
