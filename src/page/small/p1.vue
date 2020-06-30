@@ -22,7 +22,8 @@
     <div class="frame-content">
       <div class="accruing-amounts">
         <div class="content-title">累计信贷服务金额</div>
-        <indicator-chart v-if="threeMoneyArr[0]" :chartData="threeMoneyArr[0]" />
+        <!-- <indicator-chart v-if="threeMoneyArr.first" :chartData="threeMoneyArr.first" /> -->
+        <indicator-chart v-if="testN" :chartData="testN" />
         <line-chart
           :ids="id"
           v-if="leftLineData"
@@ -40,14 +41,14 @@
       </div>
       <div class="current-amounts">
         <div class="content-title">当日信贷服务金额</div>
-        <indicator-chart v-if="threeMoneyArr[1]" :chartData="threeMoneyArr[1]" />
+        <indicator-chart v-if="threeMoneyArr.second" :chartData="threeMoneyArr.second" />
 
         <!-- 地图 -->
         <map-chart v-if="mapData" :chartData="mapData" class="map-charts" />
       </div>
       <div class="accruing-person">
         <div class="content-title">累计信贷服务人数</div>
-        <indicator-chart v-if="threeMoneyArr[2]" :chartData="threeMoneyArr[2]" type="person" />
+        <indicator-chart v-if="threeMoneyArr.third" :chartData="threeMoneyArr.third" type="person" />
         <columnar-chart
           :ids="columnarId"
           v-if="columnarData.totalData"
@@ -107,11 +108,16 @@ export default {
   },
   data() {
     return {
+      testN: 0,
       // 累计信贷服务金额
       totalMoney: "",
 
       // 三个数字栏目
-      threeMoneyArr: [],
+      threeMoneyArr: {
+        first: "",
+        second: "",
+        third: ""
+      },
 
       // mapData
       mapData: undefined,
@@ -577,7 +583,10 @@ export default {
       }).then(data => {
         if (data.data.code === 100) {
           _that.totalMoney = _that.thousandFormat(data.data.data, 2) || 0;
-          _that.threeMoneyArr[0] = data.data.data.toString() || 0;
+          _that.threeMoneyArr = Object.assign({}, _that.threeMoneyArr, {
+            first: data.data.data.toString() || 0
+          });
+          _that.testN++;
         }
       });
 
@@ -590,7 +599,9 @@ export default {
       }).then(data => {
         if (data.data.code === 100) {
           // _that.currentMoney = _that.thousandFormat(data.data.data, 2) || 0;
-          _that.threeMoneyArr[1] = data.data.data.toString() || 0;
+          _that.threeMoneyArr = Object.assign({}, _that.threeMoneyArr, {
+            second: data.data.data.toString() || 0
+          });
         }
       });
 
@@ -603,7 +614,9 @@ export default {
       }).then(data => {
         if (data.data.code === 100) {
           // _that.currentMoney = _that.thousandFormat(data.data.data, 2) || 0;
-          _that.threeMoneyArr[2] = data.data.data.toString() || 0;
+          _that.threeMoneyArr = Object.assign({}, _that.threeMoneyArr, {
+            third: data.data.data.toString() || 0
+          });
         }
       });
 
