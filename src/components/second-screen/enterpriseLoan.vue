@@ -9,8 +9,8 @@
     <div class="enterprise-atlas enterprise-div enterprise-content">
       <div class="second-title">
         <span class="text-span">企业图谱</span>
-
       </div>
+      <div id="graph"></div>
     </div>
     <div class="enterprise-credit enterprise-div enterprise-content">
       <div class="second-title">
@@ -27,12 +27,31 @@ import CreditChart from '@/components/second-screen/creditChart'
 export default {
   name: "",
   props: [],
-  mounted() {},
   data() {
     return {};
   },
   computed: {},
-  methods: {},
+  mounted() {
+    this.init()
+  },
+  methods: {
+    init() {
+      this.getGraphData()
+    },
+    getGraphData() {
+      this.axios({
+        url: "/api/p2/cmpGraph",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          var graphData = data.data.data.graph;
+          console.log(graphData)
+        }
+      });
+    }
+  },
   components: {
     LoanChart,
     CreditChart
