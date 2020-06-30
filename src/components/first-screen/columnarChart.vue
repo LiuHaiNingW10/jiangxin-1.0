@@ -2,13 +2,17 @@
   <div class="right-columnar">
     <div v-for="(item, index) in ids" :key="item.id" class="single-columnar">
       <div>{{item.title}}</div>
-      <div class="current-data">{{chartData.totalData[index]}}</div>
+      <div class="current-data">
+        <!-- {{chartData.totalData[index]}} -->
+        <scroll-span :number="chartData.totalData[index]" class="total-money-span" ids="current"/>
+      </div>
       <div :id="item.id" class="single-columnar-echarts"></div>
     </div>
   </div>
 </template>
 
 <script>
+import ScrollSpan from "../../components/scrollSpan.vue";
 export default {
   name: "columnar",
   props: ["ids", "chartData"],
@@ -109,7 +113,9 @@ export default {
       });
     }
   },
-  components: {},
+  components: {
+    "scroll-span": ScrollSpan
+  },
   watch: {
     chartData: function(newVal) {
       for (let i in this.ids) {
@@ -120,7 +126,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .right-columnar {
   width: 100%;
   display: flex;

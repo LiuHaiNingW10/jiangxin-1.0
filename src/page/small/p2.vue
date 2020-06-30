@@ -16,13 +16,13 @@
           class="credit-properties"
           :typeData="propertyLoans"
           :indicatorData="propertyData"
-          v-if="showPropertyCredit"
+          :showCredit="showPropertyCredit"
         />
         <credit-properties
           class="credit-properties"
           :typeData="personLoans"
           :indicatorData="personData"
-          v-if="showPropertyCredit"
+          :showCredit="showPropertyCredit"
         />
       </div>
       <div class="content-middle">
