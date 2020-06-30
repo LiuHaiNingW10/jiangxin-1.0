@@ -20,8 +20,8 @@
       <div class="center-box">
         <!-- 地图 -->
         <div class="strategy-box">
-          <real-time-strategy title="19年累计调用策略" :num='amount' :blank="1"/>
-          <real-time-strategy title="当日调用策略" num='4913' :blank="2"/>
+          <real-time-strategy v-if="showUses" title="19年累计调用策略" :num='usesTime.year' :blank="1"/>
+          <real-time-strategy v-if="showUses" title="当日调用策略" :num='usesTime.day' :blank="2"/>
         </div>
         <map-chart class="map-charts" />
         <pie-chart />
@@ -58,7 +58,12 @@ import moment from 'moment'
 export default {
   data() {
     return {
-      amount: 0
+      amount: 0,
+      showUses: false,
+      usesTime:{
+        year: 0,
+        day: 0
+      }
     }
   },
   mounted(){
@@ -67,14 +72,24 @@ export default {
   },
   methods: {
     getAccRiskAll(){
-      this.axios.get('/api/p3/accRiskAll',{
-        params: {
-          type: 'y'
-        }
-      })
-      .then(function (response) {
-          console.log(response);
-      })
+      this.axios.all([
+        this.axios.get("/api/p3/accRiskAll",{
+          params: {
+            type: 'y'
+          }
+        }),
+        this.axios.get("/api/p3/accRiskAll",{
+          params: {
+            type: 'h'
+          }
+        })
+      ]).then(this.axios.spread( ( ...obj ) => {
+        this.usesTime['year'] = obj[0].data.data;
+        this.usesTime['day'] = obj[1].data.data;
+        this.$nextTick( () => {
+          this.showUses = true
+        })
+      }))
       .catch(function (error) {
           console.log(error);
       })

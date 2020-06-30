@@ -933,10 +933,7 @@ export default {
       width: 33%;
       text-align: right;
     }
-    .time-span {
-      display: inline-block;
-      margin-left: 5%;
-    }
+    
   }
 
   // 内容样式

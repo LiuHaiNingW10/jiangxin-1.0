@@ -1,6 +1,6 @@
 <template>
-  <div class="lineToRight">
-    <div class="line-title">
+  <div class="common-box lineToRight">
+    <div class="p4-table-title">
       <span>{{id.title}}</span>
     </div>
     <div class="line-action">
@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     lineDatas() {
-      return this.lineData.reverse()
+      return this.lineData.reverse();
     }
   },
   mounted() {
@@ -64,7 +64,7 @@ export default {
         grid: {
           top: "0",
           left: "44%",
-          right: "10%"
+          right: "0"
         },
         xAxis: {
           type: "value",
@@ -87,11 +87,13 @@ export default {
           }
         },
         yAxis: {
+          name: "活动：信贷MGM",
           type: "category",
           axisLabel: {
             //刻度标签文字的颜色
             show: true,
-            color: "#7397C4"
+            color: "#7397C4",
+            fontSize: 26
           },
           axisLine: {
             show: false
@@ -114,8 +116,8 @@ export default {
             roundCap: true,
             type: "bar",
             data: data.series,
-            barWidth: 6,
-            barCategoryGap: "0",
+            barWidth: 12,
+            barCategoryGap: "20",
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 10, 10],
@@ -141,22 +143,11 @@ export default {
 <style lang="less">
 #echarts02 {
   width: 85%;
-  height: 260px;
+  min-height: 500px;
   color: #fff;
 }
 .lineToRight {
-  font-size: 12px;
-  position: relative;
-  overflow: hidden;
-  width: 100%;
   background: url("../../assets/images/p4-table-title.png") no-repeat center;
-  background-size: 100% 100%;
-  padding: 14px 10px;
-  .line-title {
-    text-align: left;
-    padding-left: 24px;
-
-  }
   .line-action {
     color: #ccc;
     margin: 16px 0;
@@ -165,12 +156,14 @@ export default {
 .line-body {
   display: flex;
   .line-data {
+    padding: 17px;
+    text-align: right;
     span {
       display: inline-block;
       color: #0298e2;
-      font-size: 18ox;
+      font-size: 18px;
       font-weight: 600;
-      margin: 6.4px 0 4px 4px;
+      margin-bottom: 30%;
     }
   }
 }

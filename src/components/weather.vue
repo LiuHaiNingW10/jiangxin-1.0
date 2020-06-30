@@ -1,6 +1,6 @@
 <template>
   <div class="weather-module">
-    <img :src="currentImg" alt class="weather-img"/>
+    <img :src="currentImg" alt class="weather-img" />
     <span class>{{currentWeather.high}} ℃ ~ {{currentWeather.low}} ℃</span>
     <span class="time-span">{{currentTime.date}}</span>
     <span class="time-span">{{currentTime.time}}</span>
@@ -133,5 +133,9 @@ export default {
 <style lang="less">
 .weather-img {
   width: 6%;
+}
+.time-span {
+  display: inline-block;
+  margin-left: 5%;
 }
 </style>

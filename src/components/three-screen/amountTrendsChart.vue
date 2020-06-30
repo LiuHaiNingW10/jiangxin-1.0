@@ -16,19 +16,32 @@ export default {
       setTimeout(this.getData, 0)
     // }, 3000)
     
-    this.drawChart()
   },
   methods: {
     getData () {
       this.axios.get('/api/p3/interceptAmountTrend')
-      .then(function (response) {
-          console.log(response);
+      .then( (res)  => {
+          let arr = res.data.data    
+          this.drawChart(arr)
+
       })
       .catch(function (error) {
           console.log(error);
       });
     },
-    drawChart() {
+    translateData( arr ) {
+      let obj = {
+        time:[],
+        mount:[]
+      }
+      arr.forEach(el => {
+        obj.time.push(el.avt_eventoccurtime)
+        obj.mount.push(el.payamount)
+      });
+      return obj
+    },
+    drawChart(arr) {
+      let obj = this.translateData(arr)
       let myChart = this.$echarts.init(document.getElementById('amountTrendsChart'));
       // 绘制图表
       myChart.setOption({
@@ -92,7 +105,7 @@ export default {
             axisTick: {
               show: false
             },
-            data: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+            data: obj.time || ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
           }
         ],
         yAxis: [
@@ -189,7 +202,7 @@ export default {
                 shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
               }
             },
-            data: [12, 40, 50, 80, 90, 30, 20, 12, 40, 50, 80, 90, 30 ]
+            data: obj.mount || [12, 40, 50, 80, 90, 30, 20, 12, 40, 50, 80, 90, 30 ]
           }
         ]
       });

@@ -1,6 +1,6 @@
 <template>
   <div class="microfinance-chart">
-    <div class="mc-header">当日小微信贷服务金额<span>1232次/小时</span></div>
+    <div class="mc-header">近一小时攻击数<span>{{attckTimes}}次/小时</span></div>
     <div class="mc-content">
       <div class="mc-l">
         <ul>
@@ -46,14 +46,26 @@
         </ul> -->
       </div>
     </div>
-    <div class="mc-footer">当日小微信贷服务金额<span>0.00004%</span></div>
+    <div class="mc-footer">欺诈损失率<span>{{footerData}}</span></div>
   </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {};
+    return {
+      footerdata:'',
+      attcktimes:'',
+      showAttack:false,
+    };
+  },
+  computed: {
+    footerData() {
+      return this.footerdata
+    },
+    attckTimes() {
+      return this.attcktimes
+    },
   },
   mounted () {
     this.getLossRate()
@@ -64,8 +76,8 @@ export default {
     getLossRate () {
       //欺诈损失率
       this.axios.get('/api/p3/lossRate')
-      .then(function (response) {
-          console.log(response);
+      .then( (response) => {
+        this.footerdata = response.data.data
       })
       .catch(function (error) {
           console.log(error);
@@ -74,8 +86,8 @@ export default {
     getAttackRecent () {
       //近一小时攻击数P3-4
       this.axios.get('/api/p3/attackRecent')
-      .then(function (response) {
-          console.log(response);
+      .then( (response) => {
+        this.attcktimes = response.data.data
       })
       .catch(function (error) {
           console.log(error);
