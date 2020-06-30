@@ -297,16 +297,18 @@ export default {
                 curveness: 0
               }
             },
-            data: chartData.map(item => {
-              return {
-                fromName: 1,
-                toName: 1,
-                coords: [
-                  [item.value[0], item.value[1]],
-                  [item.value[0], item.value[1] + 3]
-                ]
-              };
-            })
+            data: chartData
+              ? chartData.map(item => {
+                  return {
+                    fromName: 1,
+                    toName: 1,
+                    coords: [
+                      [Number(item.value[0]), Number(item.value[1])],
+                      [Number(item.value[0]), Number(item.value[1]) + 3]
+                    ]
+                  };
+                })
+              : []
             // data: Object.keys(geoCoordMap).map(item => {
             //   return {
             //     fromName: 1,
@@ -332,7 +334,12 @@ export default {
       });
     }
   },
-  components: {}
+  components: {},
+  watch: {
+    chartData: function(newVal) {
+      this.initMap(newVal);
+    }
+  }
 };
 </script>
 

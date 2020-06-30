@@ -84,14 +84,14 @@
           <funnel-chart
             class="left-distribution single-distribution"
             :ids="funnelId"
-            :chartData="ageData || funnelData"
-            v-if="ageData || funnelData"
+            :chartData="ageData"
+            v-if="ageJudge"
           />
           <pie-chart
             class="right-distribution single-distribution"
             :ids="pieId"
-            v-if="educationData || pieData"
-            :chartData="educationData || pieData"
+            v-if="educationJudge"
+            :chartData="educationData"
           />
         </div>
         <form-chart
@@ -358,6 +358,8 @@ export default {
 
       // 年龄/学历
       ageData: undefined,
+      ageJudge: false,
+      educationJudge: false,
       educationData: undefined,
       // 伪造数据
       mockData: {
@@ -798,10 +800,17 @@ export default {
       }).then(data => {
         if (data.data.code === 100) {
           var tData = data.data.data;
-          _that.ageData = tData.map(item => {
-            return { value: 100, name: item.val };
+          if (tData == null) return;
+          var tmpVal = 100;
+          _that.ageData = tData.map((item, index) => {
+            return {
+              value: tmpVal - (100 / tData.length) * index,
+              name: item.xid,
+              num: item.val
+            };
           });
         }
+        _that.ageJudge = true;
       });
 
       // 获取学历数据
@@ -813,10 +822,15 @@ export default {
       }).then(data => {
         if (data.data.code === 100) {
           var tData = data.data.data;
+          var total = 0
+          tData.forEach(item => {
+            total += Number(item.val)
+          });
           _that.educationData = tData.map(item => {
-            return { name: item.xid, value: item.val };
+            return { name: item.xid, value: item.val ,total: total};
           });
         }
+        _that.educationJudge = true;
       });
 
       // 获取复购数据
@@ -872,12 +886,12 @@ export default {
                     ? "positive"
                     : "negative"
                   : "positive"
-              },
-              {
-                title: "环比上年",
-                data: "+15.19%",
-                type: "positive"
               }
+              // {
+              //   title: "环比上年",
+              //   data: "+15.19%",
+              //   type: "positive"
+              // }
             ],
             echarts03: [
               {
@@ -888,12 +902,12 @@ export default {
                     ? "positive"
                     : "negative"
                   : "positive"
-              },
-              {
-                title: "环比上年",
-                data: "+10.19%",
-                type: "positive"
               }
+              // {
+              //   title: "环比上年",
+              //   data: "+10.19%",
+              //   type: "positive"
+              // }
             ]
           };
           // 复购
@@ -971,35 +985,35 @@ export default {
         type: "json"
       }).then(data => {
         if (data.data.code === 100) {
-          // var tData = data.data.data;
-          // _that.mapData = tData.map(item => {
-          //   return {
-          //     name: item.name,
-          //     age: item.age,
-          //     sex: item.sex,
-          //     type: item.trade_type,
-          //     sum: item.trade_amount,
-          //     value: [item.longitude, item.latitude, item.score]
+          var tData = data.data.data;
+          _that.mapData = tData.map(item => {
+            return {
+              name: item.name,
+              age: item.age,
+              sex: item.sex,
+              type: item.trade_type,
+              sum: item.trade_amount,
+              value: [item.longitude, item.latitude, item.score]
+            };
+          });
+          // _that.mapData = [
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000",
+          //     value: [116.4551, 40.2539, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000",
+          //     value: [103.9526, 30.7617, 48]
           //   }
-          // })
-          _that.mapData = [
-            {
-              name: "王**",
-              age: "28岁",
-              sex: "男",
-              type: "授信申请",
-              sum: "3000",
-              value: [116.4551, 40.2539, 48]
-            },
-            {
-              name: "王**",
-              age: "25岁",
-              sex: "女",
-              type: "授信申请",
-              sum: "7000",
-              value: [103.9526, 30.7617, 48]
-            }
-          ];
+          // ];
         }
       });
     }

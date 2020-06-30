@@ -11,7 +11,7 @@
         <div class="server-num num-span">
           <div class="num-span-title">服务人数</div>
           <div class="middle-rec"></div>
-          <div class="num-span-data">22,390人</div>
+          <div class="num-span-data">{{thousandFormat(indicatorData.applyperson, 0)}}人</div>
         </div>
       </div>
       <div class="top-middle"></div>
@@ -22,7 +22,7 @@
         <div class="shouxin-num num-span">
           <div class="num-span-title">授信金额</div>
           <div class="middle-rec"></div>
-          <div class="num-span-data">22,390,123,123元</div>
+          <div class="num-span-data">{{thousandFormat(indicatorData.applyvalue, 2)}}元</div>
         </div>
       </div>
     </div>
@@ -57,6 +57,7 @@
         <person-columnar
           class="person-columnar"
           :ids="enterpriseColumnarId"
+          v-if="enterpriseJudge"
           :chartData="enterpriseColumnarData"
         />
       </div>
@@ -71,13 +72,16 @@ import IncomeLevel from "./incomeLevel.vue";
 
 export default {
   name: "",
-  props: ["typeData"],
+  props: ["typeData", "indicatorData"],
   created() {
     this.getClassificationData();
+    this.getLevelData();
+    this.getEnterpriseData();
   },
   mounted() {},
   data() {
     return {
+      enterpriseJudge: false,
       industryColumnarData: {},
       industryColumnarId: "industryColumnar",
       enterpriseColumnarData: {},
@@ -88,6 +92,35 @@ export default {
   },
   computed: {},
   methods: {
+    // 格式化千分位
+    thousandFormat(value, fixed) {
+      fixed = fixed !== undefined ? fixed : 2;
+      if (value === null || value === undefined || isNaN(parseFloat(value))) {
+        return;
+      }
+      // 将数字进行千分位格式化
+      function toThousands(num) {
+        num = (num || 0).toString();
+        var parts = num.split(".");
+        var bigZeroPart = parts[0];
+        var result = "";
+        while (bigZeroPart.length > 3) {
+          result = "," + bigZeroPart.slice(-3) + result;
+          bigZeroPart = bigZeroPart.slice(0, bigZeroPart.length - 3);
+        }
+        if (bigZeroPart) {
+          result = bigZeroPart + result;
+        }
+        if (parts.length > 1) {
+          result += "." + parts[1].toString();
+        }
+        return result;
+      }
+
+      value = parseFloat(value).toFixed(fixed);
+      value = toThousands(value);
+      return value;
+    },
     getClassificationData() {
       let that = this;
       this.axios({
@@ -98,7 +131,62 @@ export default {
       }).then(data => {
         if (data.data.code === 100) {
           var tData = data.data.data;
-          that.classificationData = [...tData];
+          that.classificationData = tData.map(item => {
+            return {
+              name: item.description,
+              value: parseFloat(item.percent)
+            };
+          });
+        }
+      });
+    },
+    getLevelData() {
+      let that = this;
+      this.axios({
+        url: "/api/p2/incomeLevel",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          var tData = data.data.data;
+          let xAxis = [];
+          let yAxis = [];
+          tData.forEach(item => {
+            xAxis.push(item.description);
+            yAxis.push(parseFloat(item.percent));
+          });
+
+          that.levelData = Object.assign({}, { xAxis: xAxis, yAxis: yAxis });
+        }
+      });
+    },
+    getEnterpriseData() {
+      let that = this;
+      this.axios({
+        url: "/api/p2/cmpScale",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          var tData = data.data.data;
+          let xAxis = [];
+          let yAxis = [];
+          tData.forEach(item => {
+            xAxis.push(item.category);
+            yAxis.push(parseFloat(item.percent));
+          });
+          xAxis = xAxis.reverse();
+          yAxis = yAxis.reverse();
+
+          that.enterpriseColumnarData = Object.assign(
+            {},
+            { xAxis: xAxis, yAxis: yAxis }
+          );
+          this.$nextTick(() => {
+            this.enterpriseJudge = true;
+          });
         }
       });
     }

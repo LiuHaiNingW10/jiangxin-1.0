@@ -16,7 +16,7 @@ export default {
   },
   computed: {},
   methods: {
-    initChart(ids, data) {
+    initChart(ids, chartData) {
       var xAxisText = [
         "S03_214",
         "S03_215",
@@ -77,7 +77,7 @@ export default {
         },
         yAxis: {
           type: "category",
-          data: xAxisText,
+          data: chartData ? chartData.xAxis : xAxisText,
           axisLabel: {
             show: true,
             textStyle: {
@@ -95,7 +95,7 @@ export default {
           {
             name: "用户数",
             type: "bar",
-            data: yAxisValue,
+            data: chartData ? chartData.yAxis : yAxisValue,
             barWidth: 14,
             itemStyle: {
               normal: {
@@ -107,7 +107,8 @@ export default {
                   textStyle: {
                     color: "#FFF",
                     fontSize: "14"
-                  }
+                  },
+                  formatter: "{c}%"
                 },
                 color: function(params) {
                   // build a color map as your need.
@@ -131,7 +132,12 @@ export default {
       });
     }
   },
-  components: {}
+  components: {},
+  watch: {
+    chartData: function(newVal) {
+      this.initChart(this.ids, newVal);
+    }
+  }
 };
 </script>
 

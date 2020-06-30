@@ -47,10 +47,9 @@ export default {
         let reg = /(?=(\B)(\d{3})+$)/g;
         return num.toString().replace(reg, ",");
       };
-      let total = echartData.reduce((a, b) => {
+      let total = chartData.reduce((a, b) => {
         return a + b.value * 1;
       }, 0);
-
       myEchart.setOption({
         color: this.color,
         // tooltip: {
@@ -58,6 +57,7 @@ export default {
         // },
         title: [
           {
+            show: false,
             text: "{name|" + title + "}\n{val|" + formatNumber(total) + "}",
             top: "center",
             left: "center",
@@ -93,7 +93,7 @@ export default {
             type: "pie",
             radius: ["45%", "60%"],
             center: ["50%", "50%"],
-            data: echartData,
+            data: chartData,
             hoverAnimation: false,
             itemStyle: {
               normal: {
@@ -116,31 +116,43 @@ export default {
       });
     },
 
-    initLeftTwoChart(idsright) {
+    initLeftTwoChart(idsright, chartData) {
       let myEchart = this.$echarts.init(document.getElementById(idsright));
 
-      let data = [
-        {
-          name: "1.user1",
-          value: (Math.random() * 10).toFixed(0),
-          sum: 10
-        },
-        {
-          name: "2.user2",
-          value: (Math.random() * 10).toFixed(0),
-          sum: 10
-        },
-        {
-          name: "3.user3",
-          value: (Math.random() * 10).toFixed(0),
-          sum: 10
-        },
-        {
-          name: "4.user4",
-          value: (Math.random() * 10).toFixed(0),
-          sum: 10
-        }
-      ];
+      // let data = [
+      //   {
+      //     name: "1.user1",
+      //     value: (Math.random() * 10).toFixed(0),
+      //     sum: 10
+      //   },
+      //   {
+      //     name: "2.user2",
+      //     value: (Math.random() * 10).toFixed(0),
+      //     sum: 10
+      //   },
+      //   {
+      //     name: "3.user3",
+      //     value: (Math.random() * 10).toFixed(0),
+      //     sum: 10
+      //   },
+      //   {
+      //     name: "4.user4",
+      //     value: (Math.random() * 10).toFixed(0),
+      //     sum: 10
+      //   }
+      // ];
+      let data = [];
+      let total = chartData.reduce((a, b) => {
+        return a + b.value * 1;
+      }, 0);
+      chartData &&
+        chartData.forEach(item => {
+          data.push({
+            name: item.name,
+            value: item.value,
+            sum: total
+          });
+        });
       let getArrByKey = (data, k) => {
         let key = k || "value";
         let res = [];
@@ -277,9 +289,6 @@ export default {
               fontSize: 13,
               formatter: function(value, index) {
                 return (
-                  "↑ " +
-                  data[index].value +
-                  "    ↓ " +
                   ((data[index].value / data[index].sum) * 100).toFixed(2) +
                   "%"
                 );

@@ -12,13 +12,23 @@
     <!-- 内容 -->
     <div class="frame-content">
       <div class="content-left">
-        <credit-properties class="credit-properties" :typeData="propertyLoans" />
-        <credit-properties class="credit-properties" :typeData="personLoans" />
+        <credit-properties
+          class="credit-properties"
+          :typeData="propertyLoans"
+          :indicatorData="propertyData"
+          v-if="showPropertyCredit"
+        />
+        <credit-properties
+          class="credit-properties"
+          :typeData="personLoans"
+          :indicatorData="personData"
+          v-if="showPropertyCredit"
+        />
       </div>
       <div class="content-middle">
         <server-money class="server-money" />
-        <portrayal-exp v-if="showPortrayal" class="portrayal-exp" :tableDatas='OpperiodAndFinance' />
-        <portrayal-server v-if="showPortrayal" class="portrayal-server" :tableDatas='serverData'/>
+        <portrayal-exp v-if="showPortrayal" class="portrayal-exp" :tableDatas="OpperiodAndFinance" />
+        <portrayal-server v-if="showPortrayal" class="portrayal-server" :tableDatas="serverData" />
       </div>
       <div class="content-right">
         <enterprise-loan class="enterprise-loan" />
@@ -49,30 +59,53 @@ export default {
         type: 2
       },
       showPortrayal: false,
+      showPropertyCredit: false,
+      propertyData: {},
+      personData: {},
       OpperiodAndFinance: {},
-      serverData: [],
+      serverData: []
     };
   },
-  computed: {
-  },
+  computed: {},
   created() {
-    this.getOpperiodAndFinance()
+    this.getOpperiodAndFinance();
+    this.getPropertyCredit();
   },
   methods: {
     getOpperiodAndFinance() {
-      this.axios.all([
-        this.axios.get("/api/p2/opperiodAndFinance?dcode=finance"),
-        this.axios.get("/api/p2/opperiodAndFinance?dcode=op_period"),
-        this.axios.get("/api/p2/area")
-      ]).then(this.axios.spread( ( ...obj ) => {
-        this.OpperiodAndFinance['finance'] = obj[0].data.data;
-        this.OpperiodAndFinance['op_period'] = obj[1].data.data;
-        this.serverData = obj[2].data.data
-        this.$nextTick( () => {
-          this.showPortrayal = true
-        })
-      }))
-       
+      this.axios
+        .all([
+          this.axios.get("/api/p2/opperiodAndFinance?dcode=finance"),
+          this.axios.get("/api/p2/opperiodAndFinance?dcode=op_period"),
+          this.axios.get("/api/p2/area")
+        ])
+        .then(
+          this.axios.spread((...obj) => {
+            this.OpperiodAndFinance["finance"] = obj[0].data.data;
+            this.OpperiodAndFinance["op_period"] = obj[1].data.data;
+            this.serverData = obj[2].data.data;
+            this.$nextTick(() => {
+              this.showPortrayal = true;
+            });
+          })
+        );
+    },
+
+    getPropertyCredit() {
+      this.axios
+        .all([
+          this.axios.get("/api/p2/smallCreditInfo?flag=xwsx"),
+          this.axios.get("/api/p2/smallCreditInfo?flag=xwjy")
+        ])
+        .then(
+          this.axios.spread((...obj) => {
+            this.propertyData = obj[0].data.data;
+            this.personData = obj[1].data.data;
+            this.$nextTick(() => {
+              this.showPropertyCredit = true;
+            });
+          })
+        );
     }
   },
   components: {

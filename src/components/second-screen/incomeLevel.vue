@@ -7,25 +7,25 @@
 <script>
 export default {
   name: "",
-  props: ["ids"],
+  props: ["ids", "chartData"],
   mounted() {
-    this.initRightChart(this.ids);
+    this.initRightChart(this.ids, this.chartData);
   },
   data() {
     return {};
   },
   computed: {},
   methods: {
-    initRightChart(ids) {
+    initRightChart(ids, chartData) {
       let myEchart = this.$echarts.init(document.getElementById(ids));
       myEchart.setOption({
-        // grid: {
-        //   left: "5%",
-        //   right: "5%",
-        //   bottom: "5%",
-        //   top: "10%",
-        //   containLabel: true
-        // },
+        grid: {
+          left: "5%",
+          // right: "5%",
+          // bottom: "5%",
+          // top: "10%",
+          containLabel: true
+        },
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -36,12 +36,14 @@ export default {
               params[0].name +
               "<br/>" +
               "<span style='display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:rgba(36,207,233,0.9)'></span>" +
-              params[0].seriesName +
+              "占比" +
               " : " +
-              Number(
-                (params[0].value.toFixed(4) / 10000).toFixed(2)
-              ).toLocaleString() +
-              " 万元<br/>"
+              // Number(
+              //   (params[0].value.toFixed(4) / 10000).toFixed(2)
+              // ).toLocaleString() +
+              // " 万元<br/>"
+              params[0].value.toLocaleString() +
+              "%"
             );
           }
         },
@@ -68,7 +70,7 @@ export default {
             axisLine: {
               show: false
             },
-            data: ["大米", "玉米", "蔬菜", "鸡蛋", "坚果"]
+            data: chartData.xAxis || ["大米", "玉米", "蔬菜", "鸡蛋", "坚果"]
           },
           {
             type: "category",
@@ -82,14 +84,10 @@ export default {
                 fontSize: "12"
               },
               formatter: function(value) {
-                if (value >= 10000) {
-                  return (value / 10000).toLocaleString() + "万";
-                } else {
-                  return value.toLocaleString();
-                }
+                return value.toLocaleString() + "%";
               }
             },
-            data: [50000000, 22000000, 10000000, 5000000, 1]
+            data: chartData.yAxis || [50000000, 22000000, 10000000, 5000000, 1]
           }
         ],
         series: [
@@ -113,14 +111,20 @@ export default {
               }
             },
             barWidth: 20,
-            data: [50000000, 22000000, 10000000, 5000000, 1]
+            data: chartData.yAxis || [50000000, 22000000, 10000000, 5000000, 1]
           },
           {
             name: "背景",
             type: "bar",
             barWidth: 20,
             barGap: "-100%",
-            data: [50000000, 50000000, 50000000, 50000000, 1],
+            data: chartData.yAxis || [
+              50000000,
+              50000000,
+              50000000,
+              50000000,
+              1
+            ],
             itemStyle: {
               normal: {
                 color: "rgba(24,31,68,1)",
@@ -132,7 +136,12 @@ export default {
       });
     }
   },
-  components: {}
+  components: {},
+  watch: {
+    chartData: function(newVal) {
+      this.initRightChart(this.ids, newVal);
+    }
+  }
 };
 </script>
 
