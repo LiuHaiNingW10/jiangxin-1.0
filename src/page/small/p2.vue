@@ -8,20 +8,57 @@
         <weather-com />
       </div>
     </div>
+
+    <!-- 内容 -->
+    <div class="frame-content">
+      <div class="content-left">
+        <credit-properties class="credit-properties" :typeData="propertyLoans" />
+        <credit-properties class="credit-properties" :typeData="personLoans" />
+      </div>
+      <div class="content-middle">
+        <server-money class="server-money" />
+        <portrayal-exp class="portrayal-exp" />
+        <portrayal-server class="portrayal-server" />
+      </div>
+      <div class="content-right">
+        <enterprise-loan class="enterprise-loan" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import WeatherCom from "../../components/weather.vue";
+import CreditProperties from "../../components/second-screen/creditProperties.vue";
+import EnterpriseLoan from "../../components/second-screen/enterpriseLoan.vue";
+import ServerMoney from "../../components/second-screen/serverMoney.vue";
+import PortrayalExp from "../../components/second-screen/portrayalExp.vue";
+import PortrayalServer from "../../components/second-screen/portrayalServer.vue";
 export default {
   mounted() {},
   data() {
-    return {};
+    return {
+      propertyLoans: {
+        first: "小微属性信贷",
+        littleTitle: ["分类占比", "收入水平"],
+        type: 1
+      },
+      personLoans: {
+        first: "个人经营贷",
+        littleTitle: ["行业", "企业规模"],
+        type: 2
+      }
+    };
   },
   computed: {},
   methods: {},
   components: {
-    "weather-com": WeatherCom
+    "weather-com": WeatherCom,
+    "credit-properties": CreditProperties,
+    "enterprise-loan": EnterpriseLoan,
+    "server-money": ServerMoney,
+    "portrayal-exp": PortrayalExp,
+    "portrayal-server": PortrayalServer
   }
 };
 </script>
@@ -53,7 +90,7 @@ export default {
     .global-title {
       width: 33%;
       text-align: center;
-      font-size: 40px;
+      font-size: 16px;
       font-weight: bold;
     }
     .right-time {
@@ -63,6 +100,61 @@ export default {
     .time-span {
       display: inline-block;
       margin-left: 5%;
+    }
+  }
+
+  // 内容样式
+  .frame-content {
+    display: flex;
+    height: 92%;
+    width: 100%;
+    padding: 0 0.94%;
+    .content-left,
+    .content-right {
+      width: 29.5%;
+      height: 100%;
+    }
+
+    // 中部
+    .content-middle {
+      width: 41%;
+      height: 100%;
+      padding: 0.6% 1%;
+      .server-money {
+        width: 100%;
+        height: 33.59%;
+        background: url("../../assets/images/销户.png") no-repeat;
+        background-size: 100% 100%;
+      }
+      .portrayal-exp {
+        width: 100%;
+        height: 33%;
+      }
+      .portrayal-server {
+        width: 100%;
+        height: 33%;
+      }
+    }
+
+    // 左侧
+    .content-left {
+      .credit-properties {
+        width: 100%;
+        height: 48.45%;
+        margin-bottom: 1.6%;
+        background: url("../../assets/images/bg-7.png") no-repeat;
+        background-size: 100% 100%;
+      }
+    }
+
+    // 右侧
+    .content-right {
+      .enterprise-loan {
+        width: 100%;
+        height: 98.5%;
+        background: url("../../assets/images/bg-8.png") no-repeat;
+        background-size: 100% 100%;
+      }
     }
   }
 }

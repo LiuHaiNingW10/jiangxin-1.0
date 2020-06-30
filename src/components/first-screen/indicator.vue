@@ -1,16 +1,22 @@
 <template>
-  <div class="num-group">
+  <div class="num-group" :style="styleData">
     <!-- <div class="echarts w100 axis"></div> -->
-    <div class="single-num" v-for="(item, index) in indicatorData" :key="index" :id="index">{{item}}</div>
+    <div
+      class="single-num"
+      v-for="(item, index) in indicatorData"
+      :key="index"
+      :id="index"
+      :style="styleSingle"
+    >{{item}}</div>
   </div>
 </template>
 
 <script>
 export default {
   name: "axis",
-  props: ["chartData"],
+  props: ["chartData", "styleData", "styleSingle", "type"],
   mounted() {
-    this.getData(this.chartData);
+    this.getData(this.chartData, this.type);
   },
   data() {
     return {
@@ -20,8 +26,16 @@ export default {
     };
   },
   methods: {
-    getData(chartData) {
-      this.indicatorData = [...["¥"].concat(chartData.toString().split(""))];
+    getData(chartData, type) {
+      if (chartData !== undefined) {
+        if (type === "person") {
+          this.indicatorData = [...chartData.toString().split("")];
+        } else {
+          this.indicatorData = [
+            ...["¥"].concat(chartData.toString().split(""))
+          ];
+        }
+      }
     }
   }
 };
@@ -38,7 +52,7 @@ export default {
   .single-num {
     margin-left: 3%;
     width: 2%;
-    height: 2%;
+    height: 100%;
     background: url("../../assets/images/text-no-white.png") no-repeat;
     // background: url("../../assets/images/text-bg.png") no-repeat;
     background-size: 100% 100%;
