@@ -12,13 +12,13 @@
           </div>
       </div>
     </div>
-    <div class="main-content">
+    <div class="main-content" v-if="showMain">
       <div class="left">
-          <table-auto :tableDatas='tableDataA' :ids='idA' :columns="columnA" :heights="clientHeight" />
+          <table-auto :tableDatas='tableDataAs' :ids='idA' :columns="columnA" :heights="clientHeight" />
           <line-right :tableDatas='tableDataB' :ids='idB' :heights="clientHeight" />
       </div>
       <div class="center">
-        <big-head :tableDatas='tableDataC' :ids='idC' :heights="clientHeight" @func="fromHead"/>
+        <big-head :tableDatas='tableDataCs' :ids='idC' :heights="clientHeight" @func="fromHead"/>
       </div>
       <div class="right">
           <table-auto :tableDatas='tableDataC' :ids='idC' :columns="columnC" :heights="clientHeight" />
@@ -40,8 +40,8 @@ import popCustom from '../../components/p4/pop-custom.vue'
 
 const columnA = [
   {
-    dataIndex: "telphoneNum",
-    key: "telphoneNum",
+    dataIndex: "mobile",
+    key: "mobile",
     class: "table-td",
     title:'手机号',
     align: "center",
@@ -65,8 +65,8 @@ const columnA = [
     width: '20%',
   },
   {
-    dataIndex: "response",
-    key: "response",
+    dataIndex: "handle",
+    key: "handle",
     class: "table-td",
     title:'智能处理',
     align: "center",
@@ -75,32 +75,32 @@ const columnA = [
 ];
 const columnC = [
   {
-    dataIndex: "telphoneNum",
-    key: "telphoneNum",
+    dataIndex: "mobile",
+    key: "mobile",
     class: "table-td",
     title:'手机号',
     align: "center",
     width: '20%'
   },
   {
-    dataIndex: "area",
-    key: "area",
+    dataIndex: "accent",
+    key: "accent",
     class: "table-td",
     title:'口音识别',
     align: "center",
     width: '20%'
   },
   {
-    dataIndex: "status",
-    key: 'status',
+    dataIndex: "product",
+    key: 'product',
     class: "table-td",
     title:'产品',
     align: "center",
     width: '20%',
   },
   {
-    dataIndex: "response",
-    key: "response",
+    dataIndex: "want",
+    key: "want",
     class: "table-td",
     title:'客户意图',
     align: "center",
@@ -111,6 +111,7 @@ export default {
   data() {
     return {
       headValue: true,
+      showMain: false,
       // 时间
       currentTime: {},
       currentDate: undefined,
@@ -128,98 +129,7 @@ export default {
         { high: "29", low: "22" },
         { high: "29", low: "22" }
       ],
-      tableDataA:[
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          action:'打开首页',
-          status: ['1'],
-          response:''
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          action:'打开首页',
-          status:['-1'],
-          response:'四要素鉴权'
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          action:'打开首页',
-          status:['0'],
-          response:'短信召回'
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          action:'打开首页',
-          status: ['1'],
-          response:''
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          action:'打开首页',
-          status: ['0'],
-          response:'短信召回'
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          action:'打开首页',
-          status: ['1'],
-          response:''
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          action:'打开首页',
-          status: ['1'],
-          response:''
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          action:'打开首页',
-          status: ['1'],
-          response:''
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          action:'打开首页',
-          status: ['1'],
-          response:''
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          action:'打开首页',
-          status: ['1'],
-          response:''
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          action:'打开首页',
-          status: ['1'],
-          response:''
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          action:'打开首页',
-          status: ['1'],
-          response:''
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          action:'打开首页',
-          status: ['1'],
-          response:''
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          action:'打开首页',
-          status:['-1'],
-          response:'四要素鉴权'
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          action:'打开首页',
-          status:['0'],
-          response:'短信召回'
-        },
-      ],
+      tableDataA:[],
       idA:{
         id:'echarts01',
         title: '智能运营'
@@ -239,98 +149,7 @@ export default {
         title: '用户转化',
         action: '活动：信贷MGM'
       },
-      tableDataC:[
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          area:'北京',
-          status: ['好会花'],
-          response:'承诺马上还款'
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          area:'安徽',
-          status:['好会花'],
-          response:'承诺近期还款'
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          area:'合肥',
-          status:['好会花'],
-          response:'未援酒'
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          area:'上海',
-          status: ['好会花'],
-          response:'延期还款'
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          area:'南京',
-          status: ['好会花'],
-          response:'未接听'
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          area:'苏州',
-          status: ['好会花'],
-          response:'承诺马上还款'
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          area:'西安',
-          status: ['好会花'],
-          response:'承诺马上还款'
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          area:'南通',
-          status: ['好会花'],
-          response:'未接听'
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          area:'北京',
-          status: ['好会花'],
-          response:'延期还款'
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          area:'南阳',
-          status: ['好会花'],
-          response:'承诺马上还款'
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          area:'吉安',
-          status: ['好会花'],
-          response:'延期还款'
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          area:'新疆',
-          status: ['好会花'],
-          response:'未接听'
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          area:'洛阳',
-          status: ['好会花'],
-          response:'延期还款'
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          area:'吉安',
-          status:['好会花'],
-          response:'承诺马上还款'
-        },
-        {
-          telphoneNum: 188 + '****'+ (Math.random() * 9000 + 1000).toFixed(0),
-          area:'吉安',
-          status:['好会花'],
-          response:'承诺马上还款'
-        },
-      ],
+      tableDataC:[],
       idC:{
         id:'echarts03',
         title: '智能客服'
@@ -350,12 +169,54 @@ export default {
       clientHeight: document.body.clientHeight
     };
   },
+  created() {
+    this.getTableDataA( () => {
+      this.getTableDataC( () => {
+        this.$nextTick( () => {
+          this.showMain = true
+        })
+      })
+    })
+  },
+  computed: {
+    tableDataAs() {
+      return this.tableDataA
+    },
+    tableDataCs() {
+      return this.tableDataC
+    }
+  },
   mounted() {
     this.init()
     this.getTime();
   },
   methods: {
     init() {
+    },
+    getTableDataA (cb) {
+      this.axios({
+        url: "/api/p4/smartCall",
+        method: "get",
+        type: "json"
+      }).then(data => {
+        let arr = data.data.data
+        this.tableDataC = arr
+        cb()
+      });
+    },
+    getTableDataC (cb) {
+      this.axios({
+        url: "/api/p4/smartOperation",
+        method: "get",
+        type: "json"
+      }).then(data => {
+        let arr = data.data.data
+        arr.forEach(el => {
+          el.status = [el.status]
+        });
+        this.tableDataA = arr
+        cb()
+      });
     },
     // 获取右上角当前时间
     getTime() {
