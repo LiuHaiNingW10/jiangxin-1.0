@@ -33,8 +33,20 @@
     </div>
 
     <div class="bottom-graph">
-      <div v-if="typeData.type === 1">
-        <div></div>
+      <div v-if="typeData.type === 1" class="top-graph-div">
+        <classification-account
+          class="company-columnar"
+          idsLeft="account-chart"
+          idsRight="account-columnar-chart"
+          v-if="classificationData"
+          :chartData="classificationData"
+        />
+        <income-level
+          class="company-columnar"
+          ids="company-columnar-chart"
+          :chartData="levelData"
+          v-if="levelData"
+        />
       </div>
       <div v-else-if="typeData.type === 2" class="bottom-graph-div">
         <person-columnar
@@ -54,22 +66,47 @@
 
 <script>
 import PersonColumnar from "./personColumnar.vue";
+import ClassificationAccount from "./classificationAccount.vue";
+import IncomeLevel from "./incomeLevel.vue";
+
 export default {
   name: "",
   props: ["typeData"],
+  created() {
+    this.getClassificationData();
+  },
   mounted() {},
   data() {
     return {
       industryColumnarData: {},
       industryColumnarId: "industryColumnar",
       enterpriseColumnarData: {},
-      enterpriseColumnarId: "enterpriseColumnar"
+      enterpriseColumnarId: "enterpriseColumnar",
+      classificationData: undefined,
+      levelData: {}
     };
   },
   computed: {},
-  methods: {},
+  methods: {
+    getClassificationData() {
+      let that = this;
+      this.axios({
+        url: "/api/p2/category",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          var tData = data.data.data;
+          that.classificationData = [...tData];
+        }
+      });
+    }
+  },
   components: {
-    "person-columnar": PersonColumnar
+    "person-columnar": PersonColumnar,
+    "classification-account": ClassificationAccount,
+    "income-level": IncomeLevel
   }
 };
 </script>
@@ -157,12 +194,33 @@ export default {
   .bottom-graph {
     height: 57.7%;
     width: 100%;
+    .top-graph-div {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-wrap: nowrap;
+
+      .company-columnar {
+        height: 100%;
+        width: 45%;
+        &:first-child {
+          margin-right: 5%;
+        }
+      }
+    }
     .bottom-graph-div {
       height: 100%;
       width: 100%;
       display: flex;
       flex-wrap: nowrap;
       .person-columnar {
+        height: 100%;
+        width: 45%;
+        &:first-child {
+          margin-right: 5%;
+        }
+      }
+      .company-columnar {
         height: 100%;
         width: 45%;
         &:first-child {
