@@ -20,7 +20,7 @@
       <div class="center-box">
         <!-- 地图 -->
         <div class="strategy-box">
-          <real-time-strategy title="19年累计调用策略" num='2502778' :blank="1"/>
+          <real-time-strategy title="19年累计调用策略" :num='amount' :blank="1"/>
           <real-time-strategy title="当日调用策略" num='4913' :blank="2"/>
         </div>
         <map-chart class="map-charts" />
@@ -54,10 +54,46 @@ import Top5RefuseChart from "@/components/three-screen/top5RefuseChart.vue"
 import WeatherCom from "@/components/weather.vue"
 import MicrofinanceChart from "@/components/three-screen/microfinanceChart.vue"
 import RuleChart from "@/components/three-screen/ruleChart.vue"
-
+import moment from 'moment'
 export default {
   data() {
     return {
+      amount: 0
+    }
+  },
+  mounted(){
+    this.getAccRiskAll()
+    this.numFun(200, 10000)
+  },
+  methods: {
+    getAccRiskAll(){
+      this.axios.get('/api/p3/accRiskAll',{
+        params: {
+          type: 'y'
+        }
+      })
+      .then(function (response) {
+          console.log(response);
+      })
+      .catch(function (error) {
+          console.log(error);
+      })
+    },
+    numFun(startNum,maxNum) {
+      var that = this
+      let numText = startNum;
+      let golb; // 为了清除requestAnimationFrame
+      function numSlideFun(){ // 数字动画
+          numText+=55; // 速度的计算可以为小数 。数字越大，滚动越快
+          if(numText >= maxNum){
+              numText = maxNum;
+              cancelAnimationFrame(golb);
+          }else {
+              golb = requestAnimationFrame(numSlideFun);
+          }
+        that.amount=numText
+      }
+       numSlideFun(); // 调用数字动画
     }
   },
   components: {
@@ -150,7 +186,7 @@ export default {
       height: 60px;
       background: url("../../assets/images/p3/title-three.png") no-repeat;
       background-size: 100% 100%;
-      margin: 26px auto 0;
+      margin: 16px auto 0;
       span{
         display: inline-block;
         font-size: 30px;
