@@ -6,8 +6,8 @@
         <tbody>
           <tr v-for="(items, index) in chartData[item.id]" :key="index">
             <th class="ranking">Top{{index + 1}}</th>
-            <th>{{items.name}}</th>
-            <th>{{items.value}}</th>
+            <th>{{items.xid}}</th>
+            <th>{{items.score}}</th>
           </tr>
         </tbody>
       </table>
@@ -31,19 +31,16 @@ export default {
 
 <style lang="less">
 .form-chart {
-    padding-top: 6%;
+  padding-top: 6%;
   display: flex;
   .single-form-chart {
     width: 50%;
     table {
-        width: 100%;
-        tr {
-            height: 60px;
-            line-height: 60px;
-        }
-    }
-    .form-chart-title {
-
+      width: 100%;
+      tr {
+        height: 60px;
+        line-height: 60px;
+      }
     }
     .ranking {
       color: #00ffff;

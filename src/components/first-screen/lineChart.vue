@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <div class="w100" v-for="(item) in ids" :key="item" :id="item"></div>
+  <div class>
+    <div class="line-chart-div" v-for="(item) in ids" :key="item" :id="item"></div>
   </div>
 </template>
 
 <script>
 export default {
   name: "lineChart",
-  props: ["chartData", "ids"],
+  props: ["chartData", "ids", "trueData"],
   data() {
     return {
       echartState: {} // 标识 图表是否已经下钻
@@ -15,12 +15,12 @@ export default {
   },
   mounted() {
     for (let i in this.ids) {
-      this.drawLineH(this.ids[i], this.chartData[i]);
+      this.drawLineH(this.ids[i], this.chartData[i], this.trueData);
       this.renderChartState(this.ids[i].id, this.chartData[i]);
     }
   },
   methods: {
-    drawLineH(id, data) {
+    drawLineH(id, data, trueData) {
       var _this = this;
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById(id));
@@ -31,7 +31,7 @@ export default {
           text: [data.DrillDown ? `{c|}` : "", `{a|${a} }`].join(""),
           triggerEvent: true,
           textStyle: {
-            fontSize: 28,
+            fontSize: 14,
             color: "#FFF",
             rich: {
               c: {
@@ -51,8 +51,8 @@ export default {
         color: ["#0078d7", "#e5b322"],
         legend: {
           data: data.legend || [
-            { name: "活期存款时余额" },
-            { name: "一般性存款时点余额" }
+            { name: "当日实时放款" },
+            { name: "七日均值" }
           ],
           orient: "vertical",
           align: "left",
@@ -64,7 +64,7 @@ export default {
           itemWidth: 8,
           textStyle: {
             color: "#fff",
-            fontSize: 18
+            fontSize: 12
           }
         },
         tooltip: {
@@ -82,14 +82,14 @@ export default {
                     option[i].seriesName +
                     ": " +
                     option[i].value +
-                    "亿" +
+                    "" +
                     "</span>" +
                     "<br/>"
                   : `<span style="color: ${option[i].color}" >` +
                     option[i].seriesName +
                     ": " +
                     option[i].value +
-                    "亿" +
+                    "" +
                     "</span>";
             }
             return str + "</div>";
@@ -121,7 +121,7 @@ export default {
               color: "#32346c "
             }
           },
-          data: data.xAxis || [
+          data: trueData.data_dt || [
             "2018年01月",
             "2018年02月",
             "2018年03月",
@@ -136,7 +136,7 @@ export default {
           ]
         },
         yAxis: {
-          name: (data.yAxis && data.yAxis[0]) || "时点余额",
+          name: (data.yAxis && data.yAxis[0]) || "",
           // nameRotate: 90,
           // nameLocation: "middle",
           // nameGap: "80",
@@ -159,37 +159,37 @@ export default {
           axisLabel: {
             show: true,
             color: "#FFF",
-            formatter: "{value}亿"
+            formatter: "{value}"
           }
         },
         series: [
           {
-            name: (data.legend && data.legend[0].name) || "活期存款时余额",
+            name: (data.legend && data.legend[0].name) || "当日实时放款",
             type: "line",
             smooth: 0.5,
             label: {
               normal: {
                 show: true,
                 color: "#FFF",
-                formatter: "{c}亿"
+                formatter: "{c}"
               }
             },
-            data: [
-              "50",
-              "25",
+            data: data.amt_cur || [
+              "5",
+              "20",
               "36",
-              "20",
-              "100",
-              "60",
-              "55",
-              "77",
               "10",
-              "20",
-              "30"
+              "10",
+              "22",
+              "36",
+              "79",
+              "233",
+              "54",
+              "200"
             ]
           },
           {
-            name: (data.legend && data.legend[1].name) || "一般性存款时点余额",
+            name: (data.legend && data.legend[1].name) || "七日均值",
             type: "line",
             smooth: 0.5,
             label: {
@@ -197,10 +197,10 @@ export default {
                 show: true,
                 position: "inside",
                 color: "#FFF",
-                formatter: "{c}亿"
+                formatter: "{c}"
               }
             },
-            data: [
+            data: trueData.amtavg || [
               "5",
               "20",
               "36",
@@ -287,8 +287,9 @@ export default {
 };
 </script>
 <style lang="less">
-.w100 {
-  height: 400px;
+.line-chart-div {
+  height: 100%;
+  width: 100%;
 }
 </style>
 

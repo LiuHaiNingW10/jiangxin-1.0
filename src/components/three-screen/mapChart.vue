@@ -7,16 +7,16 @@
 <script>
 export default {
   name: "mapChart",
-  props: ["chartData"],
+  props: [],
   mounted() {
-    this.initMap(this.chartData);
+    this.initMap();
   },
   data() {
     return {};
   },
   computed: {},
   methods: {
-    initMap(chartData) {
+    initMap() {
       var geoCoordMap = {
         上海: [119.1803, 31.2891],
         福建: [119.4543, 25.9222],
@@ -189,13 +189,13 @@ export default {
             type: "effectScatter",
             coordinateSystem: "geo",
             zlevel: 10,
-            data: chartData || [
+            data: [
               {
                 name: "王**",
                 age: "28岁",
                 sex: "男",
                 type: "授信申请",
-                sum: "3000000",
+                sum: "3000",
                 value: [116.4551, 40.2539, 48]
               },
               {
@@ -203,7 +203,7 @@ export default {
                 age: "25岁",
                 sex: "女",
                 type: "授信申请",
-                sum: "7000000",
+                sum: "7000",
                 value: [103.9526, 30.7617, 48]
               }
             ],
@@ -297,26 +297,16 @@ export default {
                 curveness: 0
               }
             },
-            data: chartData.map(item => {
+            data: Object.keys(geoCoordMap).map(item => {
               return {
                 fromName: 1,
                 toName: 1,
                 coords: [
-                  [item.value[0], item.value[1]],
-                  [item.value[0], item.value[1] + 3]
+                  geoCoordMap[item],
+                  [geoCoordMap[item][0], geoCoordMap[item][1] + 3]
                 ]
               };
             })
-            // data: Object.keys(geoCoordMap).map(item => {
-            //   return {
-            //     fromName: 1,
-            //     toName: 1,
-            //     coords: [
-            //       geoCoordMap[item],
-            //       [geoCoordMap[item][0], geoCoordMap[item][1] + 3]
-            //     ]
-            //   };
-            // })
             // data: [
             //   {
             //     fromName: 1,
