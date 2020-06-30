@@ -1102,6 +1102,7 @@ export default {
       width: 33%;
       text-align: right;
     }
+    
   }
 
   // 内容样式

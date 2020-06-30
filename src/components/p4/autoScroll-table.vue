@@ -1,6 +1,6 @@
 <template>
-    <div class="table-auto table-bg">
-        <div class="table-title">
+    <div class="common-box table-auto">
+        <div class="p4-table-title">
           <span>{{id.title}}</span>
         </div>
         <div class="scroll-box">
@@ -82,14 +82,7 @@ export default {
 </script>
 <style lang="less">
   .table-auto {
-    font-size: 12px;
-    position: relative;
-    overflow: hidden;
-    height: 45%;
-    .table-title {
-      text-align: left;
-      padding-left: 24px;
-    }
+    background: url('../../assets/images/p4-table-title.png') no-repeat center;
     .scroll-box {
       overflow: hidden;
     }
@@ -120,9 +113,8 @@ export default {
         border-radius: 0px;
     }
   }
-  .table-bg {
-    background: url('../../assets/images/p4-table-title.png') no-repeat center;
-    background-size: 100% 100%;
-    padding: 14px 10px;
+  .p4-table-title {
+    text-align: left;
+    padding-left: 7%;
   }
 </style>

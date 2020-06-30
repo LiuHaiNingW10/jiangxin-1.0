@@ -7,51 +7,39 @@
 <script>
 export default {
   name: "mapChart",
-  props: [],
-  mounted() {
-    this.initMap();
-  },
   data() {
     return {};
   },
-  computed: {},
+  mounted() {
+    this.getData()
+  },
   methods: {
-    initMap() {
-      var geoCoordMap = {
-        上海: [119.1803, 31.2891],
-        福建: [119.4543, 25.9222],
-        重庆: [108.384366, 30.439702],
-        北京: [116.4551, 40.2539],
-        辽宁: [123.1238, 42.1216],
-        河北: [114.4995, 38.1006],
-        天津: [117.4219, 39.4189],
-        山西: [112.3352, 37.9413],
-        陕西: [109.1162, 34.2004],
-        甘肃: [103.5901, 36.3043],
-        宁夏: [106.3586, 38.1775],
-        青海: [101.4038, 36.8207],
-        新疆: [87.9236, 43.5883],
-        西藏: [91.11, 29.97],
-        四川: [103.9526, 30.7617],
-        吉林: [125.8154, 44.2584],
-        山东: [117.1582, 36.8701],
-        河南: [113.4668, 34.6234],
-        江苏: [118.8062, 31.9208],
-        安徽: [117.29, 32.0581],
-        湖北: [114.3896, 30.6628],
-        浙江: [119.5313, 29.8773],
-        内蒙古: [110.3467, 41.4899],
-        江西: [116.0046, 28.6633],
-        湖南: [113.0823, 28.2568],
-        贵州: [106.6992, 26.7682],
-        云南: [102.9199, 25.4663],
-        广东: [113.12244, 23.009505],
-        广西: [108.479, 23.1152],
-        海南: [110.3893, 19.8516],
-        黑龙江: [127.9688, 45.368],
-        台湾: [121.4648, 25.563]
-      };
-
+    getData () {
+      this.axios.get('/api/p3/mapData')
+      .then( (res)  => {
+        const { data } = res.data
+        let index = 0
+        let timer = setInterval(()=>{
+          if(index>=data.length) {
+            this.getData()
+            clearInterval(timer)
+          }
+          index ++ 
+          this.initMap(data, index)
+        }, 2000)
+        
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+    },
+    initMap(data, index) {
+      data = data.map(item=>{
+        return {
+          ...item,
+          value: [item.longitude, item.latitude]
+        }
+      })
       let myEcharts = this.$echarts.init(document.getElementById("middleMap"));
       myEcharts.setOption({
         legend: {
@@ -152,27 +140,16 @@ export default {
             type: "effectScatter",
             coordinateSystem: "geo",
             zlevel: 10,
-            data: [
-              {
-                name: "王**",
-                age: "28岁",
-                sex: "男",
-                type: "授信申请",
-                sum: "3000",
-                value: [116.4551, 40.2539, 48]
-              },
-              {
-                name: "王**",
-                age: "25岁",
-                sex: "女",
-                type: "授信申请",
-                sum: "7000",
-                value: [103.9526, 30.7617, 48]
-              }
-            ],
-            symbolSize: 20,
+            data: data,
+            symbolSize: function(value, params){
+              const { rejamt } = params.data
+              let num = parseInt(rejamt.replace(/','/g,''))
+              var max = Math.max.apply(null, data.map(item=>parseInt(item.rejamt.replace(/','/g,''))));
+              let size = 20/max*num
+              let result = size > 5 ? size : 5
+              return result
+            },
             showEffectOn: "render",
-
             // 涟漪的设置
             rippleEffect: {
               color: "#F5B523",
@@ -184,27 +161,33 @@ export default {
                 color: "#F5B523",
                 shadowBlur: 2
               }
+            }
+          },
+          {
+            type: "effectScatter",
+            coordinateSystem: "geo",
+            zlevel: 10,
+            data: [data[index]],
+            itemStyle: {
+              normal: {
+                color: "#F5B523",
+                shadowBlur: 2
+              }
             },
             // 标签
             label: {
               normal: {
                 show: true,
                 formatter: function(params) {
-                  return (
-                    params.data.name +
-                    "   " +
-                    params.data.age +
-                    "   " +
-                    params.data.sex +
-                    "\n" +
-                    "交易类型：" +
-                    params.data.type +
-                    "\n" +
-                    "交易金额：¥" +
-                    params.data.sum
-                  )
+                  const { location, eventid, appname, risktype, rejamt } = params.data
+                  return `
+                    区域名称：${location} 交易类型：${eventid}
+                    渠道类型: ${appname} 交易时间：--
+                    事件类型：${risktype} 
+                    实时拦截金融：${rejamt}
+                  `
                 },
-                position: [-330, -60],
+                position: [-340, -70],
                 distance: 0,
                 width: 300,
                 height: 160,

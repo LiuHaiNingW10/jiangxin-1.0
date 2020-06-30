@@ -20,15 +20,15 @@
       <div class="center-box">
         <!-- 地图 -->
         <div class="strategy-box">
-          <real-time-strategy title="19年累计调用策略" :num='amount' :blank="1"/>
-          <real-time-strategy title="当日调用策略" num='4913' :blank="2"/>
+          <real-time-strategy v-if="showUses" title="19年累计调用策略" :num='usesTime.year' :blank="1"/>
+          <real-time-strategy v-if="showUses" title="当日调用策略" :num='usesTime.day' :blank="2"/>
         </div>
         <map-chart class="map-charts" />
         <pie-chart />
         <div class="map-panel"></div>
       </div>
       <div class="right-box">
-        <div class="content-title"><span>实时调用决策变量239个  规则106条</span></div> 
+        <div class="content-title"><span>实时调用决策变量{{variableNum}}个  规则{{ruleNum}}条</span></div> 
         <rule-chart />
         <div class="content-title"><span>近24小时放款监测</span></div> 
         <loan-monitor-chart />
@@ -58,43 +58,92 @@ import moment from 'moment'
 export default {
   data() {
     return {
-      amount: 0
+      amount: 0,
+      showUses: false,
+      usesTime:{
+        year: 0,
+        day: 0
+      },
+      variableNum: 0,
+      ruleNum: 0
+
     }
   },
   mounted(){
     this.getAccRiskAll()
-    this.numFun(200, 10000)
+    this.getVariable()
   },
   methods: {
     getAccRiskAll(){
-      this.axios.get('/api/p3/accRiskAll',{
-        params: {
-          type: 'y'
+      this.axios.all([
+        this.axios.get("/api/p3/accRiskAll",{
+          params: {
+            type: 'y'
+          }
+        }),
+        this.axios.get("/api/p3/accRiskAll",{
+          params: {
+            type: 'h'
+          }
+        })
+      ]).then(this.axios.spread( ( ...obj ) => {
+        this.usesTime = {
+          year: obj[0].data.data,
+          day: obj[1].data.data
         }
-      })
-      .then(function (response) {
-          console.log(response);
-      })
+        // this.numFun(this.usesTime.year,obj[0].data.data,'year')
+        // this.numFun(this.usesTime.year,obj[0].data.data,'day')
+        this.$nextTick( () => {
+          this.showUses = true
+        })
+      }))
       .catch(function (error) {
           console.log(error);
       })
     },
-    numFun(startNum,maxNum) {
+    numFun(startNum,maxNum, name) {
       var that = this
       let numText = startNum;
       let golb; // 为了清除requestAnimationFrame
       function numSlideFun(){ // 数字动画
-          numText+=55; // 速度的计算可以为小数 。数字越大，滚动越快
+          numText+=10000; // 速度的计算可以为小数 。数字越大，滚动越快
           if(numText >= maxNum){
               numText = maxNum;
               cancelAnimationFrame(golb);
           }else {
               golb = requestAnimationFrame(numSlideFun);
           }
+        that.usesTime = {...that.usesTime, [name]:numText}
         that.amount=numText
       }
        numSlideFun(); // 调用数字动画
-    }
+    },
+    getVariable () {
+      this.axios.get('/api/p3/variable',{
+        params: {
+          indexname: 'bldy'
+        }
+      })
+      .then( (res)  => {
+         const { data } = res.data
+         this.variableNum = data
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+      this.axios.get('/api/p3/variable',{
+        params: {
+          indexname: 'gzdy'
+        }
+      })
+      .then( (res)  => {
+         const { data } = res.data
+         this.ruleNum = data
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+    },
   },
   components: {
     amountTrendsChart,

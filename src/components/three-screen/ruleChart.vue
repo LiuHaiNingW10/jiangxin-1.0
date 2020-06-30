@@ -72,6 +72,7 @@ export default {
   },
   mounted () {
     this.setActiveKey()
+    this.getData()
   },
   methods: {
     setActiveKey(){
@@ -81,7 +82,31 @@ export default {
           this.activeKey = 1
         }
       },800)
-    }
+    },
+    getData () {
+      this.axios.get('/api/p3/variable',{
+        params: {
+          indexname: 'bldy'
+        }
+      })
+      .then( (res)  => {
+         const { data } = res.data
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+      this.axios.get('/api/p3/variable',{
+        params: {
+          indexname: 'gzdy'
+        }
+      })
+      .then( (res)  => {
+         const { data } = res.data
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+    },
   },
   beforeDestroy () {
     clearInterval(this.timer)  

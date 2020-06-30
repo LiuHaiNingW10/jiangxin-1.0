@@ -3,58 +3,64 @@
     <div class="brain-main">
       <div class="light-spot">
         <div class="a" v-if="showImg">
-            <span class="a-address">
-              <i>{{tableData[0].accent}}</i>
-            </span>
-            <span class="a-tel">
-              <i>电话：{{tableData[0].mobile}}</i><br>
-              <i class="a-want">{{tableData[0].want}}</i>
-            </span>
+          <span class="a-address">
+            <i>{{tableData[0].accent}}</i>
+          </span>
+          <span class="a-tel">
+            <i>电话：{{tableData[0].mobile}}</i>
+            <br />
+            <i class="a-want">{{tableData[0].want}}</i>
+          </span>
         </div>
         <div class="b" v-if="showImg">
-            <span class="a-address">
-              <i>{{tableData[1].accent}}</i>
-            </span>
-            <span class="a-tel">
-              <i>电话：{{tableData[1].mobile}}</i><br>
-              <i class="a-want">{{tableData[1].want}}</i>
-            </span>
+          <span class="a-address">
+            <i>{{tableData[1].accent}}</i>
+          </span>
+          <span class="a-tel">
+            <i>电话：{{tableData[1].mobile}}</i>
+            <br />
+            <i class="a-want">{{tableData[1].want}}</i>
+          </span>
         </div>
         <div class="c" v-if="showImg">
-            <span class="a-address">
-              <i>{{tableData[2].accent}}</i>
-            </span>
-            <span class="a-tel">
-              <i>电话：{{tableData[2].mobile}}</i><br>
-              <i class="a-want">{{tableData[2].want}}</i>
-            </span>
+          <span class="a-address">
+            <i>{{tableData[2].accent}}</i>
+          </span>
+          <span class="a-tel">
+            <i>电话：{{tableData[2].mobile}}</i>
+            <br />
+            <i class="a-want">{{tableData[2].want}}</i>
+          </span>
         </div>
         <div class="d" v-if="showImg">
-            <span class="a-address">
-              <i>{{tableData[3].accent}}</i>
-            </span>
-            <span class="a-tel">
-              <i>电话：{{tableData[3].mobile}}</i><br>
-              <i class="a-want">{{tableData[3].want}}</i>
-            </span>
+          <span class="a-address">
+            <i>{{tableData[3].accent}}</i>
+          </span>
+          <span class="a-tel">
+            <i>电话：{{tableData[3].mobile}}</i>
+            <br />
+            <i class="a-want">{{tableData[3].want}}</i>
+          </span>
         </div>
         <div class="e" v-if="showImg">
-            <span class="e-address">
-              <i>{{tableData[4].accent}}</i>
-            </span>
-            <span class="a-tel">
-              <i>电话：{{tableData[4].mobile}}</i><br>
-              <i class="a-want">{{tableData[4].want}}</i>
-            </span>
+          <span class="e-address">
+            <i>{{tableData[4].accent}}</i>
+          </span>
+          <span class="a-tel">
+            <i>电话：{{tableData[4].mobile}}</i>
+            <br />
+            <i class="a-want">{{tableData[4].want}}</i>
+          </span>
         </div>
         <div class="f" v-if="showImg">
-            <span class="f-address">
-              <i>{{tableData[5].accent}}</i>
-            </span>
-            <span class="a-tel">
-              <i>电话：{{tableData[5].mobile}}</i><br>
-              <i class="a-want">{{tableData[5].want}}</i>
-            </span>
+          <span class="f-address">
+            <i>{{tableData[5].accent}}</i>
+          </span>
+          <span class="a-tel">
+            <i>电话：{{tableData[5].mobile}}</i>
+            <br />
+            <i class="a-want">{{tableData[5].want}}</i>
+          </span>
         </div>
         <canvas id="audio-art"></canvas>
         <audio id="audio" :src="require('../../assets/video/shanxi.wav')" ref="audio"></audio>
@@ -115,13 +121,13 @@ export default {
       height: this.heights,
       lineData: [],
       showImg: true,
-      analyser:{},
-      want:{
-        '承诺还款':'color: #4DC4D3',
-        '未接听':'color: #4DC4D3',
-        '承诺还款':'color: #4DC4D3',
-        '承诺还款':'color: #4DC4D3',
-        '承诺还款':'color: #4DC4D3',
+      analyser: {},
+      want: {
+        承诺还款: "color: #4DC4D3",
+        未接听: "color: #4DC4D3",
+        承诺还款: "color: #4DC4D3",
+        承诺还款: "color: #4DC4D3",
+        承诺还款: "color: #4DC4D3"
       }
     };
   },
@@ -134,8 +140,8 @@ export default {
       document.onkeydown = event => {
         let e = event || window.event || arguments.callee.caller.arguments[0];
         if (e && e.keyCode == 13) {
-          if(!this.showImg) {
-            return
+          if (!this.showImg) {
+            return;
           }
           this.DrawVideo();
         }
@@ -158,12 +164,12 @@ export default {
       // let audio = new Audio();
       // audio.src = require("../../assets/video/shanxi.wav");
       // audio.play();
-      this.DrawVideo()
+      this.DrawVideo();
     },
     DrawVideo() {
       this.showImg = false;
-      this.$emit('func',{ value: false})
-      var atx = new (window.AudioContext || webkitAudioContext);
+      this.$emit("func", { value: false });
+      var atx = new (window.AudioContext || webkitAudioContext)();
       // var audio = document.getElementById("audio");
       let audio = new Audio();
       audio.src = require("../../assets/video/shanxi.wav");
@@ -176,7 +182,7 @@ export default {
       analyser.connect(atx.destination);
 
       analyser.fftSize = 2048;
-      var draw =  () => {
+      var draw = () => {
         var cWidth = canvas.width,
           cHeight = canvas.height,
           // frequencyBinCount的值固定为fftSize的一半
@@ -185,22 +191,22 @@ export default {
         analyser.getByteFrequencyData(audioArray);
         // 填充为柱状图
         ctx.clearRect(0, 0, cWidth, cHeight);
-        ctx.fillStyle = '#60D7FB'
+        ctx.fillStyle = "#60D7FB";
         for (var i = 0; i < audioArray.length; i++) {
           ctx.fillRect(i * 3, cHeight - audioArray[i], 2, cHeight);
         }
         // 刷新
         requestAnimationFrame(draw);
-      }
+      };
       draw();
       audio.play();
-      let audioTime = this.$refs.audio.duration
-      setTimeout( () => {
-        this.$emit('func',{ value: true})
-        this.$nextTick( () => {
-          this.showImg = true
-        })
-      },audioTime * 1000)
+      let audioTime = this.$refs.audio.duration;
+      setTimeout(() => {
+        this.$emit("func", { value: true });
+        this.$nextTick(() => {
+          this.showImg = true;
+        });
+      }, audioTime * 1000);
     }
   }
 };
@@ -220,9 +226,10 @@ export default {
     div {
       display: inline-block;
       position: absolute;
-      height: 20%;
-      width: 30%;
-      padding: 4px 20px;
+      height: 54%;
+      width: 22%;
+      padding: 2.2% 2%;
+      z-index: 2;
     }
     audio {
       display: none;
@@ -233,73 +240,76 @@ export default {
     .a-address {
       display: inline-block;
       height: 30px;
-      background: url('../../assets/images/p4icon1.png') no-repeat center;
-      background-position: 4px 0 ;
+      background: url("../../assets/images/p4icon1.png") no-repeat center;
+      background-position: 4px 0;
       background-size: 24%;
-      padding: 2px 28px;
+      padding: 2px 38px;
+      line-height: 26px;
     }
     .e-address {
       display: inline-block;
       height: 30px;
-      background: url('../../assets/images/p4icon1.png') no-repeat center;
-      background-position: 4px 0 ;
-      background-size: 18%;
-      padding: 2px 28px;
+      background: url("../../assets/images/p4icon1.png") no-repeat center;
+      background-position: 4px 0;
+      background-size: 16%;
+      padding: 2px 0 0px 34px;
+      line-height: 26px;
     }
     .f-address {
       display: inline-block;
       height: 30px;
-      background: url('../../assets/images/p4icon1.png') no-repeat center;
-      background-position: 4px 0 ;
-      background-size: 26%;
-      padding: 2px 28px;
+      background: url("../../assets/images/p4icon1.png") no-repeat center;
+      background-position: 4px 0;
+      background-size: 31%;
+      padding: 2px 0 0 38px;
+      line-height: 26px;
     }
     .a-tel {
       display: inline-block;
-      width: 70%;
-      
+      width: 80%;
+      margin-top: 4%;
     }
     .a-want {
-        color: #4DC4D3;
+      color: #4dc4d3;
     }
     .a {
-      top: 24px;
-      left: 46px;    
-      background: url('../../assets/images/popup-l.png') no-repeat center;
+      top: 187px;
+      left: 363px;
+      background: url("../../assets/images/popup-l.png") no-repeat center;
       background-size: 100%;
     }
     .b {
-      top: 136px;
-      left: -43px;
-      background: url('../../assets/images/popup-l.png') no-repeat center;
+      top: 396px;
+      left: 190px;
+      background: url("../../assets/images/popup-l.png") no-repeat center;
       background-size: 100%;
     }
     .c {
-      top: 312px;
-      left: 128px;
-      background: url('../../assets/images/popup-p.png') no-repeat center;
+      top: 730px;
+      left: 511px;
+      background: url("../../assets/images/popup-p.png") no-repeat center;
       background-size: 100%;
     }
     .d {
-      top: 170px;
-      left: 336px;
-      background: url('../../assets/images/popup-o.png') no-repeat center;
+      top: 469px;
+      left: 936px;
+      background: url("../../assets/images/popup-o.png") no-repeat center;
       background-size: 100%;
-      padding-left: 62px;
+      padding-left: 126px;
     }
     .e {
-      top: 48px;
-      right: 18px;
-      background: url('../../assets/images/popup-r.png') no-repeat center;
+      top: 236px;
+      right: 374px;
+      background: url("../../assets/images/popup-r.png") no-repeat center;
       background-size: 100%;
-      padding-left: 60px;
+      padding-left: 128px;
     }
     .f {
-      top: 246px;
-      right: -40px;
-      background: url('../../assets/images/popup-o.png') no-repeat center;
+      top: 616px;
+      right: 284px;
+      background: url("../../assets/images/popup-o.png") no-repeat center;
       background-size: 100%;
-      padding-left: 64px;
+      padding-left: 128px;
     }
   }
   .brain-foot {
@@ -310,7 +320,7 @@ export default {
     .foot-ai {
       display: inline-block;
       width: 30%;
-      height: 30px;
+      height: 60px;
 
       background: url("../../assets/images/ai-foot.png") no-repeat center;
       background-size: 50%;
@@ -330,7 +340,6 @@ export default {
         img {
           width: 100%;
           margin-bottom: 10px;
-          height: 70px;
         }
       }
     }
@@ -344,6 +353,7 @@ export default {
     top: 0;
     height: 440px;
     margin: 0 auto;
+    z-index: 1;
   }
 }
 </style> 

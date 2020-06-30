@@ -10,10 +10,21 @@ export default {
     return {};
   },
   mounted () {
-    this.drawChart()
+    this.getData()
+    // this.drawChart()
   },
   methods: {
-    drawChart() {
+    getData () {
+      this.axios.get('/api/p3/massDistrib')
+      .then( (res)  => {
+        const { data } = res.data       
+        this.drawChart(data)
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+    },
+    drawChart(data) {
       let myChart = this.$echarts.init(document.getElementById('custDistributeChart'));
       // 绘制图表
       myChart.setOption({
@@ -47,13 +58,6 @@ export default {
             }
           }
         },
-        // legend: {
-        //     data: [ '近一个月批核客群', '今日批核客群','历史进件客群分布'],
-        //     bottom: 0,
-        //     textStyle: {
-        //       color: '#fff'
-        //     }
-        // },
         grid: {
           top: "10%",
           left: "10%",
@@ -108,7 +112,7 @@ export default {
                   shadowColor: "rgba(95,234,215,0.2)", //阴影颜色
                   shadowBlur: 20
                 },
-                data: [120, 132, 101, 134, 90, 230, 210]
+                data: data.map(item=>item.hist_percent)
             },
             {
                 name: '近一个月批核客群',
@@ -130,7 +134,7 @@ export default {
                   shadowColor: "rgba(255,196,32,0.2)", //阴影颜色
                   shadowBlur: 20
                 },
-                data: [220, 182, 191, 234, 290, 330, 310]
+                data: data.map(item=>item.mon_percent)
             },
             {
                 name: '今日批核客群',
@@ -152,7 +156,7 @@ export default {
                   shadowColor: "rgba(40,158,255,0.2)", //阴影颜色
                   shadowBlur: 20
                 },
-                data: [150, 232, 201, 154, 190, 330, 410]
+                data: data.map(item=>item.day_percent)
             }
         ]
       });
