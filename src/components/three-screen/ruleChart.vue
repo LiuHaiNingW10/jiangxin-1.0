@@ -2,58 +2,14 @@
   <div class="rule-chart">
     <div class="rule-content">
       <div class="rule-spread"><div class="rule-center"></div></div>
-      <div :class="{'rule-card': true, 'card1': true, 'active': activeKey === 1}">
+      <div v-for="(item, index) in data" :key="index" :class="{'rule-card': true, ['card'+(index+1)]: true, 'active': activeKey === index+1}">
         <div class='card-l'>
-          <div class="title">人行征信模型组</div>
-          <div class="num">152 <span>个</span></div>
+          <div class="title">{{item.mxmc}}</div>
+          <div class="num">{{item.mxgs}}<span>个</span></div>
         </div>
         <div class='card-r'>
           <div class="title">调用</div>
-          <div class="num">107 <span>次</span></div>
-        </div>
-        <div class="line"></div>
-      </div>
-      <div :class="{'rule-card': true, 'card2': true, 'active': activeKey === 2}">
-        <div class='card-l'>
-          <div class="title">百度联合模型组</div>
-          <div class="num">152 <span>个</span></div>
-        </div>
-        <div class='card-r'>
-          <div class="title">调用</div>
-          <div class="num">107 <span>次</span></div>
-        </div>
-        <div class="line"></div>
-      </div>
-      <div :class="{'rule-card': true, 'card3': true, 'active': activeKey === 5}">
-        <div class='card-l'>
-          <div class="title">欺诈识别模型组</div>
-          <div class="num">152 <span>个</span></div>
-        </div>
-        <div class='card-r'>
-          <div class="title">调用</div>
-          <div class="num">107 <span>次</span></div>
-        </div>
-        <div class="line"></div>
-      </div>
-      <div :class="{'rule-card': true, 'card4': true, 'active': activeKey === 3}">
-        <div class='card-l'>
-          <div class="title">多头鉴别模型组</div>
-          <div class="num">152 <span>个</span></div>
-        </div>
-        <div class='card-r'>
-          <div class="title">调用</div>
-          <div class="num">107 <span>次</span></div>
-        </div>
-        <div class="line"></div>
-      </div>
-      <div :class="{'rule-card': true, 'card5': true, 'active': activeKey === 4}">
-        <div class='card-l'>
-          <div class="title">三方数据模型组</div>
-          <div class="num">152 <span>个</span></div>
-        </div>
-        <div class='card-r'>
-          <div class="title">调用</div>
-          <div class="num">107 <span>次</span></div>
+          <div class="num">{{item.dycs}}<span>次</span></div>
         </div>
         <div class="line"></div>
       </div>
@@ -67,12 +23,17 @@ export default {
   data() {
     return {
       timer: null,
-      activeKey: 1
+      timer1: null,
+      activeKey: 1,
+      data: []
     };
   },
   mounted () {
     this.setActiveKey()
     this.getData()
+    this.timer1 = setInterval(() => {
+      setTimeout(this.getData, 0)
+    }, 5000)
   },
   methods: {
     setActiveKey(){
@@ -84,24 +45,10 @@ export default {
       },800)
     },
     getData () {
-      this.axios.get('/api/p3/variable',{
-        params: {
-          indexname: 'bldy'
-        }
-      })
+      this.axios.get('/api/p3/modelInfo')
       .then( (res)  => {
          const { data } = res.data
-      })
-      .catch(function (error) {
-          console.log(error);
-      });
-      this.axios.get('/api/p3/variable',{
-        params: {
-          indexname: 'gzdy'
-        }
-      })
-      .then( (res)  => {
-         const { data } = res.data
+         this.data = data
       })
       .catch(function (error) {
           console.log(error);
@@ -111,6 +58,8 @@ export default {
   beforeDestroy () {
     clearInterval(this.timer)  
     this.timer = null
+    clearInterval(this.timer1)
+    this.timer1 = null
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="map-charts">
-    <div id="middleMap"></div>
+    <div id="threeMapChart"></div>
   </div>
 </template>
 
@@ -8,7 +8,9 @@
 export default {
   name: "mapChart",
   data() {
-    return {};
+    return {
+      timer: null
+    };
   },
   mounted() {
     this.getData()
@@ -26,7 +28,7 @@ export default {
           }
           index ++ 
           this.initMap(data, index)
-        }, 2000)
+        }, 3000)
         
       })
       .catch(function (error) {
@@ -40,7 +42,7 @@ export default {
           value: [item.longitude, item.latitude]
         }
       })
-      let myEcharts = this.$echarts.init(document.getElementById("middleMap"));
+      let myEcharts = this.$echarts.init(document.getElementById("threeMapChart"));
       myEcharts.setOption({
         legend: {
           show: false
@@ -180,30 +182,41 @@ export default {
                 show: true,
                 formatter: function(params) {
                   const { location, eventid, appname, risktype, rejamt } = params.data
-                  return `
-                    区域名称：${location} 交易类型：${eventid}
-                    渠道类型: ${appname} 交易时间：--
-                    事件类型：${risktype} 
-                    实时拦截金融：${rejamt}
-                  `
+                  return `{a|区域名称}{b|${location}}{a|交易类型}{b|${eventid}}\n{a|渠道类型}{b|${appname}}{a|事件类型}{b|${risktype}}\n{c|实时拦截金融}{d|${rejamt}万}`
                 },
-                position: [-340, -70],
+                position: [-400, -150],
                 distance: 0,
-                width: 300,
-                height: 160,
+                width: 340,
+                height: 120,
                 backgroundColor: {
                   image: require('@/assets/images/p3/map-modal.png')
                 },
-                padding: [20, 30],
-                lineHeight: 24,
-                verticalAlign: "middle",
+                padding: [30, 40],
+                lineHeight: 40,
+                // verticalAlign: "middle",
                 color: "#fff",
                 z: 11,
                 rich: {
-                  fline: {
+                  a: {
+                    color: 'rgba(255,255,255,.7)',
+                    fontSize: 16
+                  },
+                  b: {
                     padding: [0, 10],
-                    color: "#ffffff"
-                  }
+                    color: "#ffffff",
+                    fontSize: 16,
+                    fontWeight: 'bold'
+                  },
+                  c: {
+                    margin: 20,
+                    fontSize: 16,
+                    color: 'rgba(255,255,255,.9)',
+                  },
+                  d: {
+                    padding: [0, 10],
+                    fontSize: 20,
+                    color: '#FFAF2B',
+                  }, 
                 }
               }
             }
@@ -218,7 +231,7 @@ export default {
 
 <style lang="less">
 .map-charts,
-#middleMap {
+#threeMapChart {
   height: 100%;
   width: 100%;
 }

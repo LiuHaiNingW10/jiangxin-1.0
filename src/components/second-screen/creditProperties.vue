@@ -68,6 +68,7 @@
           class="person-columnar"
           :ids="industryColumnarId"
           :chartData="industryColumnarData"
+          v-if="industryJudge"
         />
         <person-columnar
           class="person-columnar"
@@ -98,6 +99,7 @@ export default {
   data() {
     return {
       enterpriseJudge: false,
+      industryJudge: false,
       industryColumnarData: {},
       industryColumnarId: "industryColumnar",
       enterpriseColumnarData: {},
@@ -198,10 +200,36 @@ export default {
 
           that.enterpriseColumnarData = Object.assign(
             {},
-            { xAxis: xAxis, yAxis: yAxis }
+            { xAxis: xAxis, yAxis: yAxis, chartType: "percent" }
           );
           this.$nextTick(() => {
             this.enterpriseJudge = true;
+          });
+        }
+      });
+      this.axios({
+        url: "/api/p2/industry",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          var tData = data.data.data;
+          let xAxis = [];
+          let yAxis = [];
+          tData.forEach(item => {
+            xAxis.push(item.category);
+            yAxis.push(parseFloat(item.percent));
+          });
+          xAxis = xAxis.reverse();
+          yAxis = yAxis.reverse();
+
+          that.industryColumnarData = Object.assign(
+            {},
+            { xAxis: xAxis, yAxis: yAxis, chartType: "num" }
+          );
+          this.$nextTick(() => {
+            this.industryJudge = true;
           });
         }
       });

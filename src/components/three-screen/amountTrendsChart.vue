@@ -12,9 +12,10 @@ export default {
     };
   },
   mounted () {
-    // this.timer = setInterval(() => {
+    this.getData()
+    this.timer = setInterval(() => {
       setTimeout(this.getData, 0)
-    // }, 3000)
+    }, 3000)
     
   },
   methods: {

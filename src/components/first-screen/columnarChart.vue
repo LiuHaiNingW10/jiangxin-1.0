@@ -4,7 +4,7 @@
       <div>{{item.title}}</div>
       <div class="current-data">
         <!-- {{chartData.totalData[index]}} -->
-        <scroll-span :number="chartData.totalData[index]" class="total-money-span" ids="current"/>
+        <scroll-span :number="chartData.totalData[index]" class="total-money-span" ids="current" />
       </div>
       <div :id="item.id" class="single-columnar-echarts"></div>
     </div>
@@ -44,7 +44,7 @@ export default {
         xAxis: [
           {
             type: "category",
-            data: data.xAxis,
+            data: data ? data.xAxis : [],
             axisLine: {
               show: false,
               lineStyle: {
@@ -82,7 +82,7 @@ export default {
         series: [
           {
             type: "bar",
-            data: data.yAxis,
+            data: data ? data.yAxis : [],
             barWidth: "20px",
             itemStyle: {
               normal: {
