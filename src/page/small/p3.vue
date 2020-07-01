@@ -2,7 +2,7 @@
   <div class="p3-container">
     <!-- 头部 -->
     <div class="title-frame">
-      <div class="global-title">风控反欺诈实时监控</div>
+      <div class="global-title"></div>
       <div class="right-time">
         <weather-com />
       </div>
@@ -87,12 +87,12 @@ export default {
           }
         })
       ]).then(this.axios.spread( ( ...obj ) => {
-        this.usesTime = {
-          year: obj[0].data.data,
-          day: obj[1].data.data
-        }
-        // this.numFun(this.usesTime.year,obj[0].data.data,'year')
-        // this.numFun(this.usesTime.year,obj[0].data.data,'day')
+        // this.usesTime = {
+        //   year: obj[0].data.data,
+        //   day: obj[1].data.data
+        // }
+        this.numFun(this.usesTime.year,obj[0].data.data,'year')
+        this.numFun(this.usesTime.year,obj[1].data.data,'day')
         this.$nextTick( () => {
           this.showUses = true
         })
@@ -101,12 +101,13 @@ export default {
           console.log(error);
       })
     },
-    numFun(startNum,maxNum, name) {
+    numFun(startNum,maxNum, name, speed=5000) {
       var that = this
       let numText = startNum;
+      let dis = parseInt(maxNum) - parseInt(startNum)
       let golb; // 为了清除requestAnimationFrame
       function numSlideFun(){ // 数字动画
-          numText+=10000; // 速度的计算可以为小数 。数字越大，滚动越快
+          numText+=parseInt(dis/(speed/1000)); // 速度的计算可以为小数 。数字越大，滚动越快
           if(numText >= maxNum){
               numText = maxNum;
               cancelAnimationFrame(golb);
@@ -187,6 +188,7 @@ export default {
       text-align: center;
       font-size: 40px;
       font-weight: bold;
+      background: url('../../assets/images/p3/global-title.png') no-repeat center;
     }
     .right-time {
       width: 33%;

@@ -12,6 +12,7 @@ export default {
     };
   },
   mounted () {
+    this.getData()
     this.timer = setInterval(() => {
       setTimeout(this.getData, 0)
     }, 3000)

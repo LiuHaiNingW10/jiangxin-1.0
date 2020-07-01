@@ -7,10 +7,15 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      timer: null
+    };
   },
   mounted () {
     this.getData()
+    this.timer = setInterval(() => {
+      setTimeout(this.getData, 0)
+    }, 3600000)
   },
   methods: {
     getData () {
@@ -23,7 +28,7 @@ export default {
           console.log(error);
       });
     },
-    drawChart() {
+    drawChart(data) {
       let myChart = this.$echarts.init(document.getElementById('top5RefuseChart'));
       // 绘制图表
       myChart.setOption({
@@ -63,7 +68,7 @@ export default {
             axisLabel: {
               color: 'rgba(255,255,255)'
             },
-            data: [ '综合资产评分过低','信用黑名单','人行征信逾期','多头借贷','过度授信', '共债严重']
+            data: data.map(item=>item.finalreasoncode_tag)
         },
         series: [
             {
@@ -75,11 +80,15 @@ export default {
                   position: 'right',
                   color: 'rgba(255,255,255,0.7)'
                 },
-                data: [18203, 23489, 29034, 104970, 131744, 630230]
+                data: data.map(item=>item.num)
             }
         ]
       });
     }
+  },
+  beforeDestroy () {
+    clearInterval(this.timer)  
+    this.timer = null
   },
   components: {}
 };
