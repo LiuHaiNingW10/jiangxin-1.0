@@ -18,7 +18,6 @@ export default {
   name: "",
   props: ["number", "ids"],
   created() {
-    debugger;
     this.scroll(this.number, this.$refs, this.ids);
   },
   mounted() {},
@@ -31,7 +30,6 @@ export default {
   computed: {},
   methods: {
     scroll(num, refs, ids) {
-      debugger;
       if (refs === undefined || Object.keys(refs).length === 0) return;
       let rollulId = "rollul" + ids;
       let con1 = refs[rollulId];

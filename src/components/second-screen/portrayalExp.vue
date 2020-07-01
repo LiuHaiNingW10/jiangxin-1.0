@@ -23,12 +23,13 @@ export default {
   computed: {},
   mounted() {
     console.log(this.tableData.finance);
-    this.drawFinance("exp-years");
-    this.drawFinance("exp-down-payment");
+    console.log(this.tableData.op_period);
+    this.drawFinance("exp-years", this.tableData.finance);
+    this.drawFinance("exp-down-payment", this.tableData.op_period);
   },
   methods: {
-    drawFinance(id) {
-      let data = [
+    drawFinance(id, chartData) {
+      let data = chartData || [
           {
             name: "指标一",
             value: 754
@@ -214,52 +215,45 @@ export default {
               }
             ]
           });
-          res.series.push(
-            {
-              type: "pie",
-              radius: ["0", "20%"],
-              center: ["50%", "55%"],
-              z: 4,
-              hoverAnimation: false,
-              data: [
-                {
-                  name: "积分",
-                  value: '78%',
-                  label: {
-                    normal: {
-                      rich: {
-                        a: {
-                          color: "#ccc",
-                          align: "center",
-                          fontSize: 16,
-                        },
-                        b: {
-                          color: "#7F97BC",
-                          align: "center",
-                          fontSize: 12,
-                        }
+          res.series.push({
+            type: "pie",
+            radius: ["0", "20%"],
+            center: ["50%", "55%"],
+            z: 4,
+            hoverAnimation: false,
+            data: [
+              {
+                name: "积分",
+                value: "78%",
+                label: {
+                  normal: {
+                    rich: {
+                      a: {
+                        color: "#ccc",
+                        align: "center",
+                        fontSize: 16
                       },
-                      formatter: function(params) {
-                        return (
-                          "{a|" +
-                          params.value +
-                          "}\n\n" +
-                          "{b|" +
-                          "数据" +
-                          "}"
-                        );
-                      },
-                      position: "center",
-                      show: true
-                    }
-                  },
-                  labelLine: {
-                    show: false
+                      b: {
+                        color: "#7F97BC",
+                        align: "center",
+                        fontSize: 12
+                      }
+                    },
+                    formatter: function(params) {
+                      return (
+                        "{a|" + params.value + "}\n\n" + "{b|" + "数据" + "}"
+                      );
+                    },
+                    position: "center",
+                    show: true
                   }
+                },
+                labelLine: {
+                  show: false
                 }
-              ]
-            },
-          )
+              }
+            ]
+          });
           res.yAxis.push(data[i].name);
         }
         return res;
@@ -340,8 +334,8 @@ export default {
             global: false
           },
           {
-            value: ''
-          },
+            value: ""
+          }
         ],
         legend: {
           type: "scroll",
@@ -394,17 +388,20 @@ export default {
       let myChart = this.$echarts.init(document.getElementById(id));
       // 绘制图表
       myChart.setOption(option);
-
     },
     drawOp_period() {
-      let myChart = this.$echarts.init(
-        document.getElementById(id)
-      );
+      let myChart = this.$echarts.init(document.getElementById(id));
       // 绘制图表
       // myChart.setOption(option)
     }
   },
-  components: {}
+  components: {},
+  watch: {
+    tableData: function(newVal) {
+      this.drawFinance("exp-years", newVal.finance);
+      this.drawFinance("exp-down-payment", newVal.op_period);
+    }
+  }
 };
 </script>
 
