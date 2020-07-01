@@ -7,11 +7,15 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      timer: null
+    };
   },
   mounted () {
     this.getData()
-    // this.drawChart()
+    this.timer = setInterval(() => {
+      setTimeout(this.getData, 0)
+    }, 3600000)
   },
   methods: {
     getData () {
@@ -161,6 +165,10 @@ export default {
         ]
       });
     }
+  },
+  beforeDestroy () {
+    clearInterval(this.timer)  
+    this.timer = null
   },
   components: {}
 };

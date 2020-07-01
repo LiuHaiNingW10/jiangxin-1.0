@@ -30,9 +30,10 @@ export default {
     };
   },
   mounted () {
+    this.getData()
     this.timer = setInterval(() => {
       setTimeout(this.getData, 0)
-    }, 3000)
+    }, 60000)
   },
   methods: {
     getData () {
@@ -42,15 +43,15 @@ export default {
         this.data = [
             {
                 label: '反欺诈模型决策占比',
-                value: parseInt(mxjczb)
+                value: parseFloat(mxjczb).toFixed(2)
             },
             {
                 label: '反欺诈策略决策占比',
-                value: parseInt(cljczb)
+                value: parseFloat(cljczb).toFixed(2)
             },
             {
                 label: '反欺诈人工审核占比',
-                value: parseInt(rgshzb)
+                value: parseFloat(rgshzb).toFixed(2)
             }
         ]
       })

@@ -7,11 +7,15 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      timer: null
+    };
   },
   mounted () {
     this.getData()
-    this.drawChart()
+    this.timer = setInterval(() => {
+      setTimeout(this.getData, 0)
+    }, 60000)
   },
   methods: {
     getData () {
@@ -24,7 +28,8 @@ export default {
           console.log(error);
       });
     },
-    drawChart() {
+    drawChart(data) {
+      if(!data || !data.length) return
       let myChart = this.$echarts.init(document.getElementById('loanMonitorChart'));
       // 绘制图表
       myChart.setOption({
@@ -104,7 +109,7 @@ export default {
             axisTick: {
                 show: false,
             },
-            data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24' ],
+            data: data.map(item=>item.eventhour)
         }],
         yAxis: [{
             type: 'value',
@@ -137,7 +142,7 @@ export default {
             lineStyle: {
               width: 3
             },
-            data: [393, 438, 485, 631, 689, 824, 987,393,393,393,393,393,393,393,393,393,393,393,93, 438, 485, 631, 689, 824]
+            data: data.map(item=>item.avgval)
         }, 
         {
             name: '批核率',
@@ -148,7 +153,7 @@ export default {
             tooltip: {
                 show: true
             },
-            data: [500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500]
+            data: data.map(item=>item.applyrate)
         },
         {
             name: '放款量',
@@ -157,10 +162,14 @@ export default {
             tooltip: {
                 show: true
             },
-            data: [200, 500, 400, 300, 800, 100, 300, 600, 200, 500, 400, 300, 800, 100, 300, 600, 200, 500, 400, 300, 800, 100, 300, 600]
+            data: data.map(item=>item.cust)
         }]
       });
     }
+  },
+  beforeDestroy () {
+    clearInterval(this.timer)  
+    this.timer = null
   },
   components: {}
 };

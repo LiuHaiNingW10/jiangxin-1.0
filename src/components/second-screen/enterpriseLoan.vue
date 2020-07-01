@@ -15,7 +15,7 @@
     <div class="enterprise-credit enterprise-div enterprise-content">
       <div class="second-title">
         <span class="text-span">企业信用</span>
-        <credit-chart :chartData='creditData' v-if="creditJudge"/>
+        <credit-chart :chartData="creditData" v-if="creditJudge" />
       </div>
     </div>
   </div>
@@ -24,6 +24,7 @@
 <script>
 import LoanChart from "@/components/second-screen/loanChart";
 import CreditChart from "@/components/second-screen/creditChart";
+import * as basebox from "@/assets/base64.js";
 export default {
   name: "",
   props: [],
@@ -50,11 +51,164 @@ export default {
       this.axios({
         url: url,
         method: "get",
-        data: "",
         type: "json"
       }).then(data => {
         if (data.data.code === 100) {
-          var graphData = data.data.data;
+          var graphData = data.data.data.graph;
+          var root = data.data.data.company;
+          this.drawGraph(root, graphData);
+          this.drawThree(data.data.data)
+        }
+      });
+    },
+    getY(x) {
+      let y = Math.sqrt((1 - Math.pow(x / 38, 2)) * Math.pow(30, 2));
+      return y;
+    },
+    getOutY(x) {
+      let y = Math.sqrt((1 - Math.pow(x / 50, 2)) * Math.pow(42, 2));
+      return y;
+    },
+    translate(root, list) {
+      let arr = [],
+        length = list.vertices.length;
+      list.vertices.forEach((it, i) => {
+        arr.push({
+          name: it.name,
+          itemStyle: {
+            normal: {
+              color: it.type === "person" ? "#395C97" : "#6C3A61"
+            }
+          },
+          x: it.root ? 50 : this.getRondan('x'),
+          y: it.root ? 100 : this.getRondan('y')
+        });
+      });
+      console.log(arr);
+      return arr;
+    },
+    getRondan(type) {
+      let n = 0
+      var num =  () => {
+        n  = Math.round(-200 * Math.random()) + 200;
+      }
+      if(type === 'x' && Math.abs(n-50) < 100) {
+        num()
+      }else if (type === 'y' && Math.abs(n-100) < 400) {
+        num()
+      }
+      return n;
+    },
+    dataLink(list) {
+      let arr = [];
+      list.edges.forEach((it, i) => {
+        arr.push({
+          source: it.from,
+          value: it.type,
+          target: it.to,
+          itemStyle: {
+            normal: {
+              color: '#fff'
+            }
+          }
+        });
+      });
+      return arr;
+    },
+    drawGraph(root, graphData) {
+      let a = this.translate(root, graphData);
+      let b = this.dataLink(graphData);
+      let myChart = this.$echarts.init(document.getElementById("graph"));
+      let option = {
+        xAxis: {
+          show: false,
+          type: "value"
+        },
+        yAxis: {
+          show: false,
+          type: "value"
+        },
+        tooltip: {
+          formatter: "{b}"
+        },
+        series: [
+          {
+            type: "graph",
+            layout: "none",
+            edgeSymbol: ["circle", "arrow"],
+            edgeSymbolSize: [0, 20],
+            draggable: true,
+            edgeLabel: {
+              normal: {
+                show: true,
+                position: "middle",
+                textStyle: {
+                  fontSize: 14
+                },
+                formatter: "{c}"
+              }
+            },
+            toam: true,
+            zoom: 0.9,
+            focusNodeAdjacency: true, // 指定的节点以及其所有邻接节点高亮
+            roam: false, // 是否可拖拽
+
+            lineStyle: {
+              normal: {
+                width: 2,
+                shadowColor: "none",
+                color: "#fff",
+                curveness: 0.1
+              }
+            },
+            symbolSize: [30, 30],
+            symbol: "circle",
+            label: {
+              show: true,
+              position: "bottom",
+              color: "#ccc",
+              formatter: function(params) {
+                let c = params.data.username || "";
+                let b = params.data.name;
+                var str = "";
+                if (c === "") {
+                  str = "{p|" + b + "}";
+                } else {
+                  str = "{n|" + c + "}\n{p|" + b + "}";
+                }
+                return str;
+              },
+              rich: {
+                p: {
+                  fontSize: 14,
+                  color: "#ccc",
+                  align: "center"
+                },
+                n: {
+                  height: 25,
+                  fontSize: 16,
+                  color: "#ccc",
+                  align: "center"
+                }
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: "#F2F2F2",
+                borderColor: "#707070",
+                borderWidth: 2
+              }
+            },
+            data: a,
+            links: b 
+          }
+        ]
+      };
+      myChart.setOption(option);
+      
+    },
+    drawThree(list) {
+          var graphData = list;
           var sxjeData = graphData.sxje;
           let tmpData = [];
           tmpData.push({
@@ -68,12 +222,10 @@ export default {
             ],
             name: sxjeData.companyname
           });
-          that.creditData = [...tmpData]
-          that.$nextTick(() => {
-            that.creditJudge = true
+          this.creditData = [...tmpData]
+          this.$nextTick(() => {
+            this.creditJudge = true
           })
-        }
-      });
     },
 
     getBubbleData() {
@@ -168,6 +320,9 @@ export default {
   .text-span {
     display: inline-block;
     margin-left: 4%;
+  }
+  #graph {
+    height: 80%;
   }
 }
 </style>
