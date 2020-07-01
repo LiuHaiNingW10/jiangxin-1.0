@@ -16,13 +16,13 @@
           class="credit-properties"
           :typeData="propertyLoans"
           :indicatorData="propertyData"
-          v-if="showPropertyCredit"
+          :showCredit="showPropertyCredit"
         />
         <credit-properties
           class="credit-properties"
           :typeData="personLoans"
           :indicatorData="personData"
-          v-if="showPropertyCredit"
+          :showCredit="showPropertyCredit"
         />
       </div>
       <div class="content-middle">
@@ -81,8 +81,30 @@ export default {
         ])
         .then(
           this.axios.spread((...obj) => {
-            this.OpperiodAndFinance["finance"] = obj[0].data.data;
-            this.OpperiodAndFinance["op_period"] = obj[1].data.data;
+            let financeData = [];
+            let opPeriodData = [];
+            financeData = obj[0].data.data
+              ? obj[0].data.data.map(item => {
+                  return {
+                    name: item.xid,
+                    value: item.val
+                  };
+                })
+              : [];
+            opPeriodData = obj[1].data.data
+              ? obj[1].data.data.map(item => {
+                  return {
+                    name: item.xid,
+                    value: item.val
+                  };
+                })
+              : [];
+            this.OpperiodAndFinance = Object.assign(
+              {},
+              { finance: financeData, op_period: opPeriodData }
+            );
+            // this.OpperiodAndFinance["finance"] = obj[0].data.data;
+            // this.OpperiodAndFinance["op_period"] = obj[1].data.data;
             this.serverData = obj[2].data.data;
             this.$nextTick(() => {
               this.showPortrayal = true;

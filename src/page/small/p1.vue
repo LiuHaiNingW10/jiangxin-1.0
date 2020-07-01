@@ -3,8 +3,8 @@
     <!-- 头部 -->
     <div class="title-frame">
       <div class="title-left">
-        <span>累计信贷服务金额：</span>
-        <div class="nwwest-roll" id="nwwest-roll">
+        <span class="title-left-span">累计信贷服务金额：</span>
+        <!-- <div class="nwwest-roll" id="nwwest-roll">
           <ul id="roll-ul" class="roll-ul">
             <li
               v-for="(item, index) in Totallist"
@@ -15,7 +15,9 @@
               <span class="total-money-span">¥ {{item}}</span>
             </li>
           </ul>
-        </div>
+        </div>-->
+
+        <scroll-span :number="totalMoney" class="total-money-span" ids="total" />
         <!-- <span class="left-coin">¥ {{totalMoney}}</span> -->
       </div>
       <div class="global-title">普惠业务信贷数据平台</div>
@@ -117,6 +119,8 @@ import FunnelChart from "../../components/first-screen/funnelChart.vue";
 import FormChart from "../../components/first-screen/formChart.vue";
 import MapChart from "../../components/first-screen/mapChart.vue";
 import WeatherCom from "../../components/weather.vue";
+
+import ScrollSpan from "../../components/scrollSpan.vue";
 
 import { setInterval, clearInterval } from "timers";
 export default {
@@ -637,7 +641,7 @@ export default {
         type: "json"
       }).then(data => {
         if (data.data.code === 100) {
-          _that.totalMoney = _that.thousandFormat(data.data.data, 2) || 0;
+          _that.totalMoney = "¥" + _that.thousandFormat(data.data.data, 2) || 0;
           _that.threeMoneyArr = Object.assign({}, _that.threeMoneyArr, {
             first: data.data.data.toString() || 0
           });
@@ -822,12 +826,12 @@ export default {
       }).then(data => {
         if (data.data.code === 100) {
           var tData = data.data.data;
-          var total = 0
+          var total = 0;
           tData.forEach(item => {
-            total += Number(item.val)
+            total += Number(item.val);
           });
           _that.educationData = tData.map(item => {
-            return { name: item.xid, value: item.val ,total: total};
+            return { name: item.xid, value: item.val, total: total };
           });
         }
         _that.educationJudge = true;
@@ -1028,12 +1032,13 @@ export default {
     "funnel-chart": FunnelChart,
     "form-chart": FormChart,
     "map-chart": MapChart,
-    "weather-com": WeatherCom
+    "weather-com": WeatherCom,
+    "scroll-span": ScrollSpan
   }
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .container {
   width: 4224px;
   height: 1536px;
@@ -1080,6 +1085,11 @@ export default {
       width: 33%;
       .left-coin {
         color: #ffcc22;
+      }
+      .title-left-span {
+        display: inline-block;
+        position: relative;
+        top: -12px;
       }
     }
     .global-title {

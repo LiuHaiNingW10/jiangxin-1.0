@@ -17,6 +17,7 @@ export default {
   computed: {},
   methods: {
     initChart(ids, chartData) {
+      var chartType = chartData ? chartData.chartType : "percent";
       var xAxisText = [
         "S03_214",
         "S03_215",
@@ -108,7 +109,13 @@ export default {
                     color: "#FFF",
                     fontSize: "14"
                   },
-                  formatter: "{c}%"
+                  formatter: function(params) {
+                    if (chartType === "percent") {
+                      return params.value + "%";
+                    } else {
+                      return params.value;
+                    }
+                  }
                 },
                 color: function(params) {
                   // build a color map as your need.

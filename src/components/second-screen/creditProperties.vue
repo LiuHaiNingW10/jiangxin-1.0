@@ -11,7 +11,15 @@
         <div class="server-num num-span">
           <div class="num-span-title">服务人数</div>
           <div class="middle-rec"></div>
-          <div class="num-span-data">{{thousandFormat(indicatorData.applyperson, 0)}}人</div>
+          <div class="num-span-data">
+            <!-- {{thousandFormat(indicatorData.applyperson, 0)}}人 -->
+
+            <scroll-span
+              :number="thousandFormat(indicatorData.applyperson, 0) + '人'"
+              class="total-money-span"
+              ids="person"
+            />
+          </div>
         </div>
       </div>
       <div class="top-middle"></div>
@@ -22,17 +30,24 @@
         <div class="shouxin-num num-span">
           <div class="num-span-title">授信金额</div>
           <div class="middle-rec"></div>
-          <div class="num-span-data">{{thousandFormat(indicatorData.applyvalue, 2)}}元</div>
+          <div class="num-span-data">
+            <scroll-span
+              :number="thousandFormat(indicatorData.applyvalue, 2)+'元'"
+              class="total-money-span"
+              ids="money"
+            />
+            <!-- {{thousandFormat(indicatorData.applyvalue, 2)}}元 -->
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="middle-title">
+    <div class="middle-title" v-if="showCredit">
       <div class="middle-left middle-single">{{typeData.littleTitle[0]}}</div>
       <div class="middle-right middle-single">{{typeData.littleTitle[1]}}</div>
     </div>
 
-    <div class="bottom-graph">
+    <div class="bottom-graph" v-if="showCredit">
       <div v-if="typeData.type === 1" class="top-graph-div">
         <classification-account
           class="company-columnar"
@@ -53,6 +68,7 @@
           class="person-columnar"
           :ids="industryColumnarId"
           :chartData="industryColumnarData"
+          v-if="industryJudge"
         />
         <person-columnar
           class="person-columnar"
@@ -70,9 +86,10 @@ import PersonColumnar from "./personColumnar.vue";
 import ClassificationAccount from "./classificationAccount.vue";
 import IncomeLevel from "./incomeLevel.vue";
 
+import ScrollSpan from "../../components/scrollSpan.vue";
 export default {
   name: "",
-  props: ["typeData", "indicatorData"],
+  props: ["typeData", "indicatorData", "showCredit"],
   created() {
     this.getClassificationData();
     this.getLevelData();
@@ -82,6 +99,7 @@ export default {
   data() {
     return {
       enterpriseJudge: false,
+      industryJudge: false,
       industryColumnarData: {},
       industryColumnarId: "industryColumnar",
       enterpriseColumnarData: {},
@@ -182,10 +200,36 @@ export default {
 
           that.enterpriseColumnarData = Object.assign(
             {},
-            { xAxis: xAxis, yAxis: yAxis }
+            { xAxis: xAxis, yAxis: yAxis, chartType: "percent" }
           );
           this.$nextTick(() => {
             this.enterpriseJudge = true;
+          });
+        }
+      });
+      this.axios({
+        url: "/api/p2/industry",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          var tData = data.data.data;
+          let xAxis = [];
+          let yAxis = [];
+          tData.forEach(item => {
+            xAxis.push(item.category);
+            yAxis.push(parseFloat(item.percent));
+          });
+          xAxis = xAxis.reverse();
+          yAxis = yAxis.reverse();
+
+          that.industryColumnarData = Object.assign(
+            {},
+            { xAxis: xAxis, yAxis: yAxis, chartType: "num" }
+          );
+          this.$nextTick(() => {
+            this.industryJudge = true;
           });
         }
       });
@@ -194,7 +238,8 @@ export default {
   components: {
     "person-columnar": PersonColumnar,
     "classification-account": ClassificationAccount,
-    "income-level": IncomeLevel
+    "income-level": IncomeLevel,
+    "scroll-span": ScrollSpan
   }
 };
 </script>
@@ -253,7 +298,10 @@ export default {
         }
         .num-span-data {
           font-size: 36px;
+          height: 40%;
           color: #04bbff;
+          display: inline-block;
+          overflow: hidden;
         }
       }
     }
