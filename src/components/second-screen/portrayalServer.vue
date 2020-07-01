@@ -20,7 +20,6 @@ export default {
   },
   computed: {},
   mounted() {
-    console.log(this.tableData)
     this.drawArea("area", this.tableData);
   },
 

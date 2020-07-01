@@ -87,7 +87,7 @@ export default {
               ? obj[0].data.data.map(item => {
                   return {
                     name: item.xid,
-                    value: item.val
+                    value: parseInt(item.val)
                   };
                 })
               : [];
@@ -95,7 +95,7 @@ export default {
               ? obj[1].data.data.map(item => {
                   return {
                     name: item.xid,
-                    value: item.val
+                    value: parseInt(item.val)
                   };
                 })
               : [];
@@ -117,12 +117,12 @@ export default {
       this.axios
         .all([
           this.axios.get("/api/p2/smallCreditInfo?flag=xwsx"),
-          this.axios.get("/api/p2/smallCreditInfo?flag=xwjy")
+          this.axios.get("/api/p2/smallCreditInfo?flag=grjy")
         ])
         .then(
           this.axios.spread((...obj) => {
-            this.propertyData = obj[0].data.data;
-            this.personData = obj[1].data.data;
+            this.propertyData = obj[0].data.data || 0;
+            this.personData = obj[1].data.data || 0;
             this.$nextTick(() => {
               this.showPropertyCredit = true;
             });

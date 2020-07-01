@@ -127,7 +127,6 @@ export default {
   methods: {
     getMsgFormSon(data) {
       this.msgFormSon = data;
-      console.log(this.msgFormSon);
     },
     // 针对三种图例 legend.length = 3
     drawLineA(id, data) {

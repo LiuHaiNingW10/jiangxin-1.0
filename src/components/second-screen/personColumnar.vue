@@ -52,7 +52,7 @@ export default {
         },
         grid: {
           left: "3%",
-          right: "4%",
+          right: "9%",
           bottom: "3%",
           containLabel: true
         },
@@ -67,6 +67,8 @@ export default {
 
             show: false
           },
+
+          interval: 0,
           axisLine: {
             lineStyle: {
               color: "rgba(255,255,255,0)" //更改坐标轴颜色
@@ -86,6 +88,10 @@ export default {
               fontSize: 14
             }
           },
+          axisTick: {
+            show: false
+          },
+          interval: 0,
           axisLine: {
             lineStyle: {
               color: "rgba(64,185,230,1)" //更改坐标轴颜色
