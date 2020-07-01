@@ -46,7 +46,7 @@ export default {
       this.getBubbleData();
     },
     getGraphData(name) {
-      var that = this
+      var that = this;
       let url = "/api/p2/cmpGraph?company=" + name;
       this.axios({
         url: url,
@@ -56,8 +56,27 @@ export default {
         if (data.data.code === 100) {
           var graphData = data.data.data.graph;
           var root = data.data.data.company;
+          if (graphData == null) return;
+
+          // 数组去重，否则会报错
+          let hash = {};
+          graphData.vertices = graphData.vertices.reduce((preVal, curVal) => {
+            hash[curVal.name]
+              ? ""
+              : (hash[curVal.name] = true && preVal.push(curVal));
+            return preVal;
+          }, []);
+          let hash2 = {};
+          graphData.edges = graphData.edges.reduce((preVal, curVal) => {
+            hash2[curVal.from + "-" + curVal.to]
+              ? ""
+              : (hash2[curVal.from + "-" + curVal.to] =
+                  true && preVal.push(curVal));
+            return preVal;
+          }, []);
+
           this.drawGraph(root, graphData);
-          this.drawThree(data.data.data)
+          this.drawThree(data.data.data);
         }
       });
     },
@@ -70,6 +89,15 @@ export default {
       return y;
     },
     translate(root, list) {
+      let randomData = [],
+        randomDataY = [];
+      for (var i = -200; i <= 200; i++) {
+        randomData.push(i);
+      }
+      for (var j = -50; j <= 50; j++) {
+        randomDataY.push(j);
+      }
+
       let arr = [],
         length = list.vertices.length;
       list.vertices.forEach((it, i) => {
@@ -80,23 +108,34 @@ export default {
               color: it.type === "person" ? "#395C97" : "#6C3A61"
             }
           },
-          x: it.root ? 50 : this.getRondan('x'),
-          y: it.root ? 100 : this.getRondan('y')
+          x: it.root
+            ? 0
+            : this.getRondan("x", randomData, randomDataY, i, list.vertices),
+          y: it.root
+            ? 0
+            : this.getRondan("y", randomData, randomDataY, i, list.vertices)
         });
       });
       return arr;
     },
-    getRondan(type) {
-      let n = 0
-      var num =  () => {
-        n  = Math.round(-200 * Math.random()) + 200;
+    getRondan(type, randomData, randomDataY, i, list) {
+      if (i === 1) {
+        return type === "x" ? -200 : -50;
+      } else if (i === list.length - 1) {
+        return type === "x" ? 200 : 50;
       }
-      if(type === 'x' && Math.abs(n-50) < 100) {
-        num()
-      }else if (type === 'y' && Math.abs(n-100) < 400) {
-        num()
-      }
-      return n;
+      // let n = 0
+      // var num =  () => {
+      //   n  = Math.round(-200 * (Math.random() / 1.5)) + 200;
+      // }
+      // if(type === 'x' && Math.abs(n-50) < 100) {
+      //   num()
+      // }else if (type === 'y' && Math.abs(n-100) < 400) {
+      //   num()
+      // }
+      return type === "x"
+        ? randomData[Math.floor(Math.random() * randomData.length)]
+        : randomDataY[Math.floor(Math.random() * randomDataY.length)];
     },
     dataLink(list) {
       let arr = [];
@@ -107,7 +146,7 @@ export default {
           target: it.to,
           itemStyle: {
             normal: {
-              color: '#fff'
+              color: "#fff"
             }
           }
         });
@@ -126,6 +165,10 @@ export default {
         yAxis: {
           show: false,
           type: "value"
+        },
+        grid: {
+          left: "50%",
+          right: "50%"
         },
         tooltip: {
           formatter: "{b}"
@@ -199,32 +242,31 @@ export default {
               }
             },
             data: a,
-            links: b 
+            links: b
           }
         ]
       };
       myChart.setOption(option);
-      
     },
     drawThree(list) {
-          var graphData = list;
-          var sxjeData = graphData.sxje;
-          let tmpData = [];
-          tmpData.push({
-            value: [
-              sxjeData.basicinfo,
-              sxjeData.jyfx,
-              sxjeData.nsxy,
-              sxjeData.rzqk,
-              sxjeData.ylnl,
-              sxjeData.zczj
-            ],
-            name: sxjeData.companyname
-          });
-          this.creditData = [...tmpData]
-          this.$nextTick(() => {
-            this.creditJudge = true
-          })
+      var graphData = list;
+      var sxjeData = graphData.sxje;
+      let tmpData = [];
+      tmpData.push({
+        value: [
+          sxjeData.basicinfo,
+          sxjeData.jyfx,
+          sxjeData.nsxy,
+          sxjeData.rzqk,
+          sxjeData.ylnl,
+          sxjeData.zczj
+        ],
+        name: sxjeData.companyname
+      });
+      this.creditData = [...tmpData];
+      this.$nextTick(() => {
+        this.creditJudge = true;
+      });
     },
 
     getBubbleData() {

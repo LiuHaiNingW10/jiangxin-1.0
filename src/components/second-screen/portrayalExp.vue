@@ -49,22 +49,11 @@ export default {
       let sortValue = data.sort((a, b) => {
         return b.value - a.value;
       });
-      sumValue = sortValue[0].value + 100000;
-      // data.forEach(item => {
-      //   sumValue += item.value;
-      // });
+      sumValue = sortValue[0].value + Math.pow(10, sortValue[0].value.toString().length - 1);
       let arrName = getArrayValue(data, "name"),
         arrValue = getArrayValue(data, "value"),
         objData = array2obj(data, "name"),
         optionData = getData(data);
-      // let sumValue = 0;
-      // let sortValue = data.sort((a, b) => {
-      //   return b.value - a.value;
-      // });
-      // // sumValue = sortValue[0].value + 100000;
-      // data.forEach(item => {
-      //   sumValue += item.value;
-      // });
       function getArrayValue(array, key) {
         var key = key || "value";
         var res = [];
@@ -235,9 +224,10 @@ export default {
             hoverAnimation: false,
             data: [
               {
-                name: "积分",
+                name: "",
                 value: "78%",
                 label: {
+                  show: false,
                   normal: {
                     rich: {
                       a: {
@@ -251,13 +241,12 @@ export default {
                         fontSize: 12
                       }
                     },
-                    formatter: function(params) {
-                      return (
-                        "{a|" + params.value + "}\n\n" + "{b|" + "数据" + "}"
-                      );
-                    },
+                    // formatter: function(params) {
+                    //   return (
+                    //     "{a|" + params.value + "}\n\n" + "{b|" + "数据" + "}"
+                    //   );
+                    // },
                     position: "center",
-                    show: true
                   }
                 },
                 labelLine: {

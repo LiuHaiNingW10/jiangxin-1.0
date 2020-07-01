@@ -118,29 +118,6 @@ export default {
 
     initLeftTwoChart(idsright, chartData) {
       let myEchart = this.$echarts.init(document.getElementById(idsright));
-
-      // let data = [
-      //   {
-      //     name: "1.user1",
-      //     value: (Math.random() * 10).toFixed(0),
-      //     sum: 10
-      //   },
-      //   {
-      //     name: "2.user2",
-      //     value: (Math.random() * 10).toFixed(0),
-      //     sum: 10
-      //   },
-      //   {
-      //     name: "3.user3",
-      //     value: (Math.random() * 10).toFixed(0),
-      //     sum: 10
-      //   },
-      //   {
-      //     name: "4.user4",
-      //     value: (Math.random() * 10).toFixed(0),
-      //     sum: 10
-      //   }
-      // ];
       let data = [];
       let total = chartData.reduce((a, b) => {
         return a + b.value * 1;
@@ -289,8 +266,7 @@ export default {
               fontSize: 13,
               formatter: function(value, index) {
                 return (
-                  ((data[index].value / data[index].sum) * 100).toFixed(2) +
-                  "%"
+                  ((data[index].value / data[index].sum) * 100).toFixed(2) + "%"
                 );
               }
             }
@@ -308,11 +284,9 @@ export default {
             // align: left,
             itemStyle: {
               color: val => {
-                // if (val.dataIndex < 3 && opt.index === 0) {
-                //   return this.color[val.dataIndex];
-                // } else {
-                //   return "#1990FF";
-                // }
+                if (val === undefined) {
+                  return "#1990FF";
+                }
                 return this.color[val.dataIndex];
               },
               barBorderRadius: 30
