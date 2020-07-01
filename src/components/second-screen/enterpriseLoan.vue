@@ -46,7 +46,7 @@ export default {
       this.getBubbleData();
     },
     getGraphData(name) {
-      var that = this;
+      var that = this
       let url = "/api/p2/cmpGraph?company=" + name;
       this.axios({
         url: url,
@@ -57,7 +57,7 @@ export default {
           var graphData = data.data.data.graph;
           var root = data.data.data.company;
           this.drawGraph(root, graphData);
-          this.drawThree(data.data.data);
+          this.drawThree(data.data.data)
         }
       });
     },
@@ -80,21 +80,21 @@ export default {
               color: it.type === "person" ? "#395C97" : "#6C3A61"
             }
           },
-          // x: it.root ? 50 : this.getRondan("x"),
-          // y: it.root ? 100 : this.getRondan("y")
+          x: it.root ? 50 : this.getRondan('x'),
+          y: it.root ? 100 : this.getRondan('y')
         });
       });
       return arr;
     },
     getRondan(type) {
-      let n = 0;
-      var num = () => {
-        n = Math.round(-200 * Math.random()) + 200;
-      };
-      if (type === "x" && Math.abs(n - 50) < 100) {
-        num();
-      } else if (type === "y" && Math.abs(n - 100) < 400) {
-        num();
+      let n = 0
+      var num =  () => {
+        n  = Math.round(-200 * Math.random()) + 200;
+      }
+      if(type === 'x' && Math.abs(n-50) < 100) {
+        num()
+      }else if (type === 'y' && Math.abs(n-100) < 400) {
+        num()
       }
       return n;
     },
@@ -107,7 +107,7 @@ export default {
           target: it.to,
           itemStyle: {
             normal: {
-              color: "#fff"
+              color: '#fff'
             }
           }
         });
@@ -133,10 +133,7 @@ export default {
         series: [
           {
             type: "graph",
-            layout: "force",
-            force: {
-              repulsion: 400
-            },
+            layout: "none",
             edgeSymbol: ["circle", "arrow"],
             edgeSymbolSize: [0, 20],
             draggable: true,
@@ -202,31 +199,32 @@ export default {
               }
             },
             data: a,
-            links: b
+            links: b 
           }
         ]
       };
       myChart.setOption(option);
+      
     },
     drawThree(list) {
-      var graphData = list;
-      var sxjeData = graphData.sxje;
-      let tmpData = [];
-      tmpData.push({
-        value: [
-          sxjeData.basicinfo,
-          sxjeData.jyfx,
-          sxjeData.nsxy,
-          sxjeData.rzqk,
-          sxjeData.ylnl,
-          sxjeData.zczj
-        ],
-        name: sxjeData.companyname
-      });
-      this.creditData = [...tmpData];
-      this.$nextTick(() => {
-        this.creditJudge = true;
-      });
+          var graphData = list;
+          var sxjeData = graphData.sxje;
+          let tmpData = [];
+          tmpData.push({
+            value: [
+              sxjeData.basicinfo,
+              sxjeData.jyfx,
+              sxjeData.nsxy,
+              sxjeData.rzqk,
+              sxjeData.ylnl,
+              sxjeData.zczj
+            ],
+            name: sxjeData.companyname
+          });
+          this.creditData = [...tmpData]
+          this.$nextTick(() => {
+            this.creditJudge = true
+          })
     },
 
     getBubbleData() {
