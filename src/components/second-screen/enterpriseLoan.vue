@@ -43,7 +43,6 @@ export default {
   },
   methods: {
     init() {
-      this.getGraphData();
       this.getBubbleData();
     },
     getGraphData(name) {
@@ -52,9 +51,6 @@ export default {
       this.axios({
         url: url,
         method: "get",
-        params: {
-          company: "海宁大红马新材料股份有限公司"
-        },
         type: "json"
       }).then(data => {
         if (data.data.code === 100) {
