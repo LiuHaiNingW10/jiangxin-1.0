@@ -84,7 +84,6 @@ export default {
           y: it.root ? 100 : this.getRondan('y')
         });
       });
-      console.log(arr);
       return arr;
     },
     getRondan(type) {

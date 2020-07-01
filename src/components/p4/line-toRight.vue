@@ -8,9 +8,6 @@
     </div>
     <div class="line-body">
       <div :id="id.id"></div>
-      <div class="line-data">
-        <span v-for="(item) in lineDatas" :key="item">{{item}}</span>
-      </div>
     </div>
   </div>
 </template>
@@ -28,9 +25,7 @@ export default {
     };
   },
   computed: {
-    lineDatas() {
-      return this.lineData.reverse();
-    }
+    
   },
   mounted() {
     this.init();
@@ -63,8 +58,8 @@ export default {
         color: ["#C98531", "#0177a9"],
         grid: {
           top: "0",
-          left: "44%",
-          right: "0"
+          left: "30%",
+          right: "10%"
         },
         xAxis: {
           type: "value",
@@ -86,24 +81,54 @@ export default {
             show: false
           }
         },
-        yAxis: {
-          name: "活动：信贷MGM",
-          type: "category",
-          axisLabel: {
-            //刻度标签文字的颜色
-            show: true,
-            color: "#7397C4",
-            fontSize: 26
+        yAxis: [
+          {
+            name: "活动：信贷MGM",
+            type: "category",
+            axisLabel: {
+              //刻度标签文字的颜色
+              show: true,
+              color: "#7397C4",
+              fontSize: 20
+            },
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            nameGap: 30,
+            data: data.yAxis
           },
-          axisLine: {
-            show: false
-          },
-          axisTick: {
-            show: false
-          },
-          nameGap: 30,
-          data: data.yAxis
-        },
+          {
+            type: "category",
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              show: true,
+              inside: false,
+              textStyle: {
+                color: "#b3ccf8",
+                fontSize: "14",
+                fontFamily: "PingFangSC-Regular"
+              },
+              formatter: function(val) {
+                return `${val}`;
+              }
+            },
+            splitArea: {
+              show: false
+            },
+            splitLine: {
+              show: false
+            },
+            data: this.lineData.reverse()
+          }
+        ],
         series: [
           {
             name: "折人民币余额",
@@ -142,7 +167,7 @@ export default {
 </script>
 <style lang="less">
 #echarts02 {
-  width: 85%;
+  width: 98%;
   min-height: 500px;
   color: #fff;
 }
