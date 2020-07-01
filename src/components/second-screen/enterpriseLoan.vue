@@ -212,7 +212,7 @@ export default {
       
     },
     drawThree(list) {
-          var graphData = data.data.data;
+          var graphData = list;
           var sxjeData = graphData.sxje;
           let tmpData = [];
           tmpData.push({
