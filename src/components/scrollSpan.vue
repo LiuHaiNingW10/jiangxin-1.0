@@ -57,7 +57,7 @@ export default {
 <style lang="less">
 .nwwest-roll {
   display: inline-block;
-  height: 40px;
+  height: 48%;
   overflow: hidden;
 }
 
@@ -68,8 +68,8 @@ export default {
 }
 
 .nwwest-roll li {
-  height: 35px;
-  line-height: 35px;
+  height: 100%;
+  line-height: 100%;
 }
 
 .anim {

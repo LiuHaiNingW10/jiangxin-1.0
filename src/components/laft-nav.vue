@@ -23,7 +23,6 @@ export default {
   },
   computed: {
     menus() {
-      console.log(menus)
       return menus;
     }
   },

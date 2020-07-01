@@ -137,6 +137,7 @@ export default {
       font-weight: bold;
       color: #ff0088;
       font-size: 30px;
+      height: 15%;
     }
     .single-columnar-echarts {
       width: 80%;

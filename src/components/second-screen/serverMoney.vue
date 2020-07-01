@@ -13,13 +13,21 @@
     </div>
     <div class="current-money">
       <span>当日小微信贷服务金额</span>
-      <span class="current-money-span">¥ {{currentMoney}}</span>
+      <span class="current-money-span">
+        <!-- ¥ {{currentMoney}} -->
+        <scroll-span
+          :number="'¥' + thousandFormat(dailyMoney, 0)"
+          class="daily-money-span"
+          ids="daily"
+        />
+      </span>
     </div>
   </div>
 </template>
 
 <script>
 import IndicatorChart from "../../components/first-screen/indicator.vue";
+import ScrollSpan from "../../components/scrollSpan.vue";
 export default {
   name: "",
   props: [],
@@ -29,6 +37,7 @@ export default {
   data() {
     return {
       totalMoney: "",
+      dailyMoney: "",
       currentMoney: "19,289,386,378.97",
       styleObj: {
         height: "45%",
@@ -73,12 +82,14 @@ export default {
     },
     rollTimelyData() {
       this.getTotalMoney();
+      this.getDailyMoney();
       var _that = this;
       var index = 0;
       if (coinInterval) clearInterval(coinInterval);
       var coinInterval = setInterval(
         () => {
           this.getTotalMoney();
+          this.getDailyMoney();
         },
         30000,
         _that,
@@ -99,15 +110,30 @@ export default {
           that.totalMoney = that.thousandFormat(tData, 2);
         }
       });
+    },
+    getDailyMoney() {
+      let that = this;
+      this.axios({
+        url: "/api/p2/accDayServiceAmount",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          var tData = data.data.data;
+          that.dailyMoney = that.thousandFormat(tData, 2);
+        }
+      });
     }
   },
   components: {
-    "indicator-chart": IndicatorChart
+    "indicator-chart": IndicatorChart,
+    "scroll-span": ScrollSpan
   }
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .server-money {
   padding: 2.74%;
 }
@@ -118,11 +144,13 @@ export default {
 .current-money {
   height: 40%;
   width: 100%;
-  .current-money-span {
+  .daily-money-span {
     display: block;
     font-size: 64px;
     letter-spacing: 16px;
     font-weight: bold;
+    height: 48%;
+    margin-top: 2%;
   }
 }
 </style>

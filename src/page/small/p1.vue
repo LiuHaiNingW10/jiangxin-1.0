@@ -1049,24 +1049,25 @@ export default {
   padding-top: 1%;
   font-size: 28px;
   color: #fff;
-  .nwwest-roll {
-    display: inline-block;
-    height: 40px;
-    overflow: hidden;
-  }
+  // .nwwest-roll {
+  //   display: inline-block;
+  //   height: 40px;
+  //   overflow: hidden;
+  // }
 
-  .roll-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+  // .roll-ul {
+  //   list-style: none;
+  //   padding: 0;
+  //   margin: 0;
+  // }
 
-  .nwwest-roll li {
-    height: 35px;
-    line-height: 35px;
-  }
+  // .nwwest-roll li {
+  //   height: 35px;
+  //   line-height: 35px;
+  // }
   .total-money-span {
     color: #ffcc22;
+    height: 32%;
   }
 
   .anim {
@@ -1089,7 +1090,7 @@ export default {
       .title-left-span {
         display: inline-block;
         position: relative;
-        top: -12px;
+        top: -44%;
       }
     }
     .global-title {

@@ -105,7 +105,6 @@ export default {
           //     "http://tq.daodaoim.com//tianqiapi/skin/pitaya/" +
           //     response.data.wea_img +
           //     ".png";
-          console.log(response, "response");
         })
         .catch(() => {});
 

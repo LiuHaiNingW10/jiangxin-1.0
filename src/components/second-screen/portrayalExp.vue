@@ -22,37 +22,49 @@ export default {
   },
   computed: {},
   mounted() {
-    console.log(this.tableData.finance);
-    console.log(this.tableData.op_period);
     this.drawFinance("exp-years", this.tableData.finance);
     this.drawFinance("exp-down-payment", this.tableData.op_period);
   },
   methods: {
     drawFinance(id, chartData) {
       let data = chartData || [
-          {
-            name: "指标一",
-            value: 754
-          },
-          {
-            name: "硕士",
-            value: 611
-          },
-          {
-            name: "大专",
-            value: 400
-          },
-          {
-            name: "博士",
-            value: 200
-          }
-        ],
-        arrName = getArrayValue(data, "name"),
+        {
+          name: "指标一",
+          value: 754
+        },
+        {
+          name: "硕士",
+          value: 611
+        },
+        {
+          name: "大专",
+          value: 400
+        },
+        {
+          name: "博士",
+          value: 200
+        }
+      ];
+      let sumValue = 0;
+      let sortValue = data.sort((a, b) => {
+        return b.value - a.value;
+      });
+      sumValue = sortValue[0].value + 100000;
+      // data.forEach(item => {
+      //   sumValue += item.value;
+      // });
+      let arrName = getArrayValue(data, "name"),
         arrValue = getArrayValue(data, "value"),
-        sumValue = 1000,
         objData = array2obj(data, "name"),
         optionData = getData(data);
-
+      // let sumValue = 0;
+      // let sortValue = data.sort((a, b) => {
+      //   return b.value - a.value;
+      // });
+      // // sumValue = sortValue[0].value + 100000;
+      // data.forEach(item => {
+      //   sumValue += item.value;
+      // });
       function getArrayValue(array, key) {
         var key = key || "value";
         var res = [];

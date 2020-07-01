@@ -218,7 +218,7 @@ export default {
           let xAxis = [];
           let yAxis = [];
           tData.forEach(item => {
-            xAxis.push(item.category);
+            xAxis.push(item.industryname);
             yAxis.push(parseFloat(item.percent));
           });
           xAxis = xAxis.reverse();
@@ -244,7 +244,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .credit-properties {
   padding: 1.97% 3.47%;
   .content-title {
@@ -298,10 +298,14 @@ export default {
         }
         .num-span-data {
           font-size: 36px;
-          height: 40%;
+          height: 100%;
           color: #04bbff;
           display: inline-block;
           overflow: hidden;
+
+          .total-money-span {
+            height: 40%;
+          }
         }
       }
     }
