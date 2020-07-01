@@ -4,54 +4,7 @@
       <span>{{id.title}}</span>
     </div>
     <div class="pop-content">
-      <div class="pop-item pop-a">
-        <span>未拨通</span>
-        <br />
-        <i>
-          67
-          <br />人
-        </i>
-      </div>
-      <div class="pop-item pop-b">
-        <span>最近承诺还款</span>
-        <br />
-        <i>
-          2637
-          <br />人
-        </i>
-      </div>
-      <div class="pop-item pop-c">
-        <span>未接听</span>
-        <br />
-        <i>
-          12
-          <br />人
-        </i>
-      </div>
-      <div class="pop-item pop-d">
-        <span>延迟还款</span>
-        <br />
-        <i>
-          67
-          <br />人
-        </i>
-      </div>
-      <div class="pop-item pop-e">
-        <span>通话中断</span>
-        <br />
-        <i style="color:#09C937">
-          37
-          <br />人
-        </i>
-      </div>
-      <div class="pop-item pop-f">
-        <span>承诺马上还款</span>
-        <br />
-        <i>
-          1237
-          <br />人
-        </i>
-      </div>
+      <div id="p4-pop"></div>
     </div>
   </div>
 </template>
@@ -75,6 +28,121 @@ export default {
   methods: {
     init() {
       // this.transLateData();
+      this.drawChart([])
+    },
+    drawChart(data) {
+      let myChart = this.$echarts.init(document.getElementById("p4-pop"));
+      // 绘制图表
+      myChart.setOption({
+        title: {
+          show: true, //显示策略，默认值true,可选为：true（显示） | false（隐藏）
+          x: "center", // 水平安放位置，默认为左对齐，可选为：
+          // 'center' ¦ 'left' ¦ 'right'
+          // ¦ {number}（x坐标，单位px）
+          y: "bottom", // 垂直安放位置，默认为全图顶端，可选为：
+          // 'top' ¦ 'bottom' ¦ 'center'
+          // ¦ {number}（y坐标，单位px）
+          //textAlign: null          // 水平对齐方式，默认根据x设置自动调整
+          backgroundColor: "rgba(0,0,0,0)",
+          borderColor: "#ccc", // 标题边框颜色
+          borderWidth: 0, // 标题边框线宽，单位px，默认为0（无边框）
+          padding: 5, // 标题内边距，单位px，默认各方向内边距为5，
+          // 接受数组分别设定上右下左边距，同css
+          itemGap: 10, // 主副标题纵向间隔，单位px，默认为10，
+          textStyle: {
+            fontSize: 18,
+            fontWeight: "bolder",
+            color: "#eee" // 主标题文字颜色
+          },
+          subtextStyle: {
+            color: "#aaa" // 副标题文字颜色
+          }
+        },
+        tooltip: {
+          show: false
+        },
+        animationDurationUpdate: function(idx) {
+          // 越往后的数据延迟越大
+          return idx * 100;
+        },
+        animationEasingUpdate: "bounceIn",
+        color: ["#fff", "#fff", "#fff"],
+        series: [
+          {
+            type: "graph",
+            layout: "force",
+            force: {
+              repulsion: 400,
+            },
+            roam: true,
+            label: {
+              show: true,
+              color: "#fff",
+              fontWeight: "bold",
+              fontSize: 18,
+              formatter: "{b}\n\n{value|{c}}",
+              rich: {
+                value: {
+                  fontSize: "24",
+                  align: 'center'
+                }
+              }
+            },
+            data:  [
+              {
+                name: "未拨通",
+                value: 68+ '人',
+                symbolSize: 180,
+                symbol: `image://${require("@/assets/images/p2/loan1.svg")}`,
+                draggable: true,
+                label: {
+                  align:'center'
+                }
+              },
+              {
+                name: "承诺近期还款",
+                value: 678+ '人',
+                symbolSize: 281,
+                symbol: `image://${require("@/assets/images/p2/loan3.svg")}`,
+                draggable: true,
+                label: {
+                  align:'center'
+                }
+              },
+              {
+                name: "承诺马上还款",
+                value: 348+ '人',
+                symbolSize: 160,
+                symbol: `image://${require("@/assets/images/p2/loan3.svg")}`,
+                draggable: true,
+                label: {
+                  align:'center'
+                }
+              },
+              {
+                name: "未接听",
+                value: 87+ '人',
+                symbolSize: 150,
+                symbol: `image://${require("@/assets/images/p2/loan4.svg")}`,
+                draggable: true,
+                label: {
+                  align:'center'
+                }
+              },
+              {
+                name: "延期还款",
+                value: 532 + '人',
+                symbolSize: 170,
+                symbol: `image://${require("@/assets/images/p2/loan5.svg")}`,
+                draggable: true,
+                label: {
+                  align:'center'
+                }
+              }
+            ]
+          }
+        ]
+      });
     },
     transLateData() {
       let obj = {
@@ -98,67 +166,9 @@ export default {
   .pop-content {
     text-align: center;
     padding: 30px 0;
-    .pop-item {
-      text-align: center;
-      display: inline-block;
-      i {
-        font-style: normal;
-        font-size: 14px;
-      }
-    }
-    .pop-a {
-      width: 21%;
-      background: url("../../assets/images/circle/1-lv.png") no-repeat center;
-      background-size: 116%;
-      padding: 4%;
-      i {
-        color: #e19513;
-      }
-    }
-    .pop-b {
-      width: 30%;
-      background: url("../../assets/images/circle/oval.png") no-repeat center;
-      background-size: 90%;
-      padding: 7%;
-      i {
-        color: #17d9f2;
-      }
-    }
-    .pop-c {
-      width: 30%;
-      background: url("../../assets/images/circle/1-lv.png") no-repeat center;
-      background-size: 100%;
-      padding: 8%;
-      i {
-        color: #e19513;
-      }
-    }
-    .pop-d {
-      width: 34%;
-      background: url("../../assets/images/circle/oval.png") no-repeat center;
-      background-size: 64%;
-      padding: 8%;
-      i {
-        color: #abd043;
-      }
-    }
-    .pop-e {
-      width: 30%;
-      background: url("../../assets/images/circle/1-lv.png") no-repeat center;
-      background-size: 100%;
-      padding: 8%;
-      i {
-        color: #17d9f2;
-      }
-    }
-    .pop-f {
-      width: 25%;
-      background: url("../../assets/images/circle/oval.png") no-repeat center;
-      background-size: 95%;
-      padding: 4%;
-      i {
-        color: #17d9f2;
-      }
+    height: 90%;
+    #p4-pop {
+      height: 100%;
     }
   }
 }

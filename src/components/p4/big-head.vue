@@ -121,14 +121,7 @@ export default {
       height: this.heights,
       lineData: [],
       showImg: true,
-      analyser: {},
-      want: {
-        承诺还款: "color: #4DC4D3",
-        未接听: "color: #4DC4D3",
-        承诺还款: "color: #4DC4D3",
-        承诺还款: "color: #4DC4D3",
-        承诺还款: "color: #4DC4D3"
-      }
+      analyser: {}
     };
   },
   computed: {},
@@ -350,8 +343,8 @@ export default {
   #audio-art {
     position: absolute;
     width: 100%;
-    top: 0;
-    height: 60%;
+    top: 130px;
+    height: 172%;
     margin: 0 auto;
     z-index: 1;
   }
