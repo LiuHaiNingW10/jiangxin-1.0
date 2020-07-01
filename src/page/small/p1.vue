@@ -86,8 +86,8 @@
           <funnel-chart
             class="left-distribution single-distribution"
             :ids="funnelId"
+            v-if="educationJudge"
             :chartData="ageData"
-            v-if="ageJudge"
           />
           <pie-chart
             class="right-distribution single-distribution"
@@ -143,6 +143,9 @@ export default {
   },
   data() {
     return {
+      mapInterval: undefined,
+      coinInterval: undefined,
+
       testN: 100,
       animate: true,
 
@@ -605,12 +608,12 @@ export default {
       this.getRollDataHandler();
       var _that = this;
       var index = 0;
-      if (coinInterval) clearInterval(coinInterval);
-      var coinInterval = setInterval(
+      // if (coinInterval) clearInterval(coinInterval);
+      this.coinInterval = setInterval(
         () => {
           this.getRollDataHandler();
         },
-        3000,
+        5000,
         _that,
         index
       );
@@ -620,8 +623,8 @@ export default {
       this.getTimelyData();
       var _that = this;
       var index = 0;
-      if (coinInterval) clearInterval(coinInterval);
-      var coinInterval = setInterval(
+      // if (coinInterval) clearInterval(coinInterval);
+      this.coinInterval = setInterval(
         () => {
           this.getTimelyData();
         },
@@ -649,7 +652,7 @@ export default {
             _that.scroll(_that.totalMoney, _that.$refs);
             _that.preTotalMoney = _that.totalMoney;
           }
-          _that.testN = _that.testN + 84;
+          // _that.testN = _that.testN + 84;
         }
       });
 
@@ -731,7 +734,9 @@ export default {
                 })
               : []
           };
-          _that.currentPersonJudge = true;
+          this.$nextTick(() => {
+            _that.currentPersonJudge = true;
+          });
         }
       });
     },
@@ -807,14 +812,17 @@ export default {
           if (tData == null) return;
           var tmpVal = 100;
           _that.ageData = tData.map((item, index) => {
+            debugger;
             return {
               value: tmpVal - (100 / tData.length) * index,
-              name: item.xid,
-              num: item.val
+              name: _that.thousandFormat(item.val, 0) + "  人",
+              num: item.xid
             };
           });
         }
-        _that.ageJudge = true;
+        this.$nextTick(() => {
+          _that.ageJudge = true;
+        });
       });
 
       // 获取学历数据
@@ -834,7 +842,9 @@ export default {
             return { name: item.xid, value: item.val, total: total };
           });
         }
-        _that.educationJudge = true;
+        this.$nextTick(() => {
+          _that.educationJudge = true;
+        });
       });
 
       // 获取复购数据
@@ -919,7 +929,9 @@ export default {
             tData ? tData.reloan30rate : "",
             tData ? tData.reloan90rate : ""
           ];
-          _that.plateJudge = true;
+          this.$nextTick(() => {
+            _that.plateJudge = true;
+          });
         }
       });
 
@@ -968,8 +980,8 @@ export default {
       this.getMapDataHandler();
       var _that = this;
       var index = 0;
-      if (mapInterval) clearInterval(mapInterval);
-      var mapInterval = setInterval(
+      // if (mapInterval) clearInterval(mapInterval);
+      this.mapInterval = setInterval(
         () => {
           _that.getMapDataHandler();
         },
@@ -1021,6 +1033,10 @@ export default {
         }
       });
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.mapInterval);
+    clearInterval(this.coinInterval);
   },
   components: {
     "indicator-chart": IndicatorChart,
@@ -1103,7 +1119,6 @@ export default {
       width: 33%;
       text-align: right;
     }
-    
   }
 
   // 内容样式

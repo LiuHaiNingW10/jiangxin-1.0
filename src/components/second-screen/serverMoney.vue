@@ -36,6 +36,7 @@ export default {
   },
   data() {
     return {
+      coinInterval: undefined,
       totalMoney: "",
       dailyMoney: "",
       currentMoney: "19,289,386,378.97",
@@ -85,8 +86,8 @@ export default {
       this.getDailyMoney();
       var _that = this;
       var index = 0;
-      if (coinInterval) clearInterval(coinInterval);
-      var coinInterval = setInterval(
+      // clearInterval(this.coinInterval);
+      this.coinInterval = setInterval(
         () => {
           this.getTotalMoney();
           this.getDailyMoney();
@@ -125,6 +126,9 @@ export default {
         }
       });
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.coinInterval);
   },
   components: {
     "indicator-chart": IndicatorChart,

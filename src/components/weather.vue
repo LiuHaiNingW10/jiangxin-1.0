@@ -37,15 +37,16 @@ export default {
 
       // 时间
       currentTime: {},
-      currentDate: undefined
+      currentDate: undefined,
+      timeInterval: undefined
     };
   },
   computed: {},
   methods: {
     // 获取右上角当前时间
     getTime() {
-      if (timeInterval) clearInterval(timeInterval);
-      var timeInterval = setInterval(this.nowTime, 1000);
+      // if (timeInterval) clearInterval(timeInterval);
+      this.timeInterval = setInterval(this.nowTime, 1000);
     },
 
     nowTime() {
@@ -124,6 +125,9 @@ export default {
       //     console.log(err);
       //   });
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.timeInterval);
   },
   components: {}
 };

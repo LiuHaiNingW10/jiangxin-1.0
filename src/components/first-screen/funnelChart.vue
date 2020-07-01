@@ -15,16 +15,22 @@ export default {
   computed: {},
   methods: {
     initChart(id, data) {
+      var myCharts = this.$echarts.init(document.getElementById(id));
+
       let rightData = [];
+      let leftData = [];
       data &&
         data.forEach(item => {
           rightData.push({
+            name: item.name,
+            value: item.value
+          });
+          leftData.push({
             name: item.num,
             value: item.value
           });
         });
       var colors = ["#f36119", "#ff9921", "#20c8ff", "#2cb7ff", "#1785ef"];
-      var myCharts = this.$echarts.init(document.getElementById(id));
       myCharts.setOption({
         title: {
           text: "",
@@ -34,23 +40,30 @@ export default {
             color: "#FFF"
           }
         },
+        grid: {
+          top: "10%",
+          left: "10%",
+          right: "10%",
+          bottom: "10%",
+          containLabel: true
+        },
         color: colors,
 
         series: [
           {
             top: "10%",
             type: "funnel",
-            left: "1%",
+            left: "-5%",
             width: "80%",
             gap: 16,
             minSize: "0%",
             maxSize: "80%",
             label: {
               show: true,
-              position: "inside",
-              formatter: "{b}"
+              position: "inside"
+              // formatter: "{b}"
             },
-            data: data
+            data: leftData
           },
 
           {
@@ -70,7 +83,7 @@ export default {
                 borderRadius: 4,
                 padding: [11, 25, 11, 25],
                 width: 50,
-                formatter: "{d} %",
+                // formatter: "{d} %",
                 /* formatter:function(d){
                         var ins='{aa|}'+d.percent;
                         console.log(ins)
@@ -94,7 +107,7 @@ export default {
             labelLine: {
               show: true,
               normal: {
-                length: 200,
+                length: 150,
                 position: "right",
                 lineStyle: {
                   width: 1,

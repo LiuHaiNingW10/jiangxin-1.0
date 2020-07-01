@@ -30,6 +30,7 @@ export default {
   props: [],
   data() {
     return {
+      bubbleInterval: undefined,
       bubbleData: [],
       currentBubbleData: [],
       bubbleJudge: false,
@@ -302,8 +303,8 @@ export default {
     rollBubble() {
       var that = this;
       var index = 0;
-      if (bubbleInterval) clearInterval(bubbleInterval);
-      var bubbleInterval = setInterval(
+      // if (bubbleInterval) clearInterval(bubbleInterval);
+      this.bubbleInterval = setInterval(
         () => {
           if (index === that.bubbleData.length) index = 0;
           that.currentBubbleData = [];
@@ -321,6 +322,9 @@ export default {
       );
       this.bubbleData;
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.bubbleInterval);
   },
   components: {
     LoanChart,
