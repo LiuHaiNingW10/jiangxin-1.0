@@ -41,11 +41,11 @@ export default {
           }
         },
         tooltip: {},
-        animationDurationUpdate: function(idx) {
-          // 越往后的数据延迟越大
-          return idx * 100;
-        },
-        animationEasingUpdate: "bounceIn",
+        // animationDurationUpdate: function(idx) {
+        //   // 越往后的数据延迟越大
+        //   return idx * 100;
+        // },
+        // animationEasingUpdate: "bounceIn",
         color: ["#fff", "#fff", "#fff"],
         series: [
           {
