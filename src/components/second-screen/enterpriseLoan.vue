@@ -222,9 +222,9 @@ export default {
             ],
             name: sxjeData.companyname
           });
-          that.creditData = [...tmpData]
-          that.$nextTick(() => {
-            that.creditJudge = true
+          this.creditData = [...tmpData]
+          this.$nextTick(() => {
+            this.creditJudge = true
           })
     },
 
