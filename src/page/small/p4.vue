@@ -317,6 +317,7 @@ export default {
     bottom: 0;
     color: #fff;
     background-size: 70%;
+    padding-top: 1%;
   }
   .time-span {
     margin-left: 5%;
