@@ -344,7 +344,7 @@ export default {
       width: 100%;
       height: 9.22%;
       font-size: 24px;
-      background: url("../../assets/images/title4备份 4.png") no-repeat;
+      background: url("../../assets/images/title4-backup.png") no-repeat;
       background-size: 100% 100%;
     }
   }

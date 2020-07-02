@@ -201,7 +201,7 @@ export default {
       .server-money {
         width: 100%;
         height: 33.59%;
-        background: url("../../assets/images/销户.png") no-repeat;
+        background: url("../../assets/images/cancellation.png") no-repeat;
         background-size: 100% 100%;
       }
       .portrayal-exp {
