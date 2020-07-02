@@ -1060,7 +1060,7 @@ export default {
   height: 1536px;
   // width: 100%;
   // height: 100%;
-  background: url("../../assets/images/background.png") no-repeat;
+  background: url("../../assets/images/background-second.png") no-repeat;
   background-size: 100% 100%;
   padding-top: 1%;
   font-size: 28px;
