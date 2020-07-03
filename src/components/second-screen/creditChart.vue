@@ -98,7 +98,7 @@ export default {
           itemHeight: 10,
           itemGap: 20,
           right: 200,
-          bottom: 100,
+          bottom: 150,
           textStyle: {
             color: "rgba(255,255,255,0.72)"
           }
@@ -165,6 +165,7 @@ export default {
 
 <style lang="less" scoped>
 .credit-chart {
+  padding-left: 15%;
   width: 100%;
   height: 360px;
 }
