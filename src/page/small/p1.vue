@@ -1072,7 +1072,7 @@ export default {
   color: #fff;
   .total-money-span {
     color: #ffcc22;
-    height: 32%;
+    height: 37%;
     margin-top: 0.4%;
   }
 

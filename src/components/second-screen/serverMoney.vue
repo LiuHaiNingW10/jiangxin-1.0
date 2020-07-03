@@ -92,7 +92,7 @@ export default {
           this.getTotalMoney();
           this.getDailyMoney();
         },
-        30000,
+        3000,
         _that,
         index
       );
