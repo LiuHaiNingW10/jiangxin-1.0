@@ -107,7 +107,7 @@ export default {
           name: it.name,
           itemStyle: {
             normal: {
-              color: it.type === "person" ? "#395C97" : "#6C3A61"
+              color: it.type === "person" ? "#ccc" : "#67375C"
             }
           },
           x: it.root
@@ -206,7 +206,7 @@ export default {
               }
             },
             symbolSize: [30, 30],
-            symbol: "circle",
+            // symbol: "circle",
             label: {
               show: true,
               position: "bottom",

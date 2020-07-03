@@ -4,28 +4,28 @@
     <div class="mc-content">
       <div class="mc-l">
         <ul>
-          <li>
+          <li  :style="moveLocaiton === 1? 'visibility: visible':'visibility: hidden'">
             <img src="../../assets/images/p3/frm-cricle1.png" alt="">
             <div>
               <div class="title">固态层</div>
               <div class="desc">已知风险防控策略调用量<span>700</span></div>
             </div>
           </li>
-          <li>
+          <li :style="moveLocaiton === 2? 'visibility: visible':'visibility: hidden'">
             <img src="../../assets/images/p3/frm-cricle2.png" alt="">
             <div>
               <div class="title">聚集层</div>
               <div class="desc">批量风险防控策略调用量<span>1200</span></div>
             </div>
           </li>
-          <li>
+          <li :style="moveLocaiton === 3? 'visibility: visible':'visibility: hidden'">
             <img src="../../assets/images/p3/frm-cricle1.png" alt="">
             <div>
               <div class="title">场景层</div>
               <div class="desc">异常行为识别策略调用量<span>500</span></div>
             </div>
           </li>
-          <li>
+          <li :style="moveLocaiton === 4? 'visibility: visible':'visibility: hidden'">
             <img src="../../assets/images/p3/frm-cricle2.png" alt="">
             <div>
               <div class="title">动态层</div>
@@ -37,13 +37,13 @@
       <div class="mc-c"></div>
       <div class="mc-r">
         <div class="title">FRIM命中分布</div>
-        <div class="frim-chart" id='frimChart'></div>
-        <!-- <ul>
-          <li>5%</li>
-          <li>60%</li>
-          <li>10%</li>
-          <li>15%</li>
-        </ul> -->
+        <!-- <div class="frim-chart" id='frimChart'></div> -->
+        <ul>
+          <li :style="moveLocaiton === 1? 'visibility: visible':'visibility: hidden'">5%</li>
+          <li :style="moveLocaiton === 2? 'visibility: visible':'visibility: hidden'">60%</li>
+          <li :style="moveLocaiton === 3? 'visibility: visible':'visibility: hidden'">10%</li>
+          <li :style="moveLocaiton === 4? 'visibility: visible':'visibility: hidden'">15%</li>
+        </ul>
       </div>
     </div>
     <div class="mc-footer">欺诈损失率<span>{{footerData}}</span></div>
@@ -57,6 +57,7 @@ export default {
       footerdata:'',
       attcktimes:'',
       showAttack:false,
+      moveLocaitons: 1
     };
   },
   computed: {
@@ -66,11 +67,17 @@ export default {
     attckTimes() {
       return this.attcktimes
     },
+    moveLocaiton: {
+      get () {
+        return this.moveLocaitons
+      },
+    },
   },
   mounted () {
     this.getLossRate()
     this.getAttackRecent()
-    this.drawChart()
+    // this.drawChart()
+    this.timeTomove()
   },
   methods: {
     getLossRate () {
@@ -82,6 +89,17 @@ export default {
       .catch(function (error) {
           console.log(error);
       });
+    },
+    timeTomove() {
+      setTimeout( () => {
+        this.timeinterval = setInterval( () => {
+          if(this.moveLocaitons === 5) {
+            this.moveLocaitons = 1
+          }else {
+            this.moveLocaitons += 1
+          }
+        },1850)
+      },2500)
     },
     getAttackRecent () {
       //近一小时攻击数P3-4
@@ -200,7 +218,10 @@ export default {
       });
     }
   },
-  components: {}
+  beforeDestroy() {
+    clearInterval(this.timeinterval);
+  },
+  components: {},
 };
 </script>
 

@@ -55,6 +55,9 @@ export default {
             return params[0].name + ": " + params[0].value;
           }
         },
+        grid: {
+          bottom: '30%'
+        },
         color: [
           {
             type: "linear",
@@ -93,7 +96,8 @@ export default {
             textStyle: {
               color: "#ccc"
             },
-            fontSize: 24
+            fontSize: 24,
+            rotate: 20
           }
         },
         yAxis: {
