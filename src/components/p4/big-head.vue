@@ -33,7 +33,7 @@
           </span>
         </div>
         <div class="d" v-if="showImg">
-          <span class="a-address">
+          <span class="e-address">
             <i>{{tableData[3].accent}}</i>
           </span>
           <span class="a-tel">
@@ -53,7 +53,7 @@
           </span>
         </div>
         <div class="f" v-if="showImg">
-          <span class="f-address">
+          <span class="e-address">
             <i>{{tableData[5].accent}}</i>
           </span>
           <span class="a-tel">
@@ -231,29 +231,32 @@ export default {
       font-style: normal;
     }
     .a-address {
+      width: 80%;
       display: inline-block;
       height: 30px;
       background: url("../../assets/images/p4icon1.png") no-repeat center;
       background-position: 4px 0;
-      background-size: 24%;
+      background-size: 10%;
       padding: 2px 38px;
       line-height: 26px;
     }
     .e-address {
+      width: 80%;
       display: inline-block;
       height: 30px;
       background: url("../../assets/images/p4icon1.png") no-repeat center;
       background-position: 4px 0;
-      background-size: 16%;
-      padding: 2px 0 0px 34px;
+      background-size: 12%;
+      padding: 2px 0 0px 40px;
       line-height: 26px;
     }
     .f-address {
+      width: 80%;
       display: inline-block;
       height: 30px;
       background: url("../../assets/images/p4icon1.png") no-repeat center;
       background-position: 4px 0;
-      background-size: 31%;
+      background-size: 10%;
       padding: 2px 0 0 38px;
       line-height: 26px;
     }
