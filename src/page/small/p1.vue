@@ -66,7 +66,7 @@
         />
 
         <!-- 地图 -->
-        <map-chart v-if="mapData" :chartData="mapData" class="map-charts" />
+        <map-chart v-if="mapJudge" :chartData="mapData" class="map-charts" />
       </div>
       <div class="accruing-person">
         <div class="content-title">累计信贷服务人数</div>
@@ -162,7 +162,8 @@ export default {
       },
 
       // mapData
-      mapData: undefined,
+      mapData: [],
+      mapJudge: false,
 
       // 当日人数
       currentPerson: undefined,
@@ -604,6 +605,7 @@ export default {
       console.log(this.msgFormSon);
     },
 
+    // 5s请求一次数据
     rollData() {
       this.getRollDataHandler();
       var _that = this;
@@ -619,6 +621,7 @@ export default {
       );
     },
 
+    // 30s一次请求数据
     rollTimelyData() {
       this.getTimelyData();
       var _that = this;
@@ -812,7 +815,6 @@ export default {
           if (tData == null) return;
           var tmpVal = 100;
           _that.ageData = tData.map((item, index) => {
-            debugger;
             return {
               value: tmpVal - (100 / tData.length) * index,
               name: _that.thousandFormat(item.val, 0) + "  人",
@@ -985,7 +987,7 @@ export default {
         () => {
           _that.getMapDataHandler();
         },
-        10000,
+        3000,
         _that,
         index
       );
@@ -995,14 +997,14 @@ export default {
       var _that = this;
       // 获取地图数据
       this.axios({
-        url: "/api/p1/mapinfo",
+        url: "/api/p1/mapinfo?count=2",
         method: "get",
         data: "",
         type: "json"
       }).then(data => {
         if (data.data.code === 100) {
           var tData = data.data.data;
-          _that.mapData = tData.map(item => {
+          _that.mapData = [...tData.map(item => {
             return {
               name: item.name,
               age: item.age,
@@ -1011,7 +1013,10 @@ export default {
               sum: item.trade_amount,
               value: [item.longitude, item.latitude, item.score]
             };
-          });
+          })];
+          this.$nextTick(() => {
+            _that.mapJudge = true
+          })
           // _that.mapData = [
           //   {
           //     name: "王**",
@@ -1065,25 +1070,10 @@ export default {
   padding-top: 1%;
   font-size: 28px;
   color: #fff;
-  // .nwwest-roll {
-  //   display: inline-block;
-  //   height: 40px;
-  //   overflow: hidden;
-  // }
-
-  // .roll-ul {
-  //   list-style: none;
-  //   padding: 0;
-  //   margin: 0;
-  // }
-
-  // .nwwest-roll li {
-  //   height: 35px;
-  //   line-height: 35px;
-  // }
   .total-money-span {
     color: #ffcc22;
     height: 32%;
+    margin-top: 0.4%;
   }
 
   .anim {
@@ -1105,14 +1095,15 @@ export default {
       }
       .title-left-span {
         display: inline-block;
-        position: relative;
-        top: -44%;
+        float: left;
+        // position: relative;
+        // top: -44%;
       }
     }
     .global-title {
       width: 33%;
       text-align: center;
-      font-size: 40px;
+      font-size: 36px;
       font-weight: bold;
     }
     .right-time {

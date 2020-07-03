@@ -168,7 +168,7 @@ export default {
     .global-title {
       width: 33%;
       text-align: center;
-      font-size: 16px;
+      font-size: 36px;
       font-weight: bold;
     }
     .right-time {

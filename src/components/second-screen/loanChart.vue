@@ -40,6 +40,13 @@ export default {
             color: "#aaa" // 副标题文字颜色
           }
         },
+        grid: {
+          // left: "3%",
+          right: 200,
+          top: 0,
+          bottom: 0,
+          containLabel: true
+        },
         tooltip: {},
         // animationDurationUpdate: function(idx) {
         //   // 越往后的数据延迟越大
@@ -65,7 +72,7 @@ export default {
               rich: {
                 value: {
                   fontSize: "24",
-                  align: 'center'
+                  align: "center"
                 }
               }
             },
@@ -124,5 +131,6 @@ export default {
 .loan-chart {
   width: 100%;
   height: 360px;
+  padding-right: 6%;
 }
 </style>

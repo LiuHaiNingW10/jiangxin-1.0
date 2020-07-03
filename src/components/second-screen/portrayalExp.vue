@@ -45,11 +45,15 @@ export default {
           value: 200
         }
       ];
+
+      if (data.length === 0) return;
       let sumValue = 0;
       let sortValue = data.sort((a, b) => {
         return b.value - a.value;
       });
-      sumValue = sortValue[0].value + Math.pow(10, sortValue[0].value.toString().length - 1);
+      sumValue =
+        sortValue[0].value +
+        Math.pow(10, sortValue[0].value.toString().length - 1);
       let arrName = getArrayValue(data, "name"),
         arrValue = getArrayValue(data, "value"),
         objData = array2obj(data, "name"),
@@ -246,7 +250,7 @@ export default {
                     //     "{a|" + params.value + "}\n\n" + "{b|" + "数据" + "}"
                     //   );
                     // },
-                    position: "center",
+                    position: "center"
                   }
                 },
                 labelLine: {

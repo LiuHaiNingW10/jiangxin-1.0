@@ -35,7 +35,8 @@ export default {
       currentBubbleData: [],
       bubbleJudge: false,
       creditJudge: false,
-      creditData: []
+      creditData: [],
+      bubbleIndex: 0
     };
   },
   computed: {},
@@ -295,32 +296,44 @@ export default {
           // that.bubbleData = tmpData
           that.$nextTick(() => {
             // that.bubbleJudge = true;
-            that.rollBubble();
+            that.rollBubbleHandler();
           });
         }
       });
     },
-    rollBubble() {
+    rollBubbleHandler() {
       var that = this;
-      var index = 0;
+      // var index = 0;
       // if (bubbleInterval) clearInterval(bubbleInterval);
+      this.rollBubble(this, this.bubbleIndex);
       this.bubbleInterval = setInterval(
         () => {
-          if (index === that.bubbleData.length) index = 0;
-          that.currentBubbleData = [];
-          that.currentBubbleData.push(that.bubbleData[index]);
-          let company = that.currentBubbleData[0].name;
-          this.getGraphData(company);
-          index++;
-          that.$nextTick(() => {
-            that.bubbleJudge = true;
-          });
+          //   if (index === that.bubbleData.length) index = 0;
+          //   that.currentBubbleData = [];
+          //   that.currentBubbleData.push(that.bubbleData[index]);
+          //   let company = that.currentBubbleData[0].name;
+          //   this.getGraphData(company);
+          //   index++;
+          //   that.$nextTick(() => {
+          //     that.bubbleJudge = true;
+          //   });
+          this.rollBubble(that);
         },
         5000,
-        that,
-        index
+        that
       );
-      this.bubbleData;
+      // this.bubbleData;
+    },
+    rollBubble(that) {
+      if (that.bubbleIndex === that.bubbleData.length) that.bubbleIndex = 0;
+      that.currentBubbleData = [];
+      that.currentBubbleData.push(that.bubbleData[that.bubbleIndex]);
+      let company = that.currentBubbleData[0].name;
+      this.getGraphData(company);
+      that.bubbleIndex++;
+      that.$nextTick(() => {
+        that.bubbleJudge = true;
+      });
     }
   },
   beforeDestroy() {
