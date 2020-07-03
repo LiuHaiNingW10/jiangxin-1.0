@@ -2,7 +2,7 @@
   <div class="container">
     <div :class="headValue ? 'brain-bg':'brain-bgg'">
       <div class="header">
-        <span class="header-bg">百信智能聚变引擎</span>
+        <span class="header-bg">百信智能服务</span>
         <div class="right-time">
           <weather-com />
         </div>

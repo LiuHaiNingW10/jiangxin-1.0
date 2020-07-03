@@ -13,36 +13,38 @@ export default {
     };
   },
   mounted() {
-    this.getData()
+    this.getData();
   },
   methods: {
-    getData () {
-      this.axios.get('/api/p3/mapData')
-      .then( (res)  => {
-        const { data } = res.data
-        let index = 0
-        let timer = setInterval(()=>{
-          if(index>=data.length) {
-            this.getData()
-            clearInterval(timer)
-          }
-          index ++ 
-          this.initMap(data, index)
-        }, 3000)
-        
-      })
-      .catch(function (error) {
+    getData() {
+      this.axios
+        .get("/api/p3/mapData")
+        .then(res => {
+          const { data } = res.data;
+          let index = 0;
+          let timer = setInterval(() => {
+            if (index >= data.length) {
+              this.getData();
+              clearInterval(timer);
+            }
+            index++;
+            this.initMap(data, index);
+          }, 3000);
+        })
+        .catch(function(error) {
           console.log(error);
-      });
+        });
     },
     initMap(data, index) {
-      data = data.map(item=>{
+      data = data.map(item => {
         return {
           ...item,
           value: [item.longitude, item.latitude]
-        }
-      })
-      let myEcharts = this.$echarts.init(document.getElementById("threeMapChart"));
+        };
+      });
+      let myEcharts = this.$echarts.init(
+        document.getElementById("threeMapChart")
+      );
       myEcharts.setOption({
         legend: {
           show: false
@@ -74,33 +76,34 @@ export default {
           ],
           itemStyle: {
             normal: {
-              borderColor: "rgba(28, 180, 0, 0)",
-              borderWidth: 0.5,
+              borderColor: "rgba(0,255,255, 1)",
+              borderWidth: 1,
               areaColor: {
-                x: 1000,
-                y: 1000,
-                x2: 1000,
-                y2: 0,
+                type: "radial",
+                x: 0.5,
+                y: 0.5,
+                r: 0.8,
                 colorStops: [
                   {
                     offset: 0,
-                    // color: "#69c5d8" // 0% 处的颜色
-                    color: "rgba(170,170,170, 0.5)"
+                    color: "rgba(0,255,255, 0)" // 0% 处的颜色
                   },
                   {
                     offset: 1,
-                    // color: "#126caf" // 50% 处的颜色
-                    color: "rgba(170,170,170, 0.5)"
+                    color: "rgba(0,255,255, .2)" // 100% 处的颜色
                   }
                 ],
-                global: true // 缺省为 false
+                globalCoord: false // 缺省为 false
               },
-              opacity: 1
+              shadowColor: "rgba(128, 217, 248, 1)",
+              // shadowColor: 'rgba(255, 255, 255, 1)',
+              shadowOffsetX: -2,
+              shadowOffsetY: 2,
+              shadowBlur: 10
             },
             emphasis: {
-              show: false,
-              // areaColor: "#69c5d8"
-              areaColor: "rgba(170,170,170, 0.5)"
+              areaColor: "#389BB7",
+              borderWidth: 0
             }
           },
           z: 2
@@ -127,12 +130,16 @@ export default {
             },
             roam: false,
             itemStyle: {
-              color: 'red',
-              areaColor: "rgba(15,50,255,0)",
-              borderColor: "#00FFFF",
-              borderWidth: 1,
+              normal: {
+                // areaColor: "rgba(0, 187, 255, .3)",
+                // borderColor: "#00FFFF",
+                areaColor: "rgba(0, 187, 255, .0)",
+                borderColor: "rgba(0, 187, 255, .0)",
+                borderWidth: 1
+              },
               emphasis: {
-                areaColor: "#00FFFF"
+                // areaColor: "#00FFFF"
+                areaColor: "rgba(0, 187, 255, .0)"
               }
             },
             animation: false,
@@ -143,13 +150,16 @@ export default {
             coordinateSystem: "geo",
             zlevel: 10,
             data: data,
-            symbolSize: function(value, params){
-              const { rejamt } = params.data
-              let num = parseInt(rejamt.replace(/','/g,''))
-              var max = Math.max.apply(null, data.map(item=>parseInt(item.rejamt.replace(/','/g,''))));
-              let size = 20/max*num
-              let result = size > 5 ? size : 5
-              return result
+            symbolSize: function(value, params) {
+              const { rejamt } = params.data;
+              let num = parseInt(rejamt.replace(/','/g, ""));
+              var max = Math.max.apply(
+                null,
+                data.map(item => parseInt(item.rejamt.replace(/','/g, "")))
+              );
+              let size = (20 / max) * num;
+              let result = size > 5 ? size : 5;
+              return result;
             },
             showEffectOn: "render",
             // 涟漪的设置
@@ -181,15 +191,21 @@ export default {
               normal: {
                 show: true,
                 formatter: function(params) {
-                  const { location, eventid, appname, risktype, rejamt } = params.data
-                  return `{a|区域名称}{b|${location}}{a|交易类型}{b|${eventid}}\n{a|渠道类型}{b|${appname}}{a|事件类型}{b|${risktype}}\n{c|实时拦截金融}{d|${rejamt}万}`
+                  const {
+                    location,
+                    eventid,
+                    appname,
+                    risktype,
+                    rejamt
+                  } = params.data;
+                  return `{a|区域名称}{b|${location}}{a|交易类型}{b|${eventid}}\n{a|渠道类型}{b|${appname}}{a|事件类型}{b|${risktype}}\n{c|实时拦截金融}{d|${rejamt}万}`;
                 },
                 position: [-400, -150],
                 distance: 0,
                 width: 340,
                 height: 120,
                 backgroundColor: {
-                  image: require('@/assets/images/p3/map-modal.png')
+                  image: require("@/assets/images/p3/map-modal.png")
                 },
                 padding: [30, 40],
                 lineHeight: 40,
@@ -198,25 +214,25 @@ export default {
                 z: 11,
                 rich: {
                   a: {
-                    color: 'rgba(255,255,255,.7)',
+                    color: "rgba(255,255,255,.7)",
                     fontSize: 16
                   },
                   b: {
                     padding: [0, 10],
                     color: "#ffffff",
                     fontSize: 16,
-                    fontWeight: 'bold'
+                    fontWeight: "bold"
                   },
                   c: {
                     margin: 20,
                     fontSize: 16,
-                    color: 'rgba(255,255,255,.9)',
+                    color: "rgba(255,255,255,.9)"
                   },
                   d: {
                     padding: [0, 10],
                     fontSize: 20,
-                    color: '#FFAF2B',
-                  }, 
+                    color: "#FFAF2B"
+                  }
                 }
               }
             }

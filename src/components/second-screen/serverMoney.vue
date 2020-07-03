@@ -7,6 +7,7 @@
         v-if="totalMoney"
         :chartData="totalMoney"
         :styleData="styleObj"
+        marginTop="-120px"
         :styleSingle="singleStyle"
         chartId="total-server-money"
       />
@@ -46,7 +47,8 @@ export default {
       },
       singleStyle: {
         width: "5%",
-        marginLeft: "1%"
+        marginLeft: "1%",
+        lineHeight: '150%'
       }
     };
   },

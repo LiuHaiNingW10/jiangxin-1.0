@@ -27,8 +27,10 @@
       </div>
       <div class="content-middle">
         <server-money class="server-money" />
-        <portrayal-exp v-if="showPortrayal" class="portrayal-exp" :tableDatas="OpperiodAndFinance" />
-        <portrayal-server v-if="showPortrayal" class="portrayal-server" :tableDatas="serverData" />
+
+        <sec-map-chart :chartData="mapData" class="sec-map-charts" />
+        <!-- <portrayal-exp v-if="showPortrayal" class="portrayal-exp" :tableDatas="OpperiodAndFinance" />
+        <portrayal-server v-if="showPortrayal" class="portrayal-server" :tableDatas="serverData" />-->
       </div>
       <div class="content-right">
         <enterprise-loan class="enterprise-loan" />
@@ -42,8 +44,9 @@ import WeatherCom from "../../components/weather.vue";
 import CreditProperties from "../../components/second-screen/creditProperties.vue";
 import EnterpriseLoan from "../../components/second-screen/enterpriseLoan.vue";
 import ServerMoney from "../../components/second-screen/serverMoney.vue";
-import PortrayalExp from "../../components/second-screen/portrayalExp.vue";
-import PortrayalServer from "../../components/second-screen/portrayalServer.vue";
+import SecMapChart from "../../components/second-screen/secondMapChart.vue";
+// import PortrayalExp from "../../components/second-screen/portrayalExp.vue";
+// import PortrayalServer from "../../components/second-screen/portrayalServer.vue";
 export default {
   mounted() {},
   data() {
@@ -63,7 +66,8 @@ export default {
       propertyData: {},
       personData: {},
       OpperiodAndFinance: {},
-      serverData: []
+      serverData: [],
+      mapData: []
     };
   },
   computed: {},
@@ -135,8 +139,9 @@ export default {
     "credit-properties": CreditProperties,
     "enterprise-loan": EnterpriseLoan,
     "server-money": ServerMoney,
-    "portrayal-exp": PortrayalExp,
-    "portrayal-server": PortrayalServer
+    // "portrayal-exp": PortrayalExp,
+    // "portrayal-server": PortrayalServe,
+    "sec-map-chart": SecMapChart
   }
 };
 </script>
@@ -145,6 +150,7 @@ export default {
 .second-screen {
   width: 4224px;
   height: 1536px;
+  overflow: hidden;
   // width: 100%;
   // height: 100%;
   background: url("../../assets/images/background-second.png") no-repeat;

@@ -39,7 +39,14 @@
 <script>
 export default {
   name: "axis",
-  props: ["chartData", "styleData", "styleSingle", "type", "chartId"],
+  props: [
+    "chartData",
+    "styleData",
+    "styleSingle",
+    "type",
+    "chartId",
+    "marginTop"
+  ],
   created() {
     this.getData(this.chartData, this.chartId, this.type, this.$refs);
   },
@@ -78,10 +85,7 @@ export default {
         });
         this.indicatorData.forEach((item, index) => {
           if (item[0] !== "¥" || refs === undefined) {
-            if (
-              this.preData[index] &&
-              item[0] !== this.preData[index][0]
-            ) {
+            if (this.preData[index] && item[0] !== this.preData[index][0]) {
               this.scrollNum(item[0], index, chartId, refs);
             }
           }
@@ -97,7 +101,7 @@ export default {
       var that = this;
       setTimeout(function() {
         that.list = [num, num];
-        con1[0].style.marginTop = "5px";
+        con1[0].style.marginTop = "0px";
         that.animate = !that.animate;
       }, 10);
     },
@@ -107,7 +111,7 @@ export default {
       let refId = chartId + index;
       let con1 = refs[refId];
       if (con1 === undefined) return;
-      con1[0].style.marginTop = "-30px";
+      con1[0].style.marginTop = this.marginTop || "-120px";
       this.animate = !this.animate;
 
       var that = this;

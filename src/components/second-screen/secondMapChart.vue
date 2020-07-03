@@ -1,6 +1,6 @@
 <template>
-  <div class="map-charts">
-    <div id="middleMap"></div>
+  <div class="sec-map-charts">
+    <div id="secMiddleMap"></div>
   </div>
 </template>
 
@@ -9,15 +9,10 @@ export default {
   name: "mapChart",
   props: ["chartData"],
   mounted() {
-    this.initMap(this.chartData.slice(0, 2));
-    this.rollMap(this.chartData);
+    this.initMap(this.chartData);
   },
   data() {
-    return {
-      mapIndex: 2,
-      myEcharts: undefined,
-      rollMapInterval: undefined
-    };
+    return {};
   },
   computed: {},
   methods: {
@@ -57,8 +52,10 @@ export default {
         台湾: [121.4648, 25.563]
       };
 
-      this.myEcharts = this.$echarts.init(document.getElementById("middleMap"));
-      this.myEcharts.setOption({
+      let myEcharts = this.$echarts.init(
+        document.getElementById("secMiddleMap")
+      );
+      myEcharts.setOption({
         legend: {
           show: false
         },
@@ -87,6 +84,37 @@ export default {
               }
             }
           ],
+          // itemStyle: {
+          //   normal: {
+          //     borderColor: "rgba(28, 180, 0, 0)",
+          //     borderWidth: 0.5,
+          //     areaColor: {
+          //       x: 1000,
+          //       y: 1000,
+          //       x2: 1000,
+          //       y2: 0,
+          //       colorStops: [
+          //         {
+          //           offset: 0,
+          //           // color: "#69c5d8" // 0% 处的颜色
+          //           color: "rgba(170,170,170, 0.5)"
+          //         },
+          //         {
+          //           offset: 1,
+          //           // color: "#126caf" // 50% 处的颜色
+          //           color: "rgba(170,170,170, 0.5)"
+          //         }
+          //       ],
+          //       global: true // 缺省为 false
+          //     },
+          //     opacity: 1
+          //   },
+          //   emphasis: {
+          //     show: false,
+          //     // areaColor: "#69c5d8"
+          //     areaColor: "rgba(170,170,170, 0.5)"
+          //   }
+          // },
           itemStyle: {
             normal: {
               borderColor: "rgba(147, 235, 248, 1)",
@@ -197,25 +225,37 @@ export default {
           {
             type: "effectScatter",
             coordinateSystem: "geo",
-            zlevel: 10,
+            zlevel: 0,
             data:
               chartData && chartData.length > 0
                 ? chartData
                 : [
+                    //   {
+                    //     name: "王**",
+                    //     age: "28岁",
+                    //     sex: "男",
+                    //     type: "授信申请",
+                    //     sum: "3000000",
+                    //     value: [116.4551, 40.2539, 48]
+                    //   },
+                    //   {
+                    //     name: "王**",
+                    //     age: "25岁",
+                    //     sex: "女",
+                    //     type: "授信申请",
+                    //     sum: "7000000",
+                    //     value: [103.9526, 30.7617, 48]
+                    //   }
                     {
-                      name: "王**",
-                      age: "28岁",
-                      sex: "男",
-                      type: "授信申请",
-                      sum: "3000000",
+                      company: "企业1",
+                      credit: "589298",
+                      grade: "87",
                       value: [116.4551, 40.2539, 48]
                     },
                     {
-                      name: "王**",
-                      age: "25岁",
-                      sex: "女",
-                      type: "授信申请",
-                      sum: "7000000",
+                      company: "企业2",
+                      credit: "589298583",
+                      grade: "96",
                       value: [103.9526, 30.7617, 48]
                     }
                   ],
@@ -235,17 +275,13 @@ export default {
                 show: true,
                 formatter: function(params) {
                   return (
-                    params.data.name +
-                    "   " +
-                    params.data.age +
-                    "   " +
-                    params.data.sex +
+                    params.data.company +
                     "\n" +
-                    "交易类型：" +
-                    params.data.type +
+                    "授信：¥" +
+                    params.data.credit +
                     "\n" +
-                    "交易金额：¥" +
-                    params.data.sum
+                    "信用评分" +
+                    params.data.grade
                   );
                   // return (
                   //   "{fline|" + " " + params.data.name + " " + "重点关注" + "}"
@@ -344,44 +380,24 @@ export default {
           }
         ]
       });
-    },
-
-    rollMap() {
-      var _that = this;
-      // if (mapInterval) clearInterval(mapInterval);
-      this.rollMapInterval = setInterval(
-        () => {
-          if (_that.mapIndex > this.chartData.length - 1) {
-            _that.mapIndex = 0;
-          }
-          _that.initMap(
-            _that.chartData.slice(_that.mapIndex, _that.mapIndex + 2)
-          );
-          this.$nextTick(() => {
-            _that.mapIndex += 2;
-          });
-        },
-        5000,
-        _that
-      );
     }
-  },
-  beforeDestroy() {
-    clearInterval(this.rollMapInterval);
   },
   components: {},
   watch: {
     chartData: function(newVal) {
-      this.initMap(newVal.slice(0, 2));
+      this.initMap(newVal);
     }
   }
 };
 </script>
 
-<style lang="less">
-.map-charts,
-#middleMap {
+<style lang="less" scoped>
+.sec-map-charts {
   height: 100%;
+  width: 100%;
+}
+#secMiddleMap {
+  height: 70%;
   width: 100%;
 }
 </style>
