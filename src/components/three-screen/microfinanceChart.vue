@@ -79,7 +79,6 @@ export default {
     }
   },
   mounted () {
-    console.log('background:' + base64.frm_cc.value)
     this.getLossRate()
     this.getAttackRecent()
     this.timer = setInterval(() => {
@@ -122,7 +121,7 @@ export default {
             this.moveLocaitons += 1
           }
         },2000)
-      },300)
+      },50)
     },
     getAttackRecent () {
       //近一小时攻击数P3-4
