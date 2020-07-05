@@ -132,6 +132,7 @@ export default {
   display: flex;
   text-align: center;
   .single-columnar {
+    height: 412px;
     width: 50%;
     .current-data {
       font-weight: bold;

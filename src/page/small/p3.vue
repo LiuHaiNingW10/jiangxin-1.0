@@ -11,30 +11,42 @@
     <!-- 内容 -->
     <div class="frame-content">
       <div class="left-box">
-        <div class="content-title"><span>风险交易金额趋势</span></div>
+        <div class="content-title">
+          <span>风险交易金额趋势</span>
+        </div>
         <amount-trends-chart />
-        <div class="content-title"><span>风险交易拦截金额类型</span></div>
+        <div class="content-title">
+          <span>风险交易拦截金额类型</span>
+        </div>
         <amount-type-chart />
         <microfinance-chart />
       </div>
       <div class="center-box">
         <!-- 地图 -->
         <div class="strategy-box">
-          <real-time-strategy v-if="showUses" title="19年累计调用策略" :num='usesTime.year' :blank="1"/>
-          <real-time-strategy v-if="showUses" title="当日调用策略" :num='usesTime.day' :blank="2"/>
+          <real-time-strategy v-if="showUses" title="19年累计调用策略" :num="usesTime.year" :blank="1" />
+          <real-time-strategy v-if="showUses" title="当日调用策略" :num="usesTime.day" :blank="2" />
         </div>
         <map-chart class="map-charts" />
         <pie-chart />
         <div class="map-panel"></div>
       </div>
       <div class="right-box">
-        <div class="content-title"><span>实时调用决策变量{{variableNum}}个  规则{{ruleNum}}条</span></div> 
+        <div class="content-title">
+          <span>实时调用决策变量{{variableNum}}个 规则{{ruleNum}}条</span>
+        </div>
         <rule-chart />
-        <div class="content-title"><span>近24小时放款监测</span></div> 
+        <div class="content-title">
+          <span>近24小时放款监测</span>
+        </div>
         <loan-monitor-chart />
-        <div class="content-title"><span>进件客户质量分布（人行评分）</span></div>
+        <div class="content-title">
+          <span>进件客户质量分布（人行评分）</span>
+        </div>
         <cust-distribute-chart />
-        <div class="content-title"><span>Top5拒绝原因</span></div>
+        <div class="content-title">
+          <span>Top5拒绝原因</span>
+        </div>
         <top5-refuse-chart />
       </div>
     </div>
@@ -42,109 +54,118 @@
 </template>
 
 <script>
-
-import amountTrendsChart from '@/components/three-screen/amountTrendsChart'
-import amountTypeChart from '@/components/three-screen/amountTypeChart'
-import realTimeStrategy from '@/components/three-screen/realTimeStrategy'
-import MapChart from "@/components/three-screen/mapChart.vue"
-import PieChart from "@/components/three-screen/pieChart.vue"
-import LoanMonitorChart from "@/components/three-screen/loanMonitorChart.vue"
-import CustDistributeChart from "@/components/three-screen/custDistributeChart.vue"
-import Top5RefuseChart from "@/components/three-screen/top5RefuseChart.vue"
-import WeatherCom from "@/components/weather.vue"
-import MicrofinanceChart from "@/components/three-screen/microfinanceChart.vue"
-import RuleChart from "@/components/three-screen/ruleChart.vue"
-import moment from 'moment'
+import amountTrendsChart from "@/components/three-screen/amountTrendsChart";
+import amountTypeChart from "@/components/three-screen/amountTypeChart";
+import realTimeStrategy from "@/components/three-screen/realTimeStrategy";
+import MapChart from "@/components/three-screen/mapChart.vue";
+import PieChart from "@/components/three-screen/pieChart.vue";
+import LoanMonitorChart from "@/components/three-screen/loanMonitorChart.vue";
+import CustDistributeChart from "@/components/three-screen/custDistributeChart.vue";
+import Top5RefuseChart from "@/components/three-screen/top5RefuseChart.vue";
+import WeatherCom from "@/components/weather.vue";
+import MicrofinanceChart from "@/components/three-screen/microfinanceChart.vue";
+import RuleChart from "@/components/three-screen/ruleChart.vue";
+import moment from "moment";
 export default {
   data() {
     return {
+      timer: null,
       amount: 0,
       showUses: false,
-      usesTime:{
+      usesTime: {
         year: 0,
         day: 0
       },
       variableNum: 0,
       ruleNum: 0
-
-    }
+    };
   },
-  mounted(){
-    this.getAccRiskAll()
-    this.getVariable()
+  mounted() {
+    // this.getAccRiskAll();
+    this.timer = setInterval(() => {
+      setTimeout(this.getAccRiskAll, 0);
+    }, 3000);
+    this.getVariable();
   },
   methods: {
-    getAccRiskAll(){
-      this.axios.all([
-        this.axios.get("/api/p3/accRiskAll",{
-          params: {
-            type: 'y'
-          }
-        }),
-        this.axios.get("/api/p3/accRiskAll",{
-          params: {
-            type: 'h'
-          }
-        })
-      ]).then(this.axios.spread( ( ...obj ) => {
-        // this.usesTime = {
-        //   year: obj[0].data.data,
-        //   day: obj[1].data.data
-        // }
-        this.numFun(this.usesTime.year,obj[0].data.data,'year')
-        this.numFun(this.usesTime.year,obj[1].data.data,'day')
-        this.$nextTick( () => {
-          this.showUses = true
-        })
-      }))
-      .catch(function (error) {
+    getAccRiskAll() {
+      this.axios
+        .all([
+          this.axios.get("/api/p3/accRiskAll", {
+            params: {
+              type: "y"
+            }
+          }),
+          this.axios.get("/api/p3/accRiskAll", {
+            params: {
+              type: "h"
+            }
+          })
+        ])
+        .then(
+          this.axios.spread((...obj) => {
+            // this.usesTime = {
+            //   year: obj[0].data.data,
+            //   day: obj[1].data.data
+            // }
+            this.numFun(this.usesTime.year, obj[0].data.data, "year");
+            this.numFun(this.usesTime.year, obj[1].data.data, "day");
+            this.$nextTick(() => {
+              this.showUses = true;
+            });
+          })
+        )
+        .catch(function(error) {
           console.log(error);
-      })
+        });
     },
-    numFun(startNum,maxNum, name, speed=5000) {
-      var that = this
+    numFun(startNum, maxNum, name, speed = 5000) {
+      var that = this;
       let numText = startNum;
-      let dis = parseInt(maxNum) - parseInt(startNum)
+      let dis = parseInt(maxNum) - parseInt(startNum);
       let golb; // 为了清除requestAnimationFrame
-      function numSlideFun(){ // 数字动画
-          numText+=parseInt(dis/(speed/1000)); // 速度的计算可以为小数 。数字越大，滚动越快
-          if(numText >= maxNum){
-              numText = maxNum;
-              cancelAnimationFrame(golb);
-          }else {
-              golb = requestAnimationFrame(numSlideFun);
-          }
-        that.usesTime = {...that.usesTime, [name]:numText}
-        that.amount=numText
+      function numSlideFun() {
+        // 数字动画
+        numText += parseInt(dis / (speed / 1000)); // 速度的计算可以为小数 。数字越大，滚动越快
+        if (numText >= maxNum) {
+          numText = maxNum;
+          cancelAnimationFrame(golb);
+        } else {
+          golb = requestAnimationFrame(numSlideFun);
+        }
+        that.usesTime = { ...that.usesTime, [name]: numText };
+        that.amount = numText;
       }
-       numSlideFun(); // 调用数字动画
+      numSlideFun(); // 调用数字动画
     },
-    getVariable () {
-      this.axios.get('/api/p3/variable',{
-        params: {
-          indexname: 'bldy'
-        }
-      })
-      .then( (res)  => {
-         const { data } = res.data
-         this.variableNum = data
-      })
-      .catch(function (error) {
+    getVariable() {
+      this.axios
+        .get("/api/p3/variable", {
+          params: {
+            indexname: "bldy"
+          }
+        })
+        .then(res => {
+          const { data } = res.data;
+          this.variableNum = data;
+        })
+        .catch(function(error) {
           console.log(error);
-      });
-      this.axios.get('/api/p3/variable',{
-        params: {
-          indexname: 'gzdy'
-        }
-      })
-      .then( (res)  => {
-         const { data } = res.data
-         this.ruleNum = data
-      })
-      .catch(function (error) {
+        });
+      this.axios
+        .get("/api/p3/variable", {
+          params: {
+            indexname: "gzdy"
+          }
+        })
+        .then(res => {
+          const { data } = res.data;
+          this.ruleNum = data;
+        })
+        .catch(function(error) {
           console.log(error);
-      });
-    },
+        });
+    }
   },
   components: {
     amountTrendsChart,
@@ -158,6 +179,10 @@ export default {
     WeatherCom,
     MicrofinanceChart,
     RuleChart
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
+    this.timer = null;
   }
 };
 </script>
@@ -188,7 +213,8 @@ export default {
       text-align: center;
       font-size: 40px;
       font-weight: bold;
-      background: url('../../assets/images/p3/global-title.png') no-repeat center;
+      background: url("../../assets/images/p3/global-title.png") no-repeat
+        center;
     }
     .right-time {
       width: 33%;
@@ -216,20 +242,20 @@ export default {
       position: relative;
       width: 50%;
       height: 100%;
-      .strategy-box{
+      .strategy-box {
         width: 100%;
       }
       .map-charts {
         width: 100%;
         height: 1160px;
       }
-      .map-panel{
+      .map-panel {
         position: absolute;
         right: 0;
         bottom: 50px;
         width: 140px;
         height: 140px;
-        background: url('../../assets/images/p3/panel.png') no-repeat;
+        background: url("../../assets/images/p3/panel.png") no-repeat;
       }
     }
     .content-title {
@@ -238,11 +264,10 @@ export default {
       background: url("../../assets/images/p3/title-three.png") no-repeat;
       background-size: 100% 100%;
       margin: 16px auto 0;
-      span{
+      span {
         display: inline-block;
         font-size: 30px;
         padding: 17px 0 0 50px;
-
       }
     }
   }

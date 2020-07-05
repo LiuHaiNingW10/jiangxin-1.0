@@ -278,7 +278,7 @@ export default {
 
       // 右侧柱状图数据
       columnarData: {
-        totalData: [],
+        totalData: [0, 0],
         columnAllData: []
         // columnAllData: [
         //   {
@@ -699,7 +699,8 @@ export default {
         if (data.data.code === 100) {
           // _that.currentMoney = _that.thousandFormat(data.data.data, 2) || 0;
           var tData = data.data.data;
-          _that.columnarData.totalData[0] = tData[0] ? tData[0].val : 0;
+          // _that.columnarData.totalData[0] = tData[0] ? tData[0].val : 0;
+          var tmpTotal = 0;
           _that.columnarData.columnAllData[0] = {
             xAxis: tData
               ? tData.map(item => {
@@ -708,10 +709,13 @@ export default {
               : [],
             yAxis: tData
               ? tData.map(item => {
+                  tmpTotal += parseInt(item.val);
                   return item.val;
                 })
               : []
           };
+          var tmpArr = [tmpTotal, _that.columnarData.totalData[1]];
+          _that.columnarData.totalData = [].concat(tmpArr);
         }
       });
       // 获取当日用信人数
@@ -724,7 +728,8 @@ export default {
         if (data.data.code === 100) {
           // _that.currentMoney = _that.thousandFormat(data.data.data, 2) || 0;
           var tData = data.data.data;
-          _that.columnarData.totalData[1] = tData[0] ? tData[0].val : 0;
+          // _that.columnarData.totalData[1] = tData[0] ? tData[0].val : 0;
+          var tmpTotal = 0;
           _that.columnarData.columnAllData[1] = {
             xAxis: tData
               ? tData.map(item => {
@@ -733,10 +738,13 @@ export default {
               : [],
             yAxis: tData
               ? tData.map(item => {
+                  tmpTotal += parseInt(item.val);
                   return item.val;
                 })
               : []
           };
+          var tmpArr = [_that.columnarData.totalData[0], tmpTotal];
+          _that.columnarData.totalData = [].concat(tmpArr);
           this.$nextTick(() => {
             _that.currentPersonJudge = true;
           });
@@ -1004,180 +1012,180 @@ export default {
       }).then(data => {
         if (data.data.code === 100) {
           var tData = data.data.data;
-          // _that.mapData = [
-          //   ...tData.map(item => {
-          //     return {
-          //       name: item.name,
-          //       age: item.age,
-          //       sex: item.sex,
-          //       type: item.trade_type,
-          //       sum: item.trade_amount,
-          //       value: [item.longitude, item.latitude, item.score]
-          //     };
-          //   })
-          // ];
           _that.mapData = [
-            {
-              name: "王**",
-              age: "28岁",
-              sex: "男",
-              type: "授信申请",
-              sum: "3000000",
-              value: [116.4551, 40.2539, 48]
-            },
-            {
-              name: "王**",
-              age: "25岁",
-              sex: "女",
-              type: "授信申请",
-              sum: "7000000",
-              value: [103.9526, 30.7617, 48]
-            },
-            {
-              name: "王**",
-              age: "28岁",
-              sex: "男",
-              type: "授信申请",
-              sum: "3000000",
-              value: [119.1803, 31.2891, 48],
-            },
-            {
-              name: "王**",
-              age: "25岁",
-              sex: "女",
-              type: "授信申请",
-              sum: "7000000",
-              value: [108.384366, 30.439702, 48],
-            },
-            {
-              name: "王**",
-              age: "28岁",
-              sex: "男",
-              type: "授信申请",
-              sum: "3000000",
-              value: [87.9236, 43.5883, 48]
-            },
-            {
-              name: "王**",
-              age: "25岁",
-              sex: "女",
-              type: "授信申请",
-              sum: "7000000",
-              value: [117.29, 32.0581, 48]
-            },
-            {
-              name: "王**",
-              age: "28岁",
-              sex: "男",
-              type: "授信申请",
-              sum: "3000000",
-              value: [113.0823, 28.2568, 48]
-            },
-            {
-              name: "王**",
-              age: "25岁",
-              sex: "女",
-              type: "授信申请",
-              sum: "7000000",
-              value: [121.4648, 25.563, 48]
-            },
-            {
-              name: "王**",
-              age: "28岁",
-              sex: "男",
-              type: "授信申请",
-              sum: "3000000",
-              value: [113.12244, 23.009505, 48]
-            },
-            {
-              name: "王**",
-              age: "25岁",
-              sex: "女",
-              type: "授信申请",
-              sum: "7000000",
-              value: [103.9526, 30.7617, 48]
-            },
-            {
-              name: "王**",
-              age: "28岁",
-              sex: "男",
-              type: "授信申请",
-              sum: "3000000",
-              value: [116.4551, 40.2539, 48]
-            },
-            {
-              name: "王**",
-              age: "25岁",
-              sex: "女",
-              type: "授信申请",
-              sum: "7000000",
-              value: [103.9526, 30.7617, 48]
-            },
-            {
-              name: "王**",
-              age: "28岁",
-              sex: "男",
-              type: "授信申请",
-              sum: "3000000",
-              value: [116.4551, 40.2539, 48]
-            },
-            {
-              name: "王**",
-              age: "25岁",
-              sex: "女",
-              type: "授信申请",
-              sum: "7000000",
-              value: [103.9526, 30.7617, 48]
-            },
-            {
-              name: "王**",
-              age: "28岁",
-              sex: "男",
-              type: "授信申请",
-              sum: "3000000",
-              value: [116.4551, 40.2539, 48]
-            },
-            {
-              name: "王**",
-              age: "25岁",
-              sex: "女",
-              type: "授信申请",
-              sum: "7000000",
-              value: [103.9526, 30.7617, 48]
-            },
-            {
-              name: "王**",
-              age: "28岁",
-              sex: "男",
-              type: "授信申请",
-              sum: "3000000",
-              value: [116.4551, 40.2539, 48]
-            },
-            {
-              name: "王**",
-              age: "25岁",
-              sex: "女",
-              type: "授信申请",
-              sum: "7000000",
-              value: [103.9526, 30.7617, 48]
-            },
-            {
-              name: "王**",
-              age: "28岁",
-              sex: "男",
-              type: "授信申请",
-              sum: "3000000",
-              value: [116.4551, 40.2539, 48]
-            },
-            {
-              name: "王**",
-              age: "25岁",
-              sex: "女",
-              type: "授信申请",
-              sum: "7000000",
-              value: [103.9526, 30.7617, 48]
-            }
+            ...tData.map(item => {
+              return {
+                name: item.name,
+                age: item.age,
+                sex: item.sex,
+                type: item.trade_type,
+                sum: item.trade_amount,
+                value: [item.longitude, item.latitude, item.score]
+              };
+            })
           ];
+          // _that.mapData = [
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [116.4551, 40.2539, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [103.9526, 30.7617, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [119.1803, 31.2891, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [108.384366, 30.439702, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [87.9236, 43.5883, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [117.29, 32.0581, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [113.0823, 28.2568, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [121.4648, 25.563, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [113.12244, 23.009505, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [103.9526, 30.7617, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [116.4551, 40.2539, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [103.9526, 30.7617, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [116.4551, 40.2539, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [103.9526, 30.7617, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [116.4551, 40.2539, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [103.9526, 30.7617, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [116.4551, 40.2539, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [103.9526, 30.7617, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [116.4551, 40.2539, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [103.9526, 30.7617, 48]
+          //   }
+          // ];
           this.$nextTick(() => {
             _that.mapJudge = true;
           });

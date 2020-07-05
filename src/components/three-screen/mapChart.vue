@@ -9,7 +9,8 @@ export default {
   name: "mapChart",
   data() {
     return {
-      timer: null
+      timer: null,
+      relationRes: []
     };
   },
   mounted() {
@@ -17,31 +18,51 @@ export default {
   },
   methods: {
     getData() {
-      this.axios
-        .get("/api/p3/mapData")
-        .then(res => {
-          const { data } = res.data;
-          let index = 0;
-          let timer = setInterval(() => {
-            if (index >= data.length) {
-              this.getData();
-              clearInterval(timer);
-            }
-            index++;
-            this.initMap(data, index);
-          }, 3000);
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+      let _that = this;
+      this.axios.get("/api/p3/relationmapData").then(relaRes => {
+        let relaData = relaRes.data.data;
+        _that.relationRes = relaData ? relaData : [];
+        _that.axios
+          .get("/api/p3/mapData")
+          .then(res => {
+            const { data } = res.data;
+            let index = 0;
+            let timer = setInterval(() => {
+              if (index >= data.length) {
+                _that.getData();
+                clearInterval(timer);
+              }
+              index++;
+              _that.initMap(data, index);
+            }, 3000);
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      });
     },
     initMap(data, index) {
+      let relationMesg = {};
+      this.relationRes.forEach(item => {
+        if (item.location === data[index].location) {
+          relationMesg =
+            item.relationInfoList && item.relationInfoList.length > 0
+              ? Object.assign({}, item)
+              : {};
+        }
+      });
+      // console.log([relationMesg], "rsm");
+      // console.log([data[index]], "di");
       data = data.map(item => {
         return {
           ...item,
           value: [item.longitude, item.latitude]
         };
       });
+      relationMesg = {
+        ...relationMesg,
+        value: [relationMesg.longitude, relationMesg.latitude]
+      };
       let myEcharts = this.$echarts.init(
         document.getElementById("threeMapChart")
       );
@@ -198,7 +219,7 @@ export default {
                     risktype,
                     rejamt
                   } = params.data;
-                  return `{a|区域名称}{b|${location}}{a|交易类型}{b|${eventid}}\n{a|渠道类型}{b|${appname}}{a|事件类型}{b|${risktype}}\n{c|实时拦截金融}{d|${rejamt}万}`;
+                  return `{a|区域名称}{b|${location}}{a|交易类型}{b|${eventid}}\n{a|渠道类型}{b|${appname}}{a|事件类型}{b|${risktype}}\n{c|实时拦截金额}{d|${rejamt}万}`;
                 },
                 position: [-400, -150],
                 distance: 0,
@@ -234,6 +255,78 @@ export default {
                     color: "#FFAF2B"
                   }
                 }
+              }
+            }
+          },
+          {
+            // 关联关系
+            type: "effectScatter",
+            coordinateSystem: "geo",
+            zlevel: 10,
+            data: [relationMesg],
+            itemStyle: {
+              normal: {
+                color: "#F5B523",
+                shadowBlur: 2
+              }
+            },
+            // 标签
+            label: {
+              normal: {
+                show: true,
+                formatter: function(params) {
+                  const { relationInfoList } = params.data;
+                  // return `{a|区域名称}{b|${location}}{a|交易类型}{b|${eventid}}\n{a|渠道类型}{b|${appname}}{a|事件类型}{b|${risktype}}\n{c|实时拦截金额}{d|${rejamt}万}`;
+                  let tmp = relationInfoList.map((item, index) => {
+                    return (
+                      item.relate_name +
+                      "、" +
+                      item.relate_age +
+                      "、" +
+                      item.relate_location +
+                      "、处理方式：" +
+                      item.dealtypename +
+                      (index < relationInfoList.length - 1 ? "\n" : "")
+                    );
+                  });
+                  let returnStr = tmp.join("").replace(/','/g, "");
+                  return returnStr;
+                  // return `aaaaaa`;
+                },
+                position: [0, -150],
+                distance: 0,
+                width: 340,
+                height: 120,
+                backgroundColor: {
+                  image: require("@/assets/images/p3/map-modal.png")
+                },
+                padding: [30, 40],
+                lineHeight: 40,
+                // verticalAlign: "middle",
+                color: "#fff",
+                z: 11
+                // rich: {
+                //   a: {
+                //     color: "rgba(255,255,255,.7)",
+                //     fontSize: 16
+                //   },
+                //   b: {
+                //     padding: [0, 10],
+                //     color: "#ffffff",
+                //     fontSize: 16,
+                //     fontWeight: "bold"
+                //   },
+                //   c: {
+                //     margin: 20,
+                //     fontSize: 16,
+                //     color: "rgba(255,255,255,.9)"
+                //   },
+                //   d: {
+                //     padding: [0, 10],
+                //     fontSize: 20,
+                //     color: "#FFAF2B"
+                //   }
+                // }
               }
             }
           }
