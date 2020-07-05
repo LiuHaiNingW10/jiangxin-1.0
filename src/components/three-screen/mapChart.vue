@@ -22,10 +22,10 @@ export default {
         .then(res => {
           const { data } = res.data;
           let index = 0;
-          let timer = setInterval(() => {
+          this.timer = setInterval(() => {
             if (index >= data.length) {
               this.getData();
-              clearInterval(timer);
+              clearInterval(this.timer);
             }
             index++;
             this.initMap(data, index);
@@ -240,6 +240,9 @@ export default {
         ]
       });
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
   },
   components: {}
 };

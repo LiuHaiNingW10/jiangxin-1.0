@@ -4,46 +4,40 @@
     <div class="mc-content">
       <div class="mc-l">
         <ul>
-          <li  :style="moveLocaiton === 1? 'visibility: visible':'visibility: hidden'">
+          <li :style="moveLocaiton === 1 ? 'color: #fff' : 'color: gray'">
             <img src="../../assets/images/p3/frm-cricle1.png" alt="">
             <div>
               <div class="title">固态层</div>
-              <div class="desc">已知风险防控策略调用量<span>700</span></div>
+              <div class="desc">已知风险防控策略调用量<span>{{IDFdatas[0].callNum || 0}}</span></div>
             </div>
           </li>
-          <li :style="moveLocaiton === 2? 'visibility: visible':'visibility: hidden'">
+          <li :style="moveLocaiton === 2 ? 'color: #fff' : 'color: gray'">
             <img src="../../assets/images/p3/frm-cricle2.png" alt="">
             <div>
               <div class="title">聚集层</div>
-              <div class="desc">批量风险防控策略调用量<span>1200</span></div>
+              <div class="desc">批量风险防控策略调用量<span>{{IDFdatas[1].callNum || 0}}</span></div>
             </div>
           </li>
-          <li :style="moveLocaiton === 3? 'visibility: visible':'visibility: hidden'">
+          <li :style="moveLocaiton === 3 ? 'color: #fff' : 'color: gray'">
             <img src="../../assets/images/p3/frm-cricle1.png" alt="">
             <div>
               <div class="title">场景层</div>
-              <div class="desc">异常行为识别策略调用量<span>500</span></div>
+              <div class="desc">异常行为识别策略调用量<span>{{IDFdatas[2].callNum || 0}}</span></div>
             </div>
           </li>
-          <li :style="moveLocaiton === 4? 'visibility: visible':'visibility: hidden'">
+          <li :style="moveLocaiton === 4 ? 'color: #fff' : 'color: gray'">
             <img src="../../assets/images/p3/frm-cricle2.png" alt="">
             <div>
               <div class="title">动态层</div>
-              <div class="desc">未知风险识别策略调用量<span>300</span></div>
+              <div class="desc">未知风险识别策略调用量<span>{{IDFdatas[3].callNum || 0}}</span></div>
             </div>
           </li>
         </ul>
       </div>
-      <div class="mc-c"></div>
+      <div class="mc-c" :style="'background:url('+ frm_cc+');background-size: 100% 100%;'"></div>
       <div class="mc-r">
         <div class="title">FRIM命中分布</div>
-        <!-- <div class="frim-chart" id='frimChart'></div> -->
-        <ul>
-          <li :style="moveLocaiton === 1? 'visibility: visible':'visibility: hidden'">5%</li>
-          <li :style="moveLocaiton === 2? 'visibility: visible':'visibility: hidden'">60%</li>
-          <li :style="moveLocaiton === 3? 'visibility: visible':'visibility: hidden'">10%</li>
-          <li :style="moveLocaiton === 4? 'visibility: visible':'visibility: hidden'">15%</li>
-        </ul>
+        <div class="frim-chart" id='frimChart'></div>
       </div>
     </div>
     <div class="mc-footer">欺诈损失率<span>{{footerData}}</span></div>
@@ -51,13 +45,21 @@
 </template>
 
 <script>
+import * as base64 from '@/assets/base64.js'
 export default {
   data() {
     return {
       footerdata:'',
       attcktimes:'',
       showAttack:false,
-      moveLocaitons: 1
+      moveLocaitons: 1,
+      IDFdata:[
+        {},
+        {},
+        {},
+        {},
+      ],
+      frm_cc: base64.frm_cc.value 
     };
   },
   computed: {
@@ -72,14 +74,35 @@ export default {
         return this.moveLocaitons
       },
     },
+    IDFdatas() {
+      return this.IDFdata
+    }
   },
   mounted () {
+    console.log('background:' + base64.frm_cc.value)
     this.getLossRate()
     this.getAttackRecent()
-    // this.drawChart()
+    this.timer = setInterval(() => {
+      setTimeout(this.getAttackRecent(),0)
+    }, 60000)
+    this.getIDF()
+    this.timerIDF = setInterval(() => {
+      this.getIDF()
+    }, 60000)
     this.timeTomove()
   },
   methods: {
+    getIDF() {
+      this.axios.get('/api/p3/riskIdfMatrix')
+      .then( (response) => {
+        this.IDFdata = response.data.data;
+        this.drawChart()
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+
+    },
     getLossRate () {
       //欺诈损失率
       this.axios.get('/api/p3/lossRate')
@@ -93,13 +116,13 @@ export default {
     timeTomove() {
       setTimeout( () => {
         this.timeinterval = setInterval( () => {
-          if(this.moveLocaitons === 5) {
+          if(this.moveLocaitons === 4) {
             this.moveLocaitons = 1
           }else {
             this.moveLocaitons += 1
           }
-        },1850)
-      },2500)
+        },2000)
+      },300)
     },
     getAttackRecent () {
       //近一小时攻击数P3-4
@@ -113,6 +136,10 @@ export default {
     },
     drawChart() {
       let myChart = this.$echarts.init(document.getElementById('frimChart'));
+      let percentData = []
+      this.IDFdata.forEach(el => {
+        percentData.push(el.percent)
+      });
       // 绘制图表
       myChart.setOption({
         color: [
@@ -199,7 +226,7 @@ export default {
                 }
               },
               barWidth: 30,
-              data: [15, 10, 60, 5]
+              data: percentData || [15, 10, 60, 5]
             },
             {
               name: '背景',
@@ -220,6 +247,8 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.timeinterval);
+    clearInterval(this.timer);
+    clearInterval(this.timerIDF);
   },
   components: {},
 };
@@ -245,6 +274,7 @@ export default {
     overflow: hidden;
     .mc-l{
       margin-top: 55px;
+      color: gray;
       ul{
         list-style: none;
         li{
@@ -278,7 +308,7 @@ export default {
     .mc-c{
       width: 212px;
       height: 450px;
-      background: url('../../assets/images/p3/frm-c.png') no-repeat;
+      // background: url('../../assets/images/p3/frm-cc.png') no-repeat;
       background-size: 100% 100%;
       margin: 0 46px 0 27px;
     }

@@ -18,7 +18,7 @@
           <line-right :tableDatas="tableDataB" :ids="idB" :heights="clientHeight" />
         </div>
         <div class="center">
-          <big-head :tableDatas="tableDataCs" :ids="idC" :heights="clientHeight" @func="fromHead" />
+          <big-head :tableDatas="tableDataCs" :ids="idC" :heights="clientHeight" @func="fromHead" :bigPoint="bigPoint"/>
         </div>
         <div class="right">
           <table-auto
@@ -26,6 +26,8 @@
             :ids="idC"
             :columns="columnC"
             :heights="clientHeight"
+            :needPoint="true"
+            @func="getPoint"
           />
           <pop-custom :tableDatas="tableDataD" :ids="idD" :heights="clientHeight" />
         </div>
@@ -172,32 +174,38 @@ export default {
         { desire: "通话中断", num: 26258 },
         { desire: "承诺马上还款", num: 26758 }
       ],
-      clientHeight: document.body.clientHeight
+      clientHeight: document.body.clientHeight,
+      bigPoints: {}
     };
   },
-  created() {
-    this.getTableDataA(() => {
-      this.getTableDataC(() => {
-        this.$nextTick(() => {
-          this.showMain = true;
-        });
-      });
-    });
-  },
+  created() {},
   computed: {
     tableDataAs() {
       return this.tableDataA;
     },
     tableDataCs() {
       return this.tableDataC;
+    },
+    bigPoint() {
+      return this.bigPoints
     }
   },
   mounted() {
-    this.init();
-    this.getTime();
+    this.init()
+    this.timer = setInterval( () => {
+      this.init()
+    },60000)
   },
   methods: {
-    init() {},
+    init() {
+      this.getTableDataA(() => {
+        this.getTableDataC(() => {
+          this.$nextTick(() => {
+            this.showMain = true;
+          });
+        });
+      });
+    },
     getTableDataA(cb) {
       this.axios({
         url: "/api/p4/smartCall",
@@ -224,57 +232,21 @@ export default {
             }
           ];
         });
+        this.bigPoints = arr[0]
         this.tableDataA = arr;
         cb();
       });
     },
-    // 获取右上角当前时间
-    getTime() {
-      if (timeInterval) clearInterval(timeInterval);
-      var timeInterval = setInterval(this.nowTime, 1000);
-    },
-    nowTime() {
-      var myDate = new Date();
-      var y = myDate.getFullYear();
-      var M = myDate.getMonth() + 1; //获取当前月份(0-11,0代表1月)
-      var d = myDate.getDate(); //获取当前日(1-31)
-      var h = myDate.getHours(); //获取当前小时数(0-23)
-      var m = myDate.getMinutes(); //获取当前分钟数(0-59)
-      var s = myDate.getSeconds(); //获取当前秒数(0-59)
-
-      //检查是否小于10
-      M = this.check(M);
-      d = this.check(d);
-      h = this.check(h);
-      m = this.check(m);
-      s = this.check(s);
-      var dateStr = y + "/" + M + "/" + d;
-      var timeStr = h + ":" + m + ":" + s;
-      this.currentTime = Object.assign({}, { date: dateStr, time: timeStr });
-      // 获取当前天气
-      this.getCurrentWeather(myDate.getDate());
-      // document.getElementById("nowtime").innerHTML = "当前时间：" + timestr;
-    },
-    getCurrentWeather(d) {
-      if (this.currentDate === d) {
-        return;
-      }
-      var index = 0;
-      if (d > 6) {
-        this.currentWeather = this.localweather[index];
-        this.currentImg = this.weatherImg[index];
-      } else {
-        this.currentWeather = this.localweather[d];
-        this.currentImg = this.weatherImg[d];
-      }
-    },
-    check(i) {
-      var num = i < 10 ? "0" + i : i;
-      return num;
-    },
+    
     fromHead(obj) {
       this.headValue = obj.value;
+    },
+    getPoint(par) {
+      this.bigPoints = par
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
   },
   components: {
     "table-auto": tableAuto,
@@ -374,6 +346,5 @@ export default {
   height: 48%;
   background-size: 96%;
   padding: 3.2%;
-  
 }
 </style>
