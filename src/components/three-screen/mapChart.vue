@@ -334,6 +334,9 @@ export default {
       });
     }
   },
+  beforeDestroy() {
+    clearInterval(this.timer);
+  },
   components: {}
 };
 </script>

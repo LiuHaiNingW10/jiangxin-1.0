@@ -27,11 +27,27 @@ export default {
   },
   methods: {
     init() {
-      // this.transLateData();
-      this.drawChart([])
+      this.getData()
+      this.timer = setInterval( () => {
+        this.getData()
+      },60000)
     },
-    drawChart(data) {
+    getData() {
+      this.axios({
+        url: "/api/p4/smartCallSummary",
+        method: "get",
+        type: "json"
+      }).then(data => {
+        this.tableData = data.data.data;
+        this.drawChart();
+      });
+    },
+    drawChart() {
       let myChart = this.$echarts.init(document.getElementById("p4-pop"));
+      let data = this.tableData[0] && this.tableData || [
+        {num: '未拨通', want: '10'},
+        {num: '承诺近期还款', want: '10'},
+      ];
       // 绘制图表
       myChart.setOption({
         title: {
@@ -72,7 +88,7 @@ export default {
             type: "graph",
             layout: "force",
             force: {
-              repulsion: 400,
+              repulsion: 400
             },
             roam: true,
             label: {
@@ -84,59 +100,69 @@ export default {
               rich: {
                 value: {
                   fontSize: "24",
-                  align: 'center'
+                  align: "center"
                 }
               }
             },
-            data:  [
+            data: [
               {
-                name: "未拨通",
-                value: 68+ '人',
+                name: data[0].want,
+                value: data[0].num + "人",
                 symbolSize: 180,
                 symbol: `image://${require("@/assets/images/p2/loan1.svg")}`,
                 draggable: true,
                 label: {
-                  align:'center'
+                  align: "center"
                 }
               },
               {
-                name: "承诺近期还款",
-                value: 678+ '人',
+                name: data[1].want,
+                value: data[1].num+ "人",
                 symbolSize: 281,
                 symbol: `image://${require("@/assets/images/p2/loan3.svg")}`,
                 draggable: true,
                 label: {
-                  align:'center'
+                  align: "center"
                 }
               },
               {
-                name: "承诺马上还款",
-                value: 348+ '人',
+                name: data[2].want,
+                value: data[2].num + "人",
                 symbolSize: 160,
                 symbol: `image://${require("@/assets/images/p2/loan3.svg")}`,
                 draggable: true,
                 label: {
-                  align:'center'
+                  align: "center"
                 }
               },
               {
-                name: "未接听",
-                value: 87+ '人',
+                name: data[3].want,
+                value: data[3].num+ "人",
                 symbolSize: 150,
                 symbol: `image://${require("@/assets/images/p2/loan4.svg")}`,
                 draggable: true,
                 label: {
-                  align:'center'
+                  align: "center"
                 }
               },
               {
-                name: "延期还款",
-                value: 532 + '人',
+                name: data[4].want,
+                value: data[4].num+ "人",
                 symbolSize: 170,
                 symbol: `image://${require("@/assets/images/p2/loan5.svg")}`,
                 draggable: true,
                 label: {
-                  align:'center'
+                  align: "center"
+                }
+              },
+              {
+                name: data[5].want,
+                value: data[5].num+ "人",
+                symbolSize: 170,
+                symbol: `image://${require("@/assets/images/p2/loan5.svg")}`,
+                draggable: true,
+                label: {
+                  align: "center"
                 }
               }
             ]
@@ -144,20 +170,10 @@ export default {
         ]
       });
     },
-    transLateData() {
-      let obj = {
-        type: "bar",
-        yAxis: [],
-        series: []
-      };
-      this.tableData.forEach(el => {
-        obj.series.push(el.num);
-        obj.yAxis.push(el.categroy);
-      });
-      this.lineData = obj.series;
-      this.drawLineG(this.id.id, obj);
-    }
-  }
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
+  },
 };
 </script>
 <style lang="less" scoped>

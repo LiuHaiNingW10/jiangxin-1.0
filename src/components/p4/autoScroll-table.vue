@@ -30,7 +30,7 @@
 <script>
 export default {
   name: "tableAuto",
-  props: ['tableDatas', 'ids','columns','heights'],
+  props: ['tableDatas', 'ids','columns','heights','needPoint'],
   data() {
     return {
       todos: [],
@@ -54,13 +54,13 @@ export default {
   },
   methods: {
     init() {
-      var n = setInterval( () => {
-        var circle = this.autoScroll()
-      },1000)
+      this.timer = setInterval( () => {
+        this.autoScroll()
+      },3000)
       
     },
     autoScroll() {
-      let time = this.activeIndex%5 === 0 ? 6000: 1000
+      let time = this.activeIndex%5 === 0 ? 6000: 3000
       var a = setInterval(_ => {
           let free = Math.floor(Math.random()*12)+1;
           this.tableData = this.tableData.concat(this.initData[free]||[]);
@@ -73,11 +73,15 @@ export default {
             this.activeIndex = 0
           }
           this.tableData.shift()
+          this.needPoint && this.$emit('func', this.tableData[0])
           clearInterval(a)
       }, time);
       
     },
-  }
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
+  },
 }
 </script>
 <style lang="less">
@@ -85,6 +89,7 @@ export default {
     background: url('../../assets/images/p4-table-title.png') no-repeat center;
     .scroll-box {
       overflow: hidden;
+      padding: 4%;
     }
     .table-scroll {
       position: relative;

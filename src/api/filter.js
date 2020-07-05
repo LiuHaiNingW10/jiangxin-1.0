@@ -29,8 +29,8 @@ const toBase64 = function (str) {
 }
 const sortByValue = function( arr,value) {
   arr.sort(function(x,y) {
-      const m = (value & x[value]) || x,
-      n = (value & y[value]) || y;
+      let m = (value && x[value]) || x,
+      n = (value && y[value]) || y;
       return n - m
   })
   return arr

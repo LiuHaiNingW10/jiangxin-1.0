@@ -2,65 +2,17 @@
   <div class="brain-content" @keyup.enter="keyEnter">
     <div class="brain-main">
       <div class="light-spot">
-        <div class="a" v-if="showImg">
-          <span class="a-address">
-            <i>{{tableData[0].accent}}</i>
-          </span>
-          <span class="a-tel">
-            <i>电话：{{tableData[0].mobile}}</i>
-            <br />
-            <i class="a-want">{{tableData[0].want}}</i>
-          </span>
-        </div>
-        <div class="b" v-if="showImg">
-          <span class="a-address">
-            <i>{{tableData[1].accent}}</i>
-          </span>
-          <span class="a-tel">
-            <i>电话：{{tableData[1].mobile}}</i>
-            <br />
-            <i class="a-want">{{tableData[1].want}}</i>
-          </span>
-        </div>
-        <div class="c" v-if="showImg">
-          <span class="a-address">
-            <i>{{tableData[2].accent}}</i>
-          </span>
-          <span class="a-tel">
-            <i>电话：{{tableData[2].mobile}}</i>
-            <br />
-            <i class="a-want">{{tableData[2].want}}</i>
-          </span>
-        </div>
-        <div class="d" v-if="showImg">
-          <span class="e-address">
-            <i>{{tableData[3].accent}}</i>
-          </span>
-          <span class="a-tel">
-            <i>电话：{{tableData[3].mobile}}</i>
-            <br />
-            <i class="a-want">{{tableData[3].want}}</i>
-          </span>
-        </div>
-        <div class="e" v-if="showImg">
-          <span class="e-address">
-            <i>{{tableData[4].accent}}</i>
-          </span>
-          <span class="a-tel">
-            <i>电话：{{tableData[4].mobile}}</i>
-            <br />
-            <i class="a-want">{{tableData[4].want}}</i>
-          </span>
-        </div>
-        <div class="f" v-if="showImg">
-          <span class="e-address">
-            <i>{{tableData[5].accent}}</i>
-          </span>
-          <span class="a-tel">
-            <i>电话：{{tableData[5].mobile}}</i>
-            <br />
-            <i class="a-want">{{tableData[5].want}}</i>
-          </span>
+        <div class="spot-box" v-if="showPoint && showImg">
+          <div class="a" :style="xy">
+            <span class="a-address">
+              <i>{{bigPoint.accent}}</i>
+            </span>
+            <span class="a-tel">
+              <i>电话：{{bigPoint.mobile}}</i>
+              <br />
+              <i class="a-want">{{bigPoint.want}}</i>
+            </span>
+          </div>
         </div>
         <canvas id="audio-art"></canvas>
         <audio id="audio" :src="require('../../assets/video/shanxi.wav')" ref="audio"></audio>
@@ -113,20 +65,32 @@ import f from "../../assets/images/brain-f.png";
 import g from "../../assets/images/brain-g.png";
 export default {
   name: "tableAuto",
-  props: ["tableDatas", "ids", "heights"],
+  props: ["tableDatas", "ids", "heights", "bigPoint"],
   data() {
     return {
-      tableData: this.tableDatas,
+      tableData: [],
       id: this.ids,
       height: this.heights,
       lineData: [],
       showImg: true,
-      analyser: {}
+      showPoint: true,
+      analyser: {},
+      xy:''
     };
   },
   computed: {},
   mounted() {
     this.init();
+  },
+  watch: {
+    bigPoint() {
+      this.showPoint = false;
+      this.tableData = this.bigPoint;
+      this.xy  = 'top:' + (Math.floor(328*Math.random()) + 338) +'px;' + 'left:' + (Math.floor(554*Math.random()) + 446) + 'px'
+      this.$nextTick( () => {
+        this.showPoint = true;
+      })
+    }
   },
   methods: {
     init() {
@@ -216,13 +180,15 @@ export default {
     min-height: 400px;
     min-height: 450px;
     position: relative;
-    div {
-      display: inline-block;
-      position: absolute;
-      height: 54%;
-      width: 22%;
-      padding: 2.2% 2%;
-      z-index: 2;
+    .spot-box {
+      div {
+        display: inline-block;
+        position: absolute;
+        height: 54%;
+        width: 22%;
+        padding: 2.2% 2%;
+        z-index: 2;
+      }
     }
     audio {
       display: none;
@@ -269,38 +235,38 @@ export default {
       color: #4dc4d3;
     }
     .a {
-      top: 187px;
-      left: 363px;
-      background: url("../../assets/images/popup-l.png") no-repeat center;
+      top: 338px;
+      left: 446px;
+      background: url("../../assets/images/popup-p.png") no-repeat center;
       background-size: 100%;
     }
-    .b {
+    .spot-box .b {
       top: 396px;
       left: 190px;
       background: url("../../assets/images/popup-l.png") no-repeat center;
       background-size: 100%;
     }
-    .c {
+    .spot-box .c {
       top: 730px;
       left: 511px;
       background: url("../../assets/images/popup-p.png") no-repeat center;
       background-size: 100%;
     }
-    .d {
+    .spot-box .d {
       top: 469px;
       left: 936px;
       background: url("../../assets/images/popup-o.png") no-repeat center;
       background-size: 100%;
       padding-left: 126px;
     }
-    .e {
+    .spot-box .e {
       top: 236px;
       right: 374px;
       background: url("../../assets/images/popup-r.png") no-repeat center;
       background-size: 100%;
       padding-left: 128px;
     }
-    .f {
+    .spot-box .f {
       top: 616px;
       right: 284px;
       background: url("../../assets/images/popup-o.png") no-repeat center;

@@ -18,21 +18,32 @@ export default {
   props: ["tableDatas", "ids", "columns", "heights"],
   data() {
     return {
-      tableData: this.tableDatas,
+      tableData: [],
       id: this.ids,
       height: this.heights,
       lineData: []
     };
   },
-  computed: {
-    
-  },
+  computed: {},
   mounted() {
     this.init();
   },
   methods: {
     init() {
-      this.transLateData();
+      this.getData();
+      this.timer = setInterval(() => {
+        this.getData();
+      },60000);
+    },
+    getData() {
+      this.axios({
+        url: "/api/p4/smartOperationSummary",
+        method: "get",
+        type: "json"
+      }).then(data => {
+        this.tableData = data.data.data;
+        this.transLateData();
+      });
     },
     transLateData() {
       let obj = {
@@ -40,9 +51,10 @@ export default {
         yAxis: [],
         series: []
       };
-      this.tableData.forEach(el => {
+      let arr = Vue.filter('sortByValue')(this.tableData,'num')
+      arr.forEach(el => {
         obj.series.push(el.num);
-        obj.yAxis.push(el.categroy);
+        obj.yAxis.push(el.action);
       });
       this.lineData = obj.series;
       this.drawLineG(this.id.id, obj);
@@ -126,7 +138,7 @@ export default {
             splitLine: {
               show: false
             },
-            data: this.lineData.reverse()
+            data: this.lineData
           }
         ],
         series: [
@@ -140,7 +152,7 @@ export default {
             },
             roundCap: true,
             type: "bar",
-            data: data.series,
+            data: data.series.reverse(),
             barWidth: 12,
             barCategoryGap: "20",
             itemStyle: {
