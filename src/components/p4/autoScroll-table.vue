@@ -90,6 +90,7 @@ export default {
     .scroll-box {
       overflow: hidden;
       padding: 4%;
+      height: 100%;
     }
     .table-scroll {
       position: relative;
