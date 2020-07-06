@@ -37,4 +37,5 @@ module.exports = {
       // proxy: proxyObj, // string | Object
   },
   lintOnSave: false,
+  productionSourceMap: true,   // true => 会过滤.map 文件 。不利于暴露问题点 
 }
