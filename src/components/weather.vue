@@ -21,16 +21,16 @@ export default {
     return {
       // 天气
       localweather: [
-        { high: "29", low: "22" },
-        { high: "28", low: "23" },
-        { high: "27", low: "23" },
-        { high: "25", low: "23" },
-        { high: "26", low: "22" },
+        { high: "26", low: "24" },
+        { high: "30", low: "25" },
+        { high: "31", low: "25" },
+        { high: "31", low: "26" },
+        { high: "27", low: "25" },
 
-        { high: "29", low: "22" },
-        { high: "29", low: "22" }
+        { high: "32", low: "27" },
+        { high: "33", low: "28" }
       ],
-      weatherImg: [Yin, Yu, Yu, Yu, Yu, Yu, Yu],
+      weatherImg: [Yu, Yu, Yu, Yu, Yu, Yin, Yin],
 
       currentWeather: {},
       currentImg: "",
@@ -84,12 +84,12 @@ export default {
         return;
       }
       var index = 0;
-      if (d > 6) {
+      if (d > 12) {
         this.currentWeather = this.localweather[index];
         this.currentImg = this.weatherImg[index];
       } else {
-        this.currentWeather = this.localweather[d];
-        this.currentImg = this.weatherImg[d];
+        this.currentWeather = this.localweather[d-6];
+        this.currentImg = this.weatherImg[d-6];
       }
     },
 
