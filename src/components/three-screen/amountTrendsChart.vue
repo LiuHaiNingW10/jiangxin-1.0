@@ -73,7 +73,8 @@ export default {
                 global: false // 缺省为 false
               }
             }
-          }
+          },
+          formatter: " {b}点理财:{c}元"
         },
         grid: {
           top: "10%",
@@ -130,7 +131,7 @@ export default {
         ],
         series: [
           {
-            name: "注册总量",
+            name: "风险金额",
             type: "line",
             symbol: "circle",
             showSymbol: false,
@@ -166,7 +167,7 @@ export default {
               normal: {
                 show: true,
                 position: "top",
-                formatter: [" {a|{c}%}"].join(","),
+                formatter: [" {a|{c}元}"].join(","),
                 rich: {
                   a: {
                     color: "#fff",

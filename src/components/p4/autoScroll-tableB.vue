@@ -55,11 +55,11 @@ export default {
     init() {
       this.timer = setInterval( () => {
         this.autoScroll()
-      },3000)
+      },5000)
       
     },
     autoScroll() {
-      let time = this.activeIndex % 4 === 0 ? 6000 : 3000;
+      let time = this.activeIndex % 4 === 0 ? 8000 : 5000;
       let a = setInterval(_ => {
         this.tableData = this.tableData.concat(this.initData[this.activeIndex] || []);
         if (this.activeIndex < this.tableData.length) {

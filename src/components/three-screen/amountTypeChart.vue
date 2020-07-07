@@ -128,7 +128,7 @@ export default {
               barWidth: 12,
               barGap: '-100%',
               label: {
-                show: true,
+                show: false,
                 position: 'right',
                 color: 'rgba(255,255,255)'
               },

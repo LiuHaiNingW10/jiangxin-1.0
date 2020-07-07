@@ -187,7 +187,7 @@ export default {
   background: url("../../assets/images/p4-table-title.png") no-repeat center;
   .line-action {
     color: #ccc;
-    margin: 16px 0;
+    margin: 16px 60px;
   }
 }
 .line-body {

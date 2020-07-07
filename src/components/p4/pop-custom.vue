@@ -4,7 +4,7 @@
       <span>{{id.title}}</span>
     </div>
     <div class="pop-content">
-      <div id="p4-pop"></div>
+      <div :id="id.id" class="pop"></div>
     </div>
   </div>
 </template>
@@ -23,31 +23,49 @@ export default {
   },
   computed: {},
   mounted() {
-    this.init();
+    this.drawChart();
   },
   methods: {
-    init() {
-      this.getData()
-      this.timer = setInterval( () => {
-        this.getData()
-      },60000)
-    },
-    getData() {
-      this.axios({
-        url: "/api/p4/smartCallSummary",
-        method: "get",
-        type: "json"
-      }).then(data => {
-        this.tableData = data.data.data;
-        this.drawChart();
+    translate(arr) {
+      let a = [];
+      let maxItem = Vue.filter('sortByValue')(arr,'num')[0]
+      arr.forEach(it => {
+        a.push({
+          name: it.want,
+          value: it.num + "人",
+          symbolSize: getSize(it.num),
+          symbol: getSymbol(it.num),
+          draggable: true,
+          label: {
+            align: "center"
+          }
+        });
       });
+      return a
+
+      function getSize (num) {
+        let a = Math.floor(num/maxItem.num * 280)
+        if(a < 150) {
+          a = 150
+        }
+        return a
+      };
+      function getSymbol (num) {
+        let rate = num/maxItem.num;
+        if(rate < 1/4) {
+          return `image://${require("@/assets/images/p2/loan1.svg")}`
+        }else if(rate < 2/4) {
+          return `image://${require("@/assets/images/p2/loan4.svg")}`
+        }else if(rate < 3/4) {
+          return `image://${require("@/assets/images/p2/loan5.svg")}`
+        }else {
+          return `image://${require("@/assets/images/p2/loan3.svg")}`
+        }
+      }
     },
     drawChart() {
-      let myChart = this.$echarts.init(document.getElementById("p4-pop"));
-      let data = this.tableData[0] && this.tableData || [
-        {num: '未拨通', want: '10'},
-        {num: '承诺近期还款', want: '10'},
-      ];
+      let myChart = this.$echarts.init(document.getElementById(this.id.id));
+      let seriesData = this.translate(this.tableData);
       // 绘制图表
       myChart.setOption({
         title: {
@@ -104,76 +122,15 @@ export default {
                 }
               }
             },
-            data: [
-              {
-                name: data[0].want,
-                value: data[0].num + "人",
-                symbolSize: 180,
-                symbol: `image://${require("@/assets/images/p2/loan1.svg")}`,
-                draggable: true,
-                label: {
-                  align: "center"
-                }
-              },
-              {
-                name: data[1].want,
-                value: data[1].num+ "人",
-                symbolSize: 281,
-                symbol: `image://${require("@/assets/images/p2/loan3.svg")}`,
-                draggable: true,
-                label: {
-                  align: "center"
-                }
-              },
-              {
-                name: data[2].want,
-                value: data[2].num + "人",
-                symbolSize: 160,
-                symbol: `image://${require("@/assets/images/p2/loan3.svg")}`,
-                draggable: true,
-                label: {
-                  align: "center"
-                }
-              },
-              {
-                name: data[3].want,
-                value: data[3].num+ "人",
-                symbolSize: 150,
-                symbol: `image://${require("@/assets/images/p2/loan4.svg")}`,
-                draggable: true,
-                label: {
-                  align: "center"
-                }
-              },
-              {
-                name: data[4].want,
-                value: data[4].num+ "人",
-                symbolSize: 170,
-                symbol: `image://${require("@/assets/images/p2/loan5.svg")}`,
-                draggable: true,
-                label: {
-                  align: "center"
-                }
-              },
-              {
-                name: data[5].want,
-                value: data[5].num+ "人",
-                symbolSize: 170,
-                symbol: `image://${require("@/assets/images/p2/loan5.svg")}`,
-                draggable: true,
-                label: {
-                  align: "center"
-                }
-              }
-            ]
+            data: seriesData
           }
         ]
       });
-    },
+    }
   },
   beforeDestroy() {
     clearInterval(this.timer);
-  },
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -183,7 +140,7 @@ export default {
     text-align: center;
     padding: 30px 0;
     height: 90%;
-    #p4-pop {
+    .pop {
       height: 100%;
     }
   }

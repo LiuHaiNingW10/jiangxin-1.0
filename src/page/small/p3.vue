@@ -28,7 +28,7 @@
           <real-time-strategy v-if="showUses" title="当日调用策略" :num="usesTime.day" :blank="2" />
         </div>
         <map-chart class="map-charts" />
-        <pie-chart />
+        <!-- <pie-chart /> -->
         <div class="map-panel"></div>
       </div>
       <div class="right-box">
@@ -234,13 +234,14 @@ export default {
     padding: 0 40px;
     .left-box,
     .right-box {
-      width: 960px;
+      width: 27.2%;;
       height: 1440px;
       background: url("../../assets/images/p3/bg-cont.png") no-repeat;
+      background-size: 100% 97%;
     }
     .center-box {
       position: relative;
-      width: 50%;
+      width: 45.4%;
       height: 100%;
       .strategy-box {
         width: 100%;

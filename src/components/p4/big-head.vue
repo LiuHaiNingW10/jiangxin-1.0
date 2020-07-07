@@ -3,14 +3,28 @@
     <div class="brain-main">
       <div class="light-spot">
         <div class="spot-box" v-if="showPoint && showImg">
-          <div class="a" :style="xy">
+          <div class="a" :style="xy" v-if="bigPoint.accent">
             <span class="a-address">
               <i>{{bigPoint.accent}}</i>
             </span>
             <span class="a-tel">
               <i>电话：{{bigPoint.mobile}}</i>
               <br />
+              <i>产品：{{bigPoint.product}}</i>
+              <br />
               <i class="a-want">{{bigPoint.want}}</i>
+            </span>
+          </div>
+          <div class="a" :style="xy" v-if="bigPoint.status">
+            <span class="e-address">
+              <i>{{bigPoint.action}}</i>
+            </span>
+            <span class="a-tel">
+              <i>电话：{{bigPoint.mobile}}</i>
+              <br />
+              <i>智能处理：{{bigPoint.handle}}</i>
+              <br />
+              <i class="e-want">问题定位：{{bigPoint.status[0].value}}</i>
             </span>
           </div>
         </div>
@@ -84,12 +98,9 @@ export default {
   },
   watch: {
     bigPoint() {
-      this.showPoint = false;
       this.tableData = this.bigPoint;
+      console.log(this.tableData.handle)
       this.xy  = 'top:' + (Math.floor(328*Math.random()) + 338) +'px;' + 'left:' + (Math.floor(554*Math.random()) + 446) + 'px'
-      this.$nextTick( () => {
-        this.showPoint = true;
-      })
     }
   },
   methods: {
@@ -185,8 +196,8 @@ export default {
         display: inline-block;
         position: absolute;
         height: 54%;
-        width: 22%;
-        padding: 2.2% 2%;
+        width: 30%;
+        padding: 2.4% 3%;
         z-index: 2;
       }
     }
@@ -210,9 +221,9 @@ export default {
       width: 80%;
       display: inline-block;
       height: 30px;
-      background: url("../../assets/images/p4icon1.png") no-repeat center;
+      background: url("../../assets/images/p4icon4.png") no-repeat center;
       background-position: 4px 0;
-      background-size: 12%;
+      background-size: 8%;
       padding: 2px 0 0px 40px;
       line-height: 26px;
     }
@@ -233,6 +244,9 @@ export default {
     }
     .a-want {
       color: #4dc4d3;
+    }
+    .e-want {
+      color: #FFE96F;
     }
     .a {
       top: 338px;

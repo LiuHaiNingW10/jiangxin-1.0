@@ -28,10 +28,10 @@ export default {
           .then(res => {
             const { data } = res.data;
             let index = 0;
-            let timer = setInterval(() => {
+            this.timer = setInterval(() => {
               if (index >= data.length) {
                 _that.getData();
-                clearInterval(timer);
+                clearInterval(this.timer);
               }
               index++;
               _that.initMap(data, index);

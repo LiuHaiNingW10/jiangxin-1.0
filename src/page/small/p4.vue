@@ -14,14 +14,23 @@
             :ids="idA"
             :columns="columnA"
             :heights="clientHeight"
+            :needPoint="true"
+            @func="getPoint"
           />
-          <line-right :tableDatas="tableDataB" :ids="idB" :heights="clientHeight" />
+          <!-- <line-right :tableDatas="tableDataB" :ids="idB" :heights="clientHeight" /> -->
+          <pop-custom :tableDatas="tableDataBs" :ids="idB" :heights="clientHeight" />
         </div>
         <div class="center">
-          <big-head :tableDatas="tableDataCs" :ids="idC" :heights="clientHeight" @func="fromHead" :bigPoint="bigPoint"/>
+          <big-head
+            :tableDatas="tableDataCs"
+            :ids="idC"
+            :heights="clientHeight"
+            @func="fromHead"
+            :bigPoint="bigPoint"
+          />
         </div>
         <div class="right">
-          <table-auto
+          <table-autoB
             :tableDatas="tableDataC"
             :ids="idC"
             :columns="columnC"
@@ -29,7 +38,7 @@
             :needPoint="true"
             @func="getPoint"
           />
-          <pop-custom :tableDatas="tableDataD" :ids="idD" :heights="clientHeight" />
+          <pop-custom :tableDatas="tableDataDs" :ids="idD" :heights="clientHeight" />
         </div>
       </div>
     </div>
@@ -41,6 +50,7 @@ import Vue from "vue";
 import Yin from "../../assets/images/yin.png";
 import Yu from "../../assets/images/yu.png";
 import tableAuto from "../../components/p4/autoScroll-table.vue";
+import tableAutoB from "../../components/p4/autoScroll-tableB.vue";
 import lineToRight from "../../components/p4/line-toRight.vue";
 import bigHeadVue from "../../components/p4/big-head.vue";
 import popCustom from "../../components/p4/pop-custom.vue";
@@ -143,15 +153,7 @@ export default {
         title: "智能运营"
       },
       columnA: columnA,
-      tableDataB: [
-        { categroy: "还款用户数", num: 21044 },
-        { categroy: "用信成功用户数", num: 23618 },
-        { categroy: "授信通过用户数", num: 24396 },
-        { categroy: "授信申请用户数", num: 25903 },
-        { categroy: "好会花朴充信息页面浏览", num: 26258 },
-        { categroy: "好会花申请按钮点击", num: 26758 },
-        { categroy: "好会花Banner点击", num: 29632 }
-      ],
+      tableDataB: [],
       idB: {
         id: "echarts02",
         title: "用户转化",
@@ -164,6 +166,7 @@ export default {
       },
       columnC: columnC,
       idD: {
+        id: "echarts04",
         title: "客户意愿"
       },
       tableDataD: [
@@ -183,18 +186,26 @@ export default {
     tableDataAs() {
       return this.tableDataA;
     },
+    tableDataBs() {
+      return this.tableDataB;
+    },
     tableDataCs() {
       return this.tableDataC;
     },
+    tableDataDs() {
+      return this.tableDataD;
+    },
     bigPoint() {
-      return this.bigPoints
+      return this.bigPoints;
     }
   },
   mounted() {
-    this.init()
-    this.timer = setInterval( () => {
-      this.init()
-    },60000)
+    this.init();
+    this.timer = setInterval(() => {
+      this.init();
+    }, 60000);
+    this.tB();
+    this.tD();
   },
   methods: {
     init() {
@@ -232,24 +243,61 @@ export default {
             }
           ];
         });
-        this.bigPoints = arr[0]
+        this.bigPoints = arr[0];
         this.tableDataA = arr;
         cb();
       });
     },
-    
+    tB() {
+      this.getTableDataB();
+      this.timerB = setInterval(() => {
+        this.getTableDataB();
+      }, 6000);
+    },
+    tD() {
+      this.getTableDataD();
+      this.timerD = setInterval(() => {
+        this.getTableDataD();
+      }, 6000);
+    },
+    getTableDataB() {
+      this.axios({
+        url: "/api/p4/smartOperationSummary",
+        method: "get",
+        type: "json"
+      }).then(data => {
+        let arr = data.data.data;
+        arr.forEach(it => {
+          it.want = it.action;
+        });
+        this.tableDataB = arr;
+      });
+    },
+    getTableDataD() {
+      this.axios({
+        url: "/api/p4/smartCallSummary",
+        method: "get",
+        type: "json"
+      }).then(data => {
+        this.tableDataD = data.data.data;
+      });
+    },
+
     fromHead(obj) {
       this.headValue = obj.value;
     },
     getPoint(par) {
-      this.bigPoints = par
+      this.bigPoints = par;
     }
   },
   beforeDestroy() {
     clearInterval(this.timer);
+    clearInterval(this.timerB);
+    clearInterval(this.timerD);
   },
   components: {
     "table-auto": tableAuto,
+    "table-autoB": tableAutoB,
     "line-right": lineToRight,
     "big-head": bigHeadVue,
     "pop-custom": popCustom,
@@ -325,16 +373,16 @@ export default {
       width: 100%;
     }
     .left {
-      width: 21%;
+      width: 27.2%;
       vertical-align: top;
     }
     .center {
-      width: 58%;
+      width: 45.4%;
       position: relative;
       height: 93%;
     }
     .right {
-      width: 21%;
+      width: 27.2%;
       vertical-align: top;
     }
   }
@@ -344,7 +392,7 @@ export default {
   position: relative;
   overflow: hidden;
   height: 48%;
-  background-size: 96%;
+  background-size: 96% 98%;
   padding: 3.2%;
 }
 </style>
