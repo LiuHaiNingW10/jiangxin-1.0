@@ -61,7 +61,7 @@ export default {
             formatter: function(params) {
             return params[0].name + '<br/>' +
                 "<span style='display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:rgba(36,207,233,0.9)'></span>" +
-                params[0].seriesName + ' : ' + Number(params[0].value).toLocaleString() + '<br/>'
+                params[0].seriesName + ' : ' + Number(params[0].value).toLocaleString() + '元<br/>'
             }
         },
         grid: {
@@ -99,7 +99,8 @@ export default {
               label: {
                 show: true,
                 position: 'right',
-                color: 'rgba(255,255,255)'
+                color: 'rgba(255,255,255)',
+                formatter: '{@score}元'
               },
               itemStyle: {
                 barBorderRadius: 6,

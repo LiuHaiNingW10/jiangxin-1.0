@@ -32,7 +32,7 @@ export default {
           // 接受数组分别设定上右下左边距，同css
           itemGap: 10, // 主副标题纵向间隔，单位px，默认为10，
           textStyle: {
-            fontSize: 18,
+            fontSize: 12,
             fontWeight: "bolder",
             color: "#eee" // 主标题文字颜色
           },
@@ -67,11 +67,11 @@ export default {
               show: true,
               color: "#fff",
               fontWeight: "bold",
-              fontSize: 18,
+              fontSize: 12,
               formatter: "{b}\n\n{value|{c}}",
               rich: {
                 value: {
-                  fontSize: "24",
+                  fontSize: "16",
                   align: "center"
                 }
               }

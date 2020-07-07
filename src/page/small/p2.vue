@@ -201,7 +201,7 @@ export default {
 
     // 中部
     .content-middle {
-      width: 41%;
+      width: 45%;
       height: 100%;
       padding: 0.6% 1%;
       .server-money {

@@ -132,17 +132,17 @@ export default {
   display: flex;
   text-align: center;
   .single-columnar {
-    height: 412px;
+    height: 100%;
     width: 50%;
     .current-data {
       font-weight: bold;
       color: #ff0088;
       font-size: 30px;
-      height: 15%;
+      height: 56px;
     }
     .single-columnar-echarts {
       width: 80%;
-      height: 300px;
+      height: 500px;
     }
   }
 }

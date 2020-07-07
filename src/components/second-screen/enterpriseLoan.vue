@@ -7,16 +7,18 @@
       </div>
     </div>
     <div class="enterprise-atlas enterprise-div enterprise-content">
-      <div class="second-title">
-        <span class="text-span">企业图谱</span>
-      </div>
-      <div id="graph"></div>
-    </div>
-    <div class="enterprise-credit enterprise-div enterprise-content">
-      <div class="second-title">
+
+     <div class="second-title">
         <span class="text-span">企业信用</span>
         <credit-chart :chartData="creditData" v-if="creditJudge" />
       </div>
+      
+    </div>
+    <div class="enterprise-credit enterprise-div enterprise-content">
+     <div class="second-title">
+        <span class="text-span">企业图谱</span>
+      </div>
+      <div id="graph"></div>
     </div>
   </div>
 </template>
@@ -105,6 +107,7 @@ export default {
       list.vertices.forEach((it, i) => {
         arr.push({
           name: it.name,
+          type: it.type,
           itemStyle: {
             normal: {
               color: it.type === "person" ? "#ccc" : "#67375C"
@@ -213,7 +216,7 @@ export default {
               color: "#ccc",
               formatter: function(params) {
                 let c = params.data.username || "";
-                let b = params.data.name;
+                let b = params.data.type === 'person' ? (params.data.name.slice(0,1)+'**') : params.data.name;
                 var str = "";
                 if (c === "") {
                   str = "{p|" + b + "}";
@@ -286,7 +289,7 @@ export default {
             return {
               name: item.companyname,
               value: item.credit,
-              symbolSize: Math.floor(Math.random() * 100) + 300,
+              symbolSize: Math.floor(Math.random() * 100) + 100,
               symbol: `image://${require("@/assets/images/p2/loan" +
                 (Math.floor(Math.random() * 5) + 1) +
                 ".svg")}`,
@@ -325,10 +328,13 @@ export default {
       // this.bubbleData;
     },
     rollBubble(that) {
-      if (that.bubbleIndex === that.bubbleData.length) that.bubbleIndex = 0;
-      that.currentBubbleData = [];
+      if (that.bubbleIndex === that.bubbleData.length) {
+        that.bubbleIndex = 0;
+        that.currentBubbleData = []
+      }
+      // that.currentBubbleData = [];
       that.currentBubbleData.push(that.bubbleData[that.bubbleIndex]);
-      let company = that.currentBubbleData[0].name;
+      let company = that.currentBubbleData[this.bubbleIndex].name;
       this.getGraphData(company);
       that.bubbleIndex++;
       that.$nextTick(() => {

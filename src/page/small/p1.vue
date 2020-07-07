@@ -40,6 +40,9 @@
           v-if="threeMoneyArr.first"
           :chartData="threeMoneyArr.first"
           chartId="total-money"
+        :styleData="styleObj"
+        marginTop="-120px"
+        :styleSingle="singleStyle"
         />
         <!-- <indicator-chart v-if="testN" :chartData="testN" chartId="total-money" /> -->
         <line-chart
@@ -50,11 +53,30 @@
           class="line-chart"
         />
         <left-indicator-chart v-if="allDataIndicator" :chartData="allDataIndicator" />
-        <repeat-purchase
+        <!-- <repeat-purchase
           :ids="repeatPurchaseId"
           :v-if="plateJudge"
           :chartData="{linkRelativeRatio: linkRelativeRatio,dialPlate: dialPlate,lineData: lineData}"
           class="repeat-purchase-chart"
+        /> -->
+        <!-- <form-chart
+          :ids="formIds"
+          v-if="consume"
+          :chartData="{consume: consume, scale: scale}"
+          class="form-charts"
+        />
+         横向柱状图 -->
+         <person-columnar
+          class="person-columnar"
+          ids="consume"
+          :chartData="consume"
+          v-if="consume"
+        />
+        <person-columnar
+          class="person-columnar"
+          ids="scale"
+          v-if="scale"
+          :chartData="scale"
         />
       </div>
       <div class="current-amounts">
@@ -63,6 +85,9 @@
           v-if="threeMoneyArr.second"
           :chartData="threeMoneyArr.second"
           chartId="current-money"
+        :styleData="styleObj"
+        marginTop="-120px"
+        :styleSingle="singleStyle"
         />
 
         <!-- 地图 -->
@@ -75,6 +100,9 @@
           :chartData="threeMoneyArr.third"
           type="person"
           chartId="total-person"
+          :styleData="styleObj"
+          marginTop="-120px"
+          :styleSingle="singleStyle"
         />
         <columnar-chart
           :ids="columnarId"
@@ -83,7 +111,13 @@
           class="columnar-chart"
         />
         <div class="distribution">
-          <funnel-chart
+          <!-- <funnel-chart
+            class="left-distribution single-distribution"
+            :ids="funnelId"
+            v-if="educationJudge"
+            :chartData="ageData" 
+          />-->
+          <pie-chart
             class="left-distribution single-distribution"
             :ids="funnelId"
             v-if="educationJudge"
@@ -96,12 +130,7 @@
             :chartData="educationData"
           />
         </div>
-        <form-chart
-          :ids="formIds"
-          v-if="consume"
-          :chartData="{consume: consume, scale: scale}"
-          class="form-charts"
-        />
+        
       </div>
     </div>
     <!-- <div class="title-frame"></div> -->
@@ -119,6 +148,8 @@ import FunnelChart from "../../components/first-screen/funnelChart.vue";
 import FormChart from "../../components/first-screen/formChart.vue";
 import MapChart from "../../components/first-screen/mapChart.vue";
 import WeatherCom from "../../components/weather.vue";
+
+import PersonColumnar from "../../components/second-screen/personColumnar.vue";
 
 import ScrollSpan from "../../components/scrollSpan.vue";
 
@@ -143,6 +174,15 @@ export default {
   },
   data() {
     return {
+    styleObj: {
+        height: "90px",
+        fontSize: "64px"
+      },
+      singleStyle: {
+        width: "5%",
+        marginLeft: "1%",
+        lineHeight: '150%'
+      },
       mapInterval: undefined,
       coinInterval: undefined,
 
@@ -453,7 +493,7 @@ export default {
             return item.amtavg;
           });
           _that.leftLineData.data_dt = cdata.map(item => {
-            return item.data_dt;
+            return item.event_hour + '时';
           });
         }
       });
@@ -768,16 +808,31 @@ export default {
           //   tData.filter(item => {
           //     return parseInt(item.ranking) <= 5;
           //   }) || [];
-          _that.consume =
-            tData.filter(item => {
-              return parseInt(item.ranking) <= 5;
-            }) || [];
+          //_that.consume =
+          //  tData.filter(item => {
+          //    return parseInt(item.ranking) <= 5;
+          //  }) || [];
 
-          _that.consume.sort((a, b) => {
-            return a.ranking - b.ranking;
+          // _that.consume.sort((a, b) => {
+          //  return a.ranking - b.ranking;
+          //});
+
+          // _that.consume = _that.consume.slice(0, 5);
+
+          var tData = data.data.data;
+          let xAxis = [];
+          let yAxis = [];
+          tData.forEach(item => {
+            xAxis.push(item.xid);
+            yAxis.push(parseFloat(item.score));
           });
+          xAxis = xAxis.reverse().slice(0, 5);
+          yAxis = yAxis.reverse().slice(0, 5);
 
-          _that.consume = _that.consume.slice(0, 5);
+          _that.consume = Object.assign(
+            {},
+            { xAxis: xAxis, yAxis: yAxis, chartType: "value" }
+          );
         }
       });
 
@@ -799,15 +854,30 @@ export default {
           //   return a - b < 0;
           // });
 
-          _that.scale =
-            tData.filter(item => {
-              return parseInt(item.ranking) <= 5;
-            }) || [];
+          //_that.scale =
+          //  tData.filter(item => {
+          //    return parseInt(item.ranking) <= 5;
+          //  }) || [];
 
-          _that.scale.sort((a, b) => {
-            return a.ranking - b.ranking;
+          // _that.scale.sort((a, b) => {
+          //   return a.ranking - b.ranking;
+          // });
+          //_that.scale = _that.scale.slice(0, 5);
+
+          var tData = data.data.data;
+          let xAxis = [];
+          let yAxis = [];
+          tData.forEach(item => {
+            xAxis.push(item.xid);
+            yAxis.push(parseFloat(item.score));
           });
-          _that.scale = _that.scale.slice(0, 5);
+          xAxis = xAxis.reverse().slice(0, 5);
+          yAxis = yAxis.reverse().slice(0, 5);
+
+          _that.scale = Object.assign(
+            {},
+            { xAxis: xAxis, yAxis: yAxis, chartType: "value" }
+          );
         }
       });
 
@@ -819,15 +889,24 @@ export default {
         type: "json"
       }).then(data => {
         if (data.data.code === 100) {
+         // var tData = data.data.data;
+          //if (tData == null) return;
+          //var tmpVal = 100;
+          //_that.ageData = tData.map((item, index) => {
+          //  return {
+          //    value: tmpVal - (100 / tData.length) * index,
+          //    name: _that.thousandFormat(item.val, 0) + "  人",
+          //    num: item.xid
+          //  };
+          //});
+
           var tData = data.data.data;
-          if (tData == null) return;
-          var tmpVal = 100;
-          _that.ageData = tData.map((item, index) => {
-            return {
-              value: tmpVal - (100 / tData.length) * index,
-              name: _that.thousandFormat(item.val, 0) + "  人",
-              num: item.xid
-            };
+          var total = 0;
+          tData.forEach(item => {
+            total += Number(item.val);
+          });
+          _that.ageData = tData.map(item => {
+            return { name: item.xid, value: item.val, total: total };
           });
         }
         this.$nextTick(() => {
@@ -1226,7 +1305,8 @@ export default {
     "form-chart": FormChart,
     "map-chart": MapChart,
     "weather-com": WeatherCom,
-    "scroll-span": ScrollSpan
+    "scroll-span": ScrollSpan,
+    "person-columnar": PersonColumnar,
   }
 };
 </script>
@@ -1287,14 +1367,18 @@ export default {
   // 内容样式
   .frame-content {
     display: flex;
+    padding: 0 40px;
     justify-content: space-between;
     .accruing-amounts,
     .accruing-person {
-      width: 30%;
+      width: 27%;
       height: 100%;
+      padding: 20px 20px 50px;
+      background: url("../../assets/images/p3/bg-cont.png") no-repeat;
+      background-size: 100% 97%;
     }
     .current-amounts {
-      width: 40%;
+      width: 45%;
       height: 100%;
       .map-charts {
         width: 100%;
@@ -1314,14 +1398,25 @@ export default {
         height: 400px;
         padding-top: 2%;
       }
+      .person-columnar {
+        height: 485px;
+        padding-left: 30px;
+        display: inline-block;
+        width: 50%;
+        &:first-child {
+          margin-right: 5%;
+        }
+      }
     }
     .accruing-person {
       .columnar-chart {
-        height: 30%;
+        height: 40%;
       }
       .distribution {
         display: flex;
-        height: 25%;
+        height: 40%;
+        padding-bottom: 40px;
+            padding-top: 100px;
         .single-distribution {
           width: 50%;
           text-align: left;

@@ -48,6 +48,7 @@ export default {
       myChart.setOption({
         tooltip: {
           trigger: "axis",
+          padding: 20,
           axisPointer: {
             lineStyle: {
               color: {
@@ -74,7 +75,7 @@ export default {
               }
             }
           },
-          formatter: " {b}点理财:{c}元"
+          formatter: "风险金额<br /><br /> {b}点：{c}元"
         },
         grid: {
           top: "10%",

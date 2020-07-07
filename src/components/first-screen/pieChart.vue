@@ -26,7 +26,7 @@ export default {
       let myCharts = this.$echarts.init(document.getElementById(id));
       myCharts.setOption({
         title: {
-          text: "学历分布",
+          text: id === 'echarts07' ? '年龄分布' : "学历分布",
           textStyle: {
             fontSize: 38,
             color: "#FFF",
@@ -85,7 +85,7 @@ export default {
           {
             name: "姓名",
             type: "pie",
-            radius: [140, 180],
+            radius: [120, 160],
             center: ["30%", "50%"],
             label: {
               show: false
