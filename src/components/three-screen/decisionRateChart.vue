@@ -1,13 +1,14 @@
 <template>
-  <div id="decisionRate"></div>
+  <div :id="id.id" :style="id.style"></div>
 </template>
 
 <script>
 export default {
   name: 'decisionRateA',
-  props: ['tableDatas'],
+  props: ['tableDatas','ids'],
   data() {
     return {
+      id: this.ids,
       data: [
         {
           label: "反欺诈模型决策占比",
@@ -29,36 +30,14 @@ export default {
   },
   methods: {
     drawGraph() {
-      let myChart = this.$echarts.init(document.getElementById("decisionRate"));
+      let myChart = this.$echarts.init(document.getElementById(this.id.id));
       var dataArr = [
         {
-          value: 120,
+          value: 40,
           name: "噪音检测"
         }
       ];
-      var color = new this.$echarts.graphic.LinearGradient(0, 0, 1, 0, [
-        {
-          offset: 0,
-          color: "#5CF9FE" // 0% 处的颜色
-        },
-        {
-          offset: 0.17,
-          color: "#468EFD" // 100% 处的颜色
-        },
-        {
-          offset: 0.9,
-          color: "#468EFD" // 100% 处的颜色
-        },
-        {
-          offset: 1,
-          color: "#5CF9FE" // 100% 处的颜色
-        }
-      ]);
-      var colorSet = [
-        [1, color]
-        // [0.91, color],
-        // [1, '#FFF']
-      ];
+      var colorSet = [[0.2, '#46FEFF'], [0.8, '#0864F3'], [1, '#E174F5']];
       var rich = {
         white: {
           fontSize: 50,
@@ -67,7 +46,7 @@ export default {
           padding: [-150, 0, 0, 0]
         },
         bule: {
-          fontSize: 70,
+          fontSize: 30,
           fontFamily: "DINBold",
           color: "#fff",
           fontWeight: "700",
@@ -94,7 +73,10 @@ export default {
         tooltip: {
           formatter: "{a} <br/>{b} : {c}%"
         },
-
+        grid: {
+          top: '10%',
+          left: '30%',
+        },
         series: [
           {
             type: "gauge",
@@ -103,6 +85,21 @@ export default {
             startAngle: "225",
             endAngle: "-45",
             splitNumber: "120",
+            color: [{
+                type: 'linear',
+                x: 0,
+                y: 0,
+                x2: 0.4,
+                y2: 1,
+                colorStops: [{
+                    offset: 0,
+                    color: '' // 0% 处的颜色
+                }, {
+                    offset: 1,
+                    color: '' // 100% 处的颜色
+                }],
+                globalCoord: false // 缺省为 false
+            }, 'none'],
             pointer: {
               show: false
             },
@@ -161,7 +158,7 @@ export default {
             detail: {
               formatter: function(value) {
                 var num = Math.round(value);
-                return "{bule|dB}{white|}" + "{size|" + "}";
+                return "{bule|45%}{white|}" + "{size|" + "}";
               },
               rich: rich,
               offsetCenter: ["0%", "55%"]
@@ -174,7 +171,7 @@ export default {
               show: true,
               lineStyle: {
                 color: colorSet,
-                width: 25,
+                width: 20,
                 // shadowBlur: 15,
                 // shadowColor: '#B0C4DE',
                 shadowOffsetX: 0,
@@ -212,7 +209,7 @@ export default {
               lineStyle: {
                 // 属性lineStyle控制线条样式
                 color: [[1, "#018DFF"]],
-                fontSize: 20,
+                fontSize: 14,
                 width: 2,
                 opacity: 1 //刻度背景宽度
               }
@@ -255,7 +252,7 @@ export default {
             },
             axisLabel: {
               color: "rgba(255,255,255,8)",
-              fontSize: 24
+              fontSize: 18
             }, //刻度节点文字颜色
             pointer: {
               show: false
@@ -320,25 +317,6 @@ export default {
             },
             data: [100],
             animationType: "scale"
-          },
-          {
-            //外圆
-            type: "pie",
-            radius: "85%",
-            center: ["50%", "50%"],
-            z: 0,
-            itemStyle: {
-              color: "#141C33"
-            },
-            hoverAnimation: false,
-            label: {
-              show: false
-            },
-            tooltip: {
-              show: false
-            },
-            data: [120],
-            animationType: "scale"
           }
         ]
       };
@@ -355,7 +333,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-#decisionRate {
-  height: 25%
+#echarts01 {
+  height: 100%
 }
 </style>
