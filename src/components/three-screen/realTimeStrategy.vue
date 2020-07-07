@@ -1,6 +1,6 @@
 <template>
   <div class="real-time-strategy" id="realTimeStrategy">
-    <div class="title">{{title}}（万次）</div>
+    <div class="title">{{title}}</div>
     <div class="num">
       <ul>
         <li v-for="(item, index) in numArr" :key="index">{{item||''}}</li>

@@ -150,7 +150,7 @@ export default {
   width: 100%;
   height: 100%;
   .right-level-chart {
-    height: 400px;
+    height: 370px;
     width: 100%;
   }
 }

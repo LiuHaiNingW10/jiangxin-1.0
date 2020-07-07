@@ -321,6 +321,6 @@ export default {
 .left-account-charts,
 .right-columnar-charts {
   width: 50%;
-  height: 400px;
+  height: 370px;
 }
 </style>

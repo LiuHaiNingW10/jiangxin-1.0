@@ -9,6 +9,7 @@
       </div>
       <div class="main-content" v-if="showMain">
         <div class="left">
+          <card-num :tableDatas="tableDataTop"/>
           <table-auto
             :tableDatas="tableDataAs"
             :ids="idA"
@@ -30,6 +31,7 @@
           />
         </div>
         <div class="right">
+          <card-num :tableDatas="tableDataRight"/>
           <table-autoB
             :tableDatas="tableDataC"
             :ids="idC"
@@ -55,7 +57,7 @@ import lineToRight from "../../components/p4/line-toRight.vue";
 import bigHeadVue from "../../components/p4/big-head.vue";
 import popCustom from "../../components/p4/pop-custom.vue";
 import WeatherCom from "../../components/weather.vue";
-
+import cardNum from "../../components/p4/card-num.vue"
 const columnA = [
   {
     dataIndex: "mobile",
@@ -136,6 +138,26 @@ export default {
       weatherImg: [Yin, Yu, Yu, Yu, Yu, Yu, Yu],
       currentWeather: {},
       currentImg: "",
+      tableDataTop: [
+        {
+          name: '在线智能处置率',
+          value: '89%'
+        },
+        {
+          name: '客服智能处置率',
+          value: '99%'
+        },
+      ],
+      tableDataRight: [
+        {
+          name: '智能外呼数量',
+          value: '89'
+        },
+        {
+          name: '单通交互次数',
+          value: '99'
+        },
+      ],
       // 天气
       localweather: [
         { high: "29", low: "22" },
@@ -150,7 +172,7 @@ export default {
       tableDataA: [],
       idA: {
         id: "echarts01",
-        title: "智能运营"
+        title: "智能客服"
       },
       columnA: columnA,
       tableDataB: [],
@@ -296,6 +318,7 @@ export default {
     clearInterval(this.timerD);
   },
   components: {
+    "card-num": cardNum,
     "table-auto": tableAuto,
     "table-autoB": tableAutoB,
     "line-right": lineToRight,
@@ -391,8 +414,8 @@ export default {
   font-size: 12px;
   position: relative;
   overflow: hidden;
-  height: 48%;
+  height: 44%;
   background-size: 96% 98%;
-  padding: 3.2%;
+  padding: 2.8%;
 }
 </style>

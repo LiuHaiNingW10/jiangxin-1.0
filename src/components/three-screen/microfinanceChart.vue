@@ -141,7 +141,6 @@ export default {
       // this.IDFdata.forEach(el => {
       //   percentData.push(el.callNum)
       // });
-      console.log(percentData)
       // 绘制图表
       myChart.setOption({
         color: [

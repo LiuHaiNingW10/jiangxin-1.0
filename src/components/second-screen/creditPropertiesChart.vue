@@ -3,47 +3,9 @@
     <div class="content-title">
       <span class="first-title-span">{{typeData.first}}</span>
     </div>
-<!-- 顶部的内容 -->
 
-    <div class="num-and-coin">
-      <div class="top-left top-single">
-        <div class="portrait">
-          <img class="portrait-img" src="../../assets/images/icon2.png" alt />
-        </div>
-        <div class="server-num num-span">
-          <div class="num-span-title">服务人数</div>
-          <div class="middle-rec"></div>
-          <div class="num-span-data">
-            <!-- {{thousandFormat(indicatorData.applyperson, 0)}}人 -->
 
-            <scroll-span
-              :number="thousandFormat(indicatorData.applyperson, 0) + '人'"
-              class="total-money-span"
-              ids="person"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="top-middle"></div>
-      <div class="top-right top-single">
-        <div class="portrait">
-          <img class="portrait-img" src="../../assets/images/icon1.png" alt />
-        </div>
-        <div class="shouxin-num num-span">
-          <div class="num-span-title">授信金额</div>
-          <div class="middle-rec"></div>
-          <div class="num-span-data">
-            <scroll-span
-              :number="thousandFormat(indicatorData.applyvalue, 2)+'元'"
-              class="total-money-span"
-              ids="money"
-            />
-            <!-- {{thousandFormat(indicatorData.applyvalue, 2)}}元 -->
-          </div>
-        </div>
-      </div>
-    </div>
-<!-- 底部的标题 
+<!-- 底部的标题 -->
     <div class="middle-title" v-if="showCredit">
       <div class="middle-left middle-single">{{typeData.littleTitle[0]}}</div>
       <div class="middle-right middle-single">{{typeData.littleTitle[1]}}</div>
@@ -79,7 +41,7 @@
           :chartData="enterpriseColumnarData"
         />
       </div>
-    </div>-->
+    </div>
   </div>
 </template>
 
@@ -329,12 +291,12 @@ export default {
       font-size: 24px;
       padding-left: 3%;
       line-height: 170%;
-      background: url("../../assets/images/title4.png") no-repeat;
-      background-size: 100% 100%;
+      // background: url("../../assets/images/title4.png") no-repeat;
+      // background-size: 100% 100%;
     }
   }
   .bottom-graph {
-    height: 57.7%;
+    height: 73.7%;
     width: 100%;
     .top-graph-div {
       height: 100%;

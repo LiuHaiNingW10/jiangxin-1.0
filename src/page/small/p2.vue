@@ -24,6 +24,18 @@
           :indicatorData="personData"
           :showCredit="showPropertyCredit"
         />
+        <credit-properties-chart
+          class="credit-properties-chart"
+          :typeData="propertyLoans"
+          :indicatorData="propertyData"
+          :showCredit="showPropertyCredit"
+        />
+        <credit-properties-chart
+          class="credit-properties-chart"
+          :typeData="personLoans"
+          :indicatorData="personData"
+          :showCredit="showPropertyCredit"
+        />
       </div>
       <div class="content-middle">
         <server-money class="server-money" />
@@ -42,6 +54,7 @@
 <script>
 import WeatherCom from "../../components/weather.vue";
 import CreditProperties from "../../components/second-screen/creditProperties.vue";
+import CreditPropertiesChart from '../../components/second-screen/creditPropertiesChart.vue'
 import EnterpriseLoan from "../../components/second-screen/enterpriseLoan.vue";
 import ServerMoney from "../../components/second-screen/serverMoney.vue";
 import SecMapChart from "../../components/second-screen/secondMapChart.vue";
@@ -137,6 +150,7 @@ export default {
   components: {
     "weather-com": WeatherCom,
     "credit-properties": CreditProperties,
+    "credit-properties-chart": CreditPropertiesChart,
     "enterprise-loan": EnterpriseLoan,
     "server-money": ServerMoney,
     // "portrayal-exp": PortrayalExp,
@@ -224,7 +238,16 @@ export default {
     .content-left {
       .credit-properties {
         width: 100%;
-        height: 48.45%;
+        // height: 48.45%;
+        height: 16%;
+        margin-bottom: 1.6%;
+        background: url("../../assets/images/bg-7.png") no-repeat;
+        background-size: 100% 100%;
+      }
+      .credit-properties-chart {
+        width: 100%;
+        // height: 48.45%;
+        height: 32%;
         margin-bottom: 1.6%;
         background: url("../../assets/images/bg-7.png") no-repeat;
         background-size: 100% 100%;

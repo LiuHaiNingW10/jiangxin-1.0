@@ -24,8 +24,8 @@
       <div class="center-box">
         <!-- 地图 -->
         <div class="strategy-box">
-          <real-time-strategy v-if="showUses" title="19年累计调用策略" :num="usesTime.year" :blank="1" />
-          <real-time-strategy v-if="showUses" title="当日调用策略" :num="usesTime.day" :blank="2" />
+          <real-time-strategy v-if="showUses" title="当日累计拦截金额（元）" :num="usesTime.year" :blank="1" />
+          <real-time-strategy v-if="showUses" title="当日累计拦截笔数（笔）" :num="usesTime.day" :blank="2" />
         </div>
         <map-chart class="map-charts" />
         <!-- <pie-chart /> -->
@@ -35,6 +35,7 @@
         <div class="content-title">
           <span>实时调用决策变量{{variableNum}}个 规则{{ruleNum}}条</span>
         </div>
+        <!-- <decisionRate-chart /> -->
         <rule-chart />
         <div class="content-title">
           <span>近24小时放款监测</span>
@@ -65,6 +66,8 @@ import Top5RefuseChart from "@/components/three-screen/top5RefuseChart.vue";
 import WeatherCom from "@/components/weather.vue";
 import MicrofinanceChart from "@/components/three-screen/microfinanceChart.vue";
 import RuleChart from "@/components/three-screen/ruleChart.vue";
+// import decisionRateChart from "@/components/three-screen/decisionRateChart.vue";
+
 import moment from "moment";
 export default {
   data() {
@@ -178,6 +181,7 @@ export default {
     Top5RefuseChart,
     WeatherCom,
     MicrofinanceChart,
+    decisionRateChart,
     RuleChart
   },
   beforeDestroy() {
@@ -260,7 +264,7 @@ export default {
       }
     }
     .content-title {
-      width: 880px;
+      width: 88%;
       height: 60px;
       background: url("../../assets/images/p3/title-three.png") no-repeat;
       background-size: 100% 100%;

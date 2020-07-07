@@ -99,7 +99,6 @@ export default {
   watch: {
     bigPoint() {
       this.tableData = this.bigPoint;
-      console.log(this.tableData.handle)
       this.xy  = 'top:' + (Math.floor(328*Math.random()) + 338) +'px;' + 'left:' + (Math.floor(554*Math.random()) + 446) + 'px'
     }
   },
