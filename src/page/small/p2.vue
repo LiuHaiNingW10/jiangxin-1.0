@@ -24,6 +24,8 @@
           :indicatorData="personData"
           :showCredit="showPropertyCredit"
         />
+
+        
         <credit-properties-chart
           class="credit-properties-chart"
           :typeData="propertyLoans"

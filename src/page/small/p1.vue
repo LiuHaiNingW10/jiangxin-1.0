@@ -20,7 +20,7 @@
         <scroll-span :number="totalMoney" class="total-money-span" ids="total" />-->
         <!-- <span class="left-coin">¥ {{totalMoney}}</span> -->
       </div>
-      <div class="global-title">普惠业务信贷数据平台</div>
+      <div class="global-title">消费金融</div>
       <div class="right-time">
         <!-- <div class="weather-module">
     <img :src="currentImg" alt />
@@ -103,7 +103,37 @@
           v-if="currentPersonJudge"
           :chartData="columnarData"
           class="columnar-chart"
+          :lineIds="repeatPurchaseId"
         />
+        <div class="distribution">
+          <!-- <funnel-chart
+            class="left-distribution single-distribution"
+            :ids="funnelId"
+            v-if="educationJudge"
+            :chartData="ageData" 
+          />-->
+          <!-- <pie-chart
+            class="left-distribution single-distribution"
+            :ids="funnelId"
+            v-if="educationJudge"
+            :chartData="ageData"
+            chartTitle="年龄分布"
+          />-->
+          <income-level
+            class="left-distribution single-distribution"
+            :ids="funnelId"
+            v-if="educationJudge"
+            :chartData="ageData"
+            chartTitle='年龄分布'
+          />
+          <pie-chart
+            class="right-distribution single-distribution"
+            :ids="pieId"
+            v-if="educationJudge"
+            :chartData="educationData"
+            chartTitle="学历分布"
+          />
+        </div>
         <div class="distribution">
           <!-- <funnel-chart
             class="left-distribution single-distribution"
@@ -113,15 +143,22 @@
           />-->
           <pie-chart
             class="left-distribution single-distribution"
-            :ids="funnelId"
-            v-if="educationJudge"
-            :chartData="ageData"
+            :ids="cityId"
+            v-if="cityData"
+            :chartData="cityData"
+            chartTitle="地域分布"
           />
-          <pie-chart
+          <!-- <pie-chart
             class="right-distribution single-distribution"
             :ids="pieId"
             v-if="educationJudge"
             :chartData="educationData"
+          />-->
+          <form-chart
+            :ids="elite"
+            v-if="eliteData"
+            :chartData="{elite: eliteData}"
+            class="form-charts"
           />
         </div>
       </div>
@@ -144,7 +181,14 @@ import WeatherCom from "../../components/weather.vue";
 
 import PersonColumnar from "../../components/second-screen/personColumnar.vue";
 
+import IncomeLevel from "../../components/second-screen/incomeLevel.vue";
+
 import ScrollSpan from "../../components/scrollSpan.vue";
+
+import Money from "../../components/first-screen/icon/money.svg";
+import Avg from "../../components/first-screen/icon/avg.svg";
+import Life from "../../components/first-screen/icon/life.svg";
+import User from "../../components/first-screen/icon/user.svg";
 
 import { setInterval, clearInterval } from "timers";
 export default {
@@ -300,12 +344,16 @@ export default {
       // },
       repeatPurchaseId: [
         {
-          id: "echarts02",
-          title: "30天复购"
+          // id: "echarts02",
+          id: "lineCharts01",
+          title: ""
+          // title: "30天复购"
         },
         {
-          id: "echarts03",
-          title: "90天复购"
+          id: "lineCharts02",
+          // id: "echarts03",
+          title: ""
+          // title: "90天复购"
         }
       ],
 
@@ -361,6 +409,7 @@ export default {
 
       // 右侧漏斗图
       funnelId: "echarts07",
+
       funnelData: [
         { value: 100, name: "20.0%" },
         { value: 80, name: "20.2%" },
@@ -369,11 +418,24 @@ export default {
         { value: 20, name: "20.6%" }
       ],
 
+      cityId: "echarts09",
+      cityData: [
+        { name: "一线城市", value: 3584, total: 10000 },
+        { name: "二线城市", value: 2218, total: 10000 },
+        { name: "三线城市", value: 2263, total: 10000 },
+        { name: "四线城市", value: 1806, total: 10000 },
+        { name: "五线城市", value: 129, total: 10000 }
+        // return { name: item.xid, value: item.val, total: total };
+      ],
+
       // 右下表格
       formIds: [
         { id: "consume", title: "星座&剁手" },
         { id: "scale", title: "地域&贷款规模" }
       ],
+
+      elite: [{ id: "elite", title: "精英扶贫文字稿" }],
+
       // formData: {
       //   // 星座消费
       //   consume: [
@@ -394,6 +456,38 @@ export default {
       //   ]
       // },
 
+      eliteData: [
+        {
+          icon: Money,
+          indicator: "累计放款金额",
+          value: "144",
+          unit: "亿元"
+        },
+        {
+          icon: User,
+          indicator: "用信用户数",
+          value: "531,014",
+          unit: "人"
+        },
+        {
+          icon: Avg,
+          indicator: "笔均",
+          value: "5,028",
+          unit: "元"
+        },
+        {
+          icon: Avg,
+          indicator: "户均",
+          value: "27,196",
+          unit: "元"
+        },
+        {
+          icon: Life,
+          indicator: "平均用信周期",
+          value: "147",
+          unit: "天"
+        }
+      ],
       consume: undefined,
       scale: undefined,
 
@@ -898,9 +992,21 @@ export default {
           tData.forEach(item => {
             total += Number(item.val);
           });
-          _that.ageData = tData.map(item => {
-            return { name: item.xid, value: item.val, total: total };
+          // _that.ageData = tData.map(item => {
+          //   return { name: item.xid, value: item.val, total: total };
+          // });
+
+          let xAxis = [];
+          let yAxis = [];
+
+          tData.forEach(item => {
+            xAxis.push(item.xid);
+            yAxis.push((parseFloat(item.val) / total * 100).toFixed(2));
           });
+          xAxis = xAxis.reverse();
+          yAxis = yAxis.reverse();
+
+          _that.ageData = Object.assign({}, { xAxis: xAxis, yAxis: yAxis });
         }
         this.$nextTick(() => {
           _that.ageJudge = true;
@@ -1299,7 +1405,8 @@ export default {
     "map-chart": MapChart,
     "weather-com": WeatherCom,
     "scroll-span": ScrollSpan,
-    "person-columnar": PersonColumnar
+    "person-columnar": PersonColumnar,
+    "income-level": IncomeLevel
   }
 };
 </script>
@@ -1417,22 +1524,24 @@ export default {
       .distribution {
         display: flex;
         height: 40%;
-        padding-bottom: 40px;
-        padding-top: 100px;
+        padding-bottom: 20px;
         .single-distribution {
           width: 50%;
           text-align: left;
         }
-        .eft-distribution {
+        .left-distribution {
           height: 400px;
         }
         .right-distribution {
           height: 400px;
         }
+        &:first-child {
+          padding-bottom: 40px;
+        }
       }
       .form-charts {
-        width: 100%;
-        height: 300px;
+        width: 50%;
+        height: 400px;
       }
     }
   }

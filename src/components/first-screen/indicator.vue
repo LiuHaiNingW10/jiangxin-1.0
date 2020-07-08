@@ -149,7 +149,7 @@ export default {
   overflow: hidden;
   .single-num {
   font-family: 'UnidreamLED';
-    margin-left: 3%;
+    margin-left: 1%;
     width: 2%;
     height: 100%;
     line-height: 100%;
