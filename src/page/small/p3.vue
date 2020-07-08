@@ -98,22 +98,22 @@ export default {
       tableDataV: [
         {
           title: '生物识别',
-          img: base64.verImg.value,
+          img: base64.confirm_d.value,
           times: '234',
         },
         {
           title: '人工外呼',
-          img: base64.verImg.value,
+          img: base64.confirm_c.value,
           times: '23',
         },
         {
           title: '短信加验',
-          img: base64.verImg.value,
+          img: base64.confirm_b.value,
           times: '45',
         },
         {
           title: '密码加验',
-          img: base64.verImg.value,
+          img: base64.confirm_d.value,
           times: '345',
         },
       ],

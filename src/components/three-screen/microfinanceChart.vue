@@ -1,6 +1,6 @@
 <template>
   <div class="microfinance-chart">
-    <div class="mc-header">近一小时攻击数<span>{{attckTimes}}次/小时</span></div>
+    <div class="mc-header">近一小时攻击数<span>{{ 537 || attckTimes}}次/小时</span></div>
     <div class="mc-content">
       <div class="mc-l">
         <span class="left-title">FRIM命中分布</span>
@@ -137,7 +137,7 @@ export default {
     },
     drawChart(i) {
       let myChart = this.$echarts.init(document.getElementById('frimChart'));
-      let percentData = [this.IDFdata[i-1].callNum]
+      let percentData = this.IDFdata[i-1] && [this.IDFdata[i-1].callNum] || [this.IDFdata[0].callNum]
       // this.IDFdata.forEach(el => {
       //   percentData.push(el.callNum)
       // });
