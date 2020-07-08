@@ -43,7 +43,7 @@
         </div>
         <verification-chart :tableDatas="tableDataV"/>
         <div class="content-title">
-          <span>进件客户质量分布（人行评分）</span>
+          <span>实时欺诈风险画像</span>
         </div>
         <RiskPortraitChart :ids="idRisk" :tableDatas="tableDataR"/>
         <RiskPortraitChart :ids="idRiskM" :tableDatas="tableDataRM"/>
@@ -171,7 +171,7 @@ export default {
       idRisk: {
         id: 'echarts03',
         style: "height: 15%",
-        title: '实时欺诈风险画像'
+        title: '风险城市占比分布'
       },
       idRiskM: {
         id: 'echarts04',
