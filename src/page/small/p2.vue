@@ -3,7 +3,7 @@
     <!-- 头部 -->
     <div class="title-frame">
       <div class="title-left"></div>
-      <div class="global-title">累计服务金额/当日服务金额</div>
+      <div class="global-title">小微金融</div>
       <div class="right-time">
         <weather-com />
       </div>
@@ -12,26 +12,30 @@
     <!-- 内容 -->
     <div class="frame-content">
       <div class="content-left">
-        <credit-properties
-          class="credit-properties"
-          :typeData="propertyLoans"
-          :indicatorData="propertyData"
-          :showCredit="showPropertyCredit"
-        />
-        <credit-properties
-          class="credit-properties"
-          :typeData="personLoans"
-          :indicatorData="personData"
-          :showCredit="showPropertyCredit"
-        />
+        <div class="credit-properties-div">
+          <credit-properties
+            class="credit-properties"
+            :typeData="propertyLoans"
+            :indicatorData="propertyData"
+            :showCredit="showPropertyCredit"
+            :propertyIds="propertyIds"
+          />
+          <credit-properties
+            class="credit-properties"
+            :typeData="personLoans"
+            :indicatorData="personData"
+            :showCredit="showPropertyCredit"
+            :propertyIds="propertyPersonIds"
+          />
+        </div>
 
-        
-        <credit-properties-chart
+        <!-- <credit-properties-chart
           class="credit-properties-chart"
           :typeData="propertyLoans"
           :indicatorData="propertyData"
           :showCredit="showPropertyCredit"
-        />
+        />-->
+        <portrayal-exp v-if="showPortrayal" class="portrayal-exp" :tableDatas="OpperiodAndFinance" />
         <credit-properties-chart
           class="credit-properties-chart"
           :typeData="personLoans"
@@ -56,11 +60,11 @@
 <script>
 import WeatherCom from "../../components/weather.vue";
 import CreditProperties from "../../components/second-screen/creditProperties.vue";
-import CreditPropertiesChart from '../../components/second-screen/creditPropertiesChart.vue'
+import CreditPropertiesChart from "../../components/second-screen/creditPropertiesChart.vue";
 import EnterpriseLoan from "../../components/second-screen/enterpriseLoan.vue";
 import ServerMoney from "../../components/second-screen/serverMoney.vue";
 import SecMapChart from "../../components/second-screen/secondMapChart.vue";
-// import PortrayalExp from "../../components/second-screen/portrayalExp.vue";
+import PortrayalExp from "../../components/second-screen/portrayalExp.vue";
 // import PortrayalServer from "../../components/second-screen/portrayalServer.vue";
 export default {
   mounted() {},
@@ -82,7 +86,20 @@ export default {
       personData: {},
       OpperiodAndFinance: {},
       serverData: [],
-      mapData: []
+      mapData: [],
+
+      propertyIds: [
+        {
+          name: "服务人数"
+        },
+        { name: "授信金额" }
+      ],
+      propertyPersonIds: [
+        {
+          name: "笔均"
+        },
+        { name: "户均" }
+      ]
     };
   },
   computed: {},
@@ -102,22 +119,54 @@ export default {
           this.axios.spread((...obj) => {
             let financeData = [];
             let opPeriodData = [];
-            financeData = obj[0].data.data
-              ? obj[0].data.data.map(item => {
-                  return {
-                    name: item.xid,
-                    value: parseInt(item.val)
-                  };
-                })
-              : [];
-            opPeriodData = obj[1].data.data
-              ? obj[1].data.data.map(item => {
-                  return {
-                    name: item.xid,
-                    value: parseInt(item.val)
-                  };
-                })
-              : [];
+            // financeData = obj[0].data.data
+            //   ? obj[0].data.data.map(item => {
+            //       return {
+            //         name: item.xid,
+            //         value: parseInt(item.val)
+            //       };
+            //     })
+            //   : [];
+            // opPeriodData = obj[1].data.data
+            //   ? obj[1].data.data.map(item => {
+            //       return {
+            //         name: item.xid,
+            //         value: parseInt(item.val)
+            //       };
+            //     })
+            //   : [];
+            financeData = [
+              {
+                name: "1年",
+                value: 2158
+              },
+              {
+                name: "2年",
+                value: 1896
+              },
+              {
+                name: "3年",
+                value: 1543
+              },
+              {
+                name: "4年",
+                value: 4405
+              }
+            ];
+            opPeriodData = [
+              {
+                name: "首次获得银行贷款",
+                value: 5475
+              },
+              {
+                name: "两家及以上",
+                value: 3947
+              },
+              {
+                name: "三家及以上",
+                value: 578
+              }
+            ];
             this.OpperiodAndFinance = Object.assign(
               {},
               { finance: financeData, op_period: opPeriodData }
@@ -142,6 +191,9 @@ export default {
           this.axios.spread((...obj) => {
             this.propertyData = obj[0].data.data || 0;
             this.personData = obj[1].data.data || 0;
+            // 假数据
+            this.personData.applyperson = 10165;
+            this.personData.applyvalue = 56499;
             this.$nextTick(() => {
               this.showPropertyCredit = true;
             });
@@ -155,14 +207,14 @@ export default {
     "credit-properties-chart": CreditPropertiesChart,
     "enterprise-loan": EnterpriseLoan,
     "server-money": ServerMoney,
-    // "portrayal-exp": PortrayalExp,
+    "portrayal-exp": PortrayalExp,
     // "portrayal-server": PortrayalServe,
     "sec-map-chart": SecMapChart
   }
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .second-screen {
   width: 4224px;
   height: 1536px;
@@ -222,7 +274,8 @@ export default {
       padding: 0.6% 1%;
       .server-money {
         width: 100%;
-        height: 33.59%;
+        // height: 33.59%;
+        height: 21.59%;
         background: url("../../assets/images/cancellation.png") no-repeat;
         background-size: 100% 100%;
       }
@@ -238,13 +291,20 @@ export default {
 
     // 左侧
     .content-left {
-      .credit-properties {
-        width: 100%;
-        // height: 48.45%;
-        height: 16%;
-        margin-bottom: 1.6%;
+      .credit-properties-div {
         background: url("../../assets/images/bg-7.png") no-repeat;
         background-size: 100% 100%;
+        height: 32%;
+        margin-bottom: 1.6%;
+      }
+      .credit-properties {
+        width: 100%;
+        height: 50%;
+        // height: 48.45%;
+        // height: 16%;
+        // margin-bottom: 1.6%;
+        // background: url("../../assets/images/bg-7.png") no-repeat;
+        // background-size: 100% 100%;
       }
       .credit-properties-chart {
         width: 100%;

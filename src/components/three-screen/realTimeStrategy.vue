@@ -10,7 +10,7 @@
           marginTop="-120px"
           :styleSingle="singleStyle"
           :chartId="'cheat-money' + this.blank"
-        /> -->
+        />-->
       </ul>
     </div>
   </div>
@@ -82,6 +82,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@font-face {
+  font-family: "UnidreamLED";
+  src: url(../first-screen/font/UnidreamLED.eot); /***兼容ie9***/
+  src: url(../first-screen/font/UnidreamLED.eot?#iefix)
+      format("embedded-opentype"),
+    /***兼容ie6-ie8***/ url("../first-screen/font/UnidreamLED.woff")
+      format("woff"),
+    local("UnidreamLED"), url("../first-screen/font/UnidreamLED.woff"); /***默认使用本地的***/
+}
 .real-time-strategy {
   margin: 30px;
   display: inline-block;
@@ -100,8 +109,10 @@ export default {
       text-align: center;
       font-size: 64px;
       margin-right: 10px;
-      background: url("../../assets/images/num-bg.png") no-repeat;
-      background-size: 100% 100%;
+
+      font-family: "UnidreamLED";
+      // background: url("../../assets/images/num-bg.png") no-repeat;
+      // background-size: 100% 100%;
     }
   }
 }

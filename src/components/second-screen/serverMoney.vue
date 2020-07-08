@@ -12,17 +12,17 @@
         chartId="total-server-money"
       />
     </div>
-    <div class="current-money">
+    <!-- <div class="current-money">
       <span>当日小微信贷服务金额</span>
       <span class="current-money-span">
-        <!-- ¥ {{currentMoney}} -->
+        ¥ {{currentMoney}}
         <scroll-span
           :number="'¥' + thousandFormat(dailyMoney, 0)"
           class="daily-money-span"
           ids="daily"
         />
       </span>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -48,7 +48,7 @@ export default {
       singleStyle: {
         width: "5%",
         marginLeft: "1%",
-        lineHeight: '150%'
+        lineHeight: "150%"
       }
     };
   },
@@ -144,7 +144,7 @@ export default {
   padding: 2.74%;
 }
 .total-money {
-  height: 60%;
+  height: 100%;
   font-weight: bold;
 }
 .current-money {

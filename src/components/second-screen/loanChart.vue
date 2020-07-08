@@ -42,10 +42,11 @@ export default {
         },
         grid: {
           // left: "3%",
-          right: 200,
-          top: 0,
-          bottom: 0,
-          containLabel: true
+          // right: 200,
+          top: '10%',
+          bottom: '20%',
+          // bottom: 0,
+          containLabel: false
         },
         tooltip: {},
         // animationDurationUpdate: function(idx) {
@@ -60,7 +61,7 @@ export default {
             layout: "force",
             force: {
               repulsion: 250,
-              edgeLength: 10
+              edgeLength: 100
             },
             roam: true,
             label: {

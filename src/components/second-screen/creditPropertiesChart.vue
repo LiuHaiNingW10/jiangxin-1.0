@@ -189,7 +189,7 @@ export default {
 
           that.industryColumnarData = Object.assign(
             {},
-            { xAxis: xAxis, yAxis: yAxis, chartType: "num" }
+            { xAxis: xAxis, yAxis: yAxis, chartType: "percent" }
           );
           this.$nextTick(() => {
             this.industryJudge = true;

@@ -1,9 +1,9 @@
 <template>
   <div class="credit-properties">
-    <div class="content-title">
+    <!-- <div class="content-title">
       <span class="first-title-span">{{typeData.first}}</span>
-    </div>
-<!-- 顶部的内容 -->
+    </div>-->
+    <!-- 顶部的内容 -->
 
     <div class="num-and-coin">
       <div class="top-left top-single">
@@ -11,13 +11,13 @@
           <img class="portrait-img" src="../../assets/images/icon2.png" alt />
         </div>
         <div class="server-num num-span">
-          <div class="num-span-title">服务人数</div>
+          <div class="num-span-title">{{propertyIds[0].name}}</div>
           <div class="middle-rec"></div>
           <div class="num-span-data">
             <!-- {{thousandFormat(indicatorData.applyperson, 0)}}人 -->
 
             <scroll-span
-              :number="thousandFormat(indicatorData.applyperson, 0) + '人'"
+              :number="thousandFormat(indicatorData.applyperson, 0) + (propertyIds[0].name === '笔均' ? '元' : '人')"
               class="total-money-span"
               ids="person"
             />
@@ -30,11 +30,11 @@
           <img class="portrait-img" src="../../assets/images/icon1.png" alt />
         </div>
         <div class="shouxin-num num-span">
-          <div class="num-span-title">授信金额</div>
+          <div class="num-span-title">{{propertyIds[1].name}}</div>
           <div class="middle-rec"></div>
           <div class="num-span-data">
             <scroll-span
-              :number="thousandFormat(indicatorData.applyvalue, 2)+'元'"
+              :number="thousandFormat(indicatorData.applyvalue, 2) + '元'"
               class="total-money-span"
               ids="money"
             />
@@ -43,7 +43,7 @@
         </div>
       </div>
     </div>
-<!-- 底部的标题 
+    <!-- 底部的标题 
     <div class="middle-title" v-if="showCredit">
       <div class="middle-left middle-single">{{typeData.littleTitle[0]}}</div>
       <div class="middle-right middle-single">{{typeData.littleTitle[1]}}</div>
@@ -91,7 +91,7 @@ import IncomeLevel from "./incomeLevel.vue";
 import ScrollSpan from "../../components/scrollSpan.vue";
 export default {
   name: "",
-  props: ["typeData", "indicatorData", "showCredit"],
+  props: ["typeData", "indicatorData", "showCredit", "propertyIds"],
   created() {
     this.getClassificationData();
     this.getLevelData();
@@ -256,17 +256,17 @@ export default {
     // background-size: 100% 100%;
     margin-bottom: 2%;
     .first-title-span {
-      display: block;s
-      margin-left: 5%;
+      display: block;
+      smargin-left: 5%;
     }
   }
   .num-and-coin {
     width: 100%;
     // height: 17.36%;
-    height: 70%;
+    height: 100%;
     background: url("../../assets/images/group-7.png") no-repeat;
     background-size: 100% 100%;
-    margin-bottom: 2%;
+    // margin-bottom: 2%;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -275,7 +275,7 @@ export default {
       align-items: center;
       width: 49%;
       height: 100%;
-      padding: 0.5% 6%;
+      padding: 0.5% 3%;
       .portrait {
         height: 70%;
         width: 22%;
@@ -283,12 +283,14 @@ export default {
         background-size: 100% 100%;
         text-align: center;
         .portrait-img {
-          padding-top: 16%;
+          padding-top: 45%;
         }
       }
       .num-span {
         width: 88%;
         height: 88%;
+        padding-top: 20px;
+        padding-left: 20px;
         .num-span-title {
           font-size: 21px;
         }
@@ -299,14 +301,14 @@ export default {
           height: 10%;
         }
         .num-span-data {
-          font-size: 36px;
-          height: 100%;
+          font-size: 40px;
+          height: 72%;
           color: #04bbff;
           display: inline-block;
           overflow: hidden;
 
           .total-money-span {
-            height: 40%;
+            height: 42%;
           }
         }
       }

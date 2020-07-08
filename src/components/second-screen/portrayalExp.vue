@@ -48,18 +48,17 @@ export default {
 
       if (data.length === 0) return;
       let sumValue = 0;
-      let sortValue = data.sort((a, b) => {
-        return b.value - a.value;
-      });
+      // let sortValue = data.sort((a, b) => {
+      //   return b.value - a.value;
+      // });
       sumValue =
-        sortValue[0].value +
-        Math.pow(10, sortValue[0].value.toString().length - 1);
+        data[0].value + Math.pow(10, data[0].value.toString().length - 1);
       let arrName = getArrayValue(data, "name"),
-        arrValue = getArrayValue(data, "value"),
-        objData = array2obj(data, "name"),
+        // arrValue = getArrayValue(data, "value"),
+        // objData = array2obj(data, "name"),
         optionData = getData(data);
       function getArrayValue(array, key) {
-        var key = key || "value";
+        // var key = key || "value";
         var res = [];
         if (array) {
           array.forEach(function(t) {
@@ -69,13 +68,18 @@ export default {
         return res;
       }
 
-      function array2obj(array, key) {
-        var resObj = {};
-        for (var i = 0; i < array.length; i++) {
-          resObj[array[i][key]] = array[i];
-        }
-        return resObj;
-      }
+      let realVal = {};
+      data.forEach(item => {
+        realVal[item.name] = item.value;
+      });
+
+      // function array2obj(array, key) {
+      //   var resObj = {};
+      //   for (var i = 0; i < array.length; i++) {
+      //     resObj[array[i][key]] = array[i];
+      //   }
+      //   return resObj;
+      // }
 
       function getData(data) {
         var res = {
@@ -85,11 +89,11 @@ export default {
               type: "gauge",
               splitNumber: 15,
               radius: "82%",
-              center: ["50%", "55%"],
+              center: ["30%", "50%"],
               clockwise: false,
               label: {
                 normal: {
-                  show: true,
+                  show: false,
                   position: "center"
                 }
               },
@@ -117,7 +121,7 @@ export default {
               type: "gauge",
               splitNumber: 15,
               radius: "78%",
-              center: ["50%", "55%"],
+              center: ["30%", "50%"],
               clockwise: false,
               axisLine: {
                 show: false
@@ -152,7 +156,7 @@ export default {
             z: 2,
             hoverAnimation: false,
             radius: [73 - i * 15 + "%", 68 - i * 15 + "%"],
-            center: ["50%", "55%"],
+            center: ["30%", "50%"],
             label: {
               show: false,
               formatter: "{d}%",
@@ -193,7 +197,7 @@ export default {
             clockWise: true,
             hoverAnimation: false,
             radius: [71 - i * 15 + "%", 69 - i * 15 + "%"],
-            center: ["50%", "55%"],
+            center: ["30%", "50%"],
             label: {
               show: false
             },
@@ -223,7 +227,7 @@ export default {
           res.series.push({
             type: "pie",
             radius: ["0", "20%"],
-            center: ["50%", "55%"],
+            center: ["30%", "50%"],
             z: 4,
             hoverAnimation: false,
             data: [
@@ -245,11 +249,14 @@ export default {
                         fontSize: 12
                       }
                     },
-                    // formatter: function(params) {
-                    //   return (
-                    //     "{a|" + params.value + "}\n\n" + "{b|" + "数据" + "}"
-                    //   );
-                    // },
+                    formatter: function(params) {
+                      return params.marker !== ""
+                        ? "{a|经营年限}"
+                        : "{a|借款状态}";
+                      // return (
+                      //   "{a|" + params.value + "}\n\n" + "{b|" + "数据" + "}"
+                      // );
+                    },
                     position: "center"
                   }
                 },
@@ -351,19 +358,36 @@ export default {
           itemGap: 20,
           textStyle: {
             color: "#6691CC",
-            fontSize: 14
+            fontSize: 14,
+            rich: {
+              b: {
+                color: "#FFF",
+                align: "left",
+                display: "inline-block",
+                fontSize: 14
+              },
+              e: {
+                color: "#00FFFF",
+                align: "right",
+                fontSize: 16,
+                display: "inline-block",
+                marginLeft: 6
+              }
+            }
           },
-          // align: "left",
+          align: "left",
           right: 30,
           icon: "circle",
-          top: 100
+          top: 100,
+          formatter: function(params) {
+            let a = realVal[params] / 100 + "%";
+            return `{b| ` + params + `}` + `    ` + `{e|` + a + `}`;
+          }
         },
-        grid: {
-          top: "16%",
-          bottom: "54%",
-          left: "50%",
-          containLabel: false
-        },
+        // grid: {
+        //   left: "20%",
+        //   containLabel: true
+        // },
         yAxis: [
           {
             type: "category",
@@ -393,12 +417,12 @@ export default {
       let myChart = this.$echarts.init(document.getElementById(id));
       // 绘制图表
       myChart.setOption(option);
-    },
-    drawOp_period() {
-      let myChart = this.$echarts.init(document.getElementById(id));
-      // 绘制图表
-      // myChart.setOption(option)
     }
+    // drawOp_period() {
+    //   let myChart = this.$echarts.init(document.getElementById(id));
+    //   // 绘制图表
+    //   // myChart.setOption(option)
+    // }
   },
   components: {},
   watch: {
@@ -410,14 +434,19 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .portrayal-exp {
   padding-top: 2%;
+  width: 100%;
+  height: 32%;
+  margin-bottom: 3%;
+  background: url("../../assets/images/bg-7.png") no-repeat;
+  background-size: 100% 100%;
   .exp-title-frame {
     width: 100%;
     height: 15.85%;
-    background: url("../../assets/images/title2.png") no-repeat;
-    background-size: 100% 100%;
+    // background: url("../../assets/images/title2.png") no-repeat;
+    // background-size: 100% 100%;
     .title-text {
       display: inline-block;
       padding-top: 1.3%;
@@ -430,7 +459,7 @@ export default {
     display: flex;
     justify-content: space-around;
     div {
-      width: 40%;
+      width: 50%;
       height: 100%;
     }
     #exp-years {

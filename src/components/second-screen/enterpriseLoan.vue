@@ -7,15 +7,13 @@
       </div>
     </div>
     <div class="enterprise-atlas enterprise-div enterprise-content">
-
-     <div class="second-title">
+      <div class="second-title">
         <span class="text-span">企业信用</span>
         <credit-chart :chartData="creditData" v-if="creditJudge" />
       </div>
-      
     </div>
     <div class="enterprise-credit enterprise-div enterprise-content">
-     <div class="second-title">
+      <div class="second-title">
         <span class="text-span">企业图谱</span>
       </div>
       <div id="graph"></div>
@@ -216,7 +214,10 @@ export default {
               color: "#ccc",
               formatter: function(params) {
                 let c = params.data.username || "";
-                let b = params.data.type === 'person' ? (params.data.name.slice(0,1)+'**') : params.data.name;
+                let b =
+                  params.data.type === "person"
+                    ? params.data.name.slice(0, 1) + "**"
+                    : params.data.name;
                 var str = "";
                 if (c === "") {
                   str = "{p|" + b + "}";
@@ -273,7 +274,35 @@ export default {
         this.creditJudge = true;
       });
     },
+    // 格式化千分位
+    thousandFormat(value, fixed) {
+      fixed = fixed !== undefined ? fixed : 2;
+      if (value === null || value === undefined || isNaN(parseFloat(value))) {
+        return;
+      }
+      // 将数字进行千分位格式化
+      function toThousands(num) {
+        num = (num || 0).toString();
+        var parts = num.split(".");
+        var bigZeroPart = parts[0];
+        var result = "";
+        while (bigZeroPart.length > 3) {
+          result = "," + bigZeroPart.slice(-3) + result;
+          bigZeroPart = bigZeroPart.slice(0, bigZeroPart.length - 3);
+        }
+        if (bigZeroPart) {
+          result = bigZeroPart + result;
+        }
+        if (parts.length > 1) {
+          result += "." + parts[1].toString();
+        }
+        return result;
+      }
 
+      value = parseFloat(value).toFixed(fixed);
+      value = toThousands(value);
+      return value;
+    },
     getBubbleData() {
       var that = this;
       this.axios({
@@ -288,11 +317,12 @@ export default {
           that.bubbleData = tmpData.map(item => {
             return {
               name: item.companyname,
-              value: item.credit,
+              value: that.thousandFormat(item.credit, 2),
               symbolSize: Math.floor(Math.random() * 100) + 100,
-              symbol: `image://${require("@/assets/images/p2/loan" +
-                (Math.floor(Math.random() * 5) + 1) +
-                ".svg")}`,
+              // symbol: `image://${require("@/assets/images/p2/loan" +
+              //   (Math.floor(Math.random() * 5) + 1) +
+              //   ".svg")}`,
+              symbol: `image://${require("@/assets/images/p2/loan5.svg")}`,
               draggable: true
             };
           });
@@ -330,10 +360,18 @@ export default {
     rollBubble(that) {
       if (that.bubbleIndex === that.bubbleData.length) {
         that.bubbleIndex = 0;
-        that.currentBubbleData = []
+        that.currentBubbleData = [];
       }
-      // that.currentBubbleData = [];
-      that.currentBubbleData.push(that.bubbleData[that.bubbleIndex]);
+      that.currentBubbleData = [...that.bubbleData];
+      that.currentBubbleData.forEach((item, index) => {
+        that.currentBubbleData[
+          index
+        ].symbol = `image://${require("@/assets/images/p2/loan5.svg")}`;
+      });
+      that.currentBubbleData[
+        this.bubbleIndex
+      ].symbol = `image://${require("@/assets/images/p2/loan4.svg")}`;
+      // that.currentBubbleData.push(that.bubbleData[that.bubbleIndex]);
       let company = that.currentBubbleData[this.bubbleIndex].name;
       this.getGraphData(company);
       that.bubbleIndex++;
@@ -364,7 +402,7 @@ export default {
       height: 9.22%;
       font-size: 24px;
       background: url("../../assets/images/title4-backup.png") no-repeat;
-      background-size: 100% 100%;
+      background-size: 20% 100%;
     }
   }
   .cloud-content {

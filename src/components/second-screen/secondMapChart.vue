@@ -397,7 +397,7 @@ export default {
   width: 100%;
 }
 #secMiddleMap {
-  height: 70%;
+  height: 85%;
   width: 100%;
 }
 </style>
