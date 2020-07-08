@@ -1,35 +1,10 @@
 <template>
   <div class="brain-content" @keyup.enter="keyEnter">
     <div class="brain-main">
+      <div id="ChinaMap" v-if="showAudio"></div>
       <div class="light-spot">
-        <div class="spot-box" v-if="showPoint && showImg">
-          <div class="a" :style="xy" v-if="bigPoint.accent">
-            <span class="a-address">
-              <i>{{bigPoint.accent}}</i>
-            </span>
-            <span class="a-tel">
-              <i>电话：{{bigPoint.mobile}}</i>
-              <br />
-              <i>产品：{{bigPoint.product}}</i>
-              <br />
-              <i class="a-want">{{bigPoint.want}}</i>
-            </span>
-          </div>
-          <div class="a" :style="xy" v-if="bigPoint.status">
-            <span class="e-address">
-              <i>{{bigPoint.action}}</i>
-            </span>
-            <span class="a-tel">
-              <i>电话：{{bigPoint.mobile}}</i>
-              <br />
-              <i>智能处理：{{bigPoint.handle}}</i>
-              <br />
-              <i class="e-want">问题定位：{{bigPoint.problem}}</i>
-            </span>
-          </div>
-        </div>
+        <span></span>
         <canvas id="audio-art"></canvas>
-        <audio id="audio" :src="require('../../assets/video/shanxi.wav')" ref="audio"></audio>
       </div>
     </div>
     <div class="brain-foot">
@@ -64,7 +39,7 @@
           <span>智能客服</span>
         </li>
       </ul>
-      <audio id="audio" :src="require('../../assets/video/shanxi.wav')"></audio>
+      <audio id="audio" ref="audio" :src="require('../../assets/video/shanxi.wav')"></audio>
     </div>
   </div>
 </template>
@@ -86,10 +61,9 @@ export default {
       id: this.ids,
       height: this.heights,
       lineData: [],
-      showImg: true,
-      showPoint: true,
+      showAudio: true,
       analyser: {},
-      xy:''
+      xy: ""
     };
   },
   computed: {},
@@ -97,22 +71,290 @@ export default {
     this.init();
   },
   watch: {
-    bigPoint() {
-      this.tableData = this.bigPoint;
-      this.xy  = 'top:' + (Math.floor(328*Math.random()) + 338) +'px;' + 'left:' + (Math.floor(554*Math.random()) + 446) + 'px'
+    bigPoint: function (a,b) {
+      this.tableData = a;
+      if(!this.showAudio) {
+        return
+      }
+      this.drawMap();
     }
   },
   methods: {
     init() {
-      document.onkeydown = event => {
+      this.drawMap()
+      document.onkeydown = (event)  => {
         let e = event || window.event || arguments.callee.caller.arguments[0];
         if (e && e.keyCode == 13) {
-          if (!this.showImg) {
+          if (!this.showAudio) {
             return;
           }
+          this.$nextTick( () => {
+            this.showAudio = false;
+          })
           this.DrawVideo();
         }
       };
+    },
+    drawMap() {
+      
+      let obj = this.tableData,
+      seriesData = {
+          ...obj,
+          value: [obj.longitude, obj.latitude]
+      };
+      let myChart = this.$echarts.init(document.getElementById("ChinaMap"));
+      let mapName = "china";
+      var data = [
+        { name: "北京", value: 199 },
+        { name: "天津", value: 42 },
+        { name: "河北", value: 102 },
+        { name: "山西", value: 81 },
+        { name: "内蒙古", value: 47 },
+        { name: "辽宁", value: 67 },
+        { name: "吉林", value: 82 },
+        { name: "黑龙江", value: 123 },
+        { name: "上海", value: 24 },
+        { name: "江苏", value: 92 },
+        { name: "浙江", value: 114 },
+        { name: "安徽", value: 139 },
+        { name: "福建", value: 116 },
+        { name: "江西", value: 91 },
+        { name: "山东", value: 119 },
+        { name: "河南", value: 137 },
+        { name: "湖北", value: 116 },
+        { name: "湖南", value: 114 },
+        { name: "重庆", value: 91 },
+        { name: "四川", value: 125 },
+        { name: "贵州", value: 62 },
+        { name: "云南", value: 83 },
+        { name: "西藏", value: 9 },
+        { name: "陕西", value: 80 },
+        { name: "甘肃", value: 56 },
+        { name: "青海", value: 10 },
+        { name: "宁夏", value: 18 },
+        { name: "新疆", value: 18 },
+        { name: "广东", value: 183 },
+        { name: "香港", value: 203 },
+        { name: "澳门", value: 199 },
+        { name: "广西", value: 59 },
+        { name: "海南", value: 14 }
+      ];
+
+      var geoCoordMap = {};
+
+      /*获取地图数据*/
+      var mapFeatures = this.$echarts.getMap(mapName).geoJson.features;
+      mapFeatures.forEach(function(v) {
+        // 地区名称
+        var name = v.properties.name;
+        // 地区经纬度
+        geoCoordMap[name] = v.properties.cp;
+      });
+      var max = 480,
+        min = 9; // todo
+      var maxSize4Pin = 100,
+        minSize4Pin = 20;
+
+      var convertData = function(data) {
+        var res = [];
+        for (var i = 0; i < data.length; i++) {
+          var geoCoord = geoCoordMap[data[i].name];
+          if (geoCoord) {
+            res.push({
+              name: data[i].name,
+              value: geoCoord.concat(data[i].value)
+            });
+          }
+        }
+        return res;
+      };
+      var option = {
+        visualMap: {
+          show: false,
+          min: 0,
+          max: 200,
+          left: "10%",
+          top: "bottom",
+          calculable: true,
+          seriesIndex: [1],
+          inRange: {
+            color: ["#467bc0", "#04387b"] // 蓝绿
+          }
+        },
+        geo: {
+          show: true,
+          map: mapName,
+          label: {
+            normal: {
+              show: false
+            },
+            emphasis: {
+              show: false
+            }
+          },
+          roam: false,
+          itemStyle: {
+            normal: {
+              areaColor: "#023677",
+              borderColor: "#1180c7"
+            },
+            emphasis: {
+              areaColor: "#4499d0"
+            }
+          }
+        },
+        series: [
+          {
+            name: "散点",
+            type: "scatter",
+            coordinateSystem: "geo",
+            data: convertData(data),
+            symbolSize: 0,
+            label: {
+              normal: {
+                formatter: "{b}",
+                position: "right",
+                show: false
+              },
+              emphasis: {
+                show: false
+              }
+            },
+            itemStyle: {
+              normal: {
+                show: false,
+                color: "#fff"
+              }
+            }
+          },
+          {
+            type: "map",
+            map: mapName,
+            geoIndex: 0,
+            aspectScale: 0.75, //长宽比
+            showLegendSymbol: false, // 存在legend时显示
+            label: {
+              normal: {
+                show: true
+              },
+              emphasis: {
+                show: false,
+                textStyle: {
+                  color: "#fff"
+                }
+              }
+            },
+            roam: true,
+            itemStyle: {
+              normal: {
+                areaColor: "#031525",
+                borderColor: "#3B5077"
+              },
+              emphasis: {
+                areaColor: "#2B91B7"
+              }
+            },
+            animation: false,
+            data: data
+          },
+          {
+            type: "effectScatter",
+            coordinateSystem: "geo",
+            zlevel: 10,
+            data: [seriesData],
+            itemStyle: {
+              normal: {
+                color: "#F5B523",
+                shadowBlur: 2
+              }
+            },
+            // 标签
+            label: {
+              normal: {
+                show: true,
+                formatter: function(params) {
+                  const {
+                    accent,
+                    mobile,
+                    product,
+                    want,
+                    status,
+                    action,
+                    handle,
+                    problem
+                  } = params.data;
+                  let a = '';
+                  if(accent) {
+                    a = `{a|口音识别}{b|${accent}}{a|产品}{b|${product}}\n{a|客户意图}{b|${want}}\n{a|手机号码}{b|${mobile}}`;
+                  }else {
+                    a = `{a|行为}{b|${action}}{a|状态}{b|${status[0].value}}\n{a|问题定位}{b|${problem}}{c|智能处理}{b|${handle}}\n{a|手机号码}{b|${mobile}}`;
+                  }
+                  return a
+                },
+                position: [0, 0],
+                distance: 0,
+                width: 340,
+                height: 170,
+                backgroundColor: {
+                  image: require("@/assets/images/p3/map-modal.png")
+                },
+                padding: [30, 50],
+                lineHeight: 40,
+                // verticalAlign: "middle",
+                color: "#fff",
+                z: 11,
+                rich: {
+                  a: {
+                    color: "rgba(255,255,255,.7)",
+                    fontSize: 16
+                  },
+                  b: {
+                    padding: [0, 10],
+                    color: "#ffffff",
+                    fontSize: 16,
+                    fontWeight: "bold"
+                  },
+                  c: {
+                    align: 'left'
+                  }
+                }
+              }
+            }
+          },
+          {
+            name: 'Top 5',
+            type: 'effectScatter',
+            coordinateSystem: 'geo',
+            data: convertData(data.sort(function(a, b) {
+                return b.value - a.value;
+            }).slice(0, 10)),
+            symbolSize: function(val) {
+                return val[2] / 8;
+            },
+            showEffectOn: 'render',
+            rippleEffect: {
+                brushType: 'stroke'
+            },
+            hoverAnimation: true,
+            label: {
+                normal: {
+                    formatter: '{b}',
+                    position: 'left',
+                    show: false
+                }
+            },
+            itemStyle: {
+                normal: {
+                    color: 'yellow',
+                    shadowBlur: 10,
+                    shadowColor: 'yellow'
+                }
+            },
+            zlevel: 1
+        },
+        ]
+      };
+      myChart.setOption(option);
     },
     transLateData() {
       let obj = {
@@ -127,14 +369,7 @@ export default {
       this.lineData = obj.series;
       this.drawLineG(this.id.id, obj);
     },
-    playVideo() {
-      // let audio = new Audio();
-      // audio.src = require("../../assets/video/shanxi.wav");
-      // audio.play();
-      this.DrawVideo();
-    },
     DrawVideo() {
-      this.showImg = false;
       this.$emit("func", { value: false });
       var atx = new (window.AudioContext || webkitAudioContext)();
       // var audio = document.getElementById("audio");
@@ -151,7 +386,7 @@ export default {
       analyser.fftSize = 2048;
       var draw = () => {
         var cWidth = canvas.width,
-          cHeight = canvas.height,
+          cHeight = canvas.height * 1.5,
           // frequencyBinCount的值固定为fftSize的一半
           audioArray = new Uint8Array(analyser.frequencyBinCount);
         // 解析频率数据，放入audioArray数组中
@@ -171,7 +406,7 @@ export default {
       setTimeout(() => {
         this.$emit("func", { value: true });
         this.$nextTick(() => {
-          this.showImg = true;
+          this.showAudio = true;
         });
       }, audioTime * 1000);
     }
@@ -184,12 +419,20 @@ export default {
   background-size: 40%;
   position: relative;
   height: 100%;
+  .brain-main {
+    height: 85%;
+    position: relative;
+    #ChinaMap {
+      height: 100%;
+    }
+  }
   .light-spot {
     width: 92%;
     margin: 0 auto;
     min-height: 400px;
     min-height: 450px;
-    position: relative;
+    position: absolute;
+    top: 4%;
     .spot-box {
       div {
         display: inline-block;
@@ -245,7 +488,7 @@ export default {
       color: #4dc4d3;
     }
     .e-want {
-      color: #FFE96F;
+      color: #ffe96f;
     }
     .a {
       top: 338px;
@@ -296,10 +539,8 @@ export default {
       display: inline-block;
       width: 30%;
       height: 60px;
-
       background: url("../../assets/images/ai-foot.png") no-repeat center;
       background-size: 50%;
-      margin-bottom: 30px;
     }
     ul {
       display: flex;
@@ -324,8 +565,9 @@ export default {
   }
   #audio-art {
     position: absolute;
-    width: 100%;
+    width: 60%;
     top: 130px;
+    left: 23%;
     height: 172%;
     margin: 0 auto;
     z-index: 1;

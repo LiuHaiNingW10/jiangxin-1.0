@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div :class="headValue ? 'brain-bg':'brain-bgg'">
+    <div :class="'brain-bgg'">
       <div class="header">
         <span class="header-bg">智能服务</span>
         <div class="right-time">
@@ -27,7 +27,7 @@
             :ids="idC"
             :heights="clientHeight"
             @func="fromHead"
-            :bigPoint="bigPoint"
+            :bigPoint="bigPointt"
           />
         </div>
         <div class="right">
@@ -225,7 +225,7 @@ export default {
     tableDataDs() {
       return this.tableDataD;
     },
-    bigPoint() {
+    bigPointt() {
       return this.bigPoints;
     }
   },
@@ -348,18 +348,6 @@ export default {
   color: #fff;
   background: url("../../assets/images/p4-background.png") no-repeat 100% 100%;
   background-size: 100%;
-  .brain-bg {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    color: #fff;
-    background: url("../../assets/images/danao.png") no-repeat center;
-    background-size: 50%;
-    background-position: 50% 94%;
-    padding-top: 1%;
-  }
   .brain-bgg {
     position: absolute;
     top: 0;
@@ -410,7 +398,7 @@ export default {
     .center {
       width: 45.4%;
       position: relative;
-      height: 93%;
+      height: 97%;
     }
     .right {
       width: 27.2%;
