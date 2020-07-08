@@ -3,8 +3,8 @@
     <!-- 头部 -->
     <div class="title-frame">
       <div class="title-left">
-        <span class="title-left-span">累计信贷服务金额：</span>
-        <!-- <div class="nwwest-roll" id="nwwest-roll">
+        <!-- <span class="title-left-span">累计信贷服务金额：</span>
+        <div class="nwwest-roll" id="nwwest-roll">
           <ul id="roll-ul" class="roll-ul">
             <li
               v-for="(item, index) in Totallist"
@@ -15,9 +15,9 @@
               <span class="total-money-span">¥ {{item}}</span>
             </li>
           </ul>
-        </div>-->
+        </div>
 
-        <scroll-span :number="totalMoney" class="total-money-span" ids="total" />
+        <scroll-span :number="totalMoney" class="total-money-span" ids="total" />-->
         <!-- <span class="left-coin">¥ {{totalMoney}}</span> -->
       </div>
       <div class="global-title">普惠业务信贷数据平台</div>
@@ -35,14 +35,14 @@
     <!-- 内容 -->
     <div class="frame-content">
       <div class="accruing-amounts">
-        <div class="content-title">累计信贷服务金额</div>
+        <div class="content-title">累计信贷服务金额（亿元）</div>
         <indicator-chart
           v-if="threeMoneyArr.first"
           :chartData="threeMoneyArr.first"
           chartId="total-money"
-        :styleData="styleObj"
-        marginTop="-120px"
-        :styleSingle="singleStyle"
+          :styleData="styleObj"
+          marginTop="-120px"
+          :styleSingle="singleStyle"
         />
         <!-- <indicator-chart v-if="testN" :chartData="testN" chartId="total-money" /> -->
         <line-chart
@@ -58,26 +58,20 @@
           :v-if="plateJudge"
           :chartData="{linkRelativeRatio: linkRelativeRatio,dialPlate: dialPlate,lineData: lineData}"
           class="repeat-purchase-chart"
-        /> -->
+        />-->
         <!-- <form-chart
           :ids="formIds"
           v-if="consume"
           :chartData="{consume: consume, scale: scale}"
           class="form-charts"
         />
-         横向柱状图 -->
-         <person-columnar
-          class="person-columnar"
-          ids="consume"
-          :chartData="consume"
-          v-if="consume"
-        />
-        <person-columnar
-          class="person-columnar"
-          ids="scale"
-          v-if="scale"
-          :chartData="scale"
-        />
+        横向柱状图-->
+        <div class="bottom-title-div">
+          <div class="bottom-title">星座&剁手</div>
+          <div class="bottom-title">地域&贷款规模</div>
+        </div>
+        <person-columnar class="person-columnar" ids="consume" :chartData="consume" v-if="consume" />
+        <person-columnar class="person-columnar" ids="scale" v-if="scale" :chartData="scale" />
       </div>
       <div class="current-amounts">
         <div class="content-title">当日信贷服务金额</div>
@@ -85,9 +79,9 @@
           v-if="threeMoneyArr.second"
           :chartData="threeMoneyArr.second"
           chartId="current-money"
-        :styleData="styleObj"
-        marginTop="-120px"
-        :styleSingle="singleStyle"
+          :styleData="styleObj"
+          marginTop="-120px"
+          :styleSingle="singleStyle"
         />
 
         <!-- 地图 -->
@@ -130,7 +124,6 @@
             :chartData="educationData"
           />
         </div>
-        
       </div>
     </div>
     <!-- <div class="title-frame"></div> -->
@@ -174,14 +167,14 @@ export default {
   },
   data() {
     return {
-    styleObj: {
+      styleObj: {
         height: "90px",
         fontSize: "64px"
       },
       singleStyle: {
-        width: "5%",
-        marginLeft: "1%",
-        lineHeight: '150%'
+        width: "3%",
+        // marginLeft: "1%",
+        lineHeight: "150%"
       },
       mapInterval: undefined,
       coinInterval: undefined,
@@ -493,7 +486,7 @@ export default {
             return item.amtavg;
           });
           _that.leftLineData.data_dt = cdata.map(item => {
-            return item.event_hour + '时';
+            return item.event_hour + "时";
           });
         }
       });
@@ -689,7 +682,7 @@ export default {
         if (data.data.code === 100) {
           _that.totalMoney = "¥" + _that.thousandFormat(data.data.data, 2) || 0;
           _that.threeMoneyArr = Object.assign({}, _that.threeMoneyArr, {
-            first: data.data.data.toString() || 0
+            first: _that.thousandFormat(data.data.data, 2) || 0
           });
           if (_that.totalMoney !== _that.preTotalMoney) {
             _that.scroll(_that.totalMoney, _that.$refs);
@@ -709,7 +702,7 @@ export default {
         if (data.data.code === 100) {
           // _that.currentMoney = _that.thousandFormat(data.data.data, 2) || 0;
           _that.threeMoneyArr = Object.assign({}, _that.threeMoneyArr, {
-            second: data.data.data.toString() || 0
+            second: _that.thousandFormat(data.data.data, 2) || 0
           });
         }
       });
@@ -724,7 +717,7 @@ export default {
         if (data.data.code === 100) {
           // _that.currentMoney = _that.thousandFormat(data.data.data, 2) || 0;
           _that.threeMoneyArr = Object.assign({}, _that.threeMoneyArr, {
-            third: data.data.data.toString() || 0
+            third: _that.thousandFormat(data.data.data, 0) || 0
           });
         }
       });
@@ -822,12 +815,12 @@ export default {
           var tData = data.data.data;
           let xAxis = [];
           let yAxis = [];
-          tData.forEach(item => {
-            xAxis.push(item.xid);
+          tData.forEach((item, index) => {
+            xAxis.push(item.xid + "(Top" + (index + 1) + ")");
             yAxis.push(parseFloat(item.score));
           });
-          xAxis = xAxis.reverse().slice(0, 5);
-          yAxis = yAxis.reverse().slice(0, 5);
+          xAxis = xAxis.slice(0, 5).reverse();
+          yAxis = yAxis.slice(0, 5).reverse();
 
           _that.consume = Object.assign(
             {},
@@ -836,7 +829,7 @@ export default {
         }
       });
 
-      // 获取星座排行
+      // 获取地域排行
       this.axios({
         url: "/api/p1/rank?flag=region",
         method: "get",
@@ -867,12 +860,12 @@ export default {
           var tData = data.data.data;
           let xAxis = [];
           let yAxis = [];
-          tData.forEach(item => {
-            xAxis.push(item.xid);
+          tData.forEach((item, index) => {
+            xAxis.push(item.xid + "(Top" + (index + 1) + ")");
             yAxis.push(parseFloat(item.score));
           });
-          xAxis = xAxis.reverse().slice(0, 5);
-          yAxis = yAxis.reverse().slice(0, 5);
+          xAxis = xAxis.slice(0, 5).reverse();
+          yAxis = yAxis.slice(0, 5).reverse();
 
           _that.scale = Object.assign(
             {},
@@ -889,7 +882,7 @@ export default {
         type: "json"
       }).then(data => {
         if (data.data.code === 100) {
-         // var tData = data.data.data;
+          // var tData = data.data.data;
           //if (tData == null) return;
           //var tmpVal = 100;
           //_that.ageData = tData.map((item, index) => {
@@ -949,9 +942,9 @@ export default {
           // 六个指标
           _that.allDataIndicator = [
             {
-              name: "余额",
+              name: "余额（亿元）",
               index: "amount",
-              data: tData ? tData.bal : ""
+              data: tData ? _that.thousandFormat(tData.bal, 2) : ""
             },
             {
               name: "笔均",
@@ -961,7 +954,7 @@ export default {
             {
               name: "户均",
               index: "savg",
-              data: tData ? tData.hujun * 100 + "%" : ""
+              data: tData ? tData.hujun : ""
             },
             {
               name: "平均期限",
@@ -969,7 +962,7 @@ export default {
               data: tData ? tData.tenor : ""
             },
             {
-              name: "贷款时长",
+              name: "贷款时长（秒）",
               index: "loan-time",
               data: tData ? tData.ddsecond : ""
             },
@@ -1306,7 +1299,7 @@ export default {
     "map-chart": MapChart,
     "weather-com": WeatherCom,
     "scroll-span": ScrollSpan,
-    "person-columnar": PersonColumnar,
+    "person-columnar": PersonColumnar
   }
 };
 </script>
@@ -1398,6 +1391,15 @@ export default {
         height: 400px;
         padding-top: 2%;
       }
+      .bottom-title-div {
+        display: flex;
+        justify-content: space-between;
+        .bottom-title {
+          padding-left: 40px;
+          width: 50%;
+          height: 20px;
+        }
+      }
       .person-columnar {
         height: 485px;
         padding-left: 30px;
@@ -1416,7 +1418,7 @@ export default {
         display: flex;
         height: 40%;
         padding-bottom: 40px;
-            padding-top: 100px;
+        padding-top: 100px;
         .single-distribution {
           width: 50%;
           text-align: left;

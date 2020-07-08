@@ -85,7 +85,7 @@ export default {
           {
             name: "姓名",
             type: "pie",
-            radius: [120, 160],
+            radius: [100, 140],
             center: ["30%", "50%"],
             label: {
               show: false

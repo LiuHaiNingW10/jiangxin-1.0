@@ -132,6 +132,13 @@ export default {
 </script>
 
 <style lang="less">
+@font-face {
+  font-family: 'UnidreamLED';
+  src:url(./font/UnidreamLED.eot); /***兼容ie9***/
+  src:url(./font/UnidreamLED.eot?#iefix)format('embedded-opentype'), /***兼容ie6-ie8***/
+  url('./font/UnidreamLED.woff') format('woff'), 
+  local('UnidreamLED'), url("./font/UnidreamLED.woff");/***默认使用本地的***/
+}
 .num-group {
   min-width: 50%;
   height: 26px;
@@ -141,14 +148,15 @@ export default {
   margin-top: 2%;
   overflow: hidden;
   .single-num {
+  font-family: 'UnidreamLED';
     margin-left: 3%;
     width: 2%;
     height: 100%;
     line-height: 100%;
     overflow: hidden;
-    background: url("../../assets/images/text-no-white.png") no-repeat;
+    // background: url("../../assets/images/text-no-white.png") no-repeat;
     // background: url("../../assets/images/text-bg.png") no-repeat;
-    background-size: 100% 100%;
+    // background-size: 100% 100%;
     text-align: center;
     &:first-child {
       margin-left: 0px;
