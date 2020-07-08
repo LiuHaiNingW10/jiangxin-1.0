@@ -171,17 +171,17 @@ export default {
       idRisk: {
         id: 'echarts03',
         style: "height: 15%",
-        title: '风险城市占比分布'
+        title: '实时欺诈风险画像'
       },
       idRiskM: {
         id: 'echarts04',
         style: "height: 15%",
-        title: '风险城市占比分布'
+        title: '风险设备占比'
       },
       idRiskR: {
         id: 'echarts05',
         style: "height: 15%",
-        title: '风险城市占比分布'
+        title: '风险类型占比'
       },
     };
   },

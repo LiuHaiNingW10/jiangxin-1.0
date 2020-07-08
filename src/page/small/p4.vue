@@ -82,7 +82,7 @@ const columnA = [
     class: "table-td",
     title: "状态",
     align: "center",
-    width: "20%"
+    width: "16%"
   },
   {
     dataIndex: "problem",
@@ -90,7 +90,7 @@ const columnA = [
     class: "table-td",
     title: "问题定位",
     align: "center",
-    width: "20%"
+    width: "24%"
   },
   {
     dataIndex: "handle",
@@ -149,21 +149,21 @@ export default {
       tableDataTop: [
         {
           name: '在线智能处置率',
-          value: '89%'
+          value: '30%'
         },
         {
           name: '客服智能处置率',
-          value: '99%'
+          value: '91%'
         },
       ],
       tableDataRight: [
         {
           name: '智能外呼数量',
-          value: 'M0'
+          value: '238'
         },
         {
           name: '单通交互次数',
-          value: '7'
+          value: '6'
         },
       ],
       // 天气
@@ -180,24 +180,24 @@ export default {
       tableDataA: [],
       idA: {
         id: "echarts01",
-        title: "智能客服（当日数据）"
+        title: "智能客服"
       },
       columnA: columnA,
       tableDataB: [],
       idB: {
         id: "echarts02",
-        title: "用户转化",
+        title: "客户问题解决",
         action: "活动：信贷MGM"
       },
       tableDataC: [],
       idC: {
         id: "echarts03",
-        title: "智能催收（当日数据）"
+        title: "智能催收"
       },
       columnC: columnC,
       idD: {
         id: "echarts04",
-        title: "客户意愿"
+        title: "客户意愿理解"
       },
       tableDataD: [
         { desire: "未拔通", num: 21044 },
@@ -298,7 +298,7 @@ export default {
       }).then(data => {
         let arr = data.data.data;
         arr.forEach(it => {
-          it.want = it.action;
+          it.want = it.problem;
         });
         this.tableDataB = arr;
       });
@@ -407,7 +407,7 @@ export default {
   }
 }
 .common-box {
-  font-size: 12px;
+  font-size: 16px;
   position: relative;
   overflow: hidden;
   height: 44%;

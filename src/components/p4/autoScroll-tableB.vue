@@ -117,7 +117,7 @@ export default {
     color: #7ca3d0;
     padding: 8px 4px;
     background: transparent;
-    font-size: 12px;
+    font-size: 16px;
     border: none;
   }
   .ant-tag {

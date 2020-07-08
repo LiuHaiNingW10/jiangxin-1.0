@@ -41,7 +41,7 @@
         <div class="frim-chart" id='frimChart'></div>
       </div>
     </div>
-    <div class="mc-footer">欺诈损失率<span>{{footerData}}</span></div>
+    <div class="mc-footer">欺诈损失率<span>{{footerData}}%</span></div>
   </div>
 </template>
 

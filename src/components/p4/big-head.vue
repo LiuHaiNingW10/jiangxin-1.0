@@ -3,42 +3,14 @@
     <div class="brain-main">
       <div id="ChinaMap" v-if="showAudio"></div>
       <div class="light-spot">
-        <span></span>
         <canvas id="audio-art"></canvas>
+      </div>
+      <img :src="robot" alt id="robot-img" v-if="!showAudio" />
+      <div class="topCity">
+        <RiskPortraitChart :ids="idRisk" :tableDatas="tableDataR" />
       </div>
     </div>
     <div class="brain-foot">
-      <span class="foot-ai"></span>
-      <ul>
-        <li>
-          <img :src="require('../../assets/images/brain-e.png')" alt />
-          <span>智能运营</span>
-        </li>
-        <li class>
-          <img :src="require('../../assets/images/brain-g.png')" alt />
-          <span>智能办公</span>
-        </li>
-        <li class>
-          <img :src="require('../../assets/images/brain-c.png')" alt />
-          <span>智能机具</span>
-        </li>
-        <li class>
-          <img :src="require('../../assets/images/brain-f.png')" alt />
-          <span>智能运维</span>
-        </li>
-        <li class>
-          <img :src="require('../../assets/images/brain-a.png')" alt />
-          <span>智能审计</span>
-        </li>
-        <li class>
-          <img :src="require('../../assets/images/brain-d.png')" alt />
-          <span>智能设备</span>
-        </li>
-        <li class>
-          <img :src="require('../../assets/images/brain-b.png')" alt />
-          <span>智能客服</span>
-        </li>
-      </ul>
       <audio id="audio" ref="audio" :src="require('../../assets/video/shanxi.wav')"></audio>
     </div>
   </div>
@@ -52,6 +24,8 @@ import d from "../../assets/images/brain-d.png";
 import e from "../../assets/images/brain-e.png";
 import f from "../../assets/images/brain-f.png";
 import g from "../../assets/images/brain-g.png";
+import RiskPortraitChart from "@/components/p4/line-toRight.vue";
+import * as baseBox from "@/assets/base64.js";
 export default {
   name: "tableAuto",
   props: ["tableDatas", "ids", "heights", "bigPoint"],
@@ -63,7 +37,35 @@ export default {
       lineData: [],
       showAudio: true,
       analyser: {},
-      xy: ""
+      xy: "",
+      robot: baseBox.robot.value,
+      idRisk: {
+        id: "echarts05",
+        style: "height: 100%",
+        title: '客群城市排行'
+      },
+      tableDataR: [
+        {
+          area: "Top1 南京",
+          percent: 343
+        },
+        {
+          area: "Top2 福州",
+          percent: 234
+        },
+        {
+          area: "Top3 杭州",
+          percent: 134
+        },
+        {
+          area: "Top4 贵阳",
+          percent:90
+        },
+        {
+          area: "Top5 厦门",
+          percent: 56
+        }
+      ]
     };
   },
   computed: {},
@@ -71,37 +73,36 @@ export default {
     this.init();
   },
   watch: {
-    bigPoint: function (a,b) {
+    bigPoint: function(a, b) {
       this.tableData = a;
-      if(!this.showAudio) {
-        return
+      if (!this.showAudio) {
+        return;
       }
       this.drawMap();
     }
   },
   methods: {
     init() {
-      this.drawMap()
-      document.onkeydown = (event)  => {
+      this.drawMap();
+      document.onkeydown = event => {
         let e = event || window.event || arguments.callee.caller.arguments[0];
         if (e && e.keyCode == 13) {
           if (!this.showAudio) {
             return;
           }
-          this.$nextTick( () => {
+          this.$nextTick(() => {
             this.showAudio = false;
-          })
+          });
           this.DrawVideo();
         }
       };
     },
     drawMap() {
-      
       let obj = this.tableData,
-      seriesData = {
+        seriesData = {
           ...obj,
           value: [obj.longitude, obj.latitude]
-      };
+        };
       let myChart = this.$echarts.init(document.getElementById("ChinaMap"));
       let mapName = "china";
       var data = [
@@ -283,13 +284,13 @@ export default {
                     handle,
                     problem
                   } = params.data;
-                  let a = '';
-                  if(accent) {
+                  let a = "";
+                  if (accent) {
                     a = `{a|口音识别}{b|${accent}}{a|产品}{b|${product}}\n{a|客户意图}{b|${want}}\n{a|手机号码}{b|${mobile}}`;
-                  }else {
+                  } else {
                     a = `{a|行为}{b|${action}}{a|状态}{b|${status[0].value}}\n{a|问题定位}{b|${problem}}{c|智能处理}{b|${handle}}\n{a|手机号码}{b|${mobile}}`;
                   }
-                  return a
+                  return a;
                 },
                 position: [0, 0],
                 distance: 0,
@@ -315,43 +316,47 @@ export default {
                     fontWeight: "bold"
                   },
                   c: {
-                    align: 'left'
+                    align: "left"
                   }
                 }
               }
             }
           },
           {
-            name: 'Top 5',
-            type: 'effectScatter',
-            coordinateSystem: 'geo',
-            data: convertData(data.sort(function(a, b) {
-                return b.value - a.value;
-            }).slice(0, 10)),
+            name: "Top 5",
+            type: "effectScatter",
+            coordinateSystem: "geo",
+            data: convertData(
+              data
+                .sort(function(a, b) {
+                  return b.value - a.value;
+                })
+                .slice(0, 10)
+            ),
             symbolSize: function(val) {
-                return val[2] / 8;
+              return val[2] / 8;
             },
-            showEffectOn: 'render',
+            showEffectOn: "render",
             rippleEffect: {
-                brushType: 'stroke'
+              brushType: "stroke"
             },
             hoverAnimation: true,
             label: {
-                normal: {
-                    formatter: '{b}',
-                    position: 'left',
-                    show: false
-                }
+              normal: {
+                formatter: "{b}",
+                position: "left",
+                show: false
+              }
             },
             itemStyle: {
-                normal: {
-                    color: 'yellow',
-                    shadowBlur: 10,
-                    shadowColor: 'yellow'
-                }
+              normal: {
+                color: "yellow",
+                shadowBlur: 10,
+                shadowColor: "yellow"
+              }
             },
             zlevel: 1
-        },
+          }
         ]
       };
       myChart.setOption(option);
@@ -410,6 +415,9 @@ export default {
         });
       }, audioTime * 1000);
     }
+  },
+  components: {
+    RiskPortraitChart
   }
 };
 </script>
@@ -425,6 +433,12 @@ export default {
     #ChinaMap {
       height: 100%;
     }
+  }
+  #robot-img {
+    width: 100px;
+    position: absolute;
+    bottom: 17%;
+    left: 9%;
   }
   .light-spot {
     width: 92%;
@@ -571,6 +585,15 @@ export default {
     height: 172%;
     margin: 0 auto;
     z-index: 1;
+  }
+}
+.topCity {
+  position: absolute;
+  height: 30%;
+  bottom: -18%;
+  width: 30%;
+  .person-columnar {
+    height: 100%;
   }
 }
 </style> 
