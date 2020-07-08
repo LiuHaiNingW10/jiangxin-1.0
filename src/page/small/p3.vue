@@ -2,7 +2,7 @@
   <div class="p3-container">
     <!-- 头部 -->
     <div class="title-frame">
-      <div class="global-title"></div>
+      <div class="global-title">智能风控</div>
       <div class="right-time">
         <weather-com />
       </div>
@@ -28,27 +28,30 @@
           <real-time-strategy v-if="showUses" title="当日累计拦截笔数（笔）" :num="usesTime.day" :blank="2" />
         </div>
         <map-chart class="map-charts" />
-        <!-- <pie-chart /> -->
         <div class="map-panel"></div>
       </div>
       <div class="right-box">
         <div class="content-title">
-          <span>实时调用决策变量{{variableNum}}个 规则{{ruleNum}}条</span>
+          <span>实时反欺诈模型决策占比</span>
         </div>
-        <!-- <decisionRate-chart /> -->
-        <rule-chart />
+        <div class="decisionRate">
+          <decisionRate-chart :ids="idsDecision"/>
+          <decisionRateB-chart :ids="idsDecisionB"/>
+        </div>
         <div class="content-title">
-          <span>近24小时放款监测</span>
+          <span>实时加强验证</span>
         </div>
-        <loan-monitor-chart />
+        <verification-chart :tableDatas="tableDataV"/>
         <div class="content-title">
           <span>进件客户质量分布（人行评分）</span>
         </div>
-        <cust-distribute-chart />
-        <div class="content-title">
+        <RiskPortraitChart :ids="idRisk" :tableDatas="tableDataR"/>
+        <RiskPortraitChart :ids="idRiskM" :tableDatas="tableDataRM"/>
+        <RiskPortraitChart :ids="idRiskR" :tableDatas="tableDataRR"/>
+        <!-- <div class="content-title">
           <span>Top5拒绝原因</span>
         </div>
-        <top5-refuse-chart />
+        <top5-refuse-chart /> -->
       </div>
     </div>
   </div>
@@ -66,8 +69,11 @@ import Top5RefuseChart from "@/components/three-screen/top5RefuseChart.vue";
 import WeatherCom from "@/components/weather.vue";
 import MicrofinanceChart from "@/components/three-screen/microfinanceChart.vue";
 import RuleChart from "@/components/three-screen/ruleChart.vue";
-// import decisionRateChart from "@/components/three-screen/decisionRateChart.vue";
-
+import decisionRateChart from "@/components/three-screen/decisionRateChart.vue";
+import decisionRateBChart from "@/components/three-screen/decisionRateBChart.vue";
+import verificationChart from "@/components/three-screen/verificationChart.vue";
+import * as base64 from "@/assets/base64.js"
+import RiskPortraitChart from "@/components/p4/line-toRight.vue"
 import moment from "moment";
 export default {
   data() {
@@ -80,7 +86,103 @@ export default {
         day: 0
       },
       variableNum: 0,
-      ruleNum: 0
+      ruleNum: 0,
+      idsDecision:{
+        id:'echarts01',
+        style: 'width:44%'
+      },
+      idsDecisionB:{
+        id:'echarts02',
+        style: 'width:55%'
+      },
+      tableDataV: [
+        {
+          title: '生物识别',
+          img: base64.verImg.value,
+          times: '234',
+        },
+        {
+          title: '人工外呼',
+          img: base64.verImg.value,
+          times: '23',
+        },
+        {
+          title: '短信加验',
+          img: base64.verImg.value,
+          times: '45',
+        },
+        {
+          title: '密码加验',
+          img: base64.verImg.value,
+          times: '345',
+        },
+      ],
+      tableDataR: [
+        {
+          area: '南京', percent: 0.4
+        },
+        {
+          area: '福州', percent: 0.3
+        },
+        {
+          area: '杭州', percent: 0.2
+        },
+        {
+          area: '贵阳', percent: 0.08
+        },
+        {
+          area: '厦门', percent: 0.02
+        },
+      ],
+      tableDataRM: [
+        {
+          area: '华为荣耀', percent: 0.4
+        },
+        {
+          area: '华为mate', percent: 0.3
+        },
+        {
+          area: '小米米3', percent: 0.2
+        },
+        {
+          area: 'Oppo11', percent: 0.08
+        },
+        {
+          area: 'Apple8 ', percent: 0.02
+        },
+      ],
+      tableDataRR: [
+        {
+          area: '刷单', percent: 0.4
+        },
+        {
+          area: '卡片被盗', percent: 0.3
+        },
+        {
+          area: '账户接管', percent: 0.2
+        },
+        {
+          area: '电信诈骗', percent: 0.08
+        },
+        {
+          area: '羊毛党', percent: 0.02
+        },
+      ],
+      idRisk: {
+        id: 'echarts03',
+        style: "height: 15%",
+        title: '风险城市占比分布'
+      },
+      idRiskM: {
+        id: 'echarts04',
+        style: "height: 15%",
+        title: '风险城市占比分布'
+      },
+      idRiskR: {
+        id: 'echarts05',
+        style: "height: 15%",
+        title: '风险城市占比分布'
+      },
     };
   },
   mounted() {
@@ -182,7 +284,10 @@ export default {
     WeatherCom,
     MicrofinanceChart,
     decisionRateChart,
-    RuleChart
+    decisionRateBChart,
+    verificationChart,
+    RuleChart,
+    RiskPortraitChart
   },
   beforeDestroy() {
     clearInterval(this.timer);
@@ -202,12 +307,11 @@ export default {
   font-size: 28px;
   color: #fff;
   overflow: hidden;
-
+  padding-top: 1%;
   // 标题样式
   .title-frame {
     width: 100%;
-    // height: 5%;
-    height: 110px;
+    height: 5%;
     background: url("../../assets/images/header.png") no-repeat;
     background-size: 100% 100%;
     display: flex;
@@ -217,8 +321,6 @@ export default {
       text-align: center;
       font-size: 40px;
       font-weight: bold;
-      background: url("../../assets/images/p3/global-title.png") no-repeat
-        center;
     }
     .right-time {
       width: 33%;
@@ -242,6 +344,12 @@ export default {
       height: 1440px;
       background: url("../../assets/images/p3/bg-cont.png") no-repeat;
       background-size: 100% 97%;
+      .decisionRate {
+        height: 18%;
+        div {
+          display: inline-block;
+        }
+      }
     }
     .center-box {
       position: relative;

@@ -2,7 +2,7 @@
   <div class="container">
     <div :class="headValue ? 'brain-bg':'brain-bgg'">
       <div class="header">
-        <span class="header-bg">百信智能服务</span>
+        <span class="header-bg">智能服务</span>
         <div class="right-time">
           <weather-com />
         </div>
@@ -71,7 +71,7 @@ const columnA = [
     dataIndex: "action",
     key: "action",
     class: "table-td",
-    title: "状态",
+    title: "行为",
     align: "center",
     width: "20%"
   },
@@ -79,6 +79,14 @@ const columnA = [
     dataIndex: "status",
     key: "status",
     scopedSlots: { customRender: "status" },
+    class: "table-td",
+    title: "状态",
+    align: "center",
+    width: "20%"
+  },
+  {
+    dataIndex: "problem",
+    key: "problem",
     class: "table-td",
     title: "问题定位",
     align: "center",
@@ -151,11 +159,11 @@ export default {
       tableDataRight: [
         {
           name: '智能外呼数量',
-          value: '89'
+          value: 'M0'
         },
         {
           name: '单通交互次数',
-          value: '99'
+          value: '7'
         },
       ],
       // 天气
@@ -172,7 +180,7 @@ export default {
       tableDataA: [],
       idA: {
         id: "echarts01",
-        title: "智能客服"
+        title: "智能客服（当日数据）"
       },
       columnA: columnA,
       tableDataB: [],
@@ -184,7 +192,7 @@ export default {
       tableDataC: [],
       idC: {
         id: "echarts03",
-        title: "智能客服"
+        title: "智能催收（当日数据）"
       },
       columnC: columnC,
       idD: {
@@ -366,7 +374,7 @@ export default {
     margin-left: 5%;
   }
   .header {
-    height: 7%;
+    height: 5%;
     text-align: center;
     background: url("../../assets/images/header.png") no-repeat 100% 100%;
     background-size: 100% 100%;

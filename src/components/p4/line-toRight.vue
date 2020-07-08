@@ -1,14 +1,6 @@
 <template>
-  <div class="common-box lineToRight">
-    <div class="p4-table-title">
-      <span>{{id.title}}</span>
-    </div>
-    <div class="line-action">
-      <span>{{id.action}}</span>
-    </div>
-    <div class="line-body">
+  <div class="common-box" :style="id.style">
       <div :id="id.id"></div>
-    </div>
   </div>
 </template>
 <script>
@@ -18,7 +10,7 @@ export default {
   props: ["tableDatas", "ids", "columns", "heights"],
   data() {
     return {
-      tableData: [],
+      tableData: this.tableDatas,
       id: this.ids,
       height: this.heights,
       lineData: []
@@ -26,15 +18,10 @@ export default {
   },
   computed: {},
   mounted() {
-    this.init();
+    this.transLateData();
   },
   methods: {
-    init() {
-      this.getData();
-      this.timer = setInterval(() => {
-        this.getData();
-      },60000);
-    },
+    
     getData() {
       this.axios({
         url: "/api/p4/smartOperationSummary",
@@ -51,27 +38,41 @@ export default {
         yAxis: [],
         series: []
       };
-      let arr = Vue.filter('sortByValue')(this.tableData,'num')
+      let arr = Vue.filter('sortByValue')(this.tableData,'percent')
       arr.forEach(el => {
-        obj.series.push(el.num);
-        obj.yAxis.push(el.action);
+        obj.series.push(el.percent);
+        obj.yAxis.push(el.area);
       });
-      this.lineData = obj.series;
-      this.drawLineG(this.id.id, obj);
+      this.drawLineG(this.id, obj);
     },
     drawLineG(ele, data) {
       var _this = this;
       // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(document.getElementById(ele));
+      let myChart = this.$echarts.init(document.getElementById(ele.id));
       // 绘制图表
-      var a = data.chartName || "信贷客户数——表内";
-      var b = "2018年12月31日";
       myChart.setOption({
+        title: {
+          text: [`{b|${ele.title}}`].join(""),
+          triggerEvent: true,
+          textStyle: {
+            rich: {
+              b: {
+                color: "#fff",
+                fontSize: "20"
+              }
+            }
+          },
+          itemGap: 10,
+          margin: 10,
+          left: '5%',
+          top: 10
+        },
         color: ["#C98531", "#0177a9"],
         grid: {
-          top: "0",
-          left: "30%",
-          right: "10%"
+          top: "15%",
+          left: "20%",
+          right: "10%",
+          bottom: '4%'
         },
         xAxis: {
           type: "value",
@@ -100,53 +101,26 @@ export default {
             axisLabel: {
               //刻度标签文字的颜色
               show: true,
-              color: "#7397C4",
-              fontSize: 20
+              color: "#ccc",
+              fontSize: 16
             },
             axisLine: {
-              show: false
+              show: true,
+              color: "#fff",
             },
             axisTick: {
               show: false
             },
-            nameGap: 30,
+            interval: 2,
             data: data.yAxis
           },
-          {
-            type: "category",
-            axisLine: {
-              show: false
-            },
-            axisTick: {
-              show: false
-            },
-            axisLabel: {
-              show: true,
-              inside: false,
-              textStyle: {
-                color: "#b3ccf8",
-                fontSize: "14",
-                fontFamily: "PingFangSC-Regular"
-              },
-              formatter: function(val) {
-                return `${val}`;
-              }
-            },
-            splitArea: {
-              show: false
-            },
-            splitLine: {
-              show: false
-            },
-            data: this.lineData
-          }
         ],
         series: [
           {
             name: "折人民币余额",
             label: {
-              show: false,
-              color: "#4DD5FF",
+              show: true,
+              color: "#ccc",
               position: "right",
               right: 0
             },
@@ -154,7 +128,7 @@ export default {
             type: "bar",
             data: data.series.reverse(),
             barWidth: 12,
-            barCategoryGap: "20",
+            barCategoryGap: "2",
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 10, 10],
@@ -177,19 +151,13 @@ export default {
   }
 };
 </script>
-<style lang="less">
-#echarts02 {
+<style lang="less" scoped>
+#echarts03, #echarts04, #echarts05 {
   width: 98%;
-  min-height: 500px;
+  height: 100%;
   color: #fff;
 }
-.lineToRight {
-  background: url("../../assets/images/p4-table-title.png") no-repeat center;
-  .line-action {
-    color: #ccc;
-    margin: 16px 60px;
-  }
-}
+
 .line-body {
   display: flex;
   .line-data {

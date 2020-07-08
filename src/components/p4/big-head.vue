@@ -24,7 +24,7 @@
               <br />
               <i>智能处理：{{bigPoint.handle}}</i>
               <br />
-              <i class="e-want">问题定位：{{bigPoint.status[0].value}}</i>
+              <i class="e-want">问题定位：{{bigPoint.problem}}</i>
             </span>
           </div>
         </div>
