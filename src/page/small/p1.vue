@@ -35,7 +35,7 @@
     <!-- 内容 -->
     <div class="frame-content">
       <div class="accruing-amounts">
-        <div class="content-title">累计信贷服务金额（亿元）</div>
+        <div class="content-title">累计信贷服务金额</div>
         <indicator-chart
           v-if="threeMoneyArr.first"
           :chartData="threeMoneyArr.first"
@@ -124,7 +124,7 @@
             :ids="funnelId"
             v-if="educationJudge"
             :chartData="ageData"
-            chartTitle='年龄分布'
+            chartTitle="年龄分布"
           />
           <pie-chart
             class="right-distribution single-distribution"
@@ -910,7 +910,7 @@ export default {
           let xAxis = [];
           let yAxis = [];
           tData.forEach((item, index) => {
-            xAxis.push(item.xid + "(Top" + (index + 1) + ")");
+            xAxis.push("Top" + (index + 1) + " " + item.xid);
             yAxis.push(parseFloat(item.score));
           });
           xAxis = xAxis.slice(0, 5).reverse();
@@ -955,7 +955,7 @@ export default {
           let xAxis = [];
           let yAxis = [];
           tData.forEach((item, index) => {
-            xAxis.push(item.xid + "(Top" + (index + 1) + ")");
+            xAxis.push("Top" + (index + 1) + " " + item.xid);
             yAxis.push(parseFloat(item.score));
           });
           xAxis = xAxis.slice(0, 5).reverse();
@@ -1001,7 +1001,7 @@ export default {
 
           tData.forEach(item => {
             xAxis.push(item.xid);
-            yAxis.push((parseFloat(item.val) / total * 100).toFixed(2));
+            yAxis.push(((parseFloat(item.val) / total) * 100).toFixed(2));
           });
           xAxis = xAxis.reverse();
           yAxis = yAxis.reverse();
@@ -1048,9 +1048,9 @@ export default {
           // 六个指标
           _that.allDataIndicator = [
             {
-              name: "余额（亿元）",
+              name: "余额",
               index: "amount",
-              data: tData ? _that.thousandFormat(tData.bal, 2) : ""
+              data: tData ? ('¥' + _that.thousandFormat(tData.bal, 2)) : ""
             },
             {
               name: "笔均",
