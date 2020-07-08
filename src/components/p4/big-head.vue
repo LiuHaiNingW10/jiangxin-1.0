@@ -46,11 +46,11 @@ export default {
       },
       tableDataR: [
         {
-          area: "Top1 南京",
+          area: "Top5 南京",
           percent: 343
         },
         {
-          area: "Top2 福州",
+          area: "Top4 福州",
           percent: 234
         },
         {
@@ -58,11 +58,11 @@ export default {
           percent: 134
         },
         {
-          area: "Top4 贵阳",
+          area: "Top2 贵阳",
           percent:90
         },
         {
-          area: "Top5 厦门",
+          area: "Top1 厦门",
           percent: 56
         }
       ]
