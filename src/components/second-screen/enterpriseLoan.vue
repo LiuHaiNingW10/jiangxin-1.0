@@ -318,7 +318,7 @@ export default {
             return {
               name: item.companyname,
               value: that.thousandFormat(item.credit, 2),
-              symbolSize: Math.floor(Math.random() * 100) + 100,
+              symbolSize: Math.floor(Math.random() * 100) + 80,
               // symbol: `image://${require("@/assets/images/p2/loan" +
               //   (Math.floor(Math.random() * 5) + 1) +
               //   ".svg")}`,

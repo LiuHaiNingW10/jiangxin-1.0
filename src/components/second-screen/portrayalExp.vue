@@ -233,7 +233,7 @@ export default {
             data: [
               {
                 name: "",
-                value: "78%",
+                // value: "78%",
                 label: {
                   show: false,
                   normal: {

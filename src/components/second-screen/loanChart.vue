@@ -68,11 +68,11 @@ export default {
               show: true,
               color: "#fff",
               fontWeight: "bold",
-              fontSize: 12,
+              fontSize: 8,
               formatter: "{b}\n\n{value|{c}}",
               rich: {
                 value: {
-                  fontSize: "16",
+                  fontSize: "12",
                   align: "center"
                 }
               }
