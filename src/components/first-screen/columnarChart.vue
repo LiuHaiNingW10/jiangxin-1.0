@@ -6,23 +6,43 @@
         <!-- {{chartData.totalData[index]}} -->
         <scroll-span :number="chartData.totalData[index]" class="total-money-span" ids="current" />
       </div>
-      <div :id="item.id" class="single-columnar-echarts"></div>
+      <!-- <div :id="item.id" class="single-columnar-echarts"></div> -->
+      <repeat-purchase
+        :ids="lineIds[index]"
+        v-if="chartData.columnAllData"
+        :chartData="{lineData: chartData.columnAllData[index]}"
+        class="repeat-purchase-chart"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import ScrollSpan from "../../components/scrollSpan.vue";
+import RepeatPurchase from "../../components/first-screen/repeatPurchase.vue";
 export default {
   name: "columnar",
-  props: ["ids", "chartData"],
+  props: ["ids", "chartData", "lineIds"],
   mounted() {
-    for (let i in this.ids) {
-      this.initColumnarChart(this.ids[i].id, this.chartData.columnAllData[i]);
-    }
+    // this.initColumnarChart(this.ids[i].id, this.chartData.columnAllData[i]);
+    // for (let i in this.ids) {
+    //   this.initColumnarChart(this.ids[i].id, this.chartData.columnAllData[i]);
+    // }
   },
   data() {
-    return {};
+    return {
+      repeatPurchaseId: [
+        {
+          id: "lineChart01",
+          title: ""
+        },
+        {
+          id: "lineChart02",
+          title: ""
+        }
+      ],
+      lineData: []
+    };
   },
   computed: {},
   methods: {
@@ -114,7 +134,8 @@ export default {
     }
   },
   components: {
-    "scroll-span": ScrollSpan
+    "scroll-span": ScrollSpan,
+    "repeat-purchase": RepeatPurchase
   },
   watch: {
     chartData: function(newVal) {

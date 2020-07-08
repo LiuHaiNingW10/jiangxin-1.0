@@ -4,8 +4,7 @@
       <span class="first-title-span">{{typeData.first}}</span>
     </div>
 
-
-<!-- 底部的标题 -->
+    <!-- 底部的标题 -->
     <div class="middle-title" v-if="showCredit">
       <div class="middle-left middle-single">{{typeData.littleTitle[0]}}</div>
       <div class="middle-right middle-single">{{typeData.littleTitle[1]}}</div>
@@ -218,8 +217,8 @@ export default {
     // background-size: 100% 100%;
     margin-bottom: 2%;
     .first-title-span {
-      display: block;s
-      margin-left: 5%;
+      display: block;
+      smargin-left: 5%;
     }
   }
   .num-and-coin {

@@ -5,16 +5,16 @@
 <script>
 export default {
   name: "education",
-  props: ["ids", "chartData"],
+  props: ["ids", "chartData", "chartTitle"],
   mounted() {
-    this.initPieChart(this.ids, this.chartData);
+    this.initPieChart(this.ids, this.chartData, this.chartTitle);
   },
   data() {
     return {};
   },
   computed: {},
   methods: {
-    initPieChart(id, data) {
+    initPieChart(id, data, chartTitle) {
       const colorList = [
         "#47A2FF ",
         "#53C8D1",
@@ -26,7 +26,8 @@ export default {
       let myCharts = this.$echarts.init(document.getElementById(id));
       myCharts.setOption({
         title: {
-          text: id === 'echarts07' ? '年龄分布' : "学历分布",
+          text: chartTitle,
+          // text: id === 'echarts07' ? '年龄分布' : "学历分布",
           textStyle: {
             fontSize: 38,
             color: "#FFF",
@@ -57,7 +58,7 @@ export default {
                 if (name === data[i].name) {
                   return (
                     `{uname|${name}}{unum|` +
-                    ((data[i].value / data[i].total * 100).toFixed(2) + "%") +
+                    (((data[i].value / data[i].total) * 100).toFixed(2) + "%") +
                     `}`
                   );
                 }
@@ -85,7 +86,7 @@ export default {
           {
             name: "姓名",
             type: "pie",
-            radius: [120, 160],
+            radius: [100, 140],
             center: ["30%", "50%"],
             label: {
               show: false
@@ -102,7 +103,7 @@ export default {
   components: {},
   watch: {
     chartData: function(newVal) {
-      this.initPieChart(this.ids, newVal);
+      this.initPieChart(this.ids, newVal, this.chartTitle);
     }
   }
 };

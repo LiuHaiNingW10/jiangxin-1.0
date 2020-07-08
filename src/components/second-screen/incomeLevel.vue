@@ -1,5 +1,6 @@
 <template>
   <div class="income-level">
+    <div class="span-title">{{chartTitle}}</div>
     <div :id="this.ids" class="right-level-chart"></div>
   </div>
 </template>
@@ -7,7 +8,7 @@
 <script>
 export default {
   name: "",
-  props: ["ids", "chartData"],
+  props: ["ids", "chartData", 'chartTitle'],
   mounted() {
     this.initRightChart(this.ids, this.chartData);
   },
@@ -145,10 +146,14 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .income-level {
   width: 100%;
   height: 100%;
+  .span-title {
+    width: 100%;
+    text-align: center;
+  }
   .right-level-chart {
     height: 370px;
     width: 100%;

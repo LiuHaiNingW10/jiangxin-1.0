@@ -1,8 +1,9 @@
 <template>
   <div class="repeat-purchase">
-    <div class="single-purchase" v-for="(item) in ids" :key="item.id">
-      <div class="purchase-title">{{item.title}}</div>
-      <div class="purchase-indicator">
+    <div class="single-purchase">
+      <!-- <div class="single-purchase" v-for="(item) in ids" :key="item.id"> -->
+      <!-- <div class="purchase-title">{{item.title}}</div> -->
+      <!-- <div class="purchase-indicator">
         <div class="left-indicator">
           <div v-for="(item, index) in chartData.linkRelativeRatio[item.id]" :key="index">
             <div>{{item.title}}</div>
@@ -10,8 +11,8 @@
           </div>
         </div>
         <div :id="item.id + '-indicator'" class="right-indicator"></div>
-      </div>
-      <div :id="item.id + '-line'" class="line-charts"></div>
+      </div>-->
+      <div :id="ids.id + '-line'" class="line-charts"></div>
     </div>
   </div>
 </template>
@@ -21,15 +22,15 @@ export default {
   name: "debt",
   props: ["ids", "chartData"],
   mounted() {
-    for (let i in this.ids) {
-      //   this.drawLineH(this.ids[i], this.chartData[i]);
-      //   this.renderChartState(this.ids[i].id, this.chartData[i]);
-      this.drawDialPlate(
-        this.ids[i].id + "-indicator",
-        this.chartData.dialPlate[i]
-      );
-      this.drawLineChart(this.ids[i].id + "-line", this.chartData.lineData[i]);
-    }
+    // for (let i in this.ids) {
+    //   this.drawLineH(this.ids[i], this.chartData[i]);
+    //   this.renderChartState(this.ids[i].id, this.chartData[i]);
+    // this.drawDialPlate(
+    //   this.ids[i].id + "-indicator",
+    //   this.chartData.dialPlate[i]
+    // );
+    this.drawLineChart(this.ids.id + "-line", this.chartData.lineData);
+    // }
   },
   data() {
     return {};
@@ -78,7 +79,7 @@ export default {
               offsetCenter: [0, "50%"],
               color: "#FFF",
               formatter: function(params) {
-                return params + "%";
+                return params;
               },
               textStyle: {
                 fontSize: 24
@@ -90,8 +91,8 @@ export default {
             endAngle: -40,
             type: "gauge",
             radius: "63%",
-            min: 0,
-            max: 100,
+            // min: 0,
+            // max: 100,
             splitNumber: 10,
             axisLine: {
               lineStyle: {
@@ -196,8 +197,8 @@ export default {
         ],
         yAxis: [
           {
-            min: 0,
-            max: 100,
+            // min: 0,
+            // max: 100,
             splitLine: {
               show: true,
               lineStyle: {
@@ -219,7 +220,7 @@ export default {
                 if (value === 0) {
                   return value;
                 }
-                return value + "%";
+                return value
               }
             },
             axisTick: {
@@ -229,7 +230,7 @@ export default {
         ],
         series: [
           {
-            name: "注册总量",
+            name: "",
             type: "line",
             symbol: "circle", // 默认是空心圆（中间是白色的），改成实心圆
             // showAllSymbol: false,
@@ -250,7 +251,7 @@ export default {
               normal: {
                 show: true,
                 position: "top",
-                formatter: [" {a|{c}%}"].join(","),
+                formatter: [" {a|{c}}"].join(","),
                 rich: {
                   a: {
                     color: "#fff",
@@ -296,12 +297,12 @@ export default {
   components: {},
   watch: {
     chartData: function(newVal) {
-      for (let i in this.ids) {
-        //   this.drawLineH(this.ids[i], this.chartData[i]);
-        //   this.renderChartState(this.ids[i].id, this.chartData[i]);
-        this.drawDialPlate(this.ids[i].id + "-indicator", newVal.dialPlate[i]);
-        this.drawLineChart(this.ids[i].id + "-line", newVal.lineData[i]);
-      }
+      // for (let i in this.ids) {
+      //   this.drawLineH(this.ids[i], this.chartData[i]);
+      //   this.renderChartState(this.ids[i].id, this.chartData[i]);
+      // this.drawDialPlate(this.ids[i].id + "-indicator", newVal.dialPlate[i]);
+      this.drawLineChart(this.ids.id + "-line", newVal.lineData);
+      // }
     }
   }
 };
@@ -313,7 +314,8 @@ export default {
   width: 100%;
   height: 20%;
   .single-purchase {
-    width: 50%;
+    width: 100%;
+    height: 100%;
     text-align: center;
     .purchase-indicator {
       height: 50%;

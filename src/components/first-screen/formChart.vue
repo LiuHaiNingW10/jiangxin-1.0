@@ -1,13 +1,28 @@
 <template>
   <div class="form-chart">
     <div class="single-form-chart" v-for="(item) in ids" :key="item.id">
-      <div class="form-chart-title">{{item.title}}</div>
+      <!-- <div class="form-chart-title">{{item.title}}</div> -->
       <table>
+        <thead>
+          <tr class="table-head">
+            <th colspan="4" style="text-align: center;">精准扶贫</th>
+          </tr>
+        </thead>
         <tbody>
+          <!-- <tr>
+            <th>图标</th>
+            <th>指标</th>
+            <th>数值</th>
+            <th>单位</th>
+          </tr>-->
           <tr v-for="(items, index) in chartData[item.id]" :key="index">
-            <th class="ranking">Top{{index + 1}}</th>
-            <th>{{items.xid}}</th>
-            <th>{{items.score}}</th>
+            <th>
+              <img class="img-span" :src="items.icon" :alt="items.icon" />
+            </th>
+            <!-- <th class="ranking">Top{{index + 1}}</th> -->
+            <th>{{items.indicator}}</th>
+            <th class="ranking">{{items.value}}</th>
+            <th>{{items.unit}}</th>
           </tr>
         </tbody>
       </table>
@@ -31,15 +46,17 @@ export default {
 
 <style lang="less">
 .form-chart {
-  padding-top: 6%;
   display: flex;
   .single-form-chart {
-    width: 50%;
+    width: 100%;
     table {
       width: 100%;
       tr {
         height: 60px;
         line-height: 60px;
+        .img-span {
+          width: 30px;
+        }
       }
     }
     .ranking {
