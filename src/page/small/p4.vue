@@ -18,8 +18,7 @@
             :needPoint="true"
             @func="getPoint"
           />
-          <!-- <line-right :tableDatas="tableDataB" :ids="idB" :heights="clientHeight" /> -->
-          <pop-custom :tableDatas="tableDataBs" :ids="idB" :heights="clientHeight" />
+          <pop-custom v-if="popA" :tableDatas="tableDataBs" :ids="idB" :heights="clientHeight" />
         </div>
         <div class="center">
           <big-head
@@ -31,7 +30,7 @@
           />
         </div>
         <div class="right">
-          <card-num :tableDatas="tableDataRight"/>
+          <card-num :tableDatas="tableDataRights"/>
           <table-autoB
             :tableDatas="tableDataC"
             :ids="idC"
@@ -40,7 +39,7 @@
             :needPoint="true"
             @func="getPoint"
           />
-          <pop-custom :tableDatas="tableDataDs" :ids="idD" :heights="clientHeight" />
+          <pop-custom v-if="popB" :tableDatas="tableDataDs" :ids="idD" :heights="clientHeight" />
         </div>
       </div>
     </div>
@@ -159,7 +158,7 @@ export default {
       tableDataRight: [
         {
           name: '智能外呼数量',
-          value: '238'
+          value: 150
         },
         {
           name: '单通交互次数',
@@ -208,7 +207,9 @@ export default {
         { desire: "承诺马上还款", num: 26758 }
       ],
       clientHeight: document.body.clientHeight,
-      bigPoints: {}
+      bigPoints: {},
+      popA: false,
+      popB: false,
     };
   },
   created() {},
@@ -227,6 +228,9 @@ export default {
     },
     bigPointt() {
       return this.bigPoints;
+    },
+    tableDataRights() {
+      return this.tableDataRight
     }
   },
   mounted() {
@@ -282,13 +286,13 @@ export default {
       this.getTableDataB();
       this.timerB = setInterval(() => {
         this.getTableDataB();
-      }, 6000);
+      }, 60000);
     },
     tD() {
       this.getTableDataD();
       this.timerD = setInterval(() => {
         this.getTableDataD();
-      }, 6000);
+      }, 60000);
     },
     getTableDataB() {
       this.axios({
@@ -301,6 +305,9 @@ export default {
           it.want = it.problem;
         });
         this.tableDataB = arr;
+        this.$nextTick( () => {
+          this.popA = true
+        })
       });
     },
     getTableDataD() {
@@ -310,6 +317,9 @@ export default {
         type: "json"
       }).then(data => {
         this.tableDataD = data.data.data;
+        this.$nextTick( () => {
+          this.popB = true
+        })
       });
     },
 
@@ -318,6 +328,28 @@ export default {
     },
     getPoint(par) {
       this.bigPoints = par;
+      if(par.accent) {
+        this.tableDataRight[0].value += 1;
+        this.popB = false;
+        this.tableDataD.forEach( it => {
+          if(it.want === par.want) {
+            it.num  += 1
+          }
+        })
+        this.$nextTick( () => {
+          this.popB = true
+        })
+      }else if(par.problem){
+        this.popA = false;
+        this.tableDataB.forEach( it => {
+          if(it.problem === par.problem) {
+            it.num  += 1
+          }
+        })
+        this.$nextTick( () => {
+          this.popA = true
+        })
+      }
     }
   },
   beforeDestroy() {

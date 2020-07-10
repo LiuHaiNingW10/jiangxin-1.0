@@ -6,9 +6,9 @@
         <canvas id="audio-art"></canvas>
       </div>
       <img :src="robot" alt id="robot-img" v-if="!showAudio" />
-      <div class="topCity">
+      <!-- <div class="topCity">
         <RiskPortraitChart :ids="idRisk" :tableDatas="tableDataR" />
-      </div>
+      </div> -->
     </div>
     <div class="brain-foot">
       <audio id="audio" ref="audio" :src="require('../../assets/video/shanxi.wav')"></audio>
@@ -84,18 +84,7 @@ export default {
   methods: {
     init() {
       this.drawMap();
-      document.onkeydown = event => {
-        let e = event || window.event || arguments.callee.caller.arguments[0];
-        if (e && e.keyCode == 13) {
-          if (!this.showAudio) {
-            return;
-          }
-          this.$nextTick(() => {
-            this.showAudio = false;
-          });
-          this.DrawVideo();
-        }
-      };
+      
     },
     drawMap() {
       let obj = this.tableData,

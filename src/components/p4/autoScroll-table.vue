@@ -1,7 +1,7 @@
 <template>
   <div class="common-box table-auto">
     <div class="p4-table-title">
-      <span>{{id.title}}</span>
+      <span style="font-size: 30px">{{id.title}}</span>
     </div>
     <div class="scroll-box">
       <a-table
@@ -40,7 +40,7 @@ export default {
       activeIndex: 0,
       view: "",
       height: this.heights,
-      timeouts:  this.timeout
+      timeouts: this.timeout
     };
   },
   computed: {
@@ -53,22 +53,23 @@ export default {
   },
   methods: {
     init() {
-      this.timer = setInterval( () => {
-        this.autoScroll()
-      },3000)
-      
+      this.timer = setInterval(() => {
+        this.autoScroll();
+      }, 3000);
     },
     autoScroll() {
       let time = this.activeIndex % 4 === 0 ? 6000 : 3000;
       let a = setInterval(_ => {
-        this.tableData = this.tableData.concat(this.initData[this.activeIndex] || []);
+        this.tableData = this.tableData.concat(
+          this.initData[this.activeIndex] || []
+        );
         if (this.activeIndex < this.tableData.length) {
           this.activeIndex += 1;
         } else {
           this.activeIndex = 0;
         }
         this.tableData.shift();
-        clearInterval(a)
+        clearInterval(a);
         this.needPoint && this.$emit("func", this.tableData[0]);
       }, time);
     }
@@ -92,21 +93,8 @@ export default {
     position: relative;
     transition: top 0.825s;
     tbody {
-      tr:nth-child(even) {
-        tr:nth-child(even) {  
-      tr:nth-child(even) {
-        // background: #;
-            // background: #;  
-        // background: #;
-      }
-        }  
-      }
-      tr:nth-child(odd) {
-        tr:nth-child(odd) {  
       tr:nth-child(odd) {
         background: #0e3b8c;
-      }
-        }  
       }
     }
   }
