@@ -52,13 +52,15 @@ export default new Router({
           path: '/',
           redirect:"debts"
         },
+
+        // 客户要求 先访问p2，调转路由
         {
           path: 'p1',
-          component: loadable(p1),
+          component: loadable(p2),
         },
         {
           path: 'p2',
-          component: loadable(p2),
+          component: loadable(p1),
         },
         {
           path: 'p3',
