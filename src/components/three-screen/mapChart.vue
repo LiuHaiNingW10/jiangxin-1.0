@@ -19,22 +19,21 @@ export default {
   },
   methods: {
     getData() {
-      let _that = this;
       this.axios.get("/api/p3/relationmapData").then(relaRes => {
         let relaData = relaRes.data.data;
-        _that.relationRes = relaData ? relaData : [];
-        // _that.axios
+        this.relationRes = relaData ? relaData : [];
+        // this.axios
         //   .get("/api/p3/mapData")
         //   .then(res => {
         //     const { data } = res.data;
         //     let index = 0;
         //     this.timer = setInterval(() => {
         //       if (index >= data.length) {
-        //         _that.getData();
+        //         this.getData();
         //         clearInterval(this.timer);
         //       }
         //       index++;
-        //       _that.initMap(data, index);
+        //       this.initMap(data, index);
         //     }, 15000);
         //   })
         //   .catch(function(error) {
@@ -42,14 +41,15 @@ export default {
         //   });
         // const { data } = res.data;
         let index = 0;
+        this.initMap(this.relationRes, index);
         this.timer = setInterval(() => {
-          if (index >= _that.relationRes.length) {
-            _that.getData();
+          if (index >= this.relationRes.length) {
+            this.getData();
             clearInterval(this.timer);
           }
           index++;
-          _that.initMap(_that.relationRes, index);
-        }, 15000);
+          this.initMap(this.relationRes, index);
+        }, 5000);
       });
     },
     nowTime() {
