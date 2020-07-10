@@ -190,10 +190,10 @@ import WeatherCom from "../../components/weather.vue";
 import IncomeLevel from "../../components/second-screen/incomeLevel.vue";
 // import ScrollSpan from "../../components/scrollSpan.vue";
 
-import Money from "../../components/first-screen/icon/Money.svg";
-import Avg from "../../components/first-screen/icon/Avg.svg";
-import Life from "../../components/first-screen/icon/Life.svg";
-import User from "../../components/first-screen/icon/User.svg";
+import Money from "../../components/first-screen/icon/money.svg";
+import Avg from "../../components/first-screen/icon/avg.svg";
+import Life from "../../components/first-screen/icon/life.svg";
+import User from "../../components/first-screen/icon/user.svg";
 
 import { setInterval, clearInterval } from "timers";
 export default {
