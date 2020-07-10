@@ -8,7 +8,7 @@
 <script>
 export default {
   name: "",
-  props: ["ids", "chartData", 'chartTitle'],
+  props: ["ids", "chartData", "chartTitle"],
   mounted() {
     this.initRightChart(this.ids, this.chartData);
   },
@@ -150,12 +150,18 @@ export default {
 .income-level {
   width: 100%;
   height: 100%;
+  position: relative;
+  padding-top: 30px;
   .span-title {
+    position: absolute;
+    left: 0;
+    top: 40px;
     width: 100%;
     text-align: center;
+    font-size: 32px;
   }
   .right-level-chart {
-    height: 370px;
+    height: 400px;
     width: 100%;
   }
 }
