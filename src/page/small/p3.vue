@@ -2,7 +2,7 @@
   <div class="p3-container">
     <!-- 头部 -->
     <div class="title-frame">
-      <div class="global-title">智能风控</div>
+      <div class="global-title">智能反欺诈</div>
       <div class="right-time">
         <weather-com />
       </div>
@@ -35,23 +35,23 @@
           <span>实时反欺诈模型决策占比</span>
         </div>
         <div class="decisionRate">
-          <decisionRate-chart :ids="idsDecision"/>
-          <decisionRateB-chart :ids="idsDecisionB"/>
+          <decisionRate-chart :ids="idsDecision" />
+          <decisionRateB-chart :ids="idsDecisionB" />
         </div>
         <div class="content-title">
           <span>实时加强验证</span>
         </div>
-        <verification-chart :tableDatas="tableDataV"/>
+        <verification-chart :tableDatas="tableDataV" />
         <div class="content-title">
           <span>实时欺诈风险画像</span>
         </div>
-        <RiskPortraitChart :ids="idRisk" :tableDatas="tableDataR"/>
-        <RiskPortraitChart :ids="idRiskM" :tableDatas="tableDataRM"/>
-        <RiskPortraitChart :ids="idRiskR" :tableDatas="tableDataRR"/>
+        <RiskPortraitChart :ids="idRisk" :tableDatas="tableDataR" :isShowPercent="true" />
+        <RiskPortraitChart :ids="idRiskM" :tableDatas="tableDataRM" :isShowPercent="true" />
+        <RiskPortraitChart :ids="idRiskR" :tableDatas="tableDataRR" :isShowPercent="true" />
         <!-- <div class="content-title">
           <span>Top5拒绝原因</span>
         </div>
-        <top5-refuse-chart /> -->
+        <top5-refuse-chart />-->
       </div>
     </div>
   </div>
@@ -72,8 +72,8 @@ import RuleChart from "@/components/three-screen/ruleChart.vue";
 import decisionRateChart from "@/components/three-screen/decisionRateChart.vue";
 import decisionRateBChart from "@/components/three-screen/decisionRateBChart.vue";
 import verificationChart from "@/components/three-screen/verificationChart.vue";
-import * as base64 from "@/assets/base64.js"
-import RiskPortraitChart from "@/components/p4/line-toRight.vue"
+import * as base64 from "@/assets/base64.js";
+import RiskPortraitChart from "@/components/p4/line-toRight.vue";
 import moment from "moment";
 export default {
   data() {
@@ -87,102 +87,117 @@ export default {
       },
       variableNum: 0,
       ruleNum: 0,
-      idsDecision:{
-        id:'echarts01',
-        style: 'width:44%'
+      idsDecision: {
+        id: "echarts01",
+        style: "width:44%"
       },
-      idsDecisionB:{
-        id:'echarts02',
-        style: 'width:55%'
+      idsDecisionB: {
+        id: "echarts02",
+        style: "width:55%"
       },
       tableDataV: [
         {
-          title: '生物识别',
+          title: "生物识别",
           img: base64.confirm_d.value,
-          times: '234',
+          times: "234"
         },
         {
-          title: '人工外呼',
-          img: base64.confirm_c.value,
-          times: '23',
+          title: "人工外呼",
+          img: base64.confirm_e.value,
+          times: "23"
         },
         {
-          title: '短信加验',
-          img: base64.confirm_b.value,
-          times: '45',
+          title: "短信加验",
+          img: base64.confirm_a.value,
+          times: "45"
         },
         {
-          title: '密码加验',
-          img: base64.confirm_d.value,
-          times: '345',
-        },
+          title: "密码加验",
+          img: base64.confirm_f.value,
+          times: "345"
+        }
       ],
       tableDataR: [
         {
-          area: '南京', percent: 0.4
+          area: "南京",
+          percent: 0.4
         },
         {
-          area: '福州', percent: 0.3
+          area: "福州",
+          percent: 0.3
         },
         {
-          area: '杭州', percent: 0.2
+          area: "杭州",
+          percent: 0.2
         },
         {
-          area: '贵阳', percent: 0.08
+          area: "贵阳",
+          percent: 0.08
         },
         {
-          area: '厦门', percent: 0.02
-        },
+          area: "厦门",
+          percent: 0.02
+        }
       ],
       tableDataRM: [
         {
-          area: '华为荣耀', percent: 0.4
+          area: "华为荣耀",
+          percent: 0.4
         },
         {
-          area: '华为mate', percent: 0.3
+          area: "华为mate",
+          percent: 0.3
         },
         {
-          area: '小米米3', percent: 0.2
+          area: "小米米3",
+          percent: 0.2
         },
         {
-          area: 'Oppo11', percent: 0.08
+          area: "Oppo11",
+          percent: 0.08
         },
         {
-          area: 'Apple8 ', percent: 0.02
-        },
+          area: "Apple8 ",
+          percent: 0.02
+        }
       ],
       tableDataRR: [
         {
-          area: '刷单', percent: 0.4
+          area: "刷单",
+          percent: 0.4
         },
         {
-          area: '卡片被盗', percent: 0.3
+          area: "卡片被盗",
+          percent: 0.3
         },
         {
-          area: '账户接管', percent: 0.2
+          area: "账户接管",
+          percent: 0.2
         },
         {
-          area: '电信诈骗', percent: 0.08
+          area: "电信诈骗",
+          percent: 0.08
         },
         {
-          area: '羊毛党', percent: 0.02
-        },
+          area: "羊毛党",
+          percent: 0.02
+        }
       ],
       idRisk: {
-        id: 'echarts03',
+        id: "echarts03",
         style: "height: 15%",
-        title: '风险城市占比分布'
+        title: "风险城市占比分布"
       },
       idRiskM: {
-        id: 'echarts04',
+        id: "echarts04",
         style: "height: 15%",
-        title: '风险设备占比'
+        title: "风险设备占比"
       },
       idRiskR: {
-        id: 'echarts05',
+        id: "echarts05",
         style: "height: 15%",
-        title: '风险类型占比'
-      },
+        title: "风险类型占比"
+      }
     };
   },
   mounted() {
@@ -190,7 +205,7 @@ export default {
     this.timer = setInterval(() => {
       setTimeout(this.getAccRiskAll, 0);
     }, 3000);
-    this.getVariable();
+    // this.getVariable();
   },
   methods: {
     getAccRiskAll() {
@@ -340,7 +355,7 @@ export default {
     padding: 0 40px;
     .left-box,
     .right-box {
-      width: 27.2%;;
+      width: 27.2%;
       height: 1440px;
       background: url("../../assets/images/p3/bg-cont.png") no-repeat;
       background-size: 100% 97%;

@@ -7,7 +7,7 @@
 import Vue from "vue";
 export default {
   name: "tableAuto",
-  props: ["tableDatas", "ids", "columns", "heights"],
+  props: ["tableDatas", "ids", "columns", "heights","isShowPercent"],
   data() {
     return {
       tableData: this.tableDatas,
@@ -21,7 +21,6 @@ export default {
     this.transLateData();
   },
   methods: {
-    
     getData() {
       this.axios({
         url: "/api/p4/smartOperationSummary",
@@ -122,8 +121,17 @@ export default {
               show: true,
               color: "#ccc",
               position: "right",
-              right: 0
+              right: 0,
+              /* 7月10日wk修改：修改p3页面右侧欺诈风险画像为% */
+              formatter: data => {
+                if(this.isShowPercent) {
+                  return data.value * 100 + '%';
+                }
+                return data.value;
+              }
+              /* end */
             },
+
             roundCap: true,
             type: "bar",
             data: data.series.reverse(),
