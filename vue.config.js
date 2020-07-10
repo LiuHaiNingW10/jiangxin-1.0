@@ -29,9 +29,9 @@ module.exports = {
               target: target,
               ws: true,
               changeOrigin: true,
-              // pathRewrite: {
-              //     '^/api':''
-              // }
+              pathRewrite: {
+                  '^/api':''
+              }
           }
       }
       // proxy: proxyObj, // string | Object
