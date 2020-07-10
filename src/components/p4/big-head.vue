@@ -8,7 +8,7 @@
       <img :src="robot" alt id="robot-img" v-if="!showAudio" />
       <!-- <div class="topCity">
         <RiskPortraitChart :ids="idRisk" :tableDatas="tableDataR" />
-      </div> -->
+      </div>-->
     </div>
     <div class="brain-foot">
       <audio id="audio" ref="audio" :src="require('../../assets/video/shanxi.wav')"></audio>
@@ -42,7 +42,7 @@ export default {
       idRisk: {
         id: "echarts05",
         style: "height: 100%",
-        title: '客群城市排行'
+        title: "客群城市排行"
       },
       tableDataR: [
         {
@@ -59,7 +59,7 @@ export default {
         },
         {
           area: "Top2 贵阳",
-          percent:90
+          percent: 90
         },
         {
           area: "Top1 厦门",
@@ -69,6 +69,23 @@ export default {
     };
   },
   computed: {},
+  created() {
+    document.addEventListener("keydown", event => {
+      let e = event || window.event || arguments.callee.caller.arguments[0];
+      e.preventDefault();
+      let l = this._.split(window.location.href, "manage/P", 2),
+        targetUrl = 0;
+      if (e && e.keyCode == 13 && window.location.href.indexOf("P4") > 0) {
+        if (!this.showAudio) {
+          return;
+        }
+        this.$nextTick(() => {
+          this.showAudio = false;
+        });
+        this.DrawVideo();
+      }
+    });
+  },
   mounted() {
     this.init();
   },
@@ -84,7 +101,6 @@ export default {
   methods: {
     init() {
       this.drawMap();
-      
     },
     drawMap() {
       let obj = this.tableData,
