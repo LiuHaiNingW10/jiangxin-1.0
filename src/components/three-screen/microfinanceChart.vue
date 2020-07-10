@@ -8,36 +8,46 @@
       <div class="mc-l">
         <span class="left-title">FRIM命中分布</span>
         <ul>
+          <!-- 7月10日wk修改：删除右侧高亮及百分比展示 -->
           <li :style="moveLocaiton === 1 ? 'color: #fff' : 'color: gray'">
             <img src="../../assets/images/p3/frm-cricle1.png" alt />
             <div>
-              <div class="title">{{IDFdatas[0].flag}} {{IDFdatas[0].percent || 0}}%</div>
+              <div class="title">{{IDFdatas[0].flag}}</div>
             </div>
           </li>
           <li :style="moveLocaiton === 2 ? 'color: #fff' : 'color: gray'">
             <img src="../../assets/images/p3/frm-cricle2.png" alt />
             <div>
-              <div class="title">{{IDFdatas[1].flag}} {{IDFdatas[1].percent || 0}}%</div>
+              <div class="title">{{IDFdatas[1].flag}}</div>
             </div>
           </li>
           <li :style="moveLocaiton === 3 ? 'color: #fff' : 'color: gray'">
             <img src="../../assets/images/p3/frm-cricle1.png" alt />
             <div>
-              <div class="title">{{IDFdatas[2].flag}} {{IDFdatas[2].percent || 0}}%</div>
+              <div class="title">{{IDFdatas[2].flag}}</div>
             </div>
           </li>
           <li :style="moveLocaiton === 4 ? 'color: #fff' : 'color: gray'">
             <img src="../../assets/images/p3/frm-cricle2.png" alt />
             <div>
-              <div class="title">{{IDFdatas[3].flag}} {{IDFdatas[3].percent || 0}}%</div>
+              <div class="title">{{IDFdatas[3].flag}}</div>
             </div>
           </li>
+        <!-- end -->
+        <!-- 7月10日wk修改：添加左侧条形图 -->
+        <div class="frim-chart" id="frimChart"></div>
+        <!-- end -->
         </ul>
       </div>
-      <div class="mc-c" :style="'background:url('+ frm_cc+');background-size: 100% 100%;'"></div>
+      <div class="mc-c" :style="'background:url('+ frm_cc+');background-size: 100% 110%;background-position: center -22px'"></div>
       <div class="mc-r">
         <div class="title">F.R.I.M命中次数</div>
-        <div class="frim-chart" id="frimChart"></div>
+        <!-- 7月10日wk修改：注释右侧条形图 -->
+        <!-- <div class="frim-chart" id="frimChart"></div> -->
+        <ul>
+          <li v-for="(item,index,) in IDFdatas" :key="index">{{item.callNum}}</li>
+        </ul>
+        <!-- end -->
       </div>
     </div>
     <div class="mc-footer">
@@ -53,10 +63,13 @@ import * as base64 from "@/assets/base64.js";
 export default {
   data() {
     return {
-      footerdata: "",
+      footerdata: "0.000045",
       attcktimes: "",
       showAttack: false,
-      moveLocaitons: 1,
+      /*  7月10日wk修改：删除右侧高亮  */
+      // moveLocaitons: 1,
+      moveLocaitons: 0,
+      /* end */
       IDFdata: [
         { flag: "名单层", callNum: 300, percent: 30 },
         { flag: "聚集层", callNum: 300, percent: 30 },
@@ -85,14 +98,18 @@ export default {
   mounted() {
     this.getLossRate();
     this.getAttackRecent();
+    /*  7月10日wk修改：整体刷新间隔调整为3s  */
     this.timer = setInterval(() => {
       setTimeout(this.getAttackRecent(), 0);
-    }, 60000);
+    }, 30000);
     this.getIDF();
     this.timerIDF = setInterval(() => {
       this.getIDF();
-    }, 60000);
-    this.timeTomove();
+    }, 30000);
+    /* end */
+    /* 7月10wk修改：取消高亮 */
+    // this.timeTomove();
+    /* end */
   },
   methods: {
     getIDF() {
@@ -109,8 +126,13 @@ export default {
     getLossRate() {
       //欺诈损失率
       this.axios
-        .get("/api/p3/lossRate")
+        .get("/api/p3/lossRate",{
+          params: {
+            indexname: 'qzssl'
+          }
+        })
         .then(response => {
+          console.log(response.data.data.toFixed(8))
           this.footerdata = response.data.data;
         })
         .catch(function(error) {
@@ -142,10 +164,18 @@ export default {
     drawChart() {
       let myChart = this.$echarts.init(document.getElementById("frimChart"));
       let percentData = [];
+      /* 7月10日wk修改：注释右侧条形图 */
+      // this.IDFdata.forEach(el => {
+      //   percentData.push(el.callNum);
+      // });
+      // let max = Vue.filter("sortByValue")(this.IDFdata, "callNum")[0].callNum;
+      /* 7月10日wk修改：修改左侧条形图 */
       this.IDFdata.forEach(el => {
-        percentData.push(el.callNum);
+        percentData.push(el.percent);
       });
-      let max = Vue.filter("sortByValue")(this.IDFdata, "callNum")[0].callNum;
+      let max = Vue.filter("sortByValue")(this.IDFdata, "percent")[0].percent;
+      // console.log(percentData);
+      /* end */
       // 绘制图表
       myChart.setOption({
         color: [
@@ -192,11 +222,11 @@ export default {
           }
         },
         grid: {
-          top: "10%",
-          left: "10%",
+          top: "-15",
+          left: "15%",
           right: "15%",
-          bottom: "10%",
-          containLabel: true
+          bottom: "-3%",
+          containLabel: false
         },
         xAxis: {
           show: false,
@@ -226,7 +256,10 @@ export default {
               fontSize: 16,
               color: "rgba(255,255,255)",
               formatter: function(data) {
-                return data.callNum;
+                /* 7月10日wk修改：添加左侧条形图 */
+                // return data.callNum;
+                return data.value + '%';
+                /* end */
               }
             },
             barWidth: 30,
@@ -279,6 +312,9 @@ export default {
     overflow: hidden;
     justify-content: space-between;
     .mc-l {
+      /* 7月10日wk修改：添加左侧条形图 */
+      position: relative;
+      /* end */
       margin-top: 25px;
       color: gray;
       .left-title {
@@ -286,6 +322,7 @@ export default {
         font-size: 18px;
       }
       ul {
+        position: relative;
         list-style: none;
         li {
           width: 291px;
@@ -314,6 +351,17 @@ export default {
           }
         }
       }
+      /* 7月10日wk修改：添加左侧条形图 */
+      .frim-chart {
+        position: absolute;
+        top: 0;
+        right: -20px;
+        width: 180px;
+        height: 100%;
+        background: url("../../assets/images/p3/frm-r.png") no-repeat;
+        background-size: 100% 100%;
+      }
+      /* end */
     }
     .mc-c {
       width: 212px;
@@ -336,18 +384,28 @@ export default {
         color: rgba(255, 255, 255, 0.7);
         margin-bottom: 10px;
       }
-      .frim-chart {
+      /* 7月10日wk修改：注释右侧条形图 */
+      /* .frim-chart {
         position: absolute;
         top: -25px;
         left: 15px;
         width: 140px;
         height: 480px;
-      }
+       } */
+      /* end */
       ul > li {
+        /* 7月10日wk修改：修改右侧命中次数展示 */
+        border: 1px solid #fff;
+        margin: 0 auto;;
+        margin-bottom: 60px;
         list-style: none;
+        width: 80px;
         font-size: 20px;
         color: #fff;
-        margin-bottom: 65px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+        /* end */
       }
     }
   }
