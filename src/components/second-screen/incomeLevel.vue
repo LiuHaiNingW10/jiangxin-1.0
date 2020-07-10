@@ -18,6 +18,10 @@ export default {
   computed: {},
   methods: {
     initRightChart(ids, chartData) {
+    chartData.yAxis= chartData.yAxis.map(item=>{
+       return  Number(item).toFixed(1)
+      })
+      
       let myEchart = this.$echarts.init(document.getElementById(ids));
       myEchart.setOption({
         grid: {

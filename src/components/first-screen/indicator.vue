@@ -10,6 +10,7 @@
       :ref="chartId + index"
       :class="{anim:animate==true}"
     >{{item}}</div>-->
+
     <div
       class="single-num"
       v-for="(item, index) in indicatorData"
@@ -22,8 +23,9 @@
         :key="indexs"
         :ref="chartId + index"
         class="singleSpan"
-        :class="{anim:animate==true}"
-      >{{items}}</span>
+        :class="{ anim: animate == true }"
+        >{{ items }}</span
+      >
     </div>
 
     <!-- <div class="nwwest-roll" id="nwwest-roll">
@@ -45,7 +47,7 @@ export default {
     "styleSingle",
     "type",
     "chartId",
-    "marginTop"
+    "marginTop",
   ],
   created() {
     this.getData(this.chartData, this.chartId, this.type, this.$refs);
@@ -66,7 +68,7 @@ export default {
       echartState: {}, // 标识 图表是否已经下钻
       // 存放上一次数据
       preData: [],
-      indicatorData: []
+      indicatorData: [],
     };
   },
   methods: {
@@ -76,11 +78,11 @@ export default {
           this.indicatorData = [...chartData.toString().split("")];
         } else {
           this.indicatorData = [
-            ...["¥"].concat(chartData.toString().split(""))
+            ...["¥"].concat(chartData.toString().split("")),
           ];
         }
 
-        this.indicatorData = this.indicatorData.map(item => {
+        this.indicatorData = this.indicatorData.map((item) => {
           return [item, item];
         });
         this.indicatorData.forEach((item, index) => {
@@ -92,6 +94,11 @@ export default {
         });
         this.preData = [...this.indicatorData];
       }
+      this.indicatorData.forEach((item, index) => {
+        if (item[0] === ".") {
+          this.indicatorData = this.indicatorData.slice(0, index);
+        }
+      });
     },
     scroll(num, refs) {
       let con1 = refs.rollul;
@@ -121,13 +128,13 @@ export default {
         con1[0].style.marginTop = "0px";
         that.animate = !this.animate;
       }, 10);
-    }
+    },
   },
   watch: {
     chartData: function(newVal) {
       this.getData(newVal, this.chartId, this.type, this.$refs);
-    }
-  }
+    },
+  },
 };
 </script>
 

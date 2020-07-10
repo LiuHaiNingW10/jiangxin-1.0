@@ -187,4 +187,8 @@ export default {
     }
   }
 }
+.total-money-span
+{
+  margin-bottom: -2px;
+}
 </style>
