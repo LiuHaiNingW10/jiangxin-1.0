@@ -23,23 +23,33 @@ export default {
       this.axios.get("/api/p3/relationmapData").then(relaRes => {
         let relaData = relaRes.data.data;
         _that.relationRes = relaData ? relaData : [];
-        _that.axios
-          .get("/api/p3/mapData")
-          .then(res => {
-            const { data } = res.data;
-            let index = 0;
-            this.timer = setInterval(() => {
-              if (index >= data.length) {
-                _that.getData();
-                clearInterval(this.timer);
-              }
-              index++;
-              _that.initMap(data, index);
-            }, 15000);
-          })
-          .catch(function(error) {
-            console.log(error);
-          });
+        // _that.axios
+        //   .get("/api/p3/mapData")
+        //   .then(res => {
+        //     const { data } = res.data;
+        //     let index = 0;
+        //     this.timer = setInterval(() => {
+        //       if (index >= data.length) {
+        //         _that.getData();
+        //         clearInterval(this.timer);
+        //       }
+        //       index++;
+        //       _that.initMap(data, index);
+        //     }, 15000);
+        //   })
+        //   .catch(function(error) {
+        //     console.log(error);
+        //   });
+        // const { data } = res.data;
+        let index = 0;
+        this.timer = setInterval(() => {
+          if (index >= _that.relationRes.length) {
+            _that.getData();
+            clearInterval(this.timer);
+          }
+          index++;
+          _that.initMap(_that.relationRes, index);
+        }, 15000);
       });
     },
     nowTime() {
@@ -83,12 +93,13 @@ export default {
       // console.log([relationMesg], "rsm");
       // console.log([data[index]], "di");
       this.nowTime();
-      data = data.map(item => {
-        return {
-          ...item,
-          value: [item.longitude, item.latitude]
-        };
-      });
+      // data = data.map(item => {
+      //   return {
+      //     ...item,
+      //     value: [item.longitude, item.latitude]
+      //   };
+      // });
+      // data = [];
       this.relationRes = this.relationRes.map(item => {
         return {
           ...item,
@@ -360,98 +371,98 @@ export default {
             zlevel: 1,
             data: colorData
           },
-          {
-            type: "effectScatter",
-            coordinateSystem: "geo",
-            zlevel: 10,
-            data: data,
-            symbolSize: function(value, params) {
-              const { rejamt } = params.data;
-              let num = parseInt(rejamt.replace(/','/g, ""));
-              var max = Math.max.apply(
-                null,
-                data.map(item => parseInt(item.rejamt.replace(/','/g, "")))
-              );
-              let size = (20 / max) * num;
-              let result = size > 5 ? size : 5;
-              return result;
-            },
-            showEffectOn: "render",
-            // 涟漪的设置
-            rippleEffect: {
-              color: "#F5B523",
-              scale: 4,
-              brushType: "stroke"
-            },
-            itemStyle: {
-              normal: {
-                color: "#F5B523",
-                shadowBlur: 2
-              }
-            }
-          },
-          {
-            type: "effectScatter",
-            coordinateSystem: "geo",
-            zlevel: 10,
-            data: [data[index]],
-            itemStyle: {
-              normal: {
-                color: "#F5B523",
-                shadowBlur: 2
-              }
-            },
-            // 标签
-            label: {
-              normal: {
-                show: false,
-                formatter: function(params) {
-                  const {
-                    location,
-                    eventid,
-                    appname,
-                    risktype,
-                    rejamt
-                  } = params.data;
-                  return `{a|区域名称}{b|${location}}{a|交易类型}{b|${eventid}}\n{a|渠道类型}{b|${appname}}{a|事件类型}{b|${risktype}}\n{c|实时拦截金额}{d|${rejamt}万}`;
-                },
-                position: [-400, -150],
-                distance: 0,
-                width: 340,
-                height: 120,
-                backgroundColor: {
-                  image: require("@/assets/images/p3/map-modal.png")
-                },
-                padding: [30, 40],
-                lineHeight: 40,
-                // verticalAlign: "middle",
-                color: "#fff",
-                z: 11,
-                rich: {
-                  a: {
-                    color: "rgba(255,255,255,.7)",
-                    fontSize: 16
-                  },
-                  b: {
-                    padding: [0, 10],
-                    color: "#ffffff",
-                    fontSize: 16,
-                    fontWeight: "bold"
-                  },
-                  c: {
-                    margin: 20,
-                    fontSize: 16,
-                    color: "rgba(255,255,255,.9)"
-                  },
-                  d: {
-                    padding: [0, 10],
-                    fontSize: 20,
-                    color: "#FFAF2B"
-                  }
-                }
-              }
-            }
-          },
+          // {
+          //   type: "effectScatter",
+          //   coordinateSystem: "geo",
+          //   zlevel: 10,
+          //   data: data,
+          //   symbolSize: function(value, params) {
+          //     const { rejamt } = params.data;
+          //     let num = parseInt(rejamt.replace(/','/g, ""));
+          //     var max = Math.max.apply(
+          //       null,
+          //       data.map(item => parseInt(item.rejamt.replace(/','/g, "")))
+          //     );
+          //     let size = (20 / max) * num;
+          //     let result = size > 5 ? size : 5;
+          //     return result;
+          //   },
+          //   showEffectOn: "render",
+          //   // 涟漪的设置
+          //   rippleEffect: {
+          //     color: "#F5B523",
+          //     scale: 4,
+          //     brushType: "stroke"
+          //   },
+          //   itemStyle: {
+          //     normal: {
+          //       color: "#F5B523",
+          //       shadowBlur: 2
+          //     }
+          //   }
+          // },
+          // {
+          //   type: "effectScatter",
+          //   coordinateSystem: "geo",
+          //   zlevel: 10,
+          //   data: [data[index]],
+          //   itemStyle: {
+          //     normal: {
+          //       color: "#F5B523",
+          //       shadowBlur: 2
+          //     }
+          //   },
+          //   // 标签
+          //   label: {
+          //     normal: {
+          //       show: false,
+          //       formatter: function(params) {
+          //         const {
+          //           location,
+          //           eventid,
+          //           appname,
+          //           risktype,
+          //           rejamt
+          //         } = params.data;
+          //         return `{a|区域名称}{b|${location}}{a|交易类型}{b|${eventid}}\n{a|渠道类型}{b|${appname}}{a|事件类型}{b|${risktype}}\n{c|实时拦截金额}{d|${rejamt}万}`;
+          //       },
+          //       position: [-400, -150],
+          //       distance: 0,
+          //       width: 340,
+          //       height: 120,
+          //       backgroundColor: {
+          //         image: require("@/assets/images/p3/map-modal.png")
+          //       },
+          //       padding: [30, 40],
+          //       lineHeight: 40,
+          //       // verticalAlign: "middle",
+          //       color: "#fff",
+          //       z: 11,
+          //       rich: {
+          //         a: {
+          //           color: "rgba(255,255,255,.7)",
+          //           fontSize: 16
+          //         },
+          //         b: {
+          //           padding: [0, 10],
+          //           color: "#ffffff",
+          //           fontSize: 16,
+          //           fontWeight: "bold"
+          //         },
+          //         c: {
+          //           margin: 20,
+          //           fontSize: 16,
+          //           color: "rgba(255,255,255,.9)"
+          //         },
+          //         d: {
+          //           padding: [0, 10],
+          //           fontSize: 20,
+          //           color: "#FFAF2B"
+          //         }
+          //       }
+          //     }
+          //   }
+          // },
           {
             // 关联关系
             type: "effectScatter",
