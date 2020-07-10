@@ -312,7 +312,7 @@ export default {
       arr.forEach(el => {
         obj.push({
           name: el.model,
-          percent: el.percent
+          value: el.percent
         })
       });
       this.decisionDataB = obj
