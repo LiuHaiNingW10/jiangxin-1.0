@@ -28,7 +28,7 @@
           <real-time-strategy v-if="showUses" title="当日累计拦截笔数（笔）" :num="usesTime.day" :blank="2" />
         </div>
         <map-chart class="map-charts" />
-        <div class="map-panel"></div>
+        <!-- <div class="map-panel"></div> -->
       </div>
       <div class="right-box">
         <div class="content-title">
