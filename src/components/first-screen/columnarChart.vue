@@ -4,7 +4,15 @@
       <div>{{item.title}}</div>
       <div class="current-data">
         <!-- {{chartData.totalData[index]}} -->
-        <scroll-span :number="chartData.totalData[index]" class="total-money-span" ids="current" />
+        <!-- <scroll-span :number="chartData.totalData[index]" class="total-money-span" ids="current" /> -->
+        <indicator-chart
+          v-if="chartData.totalData[index]"
+          :chartData="chartData.totalData[index]"
+          chartId="current-money"
+          :styleData="styleObj"
+          :styleSingle="singleStyle"
+          type="person"
+        />
       </div>
       <!-- <div :id="item.id" class="single-columnar-echarts"></div> -->
       <repeat-purchase
@@ -18,7 +26,8 @@
 </template>
 
 <script>
-import ScrollSpan from "../../components/scrollSpan.vue";
+import IndicatorChart from "../../components/first-screen/indicator.vue";
+// import ScrollSpan from "../../components/scrollSpan.vue";
 import RepeatPurchase from "../../components/first-screen/repeatPurchase.vue";
 export default {
   name: "columnar",
@@ -31,6 +40,16 @@ export default {
   },
   data() {
     return {
+      styleObj: {
+        // height: "90px",
+        // fontSize: "64px"
+      },
+      singleStyle: {
+        width: "4%",
+        fontFamily: 'inherit'
+        // marginLeft: "1%",
+        // lineHeight: "150%"
+      },
       repeatPurchaseId: [
         {
           id: "lineChart01",
@@ -134,7 +153,8 @@ export default {
     }
   },
   components: {
-    "scroll-span": ScrollSpan,
+    // "scroll-span": ScrollSpan,
+    "indicator-chart": IndicatorChart,
     "repeat-purchase": RepeatPurchase
   },
   watch: {

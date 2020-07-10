@@ -34,59 +34,6 @@
 
     <!-- 内容 -->
     <div class="frame-content">
-      <div class="accruing-amounts">
-        <div class="content-title">累计信贷服务金额</div>
-        <indicator-chart
-          v-if="threeMoneyArr.first"
-          :chartData="threeMoneyArr.first"
-          chartId="total-money"
-          :styleData="styleObj"
-          marginTop="-120px"
-          :styleSingle="singleStyle"
-        />
-        <!-- <indicator-chart v-if="testN" :chartData="testN" chartId="total-money" /> -->
-        <line-chart
-          :ids="id"
-          v-if="leftLineData"
-          :chartData="getChartData"
-          :trueData="leftLineData"
-          class="line-chart"
-        />
-        <left-indicator-chart v-if="allDataIndicator" :chartData="allDataIndicator" />
-        <!-- <repeat-purchase
-          :ids="repeatPurchaseId"
-          :v-if="plateJudge"
-          :chartData="{linkRelativeRatio: linkRelativeRatio,dialPlate: dialPlate,lineData: lineData}"
-          class="repeat-purchase-chart"
-        />-->
-        <!-- <form-chart
-          :ids="formIds"
-          v-if="consume"
-          :chartData="{consume: consume, scale: scale}"
-          class="form-charts"
-        />
-        横向柱状图-->
-        <div class="bottom-title-div">
-          <div class="bottom-title">星座&剁手</div>
-          <div class="bottom-title">地域&贷款规模</div>
-        </div>
-        <person-columnar class="person-columnar" ids="consume" :chartData="consume" v-if="consume" />
-        <person-columnar class="person-columnar" ids="scale" v-if="scale" :chartData="scale" />
-      </div>
-      <div class="current-amounts">
-        <div class="content-title">当日信贷服务金额</div>
-        <indicator-chart
-          v-if="threeMoneyArr.second"
-          :chartData="threeMoneyArr.second"
-          chartId="current-money"
-          :styleData="styleObj"
-          marginTop="-120px"
-          :styleSingle="singleStyle"
-        />
-
-        <!-- 地图 -->
-        <map-chart v-if="mapJudge" :chartData="mapData" class="map-charts" />
-      </div>
       <div class="accruing-person">
         <div class="content-title">累计信贷服务人数</div>
         <indicator-chart
@@ -161,6 +108,59 @@
             class="form-charts"
           />
         </div>
+      </div>
+      <div class="current-amounts">
+        <div class="content-title">当日信贷服务金额</div>
+        <indicator-chart
+          v-if="threeMoneyArr.second"
+          :chartData="threeMoneyArr.second"
+          chartId="current-money"
+          :styleData="styleObj"
+          marginTop="-120px"
+          :styleSingle="singleStyle"
+        />
+
+        <!-- 地图 -->
+        <map-chart v-if="mapJudge" :chartData="mapData" class="map-charts" />
+      </div>
+      <div class="accruing-amounts">
+        <div class="content-title">累计信贷服务金额</div>
+        <indicator-chart
+          v-if="threeMoneyArr.first"
+          :chartData="threeMoneyArr.first"
+          chartId="total-money"
+          :styleData="styleObj"
+          marginTop="-120px"
+          :styleSingle="singleStyle"
+        />
+        <!-- <indicator-chart v-if="testN" :chartData="testN" chartId="total-money" /> -->
+        <line-chart
+          :ids="id"
+          v-if="leftLineData"
+          :chartData="getChartData"
+          :trueData="leftLineData"
+          class="line-chart"
+        />
+        <left-indicator-chart v-if="allDataIndicator" :chartData="allDataIndicator" />
+        <!-- <repeat-purchase
+          :ids="repeatPurchaseId"
+          :v-if="plateJudge"
+          :chartData="{linkRelativeRatio: linkRelativeRatio,dialPlate: dialPlate,lineData: lineData}"
+          class="repeat-purchase-chart"
+        />-->
+        <!-- <form-chart
+          :ids="formIds"
+          v-if="consume"
+          :chartData="{consume: consume, scale: scale}"
+          class="form-charts"
+        />
+        横向柱状图-->
+        <div class="bottom-title-div">
+          <div class="bottom-title">星座&剁手</div>
+          <div class="bottom-title">地域&贷款规模</div>
+        </div>
+        <person-columnar class="person-columnar" ids="consume" :chartData="consume" v-if="consume" />
+        <person-columnar class="person-columnar" ids="scale" v-if="scale" :chartData="scale" />
       </div>
     </div>
     <!-- <div class="title-frame"></div> -->
@@ -774,9 +774,9 @@ export default {
         type: "json"
       }).then(data => {
         if (data.data.code === 100) {
-          _that.totalMoney = "¥" + _that.thousandFormat(data.data.data, 2) || 0;
+          _that.totalMoney = "¥" + _that.thousandFormat(data.data.data, 0) || 0;
           _that.threeMoneyArr = Object.assign({}, _that.threeMoneyArr, {
-            first: _that.thousandFormat(data.data.data, 2) || 0
+            first: _that.thousandFormat(data.data.data, 0) || 0
           });
           if (_that.totalMoney !== _that.preTotalMoney) {
             _that.scroll(_that.totalMoney, _that.$refs);
@@ -796,7 +796,7 @@ export default {
         if (data.data.code === 100) {
           // _that.currentMoney = _that.thousandFormat(data.data.data, 2) || 0;
           _that.threeMoneyArr = Object.assign({}, _that.threeMoneyArr, {
-            second: _that.thousandFormat(data.data.data, 2) || 0
+            second: _that.thousandFormat(data.data.data, 0) || 0
           });
         }
       });
@@ -1001,7 +1001,7 @@ export default {
 
           tData.forEach(item => {
             xAxis.push(item.xid);
-            yAxis.push(((parseFloat(item.val) / total) * 100).toFixed(2));
+            yAxis.push(((parseFloat(item.val) / total) * 100).toFixed(1));
           });
           xAxis = xAxis.reverse();
           yAxis = yAxis.reverse();
@@ -1050,7 +1050,7 @@ export default {
             {
               name: "余额",
               index: "amount",
-              data: tData ? ('¥' + _that.thousandFormat(tData.bal, 2)) : ""
+              data: tData ? "¥" + _that.thousandFormat(tData.bal, 2) : ""
             },
             {
               name: "笔均",
