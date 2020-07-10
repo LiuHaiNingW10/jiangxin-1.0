@@ -238,7 +238,7 @@ export default {
             let year = this.usesTime.year;
             let day = this.usesTime.day;
             this.numFun(year, obj[0].data.data.amt, "year");
-            this.numFun(day, obj[1].data.data.cnt, "day");
+            this.numFun(day, obj[1].data.data.cnt, "day",1000);
             this.$nextTick(() => {
               this.showUses = true;
             });
