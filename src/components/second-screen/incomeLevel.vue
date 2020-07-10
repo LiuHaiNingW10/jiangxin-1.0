@@ -18,6 +18,10 @@ export default {
   computed: {},
   methods: {
     initRightChart(ids, chartData) {
+    chartData.yAxis= chartData.yAxis.map(item=>{
+       return  Number(item).toFixed(1)
+      })
+      
       let myEchart = this.$echarts.init(document.getElementById(ids));
       myEchart.setOption({
         grid: {
@@ -151,6 +155,7 @@ export default {
   width: 100%;
   height: 100%;
   .span-title {
+    font-size: 30px;
     width: 100%;
     text-align: center;
   }

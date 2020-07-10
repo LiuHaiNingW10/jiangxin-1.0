@@ -17,7 +17,7 @@ export default {
   computed: {},
   methods: {
     initChart(ids, chartData) {
-      console.log(ids,chartData)
+      console.log(ids, chartData);
       var chartType = chartData ? chartData.chartType : "percent";
       var xAxisText = [
         "S03_214",
@@ -26,7 +26,7 @@ export default {
         "S03_217",
         "S03_218",
         "S03_219",
-        "S03_210"
+        "S03_210",
       ];
       var yAxisValue = [
         5059145.78,
@@ -35,7 +35,7 @@ export default {
         5059145.78,
         5059565.78,
         5059875.78,
-        5059875.78
+        5059875.78,
       ];
       var myCharts = this.$echarts.init(document.getElementById(ids));
       myCharts.setOption({
@@ -44,18 +44,18 @@ export default {
           axisPointer: {
             type: "shadow",
             label: {
-              backgroundColor: "#6a7985"
-            }
+              backgroundColor: "#6a7985",
+            },
           },
           textStyle: {
-            fontSize: 14
-          }
+            fontSize: 14,
+          },
         },
         grid: {
           left: "3%",
           // right: "9%",
           bottom: "3%",
-          containLabel: true
+          containLabel: true,
         },
         xAxis: {
           type: "value",
@@ -63,21 +63,22 @@ export default {
             show: true,
             textStyle: {
               color: "#FFF",
-              fontSize: 14
+              fontSize: 14,
             },
 
-            show: false
+            show: false,
           },
 
           interval: 0,
           axisLine: {
+            
             lineStyle: {
-              color: "rgba(255,255,255,0)" //更改坐标轴颜色
-            }
+              color: "rgba(255,255,255,0)", //更改坐标轴颜色
+            },
           },
           splitLine: {
-            show: false
-          }
+            show: false,
+          },
         },
         yAxis: {
           type: "category",
@@ -86,18 +87,19 @@ export default {
             show: true,
             textStyle: {
               color: "#FFF",
-              fontSize: 14
-            }
+              fontSize: 14,
+            },
           },
           axisTick: {
-            show: false
+            show: false,
           },
           interval: 0,
           axisLine: {
+
             lineStyle: {
-              color: "rgba(64,185,230,1)" //更改坐标轴颜色
-            }
-          }
+              color: "rgba(64,185,230,1)", //更改坐标轴颜色
+            },
+          },
         },
         series: [
           {
@@ -114,7 +116,7 @@ export default {
                   position: "right", //数据值位置
                   textStyle: {
                     color: "#FFF",
-                    fontSize: "14"
+                    fontSize: "14",
                   },
                   formatter: function(params) {
                     if (chartType === "percent") {
@@ -122,7 +124,7 @@ export default {
                     } else {
                       return params.value;
                     }
-                  }
+                  },
                 },
                 color: function(params) {
                   // build a color map as your need.
@@ -130,33 +132,34 @@ export default {
                     colorStops: [
                       {
                         offset: 0,
-                        color: "rgba(21,28,232,1)" // 100% 处的颜色
+                        color: "rgba(21,28,232,1)", // 100% 处的颜色
                       },
                       {
                         offset: 1,
-                        color: "rgba(0,191,255,1)" // 0% 处的颜色
-                      }
-                    ]
+                        color: "rgba(0,191,255,1)", // 0% 处的颜色
+                      },
+                    ],
                   };
-                }
-              }
-            }
-          }
-        ]
+                },
+              },
+            },
+          },
+        ],
       });
-    }
+    },
   },
   components: {},
   watch: {
     chartData: function(newVal) {
       this.initChart(this.ids, newVal);
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="less">
 .person-columnar {
+  vertical-align: bottom;
   .graph-div {
     height: 100%;
     width: 100%;

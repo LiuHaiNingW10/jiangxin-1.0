@@ -34,60 +34,8 @@
 
     <!-- 内容 -->
     <div class="frame-content">
-      <div class="accruing-amounts">
-        <div class="content-title">累计信贷服务金额</div>
-        <indicator-chart
-          v-if="threeMoneyArr.first"
-          :chartData="threeMoneyArr.first"
-          chartId="total-money"
-          :styleData="styleObj"
-          marginTop="-120px"
-          :styleSingle="singleStyle"
-        />
-        <!-- <indicator-chart v-if="testN" :chartData="testN" chartId="total-money" /> -->
-        <line-chart
-          :ids="id"
-          v-if="leftLineData"
-          :chartData="getChartData"
-          :trueData="leftLineData"
-          class="line-chart"
-        />
-        <left-indicator-chart v-if="allDataIndicator" :chartData="allDataIndicator" />
-        <!-- <repeat-purchase
-          :ids="repeatPurchaseId"
-          :v-if="plateJudge"
-          :chartData="{linkRelativeRatio: linkRelativeRatio,dialPlate: dialPlate,lineData: lineData}"
-          class="repeat-purchase-chart"
-        />-->
-        <!-- <form-chart
-          :ids="formIds"
-          v-if="consume"
-          :chartData="{consume: consume, scale: scale}"
-          class="form-charts"
-        />
-        横向柱状图-->
-        <div class="bottom-title-div">
-          <div class="bottom-title">星座&剁手</div>
-          <div class="bottom-title">地域&贷款规模</div>
-        </div>
-        <person-columnar class="person-columnar" ids="consume" :chartData="consume" v-if="consume" />
-        <person-columnar class="person-columnar" ids="scale" v-if="scale" :chartData="scale" />
-      </div>
-      <div class="current-amounts">
-        <div class="content-title">当日信贷服务金额</div>
-        <indicator-chart
-          v-if="threeMoneyArr.second"
-          :chartData="threeMoneyArr.second"
-          chartId="current-money"
-          :styleData="styleObj"
-          marginTop="-120px"
-          :styleSingle="singleStyle"
-        />
 
-        <!-- 地图 -->
-        <map-chart v-if="mapJudge" :chartData="mapData" class="map-charts" />
-      </div>
-      <div class="accruing-person">
+          <div class="accruing-person">
         <div class="content-title">累计信贷服务人数</div>
         <indicator-chart
           v-if="threeMoneyArr.third"
@@ -162,6 +110,61 @@
           />
         </div>
       </div>
+    
+      <div class="current-amounts">
+        <div class="content-title">当日信贷服务金额</div>
+        <indicator-chart
+          v-if="threeMoneyArr.second"
+          :chartData="threeMoneyArr.second"
+          chartId="current-money"
+          :styleData="styleObj"
+          marginTop="-120px"
+          :styleSingle="singleStyle"
+        />
+
+        <!-- 地图 -->
+        <map-chart v-if="mapJudge" :chartData="mapData" class="map-charts" />
+      </div>
+        <div class="accruing-amounts">
+        <div class="content-title">累计信贷服务金额</div>
+        <indicator-chart
+          v-if="threeMoneyArr.first"
+          :chartData="threeMoneyArr.first"
+          chartId="total-money"
+          :styleData="styleObj"
+          marginTop="-120px"
+          :styleSingle="singleStyle"
+        />
+        <!-- <indicator-chart v-if="testN" :chartData="testN" chartId="total-money" /> -->
+        <line-chart
+          :ids="id"
+          v-if="leftLineData"
+          :chartData="getChartData"
+          :trueData="leftLineData"
+          class="line-chart"
+        />
+        <left-indicator-chart v-if="allDataIndicator" :chartData="allDataIndicator" />
+        <!-- <repeat-purchase
+          :ids="repeatPurchaseId"
+          :v-if="plateJudge"
+          :chartData="{linkRelativeRatio: linkRelativeRatio,dialPlate: dialPlate,lineData: lineData}"
+          class="repeat-purchase-chart"
+        />-->
+        <!-- <form-chart
+          :ids="formIds"
+          v-if="consume"
+          :chartData="{consume: consume, scale: scale}"
+          class="form-charts"
+        />
+        横向柱状图-->
+        <div class="bottom-title-div">
+          <div class="bottom-title">星座&剁手</div>
+          <div class="bottom-title">地域&贷款规模</div>
+        </div>
+        <person-columnar class="person-columnar" ids="consume" :chartData="consume" v-if="consume" />
+        <person-columnar class="person-columnar" ids="scale" v-if="scale" :chartData="scale" />
+      </div>
+  
     </div>
     <!-- <div class="title-frame"></div> -->
   </div>

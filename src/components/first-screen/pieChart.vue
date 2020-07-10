@@ -16,7 +16,7 @@ export default {
   methods: {
     initPieChart(id, data, chartTitle) {
       const colorList = [
-        "#47A2FF ",
+        "#47A2FF",
         "#53C8D1",
         "#59CB74",
         "#FBD444",
@@ -58,7 +58,7 @@ export default {
                 if (name === data[i].name) {
                   return (
                     `{uname|${name}}{unum|` +
-                    (((data[i].value / data[i].total) * 100).toFixed(2) + "%") +
+                    (((data[i].value / data[i].total) * 100).toFixed(1) + "%") +
                     `}`
                   );
                 }

@@ -3,8 +3,10 @@
     <div v-for="(item, index) in ids" :key="item.id" class="single-columnar">
       <div>{{item.title}}</div>
       <div class="current-data">
-        <!-- {{chartData.totalData[index]}} -->
-        <scroll-span :number="chartData.totalData[index]" class="total-money-span" ids="current" />
+        
+        
+        
+        <span class="total-money-span2">{{String(chartData.totalData[index]).slice(0,-2)}}</span><scroll-span :number="String(chartData.totalData[index]).slice(3)" class="total-money-span" ids="current" />
       </div>
       <!-- <div :id="item.id" class="single-columnar-echarts"></div> -->
       <repeat-purchase
@@ -166,5 +168,9 @@ export default {
       height: 500px;
     }
   }
+}
+.total-money-span
+{
+  margin-bottom: -2px;
 }
 </style>
