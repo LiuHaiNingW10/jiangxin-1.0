@@ -74,7 +74,7 @@ import decisionRateBChart from "@/components/three-screen/decisionRateBChart.vue
 import verificationChart from "@/components/three-screen/verificationChart.vue";
 import * as base64 from "@/assets/base64.js";
 import RiskPortraitChart from "@/components/p4/line-toRight.vue";
-import moment from "moment";
+import moment, { max } from "moment";
 export default {
   data() {
     return {
@@ -235,8 +235,10 @@ export default {
             //   year: obj[0].data.data,
             //   day: obj[1].data.data
             // }
-            this.numFun(this.usesTime.year, obj[0].data.data, "year");
-            this.numFun(this.usesTime.year, obj[1].data.data, "day");
+            let year = this.usesTime.year;
+            let day = this.usesTime.day;
+            this.numFun(year, obj[0].data.data.amt, "year");
+            this.numFun(day, obj[1].data.data.cnt, "day");
             this.$nextTick(() => {
               this.showUses = true;
             });
@@ -260,6 +262,7 @@ export default {
         } else {
           golb = requestAnimationFrame(numSlideFun);
         }
+        // debugger
         that.usesTime = { ...that.usesTime, [name]: numText };
         that.amount = numText;
       }
