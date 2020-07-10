@@ -40,7 +40,7 @@ export default {
       ];
       var img = basebox.decisionRate.value
         
-      var trafficWay = [
+      var trafficWay = this.tableDatas || [
         {
           name: "无监督模型",
           value: 20
