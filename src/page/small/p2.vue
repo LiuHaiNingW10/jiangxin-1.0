@@ -52,6 +52,28 @@
       </div>
       <div class="content-right">
         <!-- <enterprise-loan class="enterprise-loan" /> -->
+        <form-chart
+          :ids="agriculture"
+          v-if="agricultureData"
+          :chartData="{agriculture: agricultureData}"
+          class="form-charts"
+          :tableTitle="agriculture[0].title"
+        />
+        <form-chart
+          :ids="primaryPro"
+          v-if="primaryProData"
+          :chartData="{primaryPro: primaryProData}"
+          class="form-charts"
+          :tableTitle="primaryPro[0].title"
+        />
+        <form-chart
+          :ids="threeProject"
+          v-if="threeProjectData"
+          :chartData="{threeProject: threeProjectData}"
+          class="form-charts"
+          :tableTitle="threeProject[0].title"
+        />
+        <distribution-chart :ids="distributionIds" :chartData="distributionData" />
       </div>
     </div>
   </div>
@@ -65,6 +87,9 @@ import EnterpriseLoan from "../../components/second-screen/enterpriseLoan.vue";
 import ServerMoney from "../../components/second-screen/serverMoney.vue";
 import SecMapChart from "../../components/second-screen/secondMapChart.vue";
 import PortrayalExp from "../../components/second-screen/portrayalExp.vue";
+import FormChart from "../../components/first-screen/newFormChart.vue";
+import DistributionChart from "../../components/second-screen/distributionChart.vue";
+
 // import PortrayalServer from "../../components/second-screen/portrayalServer.vue";
 export default {
   mounted() {},
@@ -112,20 +137,114 @@ export default {
       ],
 
       // 三农
-      agriculture: [
-        {
-          name: "累计放款金额",
-          value: 711745603.61
-        },
-        {
-          name: "累计放款企业数",
-          value: 3782.0
-        },
-        {
-          name: "累计授信额度",
-          value: 680112980.61
-        }
+      agriculture: [{ id: "agriculture", title: "小微企业及三农" }],
+      agricultureData: [
+        [
+          { name: "累计放款金额", style: "" },
+          { name: "711,745,603.61", style: "number-div" },
+          { name: "元", style: "" }
+        ],
+        [
+          { name: "累计放款企业数", style: "" },
+          { name: "3,782.0", style: "number-div" },
+          { name: "家", style: "" }
+        ],
+        [
+          { name: "累计授信额度", style: "" },
+          { name: "680,112,980.61", style: "number-div" },
+          { name: "元", style: "" }
+        ]
       ],
+      // agricultureData: [
+      //   {
+      //     indicator: "累计放款金额",
+      //     value: "711,745,603.61",
+      //     unit: "元"
+      //   },
+      //   {
+      //     indicator: "累计放款企业数",
+      //     value: "3,782.0",
+      //     unit: "家"
+      //   },
+      //   {
+      //     indicator: "累计授信额度",
+      //     value: "680,112,980.61",
+      //     unit: "元"
+      //   }
+      // ],
+
+      // 主要产品
+      primaryPro: [{ id: "primaryPro", title: "主要产品" }],
+      primaryProData: [
+        [
+          { name: "产品", style: "" },
+          { name: "累计放款金额", style: "" },
+          { name: "累计放款企业数", style: "" }
+        ],
+        [
+          { name: "百链融 - 订货易", style: "" },
+          { name: "198,994,351.9", style: "number-div" },
+          { name: "3613", style: "number-div" }
+        ],
+        [
+          { name: "百链融 - 销货易", style: "" },
+          { name: "3,247,000", style: "number-div" },
+          { name: "11", style: "number-div" }
+        ],
+        [
+          { name: "百链融 - 外贸易", style: "" },
+          { name: "6,190,000", style: "number-div" },
+          { name: "10", style: "number-div" }
+        ],
+        [
+          { name: "百农宝 - 养殖易", style: "" },
+          { name: "195,600,000", style: "number-div" },
+          { name: "79", style: "number-div" }
+        ]
+      ],
+
+      // 三农专案
+      threeProject: [{ id: "threeProject", title: "百兴贷三农专案" }],
+      threeProjectData: [
+        [
+          { name: "农户数", style: "" },
+          { name: "养猪头数", style: "" },
+          { name: "放款金额", style: "" }
+        ],
+        [
+          { name: "79", style: "number-div" },
+          { name: "93,150", style: "number-div" },
+          { name: "19,560", style: "number-div" }
+        ]
+      ],
+
+      // 分布数据
+      distributionIds: { id: "distributionIds", title: "养户分布" },
+      distributionData: {
+        xAxis: [
+          "安徽",
+          "河北",
+          "河南",
+          "湖北",
+          "吉林",
+          "江西",
+          "辽宁",
+          "四川",
+          "总计"
+        ],
+        yAxis1: [
+          "4471",
+          "1563",
+          "3071",
+          "4270",
+          "1112",
+          "1562",
+          "653",
+          "2858",
+          "19560"
+        ],
+        yAxis2: ["18", "7", "9", "21", "3", "6", "3", "12", "79"]
+      },
       // 外贸贷
       foreignTrade: [
         {
@@ -256,7 +375,9 @@ export default {
     "server-money": ServerMoney,
     "portrayal-exp": PortrayalExp,
     // "portrayal-server": PortrayalServe,
-    "sec-map-chart": SecMapChart
+    "sec-map-chart": SecMapChart,
+    "distribution-chart": DistributionChart,
+    "form-chart": FormChart
   }
 };
 </script>
@@ -365,11 +486,19 @@ export default {
 
     // 右侧
     .content-right {
+      // width: 100%;
+      height: 100%;
+      padding: 1% 0% 0%;
+      background: url("../../assets/images/bg-8.png") no-repeat;
+      background-size: 100% 100%;
       .enterprise-loan {
         width: 100%;
         height: 98.5%;
         background: url("../../assets/images/bg-8.png") no-repeat;
         background-size: 100% 100%;
+      }
+      .form-charts {
+        margin-left: 10%;
       }
     }
   }

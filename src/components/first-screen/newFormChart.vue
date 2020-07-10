@@ -1,5 +1,5 @@
 <template>
-  <div class="form-chart">
+  <div class="new-form-chart">
     <div class="single-form-chart" v-for="(item) in ids" :key="item.id">
       <!-- <div class="form-chart-title">{{item.title}}</div> -->
       <table>
@@ -16,13 +16,11 @@
             <th>单位</th>
           </tr>-->
           <tr v-for="(items, index) in chartData[item.id]" :key="index">
-            <th>
-              <img class="img-span" :src="items.icon" :alt="items.icon" />
-            </th>
-            <!-- <th class="ranking">Top{{index + 1}}</th> -->
-            <th>{{items.indicator}}</th>
-            <th class="ranking">{{items.value}}</th>
-            <th>{{items.unit}}</th>
+            <th
+              v-for="(thItem, thIndex) in items"
+              :key="thIndex"
+              :class="thItem.style"
+            >{{thItem.name}}</th>
           </tr>
         </tbody>
       </table>
@@ -45,8 +43,9 @@ export default {
 </script>
 
 <style lang="less">
-.form-chart {
+.new-form-chart {
   display: flex;
+  margin-bottom: 3%;
   .single-form-chart {
     width: 100%;
     table {
@@ -55,14 +54,21 @@ export default {
         font-size: 32px;
       }
       tr {
+        width: 100%;
         height: 60px;
         line-height: 60px;
         .img-span {
           width: 30px;
         }
+        th {
+          width: 33%;
+        }
       }
     }
     .ranking {
+      color: #00ffff;
+    }
+    .number-div {
       color: #00ffff;
     }
   }

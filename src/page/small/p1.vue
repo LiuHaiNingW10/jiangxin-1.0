@@ -106,6 +106,7 @@
             v-if="eliteData"
             :chartData="{elite: eliteData}"
             class="form-charts"
+            tableTitle='精准扶贫'
           />
         </div>
       </div>
