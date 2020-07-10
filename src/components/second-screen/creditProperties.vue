@@ -18,8 +18,8 @@
 
             <scroll-span
               :number="(propertyIds[0].name === '授信金额' ? 
-                thousandFormat(indicatorData.applyperson) + '亿':
-                thousandFormat(indicatorData.applyperson, 0))"
+                thousandFormat(indicatorData.applyperson) + '亿元':
+                '¥ ' + thousandFormat(indicatorData.applyperson, 0))"
               class="total-money-span"
               ids="person"
             />
@@ -36,7 +36,9 @@
           <div class="middle-rec"></div>
           <div class="num-span-data">
             <scroll-span
-              :number="thousandFormat(indicatorData.applyvalue, 0)"
+              :number="(propertyIds[1].name === '户均' ? 
+                '¥ ' + thousandFormat(indicatorData.applyvalue, 0):
+                thousandFormat(indicatorData.applyvalue, 0))"
               class="total-money-span"
               ids="money"
             />
@@ -55,7 +57,7 @@
           <div class="num-span-data">
             <scroll-span
               :number="(propertyIds[2].name === '时点余额' ? 
-                thousandFormat(indicatorData.applynum) + '亿':
+                thousandFormat(indicatorData.applynum) + '亿元':
                 thousandFormat(indicatorData.applynum, 0))"
               class="total-money-span"
               ids="money"

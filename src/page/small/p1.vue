@@ -91,7 +91,7 @@
           <pie-chart
             class="left-distribution single-distribution"
             :ids="cityId"
-            v-if="cityData"
+            v-if="cityJudge"
             :chartData="cityData"
             chartTitle="地域分布"
           />
@@ -103,10 +103,10 @@
           />-->
           <form-chart
             :ids="elite"
-            v-if="eliteData"
+            v-if="eliteJudge"
             :chartData="{elite: eliteData}"
             class="form-charts"
-            tableTitle='精准扶贫'
+            tableTitle="精准扶贫"
           />
         </div>
       </div>
@@ -157,11 +157,16 @@
         />
         横向柱状图-->
         <div class="bottom-title-div">
+          <div class="bottom-title">审批时长（秒）</div>
+          <div class="bottom-title">90天复购率</div>
+        </div>
+        <oil-pie-chart :ids="oilPieIds" :chartData="oilPieData" />
+        <!-- <div class="bottom-title-div">
           <div class="bottom-title">星座&剁手</div>
           <div class="bottom-title">地域&贷款规模</div>
         </div>
         <person-columnar class="person-columnar" ids="consume" :chartData="consume" v-if="consume" />
-        <person-columnar class="person-columnar" ids="scale" v-if="scale" :chartData="scale" />
+        <person-columnar class="person-columnar" ids="scale" v-if="scale" :chartData="scale" />-->
       </div>
     </div>
     <!-- <div class="title-frame"></div> -->
@@ -172,24 +177,23 @@
 import IndicatorChart from "../../components/first-screen/indicator.vue";
 import LineChart from "../../components/first-screen/lineChart.vue";
 import LeftIndicatorChart from "../../components/first-screen/leftIndicator.vue";
-import RepeatPurchase from "../../components/first-screen/repeatPurchase.vue";
+// import RepeatPurchase from "../../components/first-screen/repeatPurchase.vue";
 import ColumnarChart from "../../components/first-screen/columnarChart.vue";
 import PieChart from "../../components/first-screen/pieChart.vue";
-import FunnelChart from "../../components/first-screen/funnelChart.vue";
+// import FunnelChart from "../../components/first-screen/funnelChart.vue";
 import FormChart from "../../components/first-screen/formChart.vue";
 import MapChart from "../../components/first-screen/mapChart.vue";
+import OilPieChart from "../../components/first-screen/oilPieChart.vue";
 import WeatherCom from "../../components/weather.vue";
 
-import PersonColumnar from "../../components/second-screen/personColumnar.vue";
-
+// import PersonColumnar from "../../components/second-screen/personColumnar.vue";
 import IncomeLevel from "../../components/second-screen/incomeLevel.vue";
+// import ScrollSpan from "../../components/scrollSpan.vue";
 
-import ScrollSpan from "../../components/scrollSpan.vue";
-
-import Money from "../../components/first-screen/icon/money.svg";
-import Avg from "../../components/first-screen/icon/avg.svg";
-import Life from "../../components/first-screen/icon/life.svg";
-import User from "../../components/first-screen/icon/user.svg";
+import Money from "../../components/first-screen/icon/Money.svg";
+import Avg from "../../components/first-screen/icon/Avg.svg";
+import Life from "../../components/first-screen/icon/Life.svg";
+import User from "../../components/first-screen/icon/User.svg";
 
 import { setInterval, clearInterval } from "timers";
 export default {
@@ -358,6 +362,10 @@ export default {
         }
       ],
 
+      // 油表
+      oilPieIds: ["oilCharts01", "oilCharts02"],
+      oilPieData: {},
+
       // 右侧柱状图数据
       columnarData: {
         totalData: [0, 0],
@@ -420,14 +428,16 @@ export default {
       ],
 
       cityId: "echarts09",
-      cityData: [
-        { name: "一线城市", value: 3584, total: 10000 },
-        { name: "二线城市", value: 2218, total: 10000 },
-        { name: "三线城市", value: 2263, total: 10000 },
-        { name: "四线城市", value: 1806, total: 10000 },
-        { name: "五线城市", value: 129, total: 10000 }
-        // return { name: item.xid, value: item.val, total: total };
-      ],
+      cityJudge: false,
+      cityData: [],
+      // cityData: [
+      //   { name: "一线城市", value: 3584, total: 10000 },
+      //   { name: "二线城市", value: 2218, total: 10000 },
+      //   { name: "三线城市", value: 2263, total: 10000 },
+      //   { name: "四线城市", value: 1806, total: 10000 },
+      //   { name: "五线城市", value: 129, total: 10000 }
+      //   // return { name: item.xid, value: item.val, total: total };
+      // ],
 
       // 右下表格
       formIds: [
@@ -457,38 +467,40 @@ export default {
       //   ]
       // },
 
-      eliteData: [
-        {
-          icon: Money,
-          indicator: "累计放款金额",
-          value: "144",
-          unit: "亿元"
-        },
-        {
-          icon: User,
-          indicator: "用信用户数",
-          value: "531,014",
-          unit: "人"
-        },
-        {
-          icon: Avg,
-          indicator: "笔均",
-          value: "5,028",
-          unit: "元"
-        },
-        {
-          icon: Avg,
-          indicator: "户均",
-          value: "27,196",
-          unit: "元"
-        },
-        {
-          icon: Life,
-          indicator: "平均用信周期",
-          value: "147",
-          unit: "天"
-        }
-      ],
+      eliteData: [],
+      eliteJudge: false,
+      // eliteData: [
+      //   {
+      //     icon: Money,
+      //     indicator: "累计放款金额",
+      //     value: "144",
+      //     unit: "亿元"
+      //   },
+      //   {
+      //     icon: User,
+      //     indicator: "用信用户数",
+      //     value: "531,014",
+      //     unit: "人"
+      //   },
+      //   {
+      //     icon: Avg,
+      //     indicator: "笔均",
+      //     value: "5,028",
+      //     unit: "元"
+      //   },
+      //   {
+      //     icon: Avg,
+      //     indicator: "户均",
+      //     value: "27,196",
+      //     unit: "元"
+      //   },
+      //   {
+      //     icon: Life,
+      //     indicator: "平均用信周期",
+      //     value: "147",
+      //     unit: "天"
+      //   }
+      // ],
       consume: undefined,
       scale: undefined,
 
@@ -1037,7 +1049,6 @@ export default {
       });
 
       // 获取复购数据
-
       this.axios({
         url: "/api/p1/credBasic",
         method: "get",
@@ -1051,30 +1062,30 @@ export default {
             {
               name: "余额",
               index: "amount",
-              data: tData ? "¥" + _that.thousandFormat(tData.bal, 2) : ""
+              data: tData ? "¥ " + _that.thousandFormat(tData.bal, 2) : ""
             },
             {
               name: "笔均",
               index: "avg",
-              data: tData ? tData.bijun : ""
+              data: tData ? "¥ " + tData.bijun : ""
             },
             {
               name: "户均",
               index: "savg",
-              data: tData ? tData.hujun : ""
+              data: tData ? "¥ " + tData.hujun : ""
             },
             {
-              name: "平均期限",
+              name: "平均放款期限（月）",
               index: "avg-deadline",
               data: tData ? tData.tenor : ""
             },
             {
-              name: "贷款时长（秒）",
+              name: "平均用信天数（天）",
               index: "loan-time",
               data: tData ? tData.ddsecond : ""
             },
             {
-              name: "授信成功率",
+              name: "平均用信次数",
               index: "rate",
               data: tData ? tData.applyrate * 100 + "%" : ""
             }
@@ -1118,6 +1129,10 @@ export default {
             tData ? tData.reloan30rate : "",
             tData ? tData.reloan90rate : ""
           ];
+          _that.oilPieData = Object.assign({}, _that.oilPieData, {
+            oilCharts01: tData ? tData.ddsecond : "",
+            oilCharts02: tData ? tData.reloan90rate * 100 : ""
+          });
           this.$nextTick(() => {
             _that.plateJudge = true;
           });
@@ -1161,6 +1176,101 @@ export default {
           //       num: ["40", "60", "22", "85", "50", "40"]
           //     }
           //   ]
+        }
+      });
+
+      // 精准扶贫
+      this.axios({
+        url: "/api/p1/precise",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100 || data.data.data !== null) {
+          var tData = data.data.data;
+          _that.eliteData = tData.map(item => {
+            let IconFont = undefined;
+            switch (item.icon) {
+              case "Money":
+                IconFont = Money;
+                break;
+              case "User":
+                IconFont = User;
+                break;
+              case "Avg":
+                IconFont = Avg;
+                break;
+              case "Life":
+                IconFont = Life;
+                break;
+              default:
+                break;
+            }
+            let formatArr = ["笔均", "户均", "累计放款金额"];
+            return {
+              icon: IconFont,
+              indicator: item.indicator,
+              value:
+                formatArr.indexOf(item.indicator) > -1
+                  ? _that.thousandFormat(item.value, 0)
+                  : item.value,
+              unit: item.unit
+            };
+          });
+          this.$nextTick(() => {
+            _that.eliteJudge = true;
+          });
+        }
+      });
+
+      // 地域分布
+      this.axios({
+        url: "/api/p1/area",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100 || data.data.data !== null) {
+          var tData = data.data.data;
+
+          let total = tData.reduce((p, e) => p + e.val, 0);
+          _that.cityData = tData.map(item => {
+            // let IconFont = undefined;
+            // switch (item.icon) {
+            //   case "Money":
+            //     IconFont = Money;
+            //     break;
+            //   case "User":
+            //     IconFont = User;
+            //     break;
+            //   case "Avg":
+            //     IconFont = Avg;
+            //     break;
+            //   case "Life":
+            //     IconFont = Life;
+            //     break;
+            //   default:
+            //     break;
+            // }
+            // let formatArr = ["笔均", "户均", "累计放款金额"];
+            return {
+              name: item.regionname,
+              value: item.percent,
+              total: total
+            };
+
+            //        cityData: [
+            //   { name: "一线城市", value: 3584, total: 10000 },
+            //   { name: "二线城市", value: 2218, total: 10000 },
+            //   { name: "三线城市", value: 2263, total: 10000 },
+            //   { name: "四线城市", value: 1806, total: 10000 },
+            //   { name: "五线城市", value: 129, total: 10000 }
+            //   // return { name: item.xid, value: item.val, total: total };
+            // ],
+          });
+          this.$nextTick(() => {
+            _that.cityJudge = true;
+          });
         }
       });
     },
@@ -1398,15 +1508,16 @@ export default {
     "indicator-chart": IndicatorChart,
     "line-chart": LineChart,
     "left-indicator-chart": LeftIndicatorChart,
-    "repeat-purchase": RepeatPurchase,
+    // "repeat-purchase": RepeatPurchase,
     "columnar-chart": ColumnarChart,
     "pie-chart": PieChart,
-    "funnel-chart": FunnelChart,
+    // "funnel-chart": FunnelChart,
     "form-chart": FormChart,
     "map-chart": MapChart,
     "weather-com": WeatherCom,
-    "scroll-span": ScrollSpan,
-    "person-columnar": PersonColumnar,
+    "oil-pie-chart": OilPieChart,
+    // "scroll-span": ScrollSpan,
+    // "person-columnar": PersonColumnar,
     "income-level": IncomeLevel
   }
 };
@@ -1496,12 +1607,13 @@ export default {
     }
     .accruing-amounts {
       .line-chart {
-        height: 400px;
+        height: 500px;
         padding-top: 2%;
       }
       .bottom-title-div {
         display: flex;
         justify-content: space-between;
+        padding-top: 20px;
         .bottom-title {
           padding-left: 40px;
           width: 50%;

@@ -45,7 +45,7 @@ export default {
   .single-card {
     width: 33%;
     text-align: center;
-    padding-bottom: 2%;
+    padding-bottom: 4%;
     .single-data {
         color: #00DDDD
     }

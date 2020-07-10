@@ -183,22 +183,22 @@ export default {
         ],
         [
           { name: "百链融 - 订货易", style: "" },
-          { name: "198,994,351.9", style: "number-div" },
+          { name: "¥ 198,994,351.9", style: "number-div" },
           { name: "3613", style: "number-div" }
         ],
         [
           { name: "百链融 - 销货易", style: "" },
-          { name: "3,247,000", style: "number-div" },
+          { name: "¥ 3,247,000", style: "number-div" },
           { name: "11", style: "number-div" }
         ],
         [
           { name: "百链融 - 外贸易", style: "" },
-          { name: "6,190,000", style: "number-div" },
+          { name: "¥ 6,190,000", style: "number-div" },
           { name: "10", style: "number-div" }
         ],
         [
           { name: "百农宝 - 养殖易", style: "" },
-          { name: "195,600,000", style: "number-div" },
+          { name: "¥ 195,600,000", style: "number-div" },
           { name: "79", style: "number-div" }
         ]
       ],
@@ -214,7 +214,7 @@ export default {
         [
           { name: "79", style: "number-div" },
           { name: "93,150", style: "number-div" },
-          { name: "19,560", style: "number-div" }
+          { name: "¥ 19,560", style: "number-div" }
         ]
       ],
 

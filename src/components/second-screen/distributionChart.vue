@@ -178,6 +178,6 @@ export default {
 .distribution-chart {
   //   padding-left: 15%;
   width: 100%;
-  height: 360px;
+  height: 410px;
 }
 </style>

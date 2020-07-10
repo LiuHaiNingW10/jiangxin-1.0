@@ -78,7 +78,7 @@ export default {
           formatter: "风险金额<br /><br /> {b}点：{c}元"
         },
         grid: {
-          top: "10%",
+          top: "14%",
           left: "10%",
           right: "10%",
           bottom: "10%",
@@ -92,7 +92,7 @@ export default {
               //坐标轴轴线相关设置。数学上的x轴
               show: true,
               lineStyle: {
-                color: 'rgba(255,255,255,0.3)'
+                color: 'rgba(255,255,255,0.7)'
               }
             },
             axisLabel: {
@@ -113,13 +113,14 @@ export default {
         ],
         yAxis: [
           {
+            name: '单位：元',
             splitLine: {
               show: false
             },
             axisLine: {
               show: true,
               lineStyle: {
-                color: 'rgba(255,255,255,0.3)'
+                color: 'rgba(255,255,255,0.7)'
               }
             },
             axisLabel: {

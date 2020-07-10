@@ -24,6 +24,7 @@ export default {
         "#585247"
       ];
       let myCharts = this.$echarts.init(document.getElementById(id));
+      let _that = this;
       myCharts.setOption({
         title: {
           text: chartTitle,
@@ -56,11 +57,20 @@ export default {
             if (data && data.length) {
               for (var i = 0; i < data.length; i++) {
                 if (name === data[i].name) {
-                  return (
-                    `{uname|${name}}{unum|` +
-                    (((data[i].value / data[i].total) * 100).toFixed(1) + "%") +
-                    `}`
-                  );
+                  if (_that.chartTitle === "地域分布") {
+                    return (
+                      `{uname|${name}}{unum|` +
+                      (data[i].value.toFixed(1) + "%") +
+                      `}`
+                    );
+                  } else {
+                    return (
+                      `{uname|${name}}{unum|` +
+                      (((data[i].value / data[i].total) * 100).toFixed(1) +
+                        "%") +
+                      `}`
+                    );
+                  }
                 }
               }
             }

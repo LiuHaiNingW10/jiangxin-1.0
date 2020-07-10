@@ -16,7 +16,7 @@ export default {
   mounted() {
     for (let i in this.ids) {
       this.drawLineH(this.ids[i], this.chartData[i], this.trueData);
-      this.renderChartState(this.ids[i].id, this.chartData[i]);
+      // this.renderChartState(this.ids[i].id, this.chartData[i]);
     }
   },
   methods: {
@@ -174,7 +174,7 @@ export default {
                 formatter: "{c}"
               }
             },
-            data: data.amt_cur || [
+            data: trueData.amt_cur || [
               "5",
               "20",
               "36",
@@ -238,22 +238,22 @@ export default {
         }
       });
     },
-    renderChartState(el, data) {
-      // 保存第一次渲染的图表下钻状态和chartData
-      var self = this,
-        b_tmp = self.echartState;
-      b_tmp[el] = {
-        state: false,
-        chartData: data
-      };
-      self.echartState = b_tmp;
-    },
-    changeEchartState(id) {
-      var self = this,
-        b_tmp = self.echartState;
-      b_tmp[id].state = !this.echartState[id].state;
-      self.echartState = b_tmp;
-    },
+    // renderChartState(el, data) {
+    //   // 保存第一次渲染的图表下钻状态和chartData
+    //   var self = this,
+    //     b_tmp = self.echartState;
+    //   b_tmp[el] = {
+    //     state: false,
+    //     chartData: data
+    //   };
+    //   self.echartState = b_tmp;
+    // },
+    // changeEchartState(id) {
+    //   var self = this,
+    //     b_tmp = self.echartState;
+    //   b_tmp[id].state = !this.echartState[id].state;
+    //   self.echartState = b_tmp;
+    // },
     getNextData(...ele) {
       this.axios({
         url: "",
