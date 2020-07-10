@@ -1508,7 +1508,7 @@ export default {
         }
       }
       .person-columnar {
-        height: 485px;
+        height: 530px;
         padding-left: 30px;
         display: inline-block;
         width: 50%;
