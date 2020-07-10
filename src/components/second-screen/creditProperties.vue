@@ -6,7 +6,7 @@
     <!-- 顶部的内容 -->
 
     <div class="num-and-coin">
-      <div class="top-left top-single">
+      <div class="top-span-left top-single">
         <div class="portrait">
           <img class="portrait-img" src="../../assets/images/icon2.png" alt />
         </div>
@@ -17,7 +17,9 @@
             <!-- {{thousandFormat(indicatorData.applyperson, 0)}}人 -->
 
             <scroll-span
-              :number="thousandFormat(indicatorData.applyperson, 0) + (propertyIds[0].name === '笔均' ? '元' : '人')"
+              :number="(propertyIds[0].name === '授信金额' ? 
+                thousandFormat(indicatorData.applyperson) + '亿':
+                thousandFormat(indicatorData.applyperson, 0))"
               class="total-money-span"
               ids="person"
             />
@@ -25,7 +27,7 @@
         </div>
       </div>
       <div class="top-middle"></div>
-      <div class="top-right top-single">
+      <div class="top-span-middle top-single">
         <div class="portrait">
           <img class="portrait-img" src="../../assets/images/icon1.png" alt />
         </div>
@@ -34,7 +36,27 @@
           <div class="middle-rec"></div>
           <div class="num-span-data">
             <scroll-span
-              :number="thousandFormat(indicatorData.applyvalue, 2) + '元'"
+              :number="thousandFormat(indicatorData.applyvalue, 0)"
+              class="total-money-span"
+              ids="money"
+            />
+            <!-- {{thousandFormat(indicatorData.applyvalue, 2)}}元 -->
+          </div>
+        </div>
+      </div>
+      <div class="top-middle"></div>
+      <div class="top-span-right top-single">
+        <div class="portrait">
+          <img class="portrait-img" src="../../assets/images/icon1.png" alt />
+        </div>
+        <div class="shouxin-num num-span">
+          <div class="num-span-title">{{propertyIds[2].name}}</div>
+          <div class="middle-rec"></div>
+          <div class="num-span-data">
+            <scroll-span
+              :number="(propertyIds[2].name === '时点余额' ? 
+                thousandFormat(indicatorData.applynum) + '亿':
+                thousandFormat(indicatorData.applynum, 0))"
               class="total-money-span"
               ids="money"
             />
@@ -273,17 +295,17 @@ export default {
     .top-single {
       display: flex;
       align-items: center;
-      width: 49%;
+      width: 33%;
       height: 100%;
       padding: 0.5% 3%;
       .portrait {
-        height: 70%;
+        height: 35%;
         width: 22%;
         background: url("../../assets/images/portrait-left.svg") no-repeat;
         background-size: 100% 100%;
         text-align: center;
         .portrait-img {
-          padding-top: 45%;
+          padding-top: 20%;
         }
       }
       .num-span {

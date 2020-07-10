@@ -333,13 +333,13 @@ export default {
                     //   }
                     {
                       company: "企业1",
-                      credit: "589298",
+                      credit: "589,298",
                       grade: "87",
                       value: [116.4551, 40.2539, 48]
                     },
                     {
                       company: "企业2",
-                      credit: "589298583",
+                      credit: "589,298,583",
                       grade: "96",
                       value: [103.9526, 30.7617, 48]
                     }
@@ -365,7 +365,7 @@ export default {
                     "授信：¥" +
                     params.data.credit +
                     "\n" +
-                    "信用评分" +
+                    "信用评分：" +
                     params.data.grade
                   );
                   // return (

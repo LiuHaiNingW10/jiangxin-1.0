@@ -110,7 +110,7 @@ export default {
       }).then(data => {
         if (data.data.code === 100) {
           var tData = data.data.data;
-          that.totalMoney = that.thousandFormat(tData, 2);
+          that.totalMoney = that.thousandFormat(tData, 0);
         }
       });
     },

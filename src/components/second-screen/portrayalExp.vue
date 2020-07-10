@@ -22,11 +22,19 @@ export default {
   },
   computed: {},
   mounted() {
-    this.drawFinance("exp-years", this.tableData.finance);
-    this.drawFinance("exp-down-payment", this.tableData.op_period);
+    this.drawFinance(
+      "exp-years",
+      this.tableData.finance,
+      this.tableData.financeName
+    );
+    this.drawFinance(
+      "exp-down-payment",
+      this.tableData.op_period,
+      this.tableData.opPeriodName
+    );
   },
   methods: {
-    drawFinance(id, chartData) {
+    drawFinance(id, chartData, titleName) {
       let data = chartData || [
         {
           name: "指标一",
@@ -51,8 +59,10 @@ export default {
       // let sortValue = data.sort((a, b) => {
       //   return b.value - a.value;
       // });
-      sumValue =
-        data[0].value + Math.pow(10, data[0].value.toString().length - 1);
+      let arr = Math.max(...data.map(x => x.value));
+      // sumValue =
+      //   data[0].value + Math.pow(10, data[0].value.toString().length - 1);
+      sumValue = arr + Math.pow(10, arr.toString().length - 1);
       let arrName = getArrayValue(data, "name"),
         // arrValue = getArrayValue(data, "value"),
         // objData = array2obj(data, "name"),
@@ -84,67 +94,67 @@ export default {
       function getData(data) {
         var res = {
           series: [
-            {
-              name: "大环",
-              type: "gauge",
-              splitNumber: 15,
-              radius: "82%",
-              center: ["30%", "50%"],
-              clockwise: false,
-              label: {
-                normal: {
-                  show: false,
-                  position: "center"
-                }
-              },
-              axisLine: {
-                show: false,
-                lineStyle: {
-                  color: [[1, "#1f59a7"]]
-                }
-              },
-              axisTick: {
-                show: false
-              },
-              splitLine: {
-                show: false
-              },
-              axisLabel: {
-                show: false
-              },
-              detail: {
-                show: false
-              }
-            },
-            {
-              name: "小环",
-              type: "gauge",
-              splitNumber: 15,
-              radius: "78%",
-              center: ["30%", "50%"],
-              clockwise: false,
-              axisLine: {
-                show: false
-              },
-              axisTick: {
-                show: false,
-                lineStyle: {
-                  color: "#1f59a7",
-                  width: 3
-                },
-                length: 20,
-                splitNumber: 5
-              },
-              splitLine: {
-                show: false
-              },
-              axisLabel: {
-                show: false
-              },
-              detail: {
-                show: false
-              }
-            }
+            // {
+            //   name: "大环",
+            //   type: "gauge",
+            //   splitNumber: 15,
+            //   radius: "95%",
+            //   center: ["30%", "50%"],
+            //   clockwise: false,
+            //   label: {
+            //     normal: {
+            //       show: false,
+            //       position: "center"
+            //     }
+            //   },
+            //   axisLine: {
+            //     show: false,
+            //     lineStyle: {
+            //       color: [[1, "#1f59a7"]]
+            //     }
+            //   },
+            //   axisTick: {
+            //     show: false
+            //   },
+            //   splitLine: {
+            //     show: false
+            //   },
+            //   axisLabel: {
+            //     show: false
+            //   },
+            //   detail: {
+            //     show: false
+            //   }
+            // },
+            // {
+            //   name: "小环",
+            //   type: "gauge",
+            //   splitNumber: 15,
+            //   radius: "84%",
+            //   center: ["30%", "50%"],
+            //   clockwise: false,
+            //   axisLine: {
+            //     show: false
+            //   },
+            //   axisTick: {
+            //     show: false,
+            //     lineStyle: {
+            //       color: "#1f59a7",
+            //       width: 3
+            //     },
+            //     length: 20,
+            //     splitNumber: 5
+            //   },
+            //   splitLine: {
+            //     show: false
+            //   },
+            //   axisLabel: {
+            //     show: false
+            //   },
+            //   detail: {
+            //     show: false
+            //   }
+            // }
           ],
           yAxis: []
         };
@@ -155,7 +165,7 @@ export default {
             clockWise: false,
             z: 2,
             hoverAnimation: false,
-            radius: [73 - i * 15 + "%", 68 - i * 15 + "%"],
+            radius: [84 - i * 15 + "%", 79- i * 15 + "%"],
             center: ["30%", "50%"],
             label: {
               show: false,
@@ -196,7 +206,7 @@ export default {
             z: 1,
             clockWise: true,
             hoverAnimation: false,
-            radius: [71 - i * 15 + "%", 69 - i * 15 + "%"],
+            radius: [82 - i * 15 + "%", 80 - i * 15 + "%"],
             center: ["30%", "50%"],
             label: {
               show: false
@@ -235,30 +245,30 @@ export default {
                 name: "",
                 // value: "78%",
                 label: {
-                  show: false,
-                  normal: {
-                    rich: {
-                      a: {
-                        color: "#ccc",
-                        align: "center",
-                        fontSize: 16
-                      },
-                      b: {
-                        color: "#7F97BC",
-                        align: "center",
-                        fontSize: 12
-                      }
-                    },
-                    formatter: function(params) {
-                      return params.marker !== ""
-                        ? "{a|经营年限}"
-                        : "{a|借款状态}";
-                      // return (
-                      //   "{a|" + params.value + "}\n\n" + "{b|" + "数据" + "}"
-                      // );
-                    },
-                    position: "center"
-                  }
+                  show: false
+                  // normal: {
+                  //   rich: {
+                  //     a: {
+                  //       color: "#ccc",
+                  //       align: "center",
+                  //       fontSize: 16
+                  //     },
+                  //     b: {
+                  //       color: "#7F97BC",
+                  //       align: "center",
+                  //       fontSize: 12
+                  //     }
+                  //   },
+                  //   formatter: function(params) {
+                  //     return params.marker !== ""
+                  //       ? "{a|经营年限}"
+                  //       : "{a|借款状态}";
+                  //     // return (
+                  //     //   "{a|" + params.value + "}\n\n" + "{b|" + "数据" + "}"
+                  //     // );
+                  //   },
+                  //   position: "center"
+                  // }
                 },
                 labelLine: {
                   show: false
@@ -272,6 +282,17 @@ export default {
       }
 
       let option = {
+        title: {
+          text: titleName,
+          top: "45%",
+          textAlign: "center",
+          left: "30%",
+          textStyle: {
+            color: "#fff",
+            fontSize: 22,
+            fontWeight: "400"
+          }
+        },
         color: [
           {
             type: "linear",
@@ -346,7 +367,22 @@ export default {
             global: false
           },
           {
-            value: ""
+            type: "linear",
+            x: 0,
+            y: 0,
+            x2: 1,
+            y2: 1,
+            colorStops: [
+              {
+                offset: 0,
+                color: "rgba(247,100,72,1)"
+              },
+              {
+                offset: 1,
+                color: "rgba(250,206,95,1)"
+              }
+            ],
+            global: false
           }
         ],
         legend: {
@@ -380,7 +416,7 @@ export default {
           icon: "circle",
           top: 100,
           formatter: function(params) {
-            let a = realVal[params] / 100 + "%";
+            let a = (realVal[params] / 100).toFixed(1) + "%";
             return `{b| ` + params + `}` + `    ` + `{e|` + a + `}`;
           }
         },

@@ -118,7 +118,7 @@ export default {
                   },
                   formatter: function(params) {
                     if (chartType === "percent") {
-                      return params.value + "%";
+                      return (params.value).toFixed(1) + "%";
                     } else {
                       return params.value;
                     }

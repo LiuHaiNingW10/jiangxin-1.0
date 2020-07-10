@@ -51,7 +51,7 @@
         <portrayal-server v-if="showPortrayal" class="portrayal-server" :tableDatas="serverData" />-->
       </div>
       <div class="content-right">
-        <enterprise-loan class="enterprise-loan" />
+        <!-- <enterprise-loan class="enterprise-loan" /> -->
       </div>
     </div>
   </div>
@@ -90,15 +90,53 @@ export default {
 
       propertyIds: [
         {
-          name: "服务人数"
+          name: "授信金额"
         },
-        { name: "授信金额" }
+        {
+          name: "用信企业数量"
+        },
+        {
+          name: "时点余额"
+        }
       ],
       propertyPersonIds: [
         {
           name: "笔均"
         },
-        { name: "户均" }
+        {
+          name: "户均"
+        },
+        {
+          name: "平均用信次数"
+        }
+      ],
+
+      // 三农
+      agriculture: [
+        {
+          name: "累计放款金额",
+          value: 711745603.61
+        },
+        {
+          name: "累计放款企业数",
+          value: 3782.0
+        },
+        {
+          name: "累计授信额度",
+          value: 680112980.61
+        }
+      ],
+      // 外贸贷
+      foreignTrade: [
+        {
+          name: "中烟"
+        },
+        {
+          name: "国际"
+        },
+        {
+          name: "其他"
+        }
       ]
     };
   },
@@ -155,21 +193,26 @@ export default {
             ];
             opPeriodData = [
               {
-                name: "首次获得银行贷款",
+                name: "首贷",
                 value: 5475
               },
               {
-                name: "两家及以上",
+                name: "两次",
                 value: 3947
               },
               {
-                name: "三家及以上",
+                name: "三次及以上",
                 value: 578
               }
             ];
             this.OpperiodAndFinance = Object.assign(
               {},
-              { finance: financeData, op_period: opPeriodData }
+              {
+                finance: financeData,
+                op_period: opPeriodData,
+                financeName: "经营年限",
+                opPeriodName: "借款状态"
+              }
             );
             // this.OpperiodAndFinance["finance"] = obj[0].data.data;
             // this.OpperiodAndFinance["op_period"] = obj[1].data.data;
@@ -192,8 +235,12 @@ export default {
             this.propertyData = obj[0].data.data || 0;
             this.personData = obj[1].data.data || 0;
             // 假数据
-            this.personData.applyperson = 10165;
-            this.personData.applyvalue = 56499;
+            this.propertyData.applyperson = 28.16;
+            this.propertyData.applyvalue = 1100774;
+            this.propertyData.applynum = 52.25;
+            this.personData.applyperson = 10163;
+            this.personData.applyvalue = 56509;
+            this.personData.applynum = 6;
             this.$nextTick(() => {
               this.showPropertyCredit = true;
             });
