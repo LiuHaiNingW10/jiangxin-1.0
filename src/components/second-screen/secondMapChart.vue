@@ -362,11 +362,11 @@ export default {
                   return (
                     params.data.company +
                     "\n" +
+                    "省份：" +
+                    params.data.province +
                     "授信：¥" +
                     params.data.credit +
-                    "\n" +
-                    "信用评分：" +
-                    params.data.grade
+                    "\n"
                   );
                   // return (
                   //   "{fline|" + " " + params.data.name + " " + "重点关注" + "}"

@@ -62,7 +62,7 @@ export default {
       let arr = Math.max(...data.map(x => x.value));
       // sumValue =
       //   data[0].value + Math.pow(10, data[0].value.toString().length - 1);
-      sumValue = arr + Math.pow(10, arr.toString().length - 1);
+      sumValue = arr + Math.pow(10, parseInt(arr).toString().length - 1);
       let arrName = getArrayValue(data, "name"),
         // arrValue = getArrayValue(data, "value"),
         // objData = array2obj(data, "name"),
@@ -165,7 +165,7 @@ export default {
             clockWise: false,
             z: 2,
             hoverAnimation: false,
-            radius: [84 - i * 15 + "%", 79- i * 15 + "%"],
+            radius: [84 - i * 15 + "%", 79 - i * 15 + "%"],
             center: ["30%", "50%"],
             label: {
               show: false,
@@ -416,7 +416,7 @@ export default {
           icon: "circle",
           top: 100,
           formatter: function(params) {
-            let a = (realVal[params] / 100).toFixed(1) + "%";
+            let a = (realVal[params]).toFixed(1) + "%";
             return `{b| ` + params + `}` + `    ` + `{e|` + a + `}`;
           }
         },

@@ -17,7 +17,7 @@ export default {
   computed: {},
   methods: {
     initChart(ids, chartData) {
-      console.log(ids,chartData)
+      // console.log(ids,chartData)
       var chartType = chartData ? chartData.chartType : "percent";
       var xAxisText = [
         "S03_214",

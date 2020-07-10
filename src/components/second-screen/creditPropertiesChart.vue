@@ -180,13 +180,13 @@ export default {
           var tData = data.data.data;
           let xAxis = [];
           let yAxis = [];
-          // tData.forEach(item => {
-          //   xAxis.push(item.industryname);
-          //   yAxis.push(parseFloat(item.percent));
-          // });
+          tData.forEach(item => {
+            xAxis.push(item.industryname);
+            yAxis.push(parseFloat(item.percent));
+          });
           // 客户要求写死数据
-          xAxis = ["零售批发", "金融业", "农业", "交通运输", "服务业"];
-          yAxis = [46.4, 18.6, 13.7, 6.5, 2.4];
+          // xAxis = ["零售批发", "金融业", "农业", "交通运输", "服务业"];
+          // yAxis = [46.4, 18.6, 13.7, 6.5, 2.4];
           xAxis = xAxis.reverse();
           yAxis = yAxis.reverse();
 

@@ -9,6 +9,8 @@ export default {
     return {};
   },
   mounted() {
+    // debugger
+    if (!this.chartData.xAxis) return
     this.drawChart(this.ids, this.chartData);
     // this.axios.get('/api/p2/cmpGraph')
     // .then(function (response) {
@@ -30,6 +32,7 @@ export default {
       //   ];
 
       let myChart = this.$echarts.init(document.getElementById(id.id));
+      if (myChart)
       // 绘制图表
       myChart.setOption({
         title: {

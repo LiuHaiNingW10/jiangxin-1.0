@@ -46,7 +46,7 @@
       <div class="content-middle">
         <server-money class="server-money" />
 
-        <sec-map-chart :chartData="mapData" class="sec-map-charts" />
+        <sec-map-chart v-if="mapJudge" :chartData="mapData" class="sec-map-charts" />
         <!-- <portrayal-exp v-if="showPortrayal" class="portrayal-exp" :tableDatas="OpperiodAndFinance" />
         <portrayal-server v-if="showPortrayal" class="portrayal-server" :tableDatas="serverData" />-->
       </div>
@@ -54,26 +54,30 @@
         <!-- <enterprise-loan class="enterprise-loan" /> -->
         <form-chart
           :ids="agriculture"
-          v-if="agricultureData"
+          v-if="showRight"
           :chartData="{agriculture: agricultureData}"
           class="form-charts"
           :tableTitle="agriculture[0].title"
+          :tableIndex="agricultureIndex"
         />
         <form-chart
           :ids="primaryPro"
-          v-if="primaryProData"
+          v-if="showRight"
           :chartData="{primaryPro: primaryProData}"
           class="form-charts"
           :tableTitle="primaryPro[0].title"
+          :tableIndex="primaryProIndex"
         />
         <form-chart
           :ids="threeProject"
-          v-if="threeProjectData"
+          v-if="showRight"
           :chartData="{threeProject: threeProjectData}"
           class="form-charts"
           :tableTitle="threeProject[0].title"
+          :tableIndex="threeProjectIndex"
+          :tableHeader="threeProjectHeader"
         />
-        <distribution-chart :ids="distributionIds" :chartData="distributionData" />
+        <distribution-chart :ids="distributionIds" v-if="showRight" :chartData="distributionData" />
       </div>
     </div>
   </div>
@@ -112,6 +116,7 @@ export default {
       OpperiodAndFinance: {},
       serverData: [],
       mapData: [],
+      mapJudge: false,
 
       propertyIds: [
         {
@@ -137,24 +142,28 @@ export default {
       ],
 
       // 三农
+
+      showRight: false,
       agriculture: [{ id: "agriculture", title: "小微企业及三农" }],
-      agricultureData: [
-        [
-          { name: "累计放款金额", style: "" },
-          { name: "711,745,603.61", style: "number-div" },
-          { name: "元", style: "" }
-        ],
-        [
-          { name: "累计放款企业数", style: "" },
-          { name: "3,782.0", style: "number-div" },
-          { name: "家", style: "" }
-        ],
-        [
-          { name: "累计授信额度", style: "" },
-          { name: "680,112,980.61", style: "number-div" },
-          { name: "元", style: "" }
-        ]
-      ],
+      agricultureJudge: false,
+      // agricultureData: [
+      //   [
+      //     { name: "累计放款金额", style: "" },
+      //     { name: "711,745,603.61", style: "number-div" },
+      //     { name: "元", style: "" }
+      //   ],
+      //   [
+      //     { name: "累计放款企业数", style: "" },
+      //     { name: "3,782.0", style: "number-div" },
+      //     { name: "家", style: "" }
+      //   ],
+      //   [
+      //     { name: "累计授信额度", style: "" },
+      //     { name: "680,112,980.61", style: "number-div" },
+      //     { name: "元", style: "" }
+      //   ]
+      // ],
+      agricultureData: [],
       // agricultureData: [
       //   {
       //     indicator: "累计放款金额",
@@ -175,94 +184,138 @@ export default {
 
       // 主要产品
       primaryPro: [{ id: "primaryPro", title: "主要产品" }],
-      primaryProData: [
-        [
-          { name: "产品", style: "" },
-          { name: "累计放款金额", style: "" },
-          { name: "累计放款企业数", style: "" }
-        ],
-        [
-          { name: "百链融 - 订货易", style: "" },
-          { name: "¥ 198,994,351.9", style: "number-div" },
-          { name: "3613", style: "number-div" }
-        ],
-        [
-          { name: "百链融 - 销货易", style: "" },
-          { name: "¥ 3,247,000", style: "number-div" },
-          { name: "11", style: "number-div" }
-        ],
-        [
-          { name: "百链融 - 外贸易", style: "" },
-          { name: "¥ 6,190,000", style: "number-div" },
-          { name: "10", style: "number-div" }
-        ],
-        [
-          { name: "百农宝 - 养殖易", style: "" },
-          { name: "¥ 195,600,000", style: "number-div" },
-          { name: "79", style: "number-div" }
-        ]
-      ],
+      primaryProData: [],
+      // primaryProData: [
+      //   [
+      //     { name: "产品", style: "" },
+      //     { name: "累计放款金额", style: "" },
+      //     { name: "累计放款企业数", style: "" }
+      //   ],
+      //   [
+      //     { name: "百链融 - 订货易", style: "" },
+      //     { name: "¥ 198,994,351.9", style: "number-div" },
+      //     { name: "3613", style: "number-div" }
+      //   ],
+      //   [
+      //     { name: "百链融 - 销货易", style: "" },
+      //     { name: "¥ 3,247,000", style: "number-div" },
+      //     { name: "11", style: "number-div" }
+      //   ],
+      //   [
+      //     { name: "百链融 - 外贸易", style: "" },
+      //     { name: "¥ 6,190,000", style: "number-div" },
+      //     { name: "10", style: "number-div" }
+      //   ],
+      //   [
+      //     { name: "百农宝 - 养殖易", style: "" },
+      //     { name: "¥ 195,600,000", style: "number-div" },
+      //     { name: "79", style: "number-div" }
+      //   ]
+      // ],
 
       // 三农专案
       threeProject: [{ id: "threeProject", title: "百兴贷三农专案" }],
-      threeProjectData: [
-        [
-          { name: "农户数", style: "" },
-          { name: "养猪头数", style: "" },
-          { name: "放款金额", style: "" }
-        ],
-        [
-          { name: "79", style: "number-div" },
-          { name: "93,150", style: "number-div" },
-          { name: "¥ 19,560", style: "number-div" }
-        ]
-      ],
+      threeProjectData: [],
+      // threeProjectData: [
+      //   [
+      //     { name: "农户数", style: "" },
+      //     { name: "养猪头数", style: "" },
+      //     { name: "放款金额", style: "" }
+      //   ],
+      //   [
+      //     { name: "79", style: "number-div" },
+      //     { name: "93,150", style: "number-div" },
+      //     { name: "¥ 19,560", style: "number-div" }
+      //   ]
+      // ],
 
       // 分布数据
       distributionIds: { id: "distributionIds", title: "养户分布" },
-      distributionData: {
-        xAxis: [
-          "安徽",
-          "河北",
-          "河南",
-          "湖北",
-          "吉林",
-          "江西",
-          "辽宁",
-          "四川",
-          "总计"
-        ],
-        yAxis1: [
-          "4471",
-          "1563",
-          "3071",
-          "4270",
-          "1112",
-          "1562",
-          "653",
-          "2858",
-          "19560"
-        ],
-        yAxis2: ["18", "7", "9", "21", "3", "6", "3", "12", "79"]
-      },
-      // 外贸贷
-      foreignTrade: [
+      distributionData: {},
+      // distributionData: {
+      //   xAxis: [
+      //     "安徽",
+      //     "河北",
+      //     "河南",
+      //     "湖北",
+      //     "吉林",
+      //     "江西",
+      //     "辽宁",
+      //     "四川",
+      //     "总计"
+      //   ],
+      //   yAxis1: [
+      //     "4471",
+      //     "1563",
+      //     "3071",
+      //     "4270",
+      //     "1112",
+      //     "1562",
+      //     "653",
+      //     "2858",
+      //     "19560"
+      //   ],
+      //   yAxis2: ["18", "7", "9", "21", "3", "6", "3", "12", "79"]
+      // },
+
+      // 对接接口数据
+      agricultureIndex: [
         {
-          name: "中烟"
+          dataIndex: "indexname",
+          style: ""
         },
         {
-          name: "国际"
+          dataIndex: "val",
+          style: "number-div"
         },
         {
-          name: "其他"
+          dataIndex: "unit",
+          style: ""
         }
-      ]
+      ],
+      // agricultureHeader: ["产品", "累计放款金额", "累计放款企业数"],
+
+      primaryProIndex: [
+        {
+          dataIndex: "productname",
+          style: ""
+        },
+        {
+          dataIndex: "bal",
+          style: "number-div"
+        },
+        {
+          dataIndex: "company",
+          style: "number-div"
+        }
+      ],
+      primaryProHeader: ["产品", "累计放款金额", "累计放款企业数"],
+
+      threeProjectIndex: [
+        {
+          dataIndex: "person",
+          style: "number-div"
+        },
+        {
+          dataIndex: "quantity",
+          style: "number-div"
+        },
+        {
+          dataIndex: "bal",
+          style: "number-div"
+        }
+      ],
+      threeProjectHeader: ["农户数", "养猪头数", "放款金额"],
+
+      mapInterval: undefined
     };
   },
   computed: {},
   created() {
     this.getOpperiodAndFinance();
     this.getPropertyCredit();
+    this.getProductHandler();
+    this.getMapData();
   },
   methods: {
     getOpperiodAndFinance() {
@@ -276,54 +329,54 @@ export default {
           this.axios.spread((...obj) => {
             let financeData = [];
             let opPeriodData = [];
-            // financeData = obj[0].data.data
-            //   ? obj[0].data.data.map(item => {
-            //       return {
-            //         name: item.xid,
-            //         value: parseInt(item.val)
-            //       };
-            //     })
-            //   : [];
-            // opPeriodData = obj[1].data.data
-            //   ? obj[1].data.data.map(item => {
-            //       return {
-            //         name: item.xid,
-            //         value: parseInt(item.val)
-            //       };
-            //     })
-            //   : [];
-            financeData = [
-              {
-                name: "1年",
-                value: 2158
-              },
-              {
-                name: "2年",
-                value: 1896
-              },
-              {
-                name: "3年",
-                value: 1543
-              },
-              {
-                name: "4年",
-                value: 4405
-              }
-            ];
-            opPeriodData = [
-              {
-                name: "首贷",
-                value: 5475
-              },
-              {
-                name: "两次",
-                value: 3947
-              },
-              {
-                name: "三次及以上",
-                value: 578
-              }
-            ];
+            financeData = obj[1].data.data
+              ? obj[1].data.data.map(item => {
+                  return {
+                    name: item.xid,
+                    value: item.perc
+                  };
+                })
+              : [];
+            opPeriodData = obj[0].data.data
+              ? obj[0].data.data.map(item => {
+                  return {
+                    name: item.xid,
+                    value: item.perc
+                  };
+                })
+              : [];
+            // financeData = [
+            //   {
+            //     name: "1年",
+            //     value: 2158
+            //   },
+            //   {
+            //     name: "2年",
+            //     value: 1896
+            //   },
+            //   {
+            //     name: "3年",
+            //     value: 1543
+            //   },
+            //   {
+            //     name: "4年",
+            //     value: 4405
+            //   }
+            // ];
+            // opPeriodData = [
+            //   {
+            //     name: "首贷",
+            //     value: 5475
+            //   },
+            //   {
+            //     name: "两次",
+            //     value: 3947
+            //   },
+            //   {
+            //     name: "三次及以上",
+            //     value: 578
+            //   }
+            // ];
             this.OpperiodAndFinance = Object.assign(
               {},
               {
@@ -344,27 +397,361 @@ export default {
     },
 
     getPropertyCredit() {
+      // this.axios
+      //   .all([
+      //     this.axios.get("/api/p2/xwBaseinfo"),
+      //     this.axios.get("/api/p2/smallCreditInfo?flag=grjy")
+      //   ])
+      //   .then(
+      //     this.axios.spread((...obj) => {
+      //       // this.propertyData = obj[0].data.data || 0;
+      //       // this.personData = obj[1].data.data || 0;
+      //       // // 假数据
+      //       // this.propertyData.applyperson = 28.16;
+      //       // this.propertyData.applyvalue = 1100774;
+      //       // this.propertyData.applynum = 52.25;
+      //       // this.personData.applyperson = 10163;
+      //       // this.personData.applyvalue = 56509;
+      //       // this.personData.applynum = 6;
+      //       // this.$nextTick(() => {
+      //       //   this.showPropertyCredit = true;
+      //       // });
+      //     })
+      //   );
+      let _that = this;
+      this.axios({
+        url: "/api/p2/xwBaseinfo",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        var indiData = data.data.data || {};
+        _that.propertyData = Object.assign(
+          {},
+          {
+            applyperson: (indiData.credit / 100000000).toFixed(2),
+            applyvalue: indiData.custnum,
+            applynum: (indiData.bal / 100000000).toFixed(2)
+          }
+        );
+        _that.personData = Object.assign(
+          {},
+          {
+            applyperson: indiData.bijun,
+            applyvalue: indiData.hujun,
+            applynum: indiData.avgnum
+          }
+        );
+        _that.$nextTick(() => {
+          _that.showPropertyCredit = true;
+        });
+      });
+    },
+
+    // 获取右侧产品
+    getProductHandler() {
+      // this.agricultureData = [
+      //   {
+      //     indexname: "ljfkje",
+      //     val: 711745603,
+      //     unit: "元"
+      //   }
+      // ];
       this.axios
         .all([
-          this.axios.get("/api/p2/smallCreditInfo?flag=xwsx"),
-          this.axios.get("/api/p2/smallCreditInfo?flag=grjy")
+          this.axios.get("/api/p2/establishment?indexname=ljfkje"),
+          this.axios.get("/api/p2/product"),
+          this.axios.get("/api/p2/specialCase"),
+          this.axios.get("/api/p2/distribution"),
+          this.axios.get("/api/p2/specialCase")
         ])
         .then(
           this.axios.spread((...obj) => {
-            this.propertyData = obj[0].data.data || 0;
-            this.personData = obj[1].data.data || 0;
-            // 假数据
-            this.propertyData.applyperson = 28.16;
-            this.propertyData.applyvalue = 1100774;
-            this.propertyData.applynum = 52.25;
-            this.personData.applyperson = 10163;
-            this.personData.applyvalue = 56509;
-            this.personData.applynum = 6;
+            // 0、小微企业及三农
+            this.agricultureData = obj[0].data.data;
+
+            // // 主要产品
+            this.primaryProData = obj[1].data.data || 0;
+
+            // //百兴贷三农专案
+            this.threeProjectData = [obj[2].data.data] || 0;
+
+            // //养户分布
+            let chartData = obj[3].data.data || [];
+            let xAxis = [],
+              yAxis1 = [],
+              yAxis2 = [];
+            chartData.forEach(item => {
+              xAxis.push(item.province);
+              yAxis1.push(item.quantity);
+              yAxis2.push(item.person);
+            });
+            let totalData = obj[4].data.data || {};
+            xAxis.push("总计");
+            yAxis1.push(totalData.quantity);
+            yAxis2.push(totalData.person);
+            this.distributionData = Object.assign(
+              {},
+              { xAxis, yAxis1, yAxis2 }
+            );
+
             this.$nextTick(() => {
-              this.showPropertyCredit = true;
+              this.showRight = true;
             });
           })
         );
+    },
+
+    getMapData() {
+      this.getMapDataHandler();
+      var _that = this;
+      var index = 0;
+      // if (mapInterval) clearInterval(mapInterval);
+      this.mapInterval = setInterval(
+        () => {
+          _that.getMapDataHandler();
+        },
+        20000,
+        _that,
+        index
+      );
+    },
+
+      // 格式化千分位
+    thousandFormat(value, fixed) {
+      fixed = fixed !== undefined ? fixed : 2;
+      if (value === null || value === undefined || isNaN(parseFloat(value))) {
+        return;
+      }
+      // 将数字进行千分位格式化
+      function toThousands(num) {
+        num = (num || 0).toString();
+        var parts = num.split(".");
+        var bigZeroPart = parts[0];
+        var result = "";
+        while (bigZeroPart.length > 3) {
+          result = "," + bigZeroPart.slice(-3) + result;
+          bigZeroPart = bigZeroPart.slice(0, bigZeroPart.length - 3);
+        }
+        if (bigZeroPart) {
+          result = bigZeroPart + result;
+        }
+        if (parts.length > 1) {
+          result += "." + parts[1].toString();
+        }
+        return result;
+      }
+
+      value = parseFloat(value).toFixed(fixed);
+      value = toThousands(value);
+      return value;
+    },
+    getMapDataHandler() {
+      var _that = this;
+      // 获取地图数据
+      this.axios({
+        url: "/api/p2/graphInfo",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        if (data.data.code === 100) {
+          var tData = data.data.data;
+          _that.mapData = [
+            ...tData.map(item => {
+              return {
+                company: item.companyname,
+                credit: _that.thousandFormat(item.credit, 2),
+                province: item.province,
+                value: [item.longitude, item.latitude]
+              };
+            })
+          ];
+          // _that.mapData = [
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [116.4551, 40.2539, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [103.9526, 30.7617, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [119.1803, 31.2891, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [108.384366, 30.439702, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [87.9236, 43.5883, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [117.29, 32.0581, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [113.0823, 28.2568, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [121.4648, 25.563, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [113.12244, 23.009505, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [103.9526, 30.7617, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [116.4551, 40.2539, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [103.9526, 30.7617, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [116.4551, 40.2539, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [103.9526, 30.7617, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [116.4551, 40.2539, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [103.9526, 30.7617, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [116.4551, 40.2539, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [103.9526, 30.7617, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000000",
+          //     value: [116.4551, 40.2539, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000000",
+          //     value: [103.9526, 30.7617, 48]
+          //   }
+          // ];
+          this.$nextTick(() => {
+            _that.mapJudge = true;
+          });
+          // _that.mapData = [
+          //   {
+          //     name: "王**",
+          //     age: "28岁",
+          //     sex: "男",
+          //     type: "授信申请",
+          //     sum: "3000",
+          //     value: [116.4551, 40.2539, 48]
+          //   },
+          //   {
+          //     name: "王**",
+          //     age: "25岁",
+          //     sex: "女",
+          //     type: "授信申请",
+          //     sum: "7000",
+          //     value: [103.9526, 30.7617, 48]
+          //   }
+          // ];
+        }
+      });
     }
   },
   components: {

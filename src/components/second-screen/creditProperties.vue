@@ -117,6 +117,7 @@ export default {
   name: "",
   props: ["typeData", "indicatorData", "showCredit", "propertyIds"],
   created() {
+    // debugger
     this.getClassificationData();
     this.getLevelData();
     this.getEnterpriseData();

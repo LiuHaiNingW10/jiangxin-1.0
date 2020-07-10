@@ -9,18 +9,22 @@
           </tr>
         </thead>
         <tbody>
-          <!-- <tr>
-            <th>图标</th>
-            <th>指标</th>
-            <th>数值</th>
-            <th>单位</th>
-          </tr>-->
-          <tr v-for="(items, index) in chartData[item.id]" :key="index">
+          <!-- <tr v-for="(items, index) in chartData[item.id]" :key="index">
             <th
               v-for="(thItem, thIndex) in items"
               :key="thIndex"
               :class="thItem.style"
             >{{thItem.name}}</th>
+          </tr>-->
+          <tr v-if="tableHeader">
+            <th v-for="(headerItem, headerIndex) in tableHeader" :key="headerIndex">{{headerItem}}</th>
+          </tr>
+          <tr v-for="(items, index) in chartData[item.id]" :key="index">
+            <td
+              v-for="(thItem, thIndex) in tableIndex"
+              :key="thIndex"
+              :class="thItem['style']"
+            >{{items[thItem['dataIndex']]}}</td>
           </tr>
         </tbody>
       </table>
@@ -31,7 +35,7 @@
 <script>
 export default {
   name: "",
-  props: ["ids", "chartData", "tableTitle"],
+  props: ["ids", "chartData", "tableTitle", "tableIndex", "tableHeader"],
   mounted() {},
   data() {
     return {};
@@ -42,21 +46,24 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .new-form-chart {
   display: flex;
   margin-bottom: 3%;
+  min-height: 200px;
   .single-form-chart {
     width: 100%;
     table {
       width: 100%;
-      .table-head {
-        font-size: 32px;
-      }
+      font-size: 32px;
+      // .table-head {
+      //   font-size: 32px;
+      // }
       tr {
         width: 100%;
         height: 60px;
         line-height: 60px;
+        
         .img-span {
           width: 30px;
         }
