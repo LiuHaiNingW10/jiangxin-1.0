@@ -27,6 +27,36 @@ export default {
       showNav: false // false --> closed leftNav
     };
   },
+  mounted() {
+    this.keydown = document.addEventListener('keydown',(event) => {
+        let e = event || window.event || arguments.callee.caller.arguments[0];
+        e.preventDefault();
+        let l = this._.split(window.location.href,'manage/P',2),targetUrl = 0;
+        if (e && e.keyCode == 13 && window.location.href.indexOf('P4') > 0) {
+          if (!this.showAudio) {
+            return;
+          }
+          this.$nextTick(() => {
+            this.showAudio = false;
+          });
+          this.DrawVideo();
+        }else if(e && e.keyCode == 38) {
+          if(l[1] == '1') {
+            targetUrl =  l[0] + 'manage/P4';
+          }else {
+            targetUrl = l[0] + 'manage/P' + (Number(l[1]) - 1)
+          }
+          window.open(targetUrl,"_self")
+        }else if(e && e.keyCode == 40) {
+          if(l[1] == '4') {
+            targetUrl =  l[0] + 'manage/P1';
+          }else {
+            targetUrl = l[0] + 'manage/P' + (Number(l[1]) + 1)
+          }
+          window.open(targetUrl,"_self")
+        }
+      })
+  },
   components: {
     LaftNav
   }

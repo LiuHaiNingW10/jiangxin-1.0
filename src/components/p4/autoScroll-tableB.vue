@@ -1,7 +1,7 @@
 <template>
   <div class="common-box table-auto">
     <div class="p4-table-title">
-      <span>{{id.title}}</span>
+      <span style="font-size: 30px">{{id.title}}</span>
     </div>
     <div class="scroll-box">
       <a-table
