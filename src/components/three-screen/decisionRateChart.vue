@@ -30,10 +30,12 @@ export default {
   },
   methods: {
     drawGraph() {
+      console.log(this.tableDatas)
+      let p = this.tableDatas.toFixed(2) || 0 + '%'
       let myChart = this.$echarts.init(document.getElementById(this.id.id));
       var dataArr = [
         {
-          value: 40,
+          value: p,
           name: "噪音检测"
         }
       ];
@@ -50,7 +52,7 @@ export default {
           fontFamily: "DINBold",
           color: "#fff",
           fontWeight: "700",
-          padding: [-120, 0, 0, 0]
+          padding: [-120, 0, 0, 100]
         },
         radius: {
           width: 350,
@@ -71,6 +73,7 @@ export default {
       };
       let option = {
         tooltip: {
+          show:false,
           formatter: "{a} <br/>{b} : {c}%"
         },
         grid: {
@@ -158,7 +161,7 @@ export default {
             detail: {
               formatter: function(value) {
                 var num = Math.round(value);
-                return "{bule|45%}{white|}" + "{size|" + "}";
+                return `{bule|${p}%}{white|}" + "{size|" + "}`;
               },
               rich: rich,
               offsetCenter: ["0%", "55%"]
@@ -237,8 +240,8 @@ export default {
             startAngle: 225, //刻度起始
             endAngle: -45, //刻度结束
             min: 0,
-            max: 120,
-            splitNumber: 6,
+            max: 100,
+            splitNumber: 5,
             z: 4,
             axisTick: {
               show: false

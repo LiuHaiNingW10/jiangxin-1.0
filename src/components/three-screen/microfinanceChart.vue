@@ -132,7 +132,6 @@ export default {
           }
         })
         .then(response => {
-          console.log(response.data.data.toFixed(8))
           this.footerdata = response.data.data;
         })
         .catch(function(error) {

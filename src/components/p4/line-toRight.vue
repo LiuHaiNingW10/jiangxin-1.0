@@ -21,16 +21,6 @@ export default {
     this.transLateData();
   },
   methods: {
-    getData() {
-      this.axios({
-        url: "/api/p4/smartOperationSummary",
-        method: "get",
-        type: "json"
-      }).then(data => {
-        this.tableData = data.data.data;
-        this.transLateData();
-      });
-    },
     transLateData() {
       let obj = {
         type: "bar",
@@ -40,7 +30,7 @@ export default {
       let arr = Vue.filter('sortByValue')(this.tableData,'percent')
       arr.forEach(el => {
         obj.series.push(el.percent);
-        obj.yAxis.push(el.area);
+        obj.yAxis.push(el.indexname);
       });
       this.drawLineG(this.id, obj);
     },
@@ -122,10 +112,11 @@ export default {
               color: "#ccc",
               position: "right",
               right: 0,
+              fontSize: 22,
               /* 7月10日wk修改：修改p3页面右侧欺诈风险画像为% */
               formatter: data => {
                 if(this.isShowPercent) {
-                  return data.value * 100 + '%';
+                  return data.value + '%';
                 }
                 return data.value;
               }

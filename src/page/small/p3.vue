@@ -35,19 +35,19 @@
           <span>实时反欺诈模型决策占比</span>
         </div>
         <div class="decisionRate">
-          <decisionRate-chart :ids="idsDecision" />
-          <decisionRateB-chart :ids="idsDecisionB" />
+          <decisionRate-chart v-if="showRight" :ids="idsDecision" :tableDatas="decisionData" />
+          <decisionRateB-chart v-if="showRight" :ids="idsDecisionB" :tableDatas="decisionDataB"  />
         </div>
         <div class="content-title">
           <span>实时加强验证</span>
         </div>
-        <verification-chart :tableDatas="tableDataV" />
+        <verification-chart v-if="showRight" :tableDatas="tableDataV" />
         <div class="content-title">
           <span>实时欺诈风险画像</span>
         </div>
-        <RiskPortraitChart :ids="idRisk" :tableDatas="tableDataR" :isShowPercent="true" />
-        <RiskPortraitChart :ids="idRiskM" :tableDatas="tableDataRM" :isShowPercent="true" />
-        <RiskPortraitChart :ids="idRiskR" :tableDatas="tableDataRR" :isShowPercent="true" />
+        <RiskPortraitChart v-if="showRight" :ids="idRisk" :tableDatas="tableDataR" :isShowPercent="true" />
+        <RiskPortraitChart v-if="showRight" :ids="idRiskM" :tableDatas="tableDataRM" :isShowPercent="true" />
+        <RiskPortraitChart v-if="showRight" :ids="idRiskR" :tableDatas="tableDataRR" :isShowPercent="true" />
         <!-- <div class="content-title">
           <span>Top5拒绝原因</span>
         </div>
@@ -74,13 +74,14 @@ import decisionRateBChart from "@/components/three-screen/decisionRateBChart.vue
 import verificationChart from "@/components/three-screen/verificationChart.vue";
 import * as base64 from "@/assets/base64.js";
 import RiskPortraitChart from "@/components/p4/line-toRight.vue";
-import moment from "moment";
+import moment, { max } from "moment";
 export default {
   data() {
     return {
       timer: null,
       amount: 0,
       showUses: false,
+      showRight: false,
       usesTime: {
         year: 0,
         day: 0
@@ -95,6 +96,9 @@ export default {
         id: "echarts02",
         style: "width:55%"
       },
+      decisionData: [],
+      decisionDataB: [],
+      verificationData: [],
       tableDataV: [
         {
           title: "生物识别",
@@ -206,6 +210,9 @@ export default {
       setTimeout(this.getAccRiskAll, 0);
     }, 3000);
     // this.getVariable();
+    this.getRight = setInterval(() => {
+      this.getRightData();
+    },3000)
   },
   methods: {
     getAccRiskAll() {
@@ -228,8 +235,10 @@ export default {
             //   year: obj[0].data.data,
             //   day: obj[1].data.data
             // }
-            this.numFun(this.usesTime.year, obj[0].data.data, "year");
-            this.numFun(this.usesTime.year, obj[1].data.data, "day");
+            let year = this.usesTime.year;
+            let day = this.usesTime.day;
+            this.numFun(year, obj[0].data.data.amt, "year");
+            this.numFun(day, obj[1].data.data.cnt, "day",1000);
             this.$nextTick(() => {
               this.showUses = true;
             });
@@ -253,10 +262,69 @@ export default {
         } else {
           golb = requestAnimationFrame(numSlideFun);
         }
+        // debugger
         that.usesTime = { ...that.usesTime, [name]: numText };
         that.amount = numText;
       }
       numSlideFun(); // 调用数字动画
+    },
+    getRightData() {
+      this.axios
+        .all([
+          this.axios.get("/api/p3/ratio"),
+          this.axios.get("/api/p3/modelRatio"),
+          this.axios.get("/api/p3/validSummary"),
+          this.axios.get("/api/p3/riskGraph",{
+            params: {
+              type:'city'
+            }
+          }),
+          this.axios.get("/api/p3/riskGraph",{
+            params: {
+              type:'device'
+            }
+          }),
+          this.axios.get("/api/p3/riskGraph",{
+            params: {
+              type:'risktype'
+            }
+          }),
+        ])
+        .then(
+          this.axios.spread((...obj) => {
+            this.decisionData = obj[0].data.data
+            this.transB(obj[1].data.data)
+            this.transV(obj[2].data.data)
+            this.tableDataR = obj[3].data.data
+            this.tableDataRM = obj[4].data.data
+            this.tableDataRR = obj[5].data.data
+            this.$nextTick(() => {
+              this.showRight = true;
+            });
+          })
+        )
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    transB(arr) {
+      let obj = []
+      arr.forEach(el => {
+        obj.push({
+          name: el.model,
+          percent: el.percent
+        })
+      });
+      this.decisionDataB = obj
+    },
+    transV(arr) {
+      arr.forEach(el => {
+        this.tableDataV.forEach( it => {
+          if(it.title == el.type) {
+            it.times = el.cnt
+          }
+        })
+      });
     },
     getVariable() {
       this.axios
@@ -306,6 +374,7 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.timer);
+    clearInterval(this.getRight);
     this.timer = null;
   }
 };
