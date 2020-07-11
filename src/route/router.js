@@ -28,6 +28,7 @@ const ProductView = ()=> import('../page/small/product.vue')
 const interestRateView = ()=> import('../page/small/interestRate.vue')
 
 
+const p0 = ()=> import('../page/small/p0.vue')
 const p1 = ()=> import('../page/small/p1.vue')
 const p2 = ()=> import('../page/small/p2.vue')
 const p3 = ()=> import('../page/small/p3.vue')
@@ -54,6 +55,10 @@ export default new Router({
         },
 
         // 客户要求 先访问p2，调转路由
+        {
+          path: 'p0',
+          component: loadable(p0),
+        },
         {
           path: 'p1',
           component: loadable(p2),

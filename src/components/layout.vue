@@ -34,7 +34,7 @@ export default {
       let l = this._.split(window.location.href, "manage/P", 2),
         targetUrl = 0;
       if (e && e.keyCode == 38) {
-        if (l[1] == "1") {
+        if (l[1] == "0") {
           targetUrl = l[0] + "manage/P4";
         } else {
           targetUrl = l[0] + "manage/P" + (Number(l[1]) - 1);
@@ -42,7 +42,7 @@ export default {
         window.open(targetUrl, "_self");
       } else if (e && e.keyCode == 40) {
         if (l[1] == "4") {
-          targetUrl = l[0] + "manage/P1";
+          targetUrl = l[0] + "manage/P0";
         } else {
           targetUrl = l[0] + "manage/P" + (Number(l[1]) + 1);
         }

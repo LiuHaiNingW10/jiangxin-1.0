@@ -66,6 +66,11 @@ const menuList = [
         icon: 'bar-chart',
         children: [
           {
+            title: 'P0',
+            key: '/manage/P0',
+            icon: 'bars'
+          },
+          {
             title: 'P1',
             key: '/manage/P1',
             icon: 'bars'
