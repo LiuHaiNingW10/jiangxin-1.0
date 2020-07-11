@@ -831,7 +831,7 @@ export default {
 
       // 获取当日授信人数
       this.axios({
-        url: "/api/p1/currCustNum?eventType=授信",
+        url: "/api/p1/currCustNum",
         method: "get",
         data: "",
         type: "json"
@@ -849,8 +849,8 @@ export default {
               : [],
             yAxis: tData
               ? tData.map(item => {
-                  tmpTotal += parseInt(item.val);
-                  return item.val;
+                  tmpTotal += parseInt(item.shouxin);
+                  return item.shouxin;
                 })
               : []
           };
@@ -860,7 +860,7 @@ export default {
       });
       // 获取当日用信人数
       this.axios({
-        url: "/api/p1/currCustNum?eventType=用信",
+        url: "/api/p1/currCustNum",
         method: "get",
         data: "",
         type: "json"
@@ -878,8 +878,8 @@ export default {
               : [],
             yAxis: tData
               ? tData.map(item => {
-                  tmpTotal += parseInt(item.val);
-                  return item.val;
+                  tmpTotal += parseInt(item.yongxin);
+                  return item.yongxin;
                 })
               : []
           };
@@ -1028,7 +1028,7 @@ export default {
 
       // 获取学历数据
       this.axios({
-        url: "/api/p1/distribution?dcode=education",
+        url: "/api/p1/education",
         method: "get",
         data: "",
         type: "json"
@@ -1037,10 +1037,10 @@ export default {
           var tData = data.data.data;
           var total = 0;
           tData.forEach(item => {
-            total += Number(item.val);
+            total += Number(item.percent);
           });
           _that.educationData = tData.map(item => {
-            return { name: item.xid, value: item.val, total: total };
+            return { name: item.education, value: item.percent, total: total };
           });
         }
         this.$nextTick(() => {
@@ -1082,12 +1082,12 @@ export default {
             {
               name: "平均用信天数（天）",
               index: "loan-time",
-              data: tData ? tData.ddsecond : ""
+              data: tData ? tData.avgday : ""
             },
             {
               name: "平均用信次数",
               index: "rate",
-              data: tData ? tData.applyrate * 100 + "%" : ""
+              data: tData ? tData.avgnum : ""
             }
           ];
           _that.linkRelativeRatio = {
