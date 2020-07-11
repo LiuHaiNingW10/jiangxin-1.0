@@ -100,17 +100,31 @@ export default {
       );
     },
 
+    // getTotalMoney() {
+    //   let that = this;
+    //   this.axios({
+    //     url: "/api/p2/accServiceAmount",
+    //     method: "get",
+    //     data: "",
+    //     type: "json"
+    //   }).then(data => {
+    //     if (data.data.code === 100) {
+    //       var tData = data.data.data;
+    //       that.totalMoney = that.thousandFormat(tData, 0);
+    //     }
+    //   });
+    // },
     getTotalMoney() {
       let that = this;
       this.axios({
-        url: "/api/p2/accServiceAmount",
+        url: "/api/p2/xwBaseinfo",
         method: "get",
         data: "",
         type: "json"
       }).then(data => {
         if (data.data.code === 100) {
           var tData = data.data.data;
-          that.totalMoney = that.thousandFormat(tData, 0);
+          that.totalMoney = that.thousandFormat(tData.principal || 0, 0);
         }
       });
     },

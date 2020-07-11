@@ -289,22 +289,22 @@ export default {
               chartData && chartData.length > 0
                 ? chartData
                 : [
-                    {
-                      name: "王**",
-                      age: "28岁",
-                      sex: "男",
-                      type: "授信申请",
-                      sum: "3000000",
-                      value: [116.4551, 40.2539, 48]
-                    },
-                    {
-                      name: "王**",
-                      age: "25岁",
-                      sex: "女",
-                      type: "授信申请",
-                      sum: "7000000",
-                      value: [103.9526, 30.7617, 48]
-                    }
+                    // {
+                    //   name: "王**",
+                    //   age: "28岁",
+                    //   sex: "男",
+                    //   type: "授信申请",
+                    //   sum: "3000000",
+                    //   value: [116.4551, 40.2539, 48]
+                    // },
+                    // {
+                    //   name: "王**",
+                    //   age: "25岁",
+                    //   sex: "女",
+                    //   type: "授信申请",
+                    //   sum: "7000000",
+                    //   value: [103.9526, 30.7617, 48]
+                    // }
                   ],
             symbolSize: 40,
             showEffectOn: "render",

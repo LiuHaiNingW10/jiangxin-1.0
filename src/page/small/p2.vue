@@ -67,6 +67,7 @@
           class="form-charts"
           :tableTitle="primaryPro[0].title"
           :tableIndex="primaryProIndex"
+          :tableHeader="primaryProHeader"
         />
         <form-chart
           :ids="threeProject"
@@ -262,15 +263,21 @@ export default {
       agricultureIndex: [
         {
           dataIndex: "indexname",
-          style: ""
+          style: "",
+          formatJudge: false,
+          dollorJudge: false
         },
         {
           dataIndex: "val",
-          style: "number-div"
+          style: "number-div",
+          formatJudge: true,
+          dollorJudge: false
         },
         {
           dataIndex: "unit",
-          style: ""
+          style: "",
+          formatJudge: false,
+          dollorJudge: false
         }
       ],
       // agricultureHeader: ["产品", "累计放款金额", "累计放款企业数"],
@@ -278,15 +285,21 @@ export default {
       primaryProIndex: [
         {
           dataIndex: "productname",
-          style: ""
+          style: "",
+          formatJudge: false,
+          dollorJudge: true
         },
         {
           dataIndex: "bal",
-          style: "number-div"
+          style: "number-div",
+          formatJudge: true,
+          dollorJudge: true
         },
         {
           dataIndex: "company",
-          style: "number-div"
+          style: "number-div",
+          formatJudge: false,
+          dollorJudge: true
         }
       ],
       primaryProHeader: ["产品", "累计放款金额", "累计放款企业数"],
@@ -294,15 +307,21 @@ export default {
       threeProjectIndex: [
         {
           dataIndex: "person",
-          style: "number-div"
+          style: "number-div",
+          formatJudge: false,
+          dollorJudge: true
         },
         {
           dataIndex: "quantity",
-          style: "number-div"
+          style: "number-div",
+          formatJudge: true,
+          dollorJudge: true
         },
         {
           dataIndex: "bal",
-          style: "number-div"
+          style: "number-div",
+          formatJudge: true,
+          dollorJudge: true
         }
       ],
       threeProjectHeader: ["农户数", "养猪头数", "放款金额"],
@@ -463,12 +482,23 @@ export default {
           this.axios.get("/api/p2/product"),
           this.axios.get("/api/p2/specialCase"),
           this.axios.get("/api/p2/distribution"),
-          this.axios.get("/api/p2/specialCase")
+          this.axios.get("/api/p2/specialCase"),
+          this.axios.get("/api/p2/establishment?indexname=ljfkqy"),
+          this.axios.get("/api/p2/establishment?indexname=ljsxed")
         ])
         .then(
           this.axios.spread((...obj) => {
             // 0、小微企业及三农
-            this.agricultureData = obj[0].data.data;
+            this.agricultureData = [];
+            this.agricultureData.push(
+              obj[0].data.data ? obj[0].data.data[0] : []
+            );
+            this.agricultureData.push(
+              obj[5].data.data ? obj[5].data.data[0] : []
+            );
+            this.agricultureData.push(
+              obj[6].data.data ? obj[6].data.data[0] : []
+            );
 
             // // 主要产品
             this.primaryProData = obj[1].data.data || 0;
@@ -507,17 +537,17 @@ export default {
       var _that = this;
       var index = 0;
       // if (mapInterval) clearInterval(mapInterval);
-      this.mapInterval = setInterval(
-        () => {
-          _that.getMapDataHandler();
-        },
-        20000,
-        _that,
-        index
-      );
+      // this.mapInterval = setInterval(
+      //   () => {
+      //     _that.getMapDataHandler();
+      //   },
+      //   20000,
+      //   _that,
+      //   index
+      // );
     },
 
-      // 格式化千分位
+    // 格式化千分位
     thousandFormat(value, fixed) {
       fixed = fixed !== undefined ? fixed : 2;
       if (value === null || value === undefined || isNaN(parseFloat(value))) {
@@ -557,16 +587,39 @@ export default {
       }).then(data => {
         if (data.data.code === 100) {
           var tData = data.data.data;
-          _that.mapData = [
-            ...tData.map(item => {
-              return {
-                company: item.companyname,
-                credit: _that.thousandFormat(item.credit, 2),
-                province: item.province,
-                value: [item.longitude, item.latitude]
-              };
-            })
-          ];
+          let index = 0;
+          _that.mapData = [];
+          let firstTmpData = tData[index];
+          _that.mapData.push({
+            company: firstTmpData.companyname,
+            province: firstTmpData.province,
+            credit: _that.thousandFormat(firstTmpData.credit, 2),
+            value: [firstTmpData.longitude, firstTmpData.latitude]
+          });
+
+          this.mapInterval = setInterval(
+            () => {
+              // _that.getMapDataHandler();
+              if (index >= tData.length - 1) {
+                _that.getMapDataHandler();
+                clearInterval(this.mapInterval);
+                return;
+              }
+              index++;
+              _that.mapData = [];
+              let tmpData = tData[index];
+              _that.mapData.push({
+                company: tmpData.companyname,
+                province: tmpData.province,
+                credit: _that.thousandFormat(tmpData.credit, 2),
+                value: [tmpData.longitude, tmpData.latitude]
+              });
+            },
+            3000,
+            _that,
+            index
+          );
+
           // _that.mapData = [
           //   {
           //     name: "王**",

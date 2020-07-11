@@ -24,7 +24,7 @@
               v-for="(thItem, thIndex) in tableIndex"
               :key="thIndex"
               :class="thItem['style']"
-            >{{items[thItem['dataIndex']]}}</td>
+            >{{(thItem['formatJudge'] ? ((thItem['dollorJudge'] ? '¥ ' : '') + thousandFormat(items[thItem['dataIndex']], 1)) : items[thItem['dataIndex']])}}</td>
           </tr>
         </tbody>
       </table>
@@ -41,7 +41,37 @@ export default {
     return {};
   },
   computed: {},
-  methods: {},
+  methods: {
+    // 格式化千分位
+    thousandFormat(value, fixed) {
+      fixed = fixed !== undefined ? fixed : 2;
+      if (value === null || value === undefined || isNaN(parseFloat(value))) {
+        return;
+      }
+      // 将数字进行千分位格式化
+      function toThousands(num) {
+        num = (num || 0).toString();
+        var parts = num.split(".");
+        var bigZeroPart = parts[0];
+        var result = "";
+        while (bigZeroPart.length > 3) {
+          result = "," + bigZeroPart.slice(-3) + result;
+          bigZeroPart = bigZeroPart.slice(0, bigZeroPart.length - 3);
+        }
+        if (bigZeroPart) {
+          result = bigZeroPart + result;
+        }
+        if (parts.length > 1) {
+          result += "." + parts[1].toString();
+        }
+        return result;
+      }
+
+      value = parseFloat(value).toFixed(fixed);
+      value = toThousands(value);
+      return value;
+    }
+  },
   components: {}
 };
 </script>
@@ -63,7 +93,7 @@ export default {
         width: 100%;
         height: 60px;
         line-height: 60px;
-        
+
         .img-span {
           width: 30px;
         }

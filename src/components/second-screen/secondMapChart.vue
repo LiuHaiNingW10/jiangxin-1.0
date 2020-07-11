@@ -17,6 +17,7 @@ export default {
   computed: {},
   methods: {
     initMap(chartData) {
+      // if (!chartData || chartData.length === 0) return;
       var geoCoordMap = {
         上海: [119.1803, 31.2891],
         福建: [119.4543, 25.9222],
@@ -364,6 +365,7 @@ export default {
                     "\n" +
                     "省份：" +
                     params.data.province +
+                    "\n" +
                     "授信：¥" +
                     params.data.credit +
                     "\n"
