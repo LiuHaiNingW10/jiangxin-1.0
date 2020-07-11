@@ -72,7 +72,6 @@ export default {
   created() {
     document.addEventListener("keydown", event => {
       let e = event || window.event || arguments.callee.caller.arguments[0];
-      e.preventDefault();
       let l = this._.split(window.location.href, "manage/P", 2),
         targetUrl = 0;
       if (e && e.keyCode == 13 && window.location.href.indexOf("P4") > 0) {

@@ -30,7 +30,7 @@ export default {
   mounted() {
    document.addEventListener("keydown", event => {
       let e = event || window.event || arguments.callee.caller.arguments[0];
-      e.preventDefault();
+      // e.preventDefault();
       let l = this._.split(window.location.href, "manage/P", 2),
         targetUrl = 0;
       if (e && e.keyCode == 38) {
