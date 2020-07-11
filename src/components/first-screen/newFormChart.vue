@@ -24,7 +24,7 @@
               v-for="(thItem, thIndex) in tableIndex"
               :key="thIndex"
               :class="thItem['style']"
-            >{{(thItem['formatJudge'] ? ((thItem['dollorJudge'] ? '¥ ' : '') + thousandFormat(items[thItem['dataIndex']], 1)) : items[thItem['dataIndex']])}}</td>
+            >{{(thItem['formatJudge'] ? ((thItem['dollorJudge'] ? '¥ ' : '') + thousandFormat(items[thItem['dataIndex']], 0)) : items[thItem['dataIndex']])}}</td>
           </tr>
         </tbody>
       </table>
