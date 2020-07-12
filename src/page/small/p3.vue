@@ -293,7 +293,7 @@ export default {
               type:'risktype'
             }
           }),
-          // this.axios.get("/api/p3/counterFake"),
+          this.axios.get("/api/p3/counterFake"),
         ])
         .then(
           this.axios.spread((...obj) => {
@@ -303,9 +303,7 @@ export default {
             this.tableDataR = obj[3].data.data
             this.tableDataRM = obj[4].data.data
             this.tableDataRR = obj[5].data.data
-            this.antiFraudDatas = [{value: 10, name: 'rose1'},
-                {value: 5, name: 'rose2'},
-                {value: 15, name: 'rose3'}]
+            this.antiFraudDatas = obj[6].data.data
             this.$nextTick(() => {
               this.showRight = true;
             });
