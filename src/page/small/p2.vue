@@ -883,7 +883,8 @@ export default {
       .server-money {
         width: 100%;
         // height: 33.59%;
-        height: 21.59%;
+        // height: 21.59%;
+        height:190px;
         background: url("../../assets/images/cancellation.png") no-repeat;
         background-size: 100% 100%;
       }

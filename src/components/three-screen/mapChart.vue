@@ -1,4 +1,5 @@
 <template>
+<!-- p3 -->
   <div class="map-charts">
     <div id="threeMapChart"></div>
   </div>
@@ -178,7 +179,8 @@ export default {
         { name: "香港", value: 203 },
         { name: "澳门", value: 199 },
         { name: "广西", value: 59 },
-        { name: "海南", value: 14 }
+        { name: "海南", value: 14 },
+        {name:"台湾",value:15}
       ];
 
       var convertData = function(data) {
@@ -210,7 +212,7 @@ export default {
           calculable: true,
           seriesIndex: [1],
           inRange: {
-            color: ["#467bc0", "#003377"] // 蓝绿
+            color: ["#467bc0", "#467bc0"] // 蓝绿
           }
         },
         geo: {
@@ -509,20 +511,23 @@ export default {
                 // verticalAlign: "middle",
                 color: "#fff",
                 z: 11,
+                textStyle: {
+                  fontSize: 20,
+                },
                 rich: {
                   a: {
                     color: "rgba(255,255,255,.7)",
-                    fontSize: 16
+                    fontSize: 20
                   },
                   b: {
                     padding: [0, 10],
                     color: "#ffffff",
-                    fontSize: 16,
+                    fontSize: 20,
                     fontWeight: "bold"
                   },
                   c: {
                     margin: 20,
-                    fontSize: 16,
+                    fontSize: 20,
                     color: "rgba(255,255,255,.9)"
                   },
                   d: {
@@ -538,7 +543,7 @@ export default {
                   f: {
                     padding: [0, 10, 0, 0],
                     color: "#ffffff",
-                    fontSize: 16
+                    fontSize: 20
                   }
                 }
               }
@@ -594,7 +599,10 @@ export default {
                 lineHeight: 40,
                 // verticalAlign: "middle",
                 color: "#fff",
-                z: 11
+                z: 11,
+                 textStyle: {
+                  fontSize: 20,
+                },
                 // rich: {
                 //   a: {
                 //     color: "rgba(255,255,255,.7)",

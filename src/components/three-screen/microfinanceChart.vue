@@ -1,12 +1,13 @@
 <template>
   <div class="microfinance-chart">
     <div class="mc-header">
-      近一小时攻击数
-      <span>{{ 537 || attckTimes}}次/小时</span>
+      <span>欺诈损失率:万万分之4.5</span>
+      <!-- 近一小时攻击数 -->
+      <!-- <span>{{ 537 || attckTimes}}次/小时</span> -->
     </div>
     <div class="mc-content">
       <div class="mc-l">
-        <span class="left-title">FRIM命中分布</span>
+        <span class="left-title">反欺诈策略分布</span>
         <ul>
           <!-- 7月10日wk修改：删除右侧高亮及百分比展示 -->
           <li :style="moveLocaiton === 1 ? 'color: #fff' : 'color: gray'">
@@ -40,20 +41,17 @@
         </ul>
       </div>
       <div class="mc-c" :style="'background:url('+ frm_cc+');background-size: 100% 110%;background-position: center -22px'"></div>
-      <div class="mc-r">
+      <!-- <div class="mc-r">
         <div class="title">F.R.I.M命中次数</div>
-        <!-- 7月10日wk修改：注释右侧条形图 -->
-        <!-- <div class="frim-chart" id="frimChart"></div> -->
         <ul>
           <li v-for="(item,index,) in IDFdatas" :key="index">{{item.callNum}}</li>
         </ul>
-        <!-- end -->
-      </div>
+      </div> -->
     </div>
-    <div class="mc-footer">
+    <!-- <div class="mc-footer">
       欺诈损失率
       <span>{{footerData}}% ，行业平均水平为0.0001%</span>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -72,9 +70,9 @@ export default {
       /* end */
       IDFdata: [
         { flag: "名单层", callNum: 300, percent: 30 },
-        { flag: "聚集层", callNum: 300, percent: 30 },
+        { flag: "关系层", callNum: 300, percent: 30 },
         { flag: "场景层", callNum: 200, percent: 20 },
-        { flag: "动态层", callNum: 200, percent: 20 }
+        { flag: "行为层", callNum: 200, percent: 20 }
       ],
       frm_cc: base64.frm_cc.value
     };
@@ -312,7 +310,7 @@ export default {
     justify-content: space-between;
     .mc-l {
       /* 7月10日wk修改：添加左侧条形图 */
-      position: relative;
+      // position: relative;
       /* end */
       margin-top: 25px;
       color: gray;
@@ -323,12 +321,14 @@ export default {
       ul {
         position: relative;
         list-style: none;
+        width: 420px;
         li {
-          width: 291px;
+          width: 100%;
           height: 68px;
           background: url("../../assets/images/p3/frm-l.png") no-repeat;
           overflow: hidden;
           margin-bottom: 28px;
+          background-size:cover; 
           img {
             float: left;
             width: 38px;
@@ -357,8 +357,8 @@ export default {
         right: -20px;
         width: 180px;
         height: 100%;
-        background: url("../../assets/images/p3/frm-r.png") no-repeat;
-        background-size: 100% 100%;
+        // background: url("../../assets/images/p3/frm-r.png") no-repeat;
+        // background-size: 100% 100%;
       }
       /* end */
     }

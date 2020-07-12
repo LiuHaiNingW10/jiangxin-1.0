@@ -21,6 +21,9 @@
           <pop-custom :tableDatas="tableDataB" :ids="idB" :heights="clientHeight" />
         </div>
         <div class="center">
+          <div class="title">
+            机器人累计服务人数指标
+          </div>
           <big-head
             :tableDatas="tableDataCs"
             :ids="idC"
@@ -443,5 +446,11 @@ export default {
   height: 44%;
   background-size: 96% 98%;
   padding: 2.8%;
+}
+.title{
+  width: 100%;
+  height: 210px;
+  font-size: 38px;
+  margin: 0 0 22px;
 }
 </style>

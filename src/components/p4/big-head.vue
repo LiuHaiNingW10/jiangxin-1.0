@@ -1,4 +1,5 @@
 <template>
+<!-- p4 -->
   <div class="brain-content" @keyup.enter="keyEnter">
     <div class="brain-main">
       <div id="ChinaMap" v-if="showAudio"></div>
@@ -144,7 +145,8 @@ export default {
         { name: "香港", value: 203 },
         { name: "澳门", value: 199 },
         { name: "广西", value: 59 },
-        { name: "海南", value: 14 }
+        { name: "海南", value: 14 },
+        {name:'台湾',value:15}
       ];
       data.forEach( (item) => {
         if(item.name == curruntArea) {
@@ -190,7 +192,7 @@ export default {
           calculable: true,
           seriesIndex: [1],
           inRange: {
-            color: ["#467bc0", "#04387b"] // 蓝绿
+            color: ["#467bc0", "#467bc0"] // 蓝绿
           }
         },
         geo: {
@@ -207,8 +209,9 @@ export default {
           roam: false,
           itemStyle: {
             normal: {
+              borderColor: "rgba(0,255,255, 1)",
+         
               areaColor: "#023677",
-              borderColor: "#1180c7"
             },
             emphasis: {
               areaColor: "#4499d0"
@@ -259,8 +262,9 @@ export default {
             roam: true,
             itemStyle: {
               normal: {
-                areaColor: "#031525",
-                borderColor: "#3B5077"
+              borderColor: "#2cb3dd",
+              borderWidth: 0.8,
+              areaColor: "#031525",
               },
               emphasis: {
                 areaColor: "#2B91B7"
@@ -315,15 +319,18 @@ export default {
                 // verticalAlign: "middle",
                 color: "#fff",
                 z: 11,
+                 textStyle: {
+                  fontSize: 20,
+                },
                 rich: {
                   a: {
                     color: "rgba(255,255,255,.7)",
-                    fontSize: 16
+                    fontSize: 20
                   },
                   b: {
                     padding: [0, 10],
                     color: "#ffffff",
-                    fontSize: 16,
+                    fontSize: 20,
                     fontWeight: "bold"
                   },
                   c: {

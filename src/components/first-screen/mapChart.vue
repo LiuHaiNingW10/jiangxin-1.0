@@ -1,5 +1,6 @@
 <template>
   <div class="map-charts">
+    <!-- p2 -->
     <div id="middleMap"></div>
   </div>
 </template>
@@ -9,19 +10,22 @@ export default {
   name: "mapChart",
   props: ["chartData"],
   mounted() {
-    this.initMap(this.chartData.slice(0, 2));
+    this.initMap(this.chartData.slice(0, 1));
     this.rollMap(this.chartData);
   },
   data() {
     return {
       mapIndex: 2,
       myEcharts: undefined,
-      rollMapInterval: undefined
+      rollMapInterval: undefined,
+      l:this,
     };
   },
   computed: {},
   methods: {
     initMap(chartData) {
+     // eslint-disable-next-line no-unused-vars
+     var that = this
       var geoCoordMap = {
         上海: [119.1803, 31.2891],
         福建: [119.4543, 25.9222],
@@ -54,7 +58,7 @@ export default {
         广西: [108.479, 23.1152],
         海南: [110.3893, 19.8516],
         黑龙江: [127.9688, 45.368],
-        台湾: [121.4648, 25.563]
+        台湾: [121.4648, 25.563],
       };
       var colorData = [
         { name: "北京", value: 199 },
@@ -89,7 +93,8 @@ export default {
         { name: "香港", value: 203 },
         { name: "澳门", value: 199 },
         { name: "广西", value: 59 },
-        { name: "海南", value: 14 }
+        { name: "海南", value: 14 },
+        { name: "台湾", value: 15 },
       ];
 
       var convertData = function(data) {
@@ -99,7 +104,7 @@ export default {
           if (geoCoord) {
             res.push({
               name: data[i].name,
-              value: geoCoord.concat(data[i].value)
+              value: geoCoord.concat(data[i].value),
             });
           }
         }
@@ -108,10 +113,10 @@ export default {
       this.myEcharts = this.$echarts.init(document.getElementById("middleMap"));
       this.myEcharts.setOption({
         legend: {
-          show: false
+          show: false,
         },
         tooltip: {
-          show: true
+          show: true,
         },
         visualMap: {
           show: false,
@@ -122,16 +127,16 @@ export default {
           calculable: true,
           seriesIndex: [1],
           inRange: {
-            color: ["#467bc0", "#003377"] // 蓝绿
-          }
+            color: ["#467bc0", "#467bc0"], // 蓝绿
+          },
         },
         geo: {
           map: "china",
           aspectScale: 0.75,
           label: {
             emphasis: {
-              show: false
-            }
+              show: false,
+            },
           },
           regions: [
             {
@@ -141,11 +146,11 @@ export default {
                 normal: {
                   opacity: 0,
                   label: {
-                    show: false
-                  }
-                }
-              }
-            }
+                    show: false,
+                  },
+                },
+              },
+            },
           ],
           itemStyle: {
             normal: {
@@ -159,27 +164,27 @@ export default {
                 colorStops: [
                   {
                     offset: 0,
-                    color: "rgba(147, 235, 248, 0)" // 0% 处的颜色
+                    color: "rgba(147, 235, 248, 0)", // 0% 处的颜色
                   },
                   {
                     offset: 1,
-                    color: "rgba(147, 235, 248, .2)" // 100% 处的颜色
-                  }
+                    color: "rgba(147, 235, 248, .2)", // 100% 处的颜色
+                  },
                 ],
-                globalCoord: false // 缺省为 false
+                globalCoord: false, // 缺省为 false
               },
               shadowColor: "rgba(128, 217, 248, 1)",
               // shadowColor: 'rgba(255, 255, 255, 1)',
               shadowOffsetX: -2,
               shadowOffsetY: 2,
-              shadowBlur: 10
+              shadowBlur: 10,
             },
             emphasis: {
               areaColor: "#389BB7",
-              borderWidth: 0
-            }
+              borderWidth: 0,
+            },
           },
-          z: 2
+          z: 2,
         },
         series: [
           {
@@ -193,23 +198,23 @@ export default {
               normal: {
                 formatter: "{b}",
                 position: "right",
-                show: true
+                show: true,
               },
               emphasis: {
-                show: true
-              }
+                show: true,
+              },
             },
             itemStyle: {
               normal: {
-                color: "#fff"
-              }
-            }
+                color: "#fff",
+              },
+            },
           },
           {
             type: "map",
             map: "china",
             tooltip: {
-              show: false
+              show: false,
             },
             // label: {
             //   emphasis: {
@@ -236,31 +241,31 @@ export default {
                   colorStops: [
                     {
                       offset: 0,
-                      color: "#274d68" // 0% 处的颜色
+                      color: "#274d68", // 0% 处的颜色
                     },
                     {
                       offset: 1,
-                      color: "#09132c" // 50% 处的颜色
-                    }
+                      color: "#09132c", // 50% 处的颜色
+                    },
                   ],
-                  global: true // 缺省为 false
-                }
+                  global: true, // 缺省为 false
+                },
               },
               emphasis: {
                 show: false,
-                areaColor: "#274d62"
-              }
+                areaColor: "#274d62",
+              },
             },
             label: {
               normal: {
-                show: false
+                show: false,
               },
               emphasis: {
                 show: false,
                 textStyle: {
-                  color: "#fff"
-                }
-              }
+                  color: "#fff",
+                },
+              },
             },
             // roam: false,
             // itemStyle: {
@@ -278,7 +283,7 @@ export default {
             // },
             animation: false,
             zlevel: 1,
-            data: colorData
+            data: colorData,
           },
           {
             type: "effectScatter",
@@ -306,21 +311,22 @@ export default {
                     //   value: [103.9526, 30.7617, 48]
                     // }
                   ],
-            symbolSize: 40,
+            // symbolSize: 40,
             showEffectOn: "render",
 
             // 涟漪的设置
-            rippleEffect: {
-              color: "#7FFFAA",
-              scale: 4,
-              brushType: "stroke"
-            },
+            // rippleEffect: {
+            //   color: "#7FFFAA",
+            //   scale: 4,
+            //   brushType: "stroke"
+            // },
 
             // 标签
             label: {
               normal: {
                 show: true,
                 formatter: function(params) {
+                  console.log(params);
                   return (
                     params.data.name +
                     "   " +
@@ -329,40 +335,47 @@ export default {
                     params.data.sex +
                     "\n" +
                     "交易类型：" +
-                    params.data.type +
+                   params.data.type
+                     +
                     "\n" +
-                    "交易金额：¥" +
-                    params.data.sum
+                    "交易金额：" +
+                     that.formattedNumber(params.data.sum)+'.00'
+                    
                   );
                   // return (
                   //   "{fline|" + " " + params.data.name + " " + "重点关注" + "}"
                   // );
                 },
-                position: "top",
+                position: [-180, -60],
                 distance: 40,
-                backgroundColor: "rgba(0,0,0,.3)",
-                borderColor: "rgba(0,191,255,.9)",
+                backgroundColor: {
+                  image: require("@/assets/images/p3/map-modal.png"),
+                },
+                // borderColor: "rgba(0,191,255,.9)",
                 borderWidth: 2,
-                padding: [20, 30],
+                padding: [30, 40],
                 borderRadius: 3,
                 lineHeight: 24,
                 verticalAlign: "middle",
                 color: "#fff",
                 z: 11,
+                textStyle: {
+                  fontSize: 20,
+                },
                 rich: {
                   fline: {
                     padding: [0, 10],
-                    color: "#ffffff"
-                  }
-                }
-              }
+                    color: "#ffffff",
+                  },
+                },
+              },
             },
             itemStyle: {
               normal: {
-                color: "#7FFFAA",
-                shadowBlur: 2
-              }
-            }
+                color: "#F5B523",
+                shadowBlur: 2,
+              },
+            },
           },
           {
             type: "lines",
@@ -370,7 +383,7 @@ export default {
             effect: {
               show: true,
               period: 5,
-              color: "rgba(127,255,170, 1)"
+              color: "rgba(127,255,170, 1)",
             },
             lineStyle: {
               normal: {
@@ -382,32 +395,32 @@ export default {
                   [
                     {
                       offset: 0,
-                      color: "rgba(127,255,170, 1)"
+                      color: "rgba(127,255,170, 1)",
                     },
                     {
                       offset: 1,
-                      color: "rgba(127,255,170, 0)"
-                    }
+                      color: "rgba(127,255,170, 0)",
+                    },
                   ],
                   false
                 ),
                 width: 2,
                 opacity: 0.5,
-                curveness: 0
-              }
+                curveness: 0,
+              },
             },
-            data: chartData
-              ? chartData.map(item => {
-                  return {
-                    fromName: 1,
-                    toName: 1,
-                    coords: [
-                      [Number(item.value[0]), Number(item.value[1])],
-                      [Number(item.value[0]), Number(item.value[1]) + 3]
-                    ]
-                  };
-                })
-              : []
+            // data: chartData
+            //   ? chartData.map(item => {
+            //       return {
+            //         fromName: 1,
+            //         toName: 1,
+            //         coords: [
+            //           [Number(item.value[0]), Number(item.value[1])],
+            //           [Number(item.value[0]), Number(item.value[1]) + 3]
+            //         ]
+            //       };
+            //     })
+            //   : []
             // data: Object.keys(geoCoordMap).map(item => {
             //   return {
             //     fromName: 1,
@@ -428,11 +441,22 @@ export default {
             //     ]
             //   }
             // ]
-          }
-        ]
+          },
+        ],
       });
     },
-
+    formattedNumber(num) {
+      num = (num || 0).toString();
+      var result = "";
+      while (num.length > 3) {
+        result = "," + num.slice(-3) + result;
+        num = num.slice(0, num.length - 3);
+      }
+      if (num) {
+        result = num + result;
+      }
+      return result;
+    },
     rollMap() {
       var _that = this;
       // if (mapInterval) clearInterval(mapInterval);
@@ -442,7 +466,7 @@ export default {
             _that.mapIndex = 0;
           }
           _that.initMap(
-            _that.chartData.slice(_that.mapIndex, _that.mapIndex + 2)
+            _that.chartData.slice(_that.mapIndex, _that.mapIndex + 1)
           );
           this.$nextTick(() => {
             _that.mapIndex += 2;
@@ -451,7 +475,7 @@ export default {
         5000,
         _that
       );
-    }
+    },
   },
   beforeDestroy() {
     clearInterval(this.rollMapInterval);
@@ -459,9 +483,9 @@ export default {
   components: {},
   watch: {
     chartData: function(newVal) {
-      this.initMap(newVal.slice(0, 2));
-    }
-  }
+      this.initMap(newVal.slice(0, 1));
+    },
+  },
 };
 </script>
 

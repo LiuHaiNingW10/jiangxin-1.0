@@ -24,8 +24,8 @@
       <div class="center-box">
         <!-- 地图 -->
         <div class="strategy-box">
-          <real-time-strategy v-if="showUses" title="当日累计拦截金额（元）" :num="usesTime.year" :blank="1" />
-          <real-time-strategy v-if="showUses" title="当日累计拦截笔数（笔）" :num="usesTime.day" :blank="2" />
+          <real-time-strategy v-if="showUses" title="当日累计拦截金额（元）" :num="usesTime.year" :blank="1" :float="'left'"/>
+          <real-time-strategy v-if="showUses" title="当日累计拦截笔数（笔）" :num="usesTime.day" :blank="2"  :float="'right'"/>
         </div>
         <map-chart class="map-charts" />
         <!-- <div class="map-panel"></div> -->
@@ -35,8 +35,9 @@
           <span>实时反欺诈模型决策占比</span>
         </div>
         <div class="decisionRate">
-          <decisionRate-chart v-if="showRight" :ids="idsDecision" :tableDatas="decisionData" />
-          <decisionRateB-chart v-if="showRight" :ids="idsDecisionB" :tableDatas="decisionDataB"  />
+          <AntiFraudChart :ids="idsAntiFraud" :antiFraudDatas="antiFraudDatas"/>
+          <!-- <decisionRate-chart v-if="showRight" :ids="idsDecision" :tableDatas="decisionData" />
+          <decisionRateB-chart v-if="showRight" :ids="idsDecisionB" :tableDatas="decisionDataB"  /> -->
         </div>
         <div class="content-title">
           <span>实时加强验证</span>
@@ -75,6 +76,7 @@ import verificationChart from "@/components/three-screen/verificationChart.vue";
 import * as base64 from "@/assets/base64.js";
 import RiskPortraitChart from "@/components/p4/line-toRight.vue";
 import moment, { max } from "moment";
+import AntiFraudChart from "@/components/three-screen/antiFraudChart"
 export default {
   data() {
     return {
@@ -98,6 +100,8 @@ export default {
       },
       decisionData: [],
       decisionDataB: [],
+      idsAntiFraud:'idsAntiFraud',
+      antiFraudDatas:[],
       verificationData: [],
       tableDataV: [
         {
@@ -289,6 +293,7 @@ export default {
               type:'risktype'
             }
           }),
+          this.axios.get("/api/p3/counterFake"),
         ])
         .then(
           this.axios.spread((...obj) => {
@@ -298,6 +303,7 @@ export default {
             this.tableDataR = obj[3].data.data
             this.tableDataRM = obj[4].data.data
             this.tableDataRR = obj[5].data.data
+            this.antiFraudDatas = obj[6].data.data
             this.$nextTick(() => {
               this.showRight = true;
             });
@@ -370,7 +376,8 @@ export default {
     decisionRateBChart,
     verificationChart,
     RuleChart,
-    RiskPortraitChart
+    RiskPortraitChart,
+    AntiFraudChart
   },
   beforeDestroy() {
     clearInterval(this.timer);
@@ -440,6 +447,7 @@ export default {
       width: 45.4%;
       height: 100%;
       .strategy-box {
+        height: 210px;
         width: 100%;
       }
       .map-charts {

@@ -2,9 +2,9 @@
   <div class="verification">
     <ul>
       <li v-for="item in tableData" :key="item.title">
-        <div>{{item.title}}</div>
+        <div class="item-title">{{item.title}}</div>
         <img :src="item.img" alt="">
-        <div><i>{{item.times}}</i>次</div>
+        <!-- <div><i>{{item.times}}</i>次</div> -->
       </li>
     </ul>
   </div>
@@ -21,7 +21,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.tableData)
+    // console.log(this.tableData)
   },
   methods: {
   },
@@ -54,6 +54,9 @@ export default {
       }
       img {
         width: 122px;
+      }
+      .item-title {
+        padding-bottom: 15px;
       }
     }
   }
