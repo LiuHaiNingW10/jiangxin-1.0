@@ -18,7 +18,7 @@
             :needPoint="true"
             @func="getPoint"
           />
-          <pop-custom v-if="popA" :tableDatas="tableDataBs" :ids="idB" :heights="clientHeight" />
+          <pop-custom :tableDatas="tableDataB" :ids="idB" :heights="clientHeight" />
         </div>
         <div class="center">
           <big-head
@@ -39,7 +39,7 @@
             :needPoint="true"
             @func="getPoint"
           />
-          <pop-custom v-if="popB" :tableDatas="tableDataDs" :ids="idD" :heights="clientHeight" />
+          <pop-custom :tableDatas="tableDataDs" :ids="idD" :heights="clientHeight" />
         </div>
       </div>
     </div>
@@ -140,11 +140,6 @@ export default {
       headValue: true,
       showMain: false,
       // 时间
-      currentTime: {},
-      currentDate: undefined,
-      weatherImg: [Yin, Yu, Yu, Yu, Yu, Yu, Yu],
-      currentWeather: {},
-      currentImg: "",
       tableDataTop: [
         {
           name: '在线智能处置率',
@@ -165,17 +160,7 @@ export default {
           value: '6'
         },
       ],
-      // 天气
-      localweather: [
-        { high: "29", low: "22" },
-        { high: "28", low: "23" },
-        { high: "27", low: "23" },
-        { high: "25", low: "23" },
-        { high: "26", low: "22" },
-
-        { high: "29", low: "22" },
-        { high: "29", low: "22" }
-      ],
+      
       tableDataA: [],
       idA: {
         id: "echarts01",
@@ -208,8 +193,6 @@ export default {
       ],
       clientHeight: document.body.clientHeight,
       bigPoints: {},
-      popA: false,
-      popB: false,
     };
   },
   created() {},
@@ -243,45 +226,66 @@ export default {
   },
   methods: {
     init() {
-      this.getTableDataA(() => {
-        this.getTableDataC(() => {
-          this.$nextTick(() => {
-            this.showMain = true;
-          });
-        });
-      });
-    },
-    getTableDataA(cb) {
-      this.axios({
-        url: "/api/p4/smartCall",
-        method: "get",
-        type: "json"
-      }).then(data => {
-        let arr = data.data.data;
-        this.tableDataC = arr;
-        cb();
-      });
-    },
-    getTableDataC(cb) {
-      this.axios({
-        url: "/api/p4/smartOperation",
-        method: "get",
-        type: "json"
-      }).then(data => {
-        let arr = data.data.data;
-        arr.forEach((el, i) => {
-          el.status = [
-            {
-              id: i,
-              value: el.status
+      this.axios
+        .all([
+          this.axios.get("/api/p4/smartCall"),
+          this.axios.get("/api/p4/smartOperation"),
+          this.axios.get("/api/p4/outboundNum"), //外呼数量
+          this.axios.get("/api/p4/procRatio",{
+            params: {
+              indexname: 'kfzn'
             }
-          ];
+          }),
+          this.axios.get("/api/p4/procRatio",{
+            params: {
+              indexname: 'zxzn'
+            }
+          }),
+          this.axios.get("/api/p4/procRatio",{
+            params: {
+              indexname: 'dtsc'
+            }
+          }),
+        ])
+        .then(
+          this.axios.spread((...obj) => {
+            obj.forEach( (it,i) => {
+              let data = it.data.data;
+              if(i == 0) {
+                this.tableDataC = data;
+              }else if(i == 1) {
+                let arr = data;
+                arr.forEach((el, i) => {
+                  el.status = [
+                    {
+                      id: i,
+                      value: el.status
+                    }
+                  ];
+                });
+                this.bigPoints = arr[0];
+                this.tableDataA = arr;
+              }else if(i == 2) {
+                this.tableDataRight[0].value = data || 150
+              }else if(i == 3) {
+                this.tableDataTop[0].value = data || '30%'
+              }else if(i == 4) {
+                this.tableDataTop[1].value = data || '91%'
+              }else if(i == 5) {
+                this.tableDataRight[1].value = data || 6
+              }
+            })
+            this.$nextTick(() => {
+              this.showMain = true;
+            });
+          })
+        )
+        .catch(function(error) {
+          console.log(error);
         });
-        this.bigPoints = arr[0];
-        this.tableDataA = arr;
-        cb();
-      });
     },
+    
+    
     tB() {
       this.getTableDataB();
       this.timerB = setInterval(() => {
@@ -305,9 +309,6 @@ export default {
           it.want = it.problem;
         });
         this.tableDataB = arr;
-        this.$nextTick( () => {
-          this.popA = true
-        })
       });
     },
     getTableDataD() {
@@ -330,25 +331,22 @@ export default {
       this.bigPoints = par;
       if(par.accent) {
         this.tableDataRight[0].value += 1;
-        this.popB = false;
-        this.tableDataD.forEach( it => {
+        let cc = this._.cloneDeep(this.tableDataD)
+        cc.forEach( it => {
           if(it.want === par.want) {
             it.num  += 1
           }
         })
-        this.$nextTick( () => {
-          this.popB = true
-        })
+        this.tableDataD = cc
+        
       }else if(par.problem){
-        this.popA = false;
-        this.tableDataB.forEach( it => {
+        let cc = this._.cloneDeep(this.tableDataB)
+        cc.forEach( it => {
           if(it.problem === par.problem) {
             it.num  += 1
           }
         })
-        this.$nextTick( () => {
-          this.popA = true
-        })
+        this.tableDataB = cc
       }
     }
   },

@@ -25,6 +25,11 @@ export default {
   mounted() {
     this.drawChart();
   },
+  watch: {
+    tableDatas(newValue, oldValue) {
+      this.drawChart()
+    }
+  },
   methods: {
     translate(arr) {
       let a = [];
@@ -65,7 +70,7 @@ export default {
     },
     drawChart() {
       let myChart = this.$echarts.init(document.getElementById(this.id.id));
-      let seriesData = this.translate(this.tableData);
+      let seriesData = this.translate(this._.cloneDeep(this.tableDatas));
       // 绘制图表
       myChart.setOption({
         title: {

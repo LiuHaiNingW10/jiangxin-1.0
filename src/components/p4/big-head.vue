@@ -4,6 +4,7 @@
       <div id="ChinaMap" v-if="showAudio"></div>
       <div class="light-spot">
         <canvas id="audio-art"></canvas>
+        <canvas id="audio-art-shadow"></canvas>
       </div>
       <img :src="robot" alt id="robot-img" v-if="!showAudio" />
       <!-- <div class="topCity">
@@ -11,7 +12,7 @@
       </div>-->
     </div>
     <div class="brain-foot">
-      <audio id="audio" ref="audio" :src="require('../../assets/video/shanxi.wav')"></audio>
+      <audio id="audio" ref="audio" :src="require('../../assets/video/chongqing.wav')"></audio>
     </div>
   </div>
 </template>
@@ -81,7 +82,7 @@ export default {
         this.$nextTick(() => {
           this.showAudio = false;
         });
-        this.DrawVideo();
+        this.DrawVideo("audio-art");
       }
     });
   },
@@ -109,6 +110,7 @@ export default {
         };
       let myChart = this.$echarts.init(document.getElementById("ChinaMap"));
       let mapName = "china";
+      let curruntArea = obj && (obj.province && obj.province.split('省')[0] ||  obj.accent && obj.accent.split('省')[0])
       var data = [
         { name: "北京", value: 199 },
         { name: "天津", value: 42 },
@@ -144,6 +146,11 @@ export default {
         { name: "广西", value: 59 },
         { name: "海南", value: 14 }
       ];
+      data.forEach( (item) => {
+        if(item.name == curruntArea) {
+          item.value = item.value*2
+        }
+      })
 
       var geoCoordMap = {};
 
@@ -290,7 +297,7 @@ export default {
                   } = params.data;
                   let a = "";
                   if (accent) {
-                    a = `{a|口音识别}{b|${accent}}{a|产品}{b|${product}}\n{a|客户意图}{b|${want}}\n{a|手机号码}{b|${mobile}}`;
+                    a = `{a|口音识别}{b|${accent}}{a|产品}{b|${product}}\n{d|客户意图}{b|${want}}\n{a|手机号码}{b|${mobile}}`;
                   } else {
                     a = `{a|行为}{b|${action}}{a|状态}{b|${status[0].value}}\n{a|问题定位}{b|${problem}}{c|智能处理}{b|${handle}}\n{a|手机号码}{b|${mobile}}`;
                   }
@@ -320,7 +327,12 @@ export default {
                     fontWeight: "bold"
                   },
                   c: {
-                    align: "left"
+                    align: "left",
+                    fontSize: 16,
+                  },
+                  d: {
+                    color: "red",
+                    fontSize: 16,
                   }
                 }
               }
@@ -378,14 +390,16 @@ export default {
       this.lineData = obj.series;
       this.drawLineG(this.id.id, obj);
     },
-    DrawVideo() {
+    DrawVideo(id) {
       this.$emit("func", { value: false });
       var atx = new (window.AudioContext || webkitAudioContext)();
       // var audio = document.getElementById("audio");
       let audio = new Audio();
-      audio.src = require("../../assets/video/shanxi.wav");
-      var canvas = document.getElementById("audio-art");
+      audio.src = require("../../assets/video/chongqing.wav");
+      var canvas = document.getElementById(id);
+      var canvasShadow = document.getElementById('audio-art-shadow');
       var ctx = canvas.getContext("2d");
+      var ctxShadow = canvasShadow.getContext("2d");
 
       var source = atx.createMediaElementSource(audio);
       var analyser = atx.createAnalyser();
@@ -404,11 +418,25 @@ export default {
         ctx.clearRect(0, 0, cWidth, cHeight);
         ctx.fillStyle = "#60D7FB";
         for (var i = 0; i < audioArray.length; i++) {
-          ctx.fillRect(i * 3, cHeight - audioArray[i], 2, cHeight);
+          ctx.fillRect(i * 3, -(cHeight - audioArray[i]/2) - cHeight, 2, cHeight);
         }
+        // drawShadow()
         // 刷新
         requestAnimationFrame(draw);
       };
+      //制造半透明投影
+      function drawShadow() {
+        // let canvas = canvasShadow,ctx = ctxShadow;
+        ctx.drawImage(canvas, 0, 0);
+        ctx.save();
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.rotate(Math.PI);
+        ctx.scale(-1, 1);
+        ctx.drawImage(canvas, -canvas.width / 2, -canvas.height / 2);
+        ctx.restore();
+        ctx.fillStyle = "rgba(54, 114, 206, 0.05)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height / 2);
+      }
       draw();
       audio.play();
       let audioTime = this.$refs.audio.duration;
@@ -447,105 +475,18 @@ export default {
   .light-spot {
     width: 92%;
     margin: 0 auto;
+    left: 100px;
+    right: 100px;
+    margin-left: auto;
+    margin-right: auto;
     min-height: 400px;
     min-height: 450px;
     position: absolute;
     top: 4%;
-    .spot-box {
-      div {
-        display: inline-block;
-        position: absolute;
-        height: 54%;
-        width: 30%;
-        padding: 2.4% 3%;
-        z-index: 2;
-      }
-    }
+    text-align: center;
     audio {
-      display: none;
-    }
-    i {
-      font-style: normal;
-    }
-    .a-address {
-      width: 80%;
-      display: inline-block;
-      height: 30px;
-      background: url("../../assets/images/p4icon1.png") no-repeat center;
-      background-position: 4px 0;
-      background-size: 10%;
-      padding: 2px 38px;
-      line-height: 26px;
-    }
-    .e-address {
-      width: 80%;
-      display: inline-block;
-      height: 30px;
-      background: url("../../assets/images/p4icon4.png") no-repeat center;
-      background-position: 4px 0;
-      background-size: 8%;
-      padding: 2px 0 0px 40px;
-      line-height: 26px;
-    }
-    .f-address {
-      width: 80%;
-      display: inline-block;
-      height: 30px;
-      background: url("../../assets/images/p4icon1.png") no-repeat center;
-      background-position: 4px 0;
-      background-size: 10%;
-      padding: 2px 0 0 38px;
-      line-height: 26px;
-    }
-    .a-tel {
-      display: inline-block;
-      width: 80%;
-      margin-top: 4%;
-    }
-    .a-want {
-      color: #4dc4d3;
-    }
-    .e-want {
-      color: #ffe96f;
-    }
-    .a {
-      top: 338px;
-      left: 446px;
-      background: url("../../assets/images/popup-p.png") no-repeat center;
-      background-size: 100%;
-    }
-    .spot-box .b {
-      top: 396px;
-      left: 190px;
-      background: url("../../assets/images/popup-l.png") no-repeat center;
-      background-size: 100%;
-    }
-    .spot-box .c {
-      top: 730px;
-      left: 511px;
-      background: url("../../assets/images/popup-p.png") no-repeat center;
-      background-size: 100%;
-    }
-    .spot-box .d {
-      top: 469px;
-      left: 936px;
-      background: url("../../assets/images/popup-o.png") no-repeat center;
-      background-size: 100%;
-      padding-left: 126px;
-    }
-    .spot-box .e {
-      top: 236px;
-      right: 374px;
-      background: url("../../assets/images/popup-r.png") no-repeat center;
-      background-size: 100%;
-      padding-left: 128px;
-    }
-    .spot-box .f {
-      top: 616px;
-      right: 284px;
-      background: url("../../assets/images/popup-o.png") no-repeat center;
-      background-size: 100%;
-      padding-left: 128px;
+      // display: none;
+      visibility: hidden;
     }
   }
   .brain-foot {
@@ -553,40 +494,19 @@ export default {
     bottom: 0px;
     width: 100%;
     text-align: center;
-    .foot-ai {
-      display: inline-block;
-      width: 30%;
-      height: 60px;
-      background: url("../../assets/images/ai-foot.png") no-repeat center;
-      background-size: 50%;
-    }
-    ul {
-      display: flex;
-      justify-content: center;
-      width: 90%;
-      margin: 0 auto;
-      li {
-        list-style: none;
-        display: inline-block;
-        width: 10%;
-        margin-right: 30px;
-        text-align: center;
-        img {
-          width: 100%;
-          margin-bottom: 10px;
-        }
-      }
-    }
   }
   .video {
     display: none;
   }
   #audio-art {
-    position: absolute;
     width: 60%;
-    top: 130px;
-    left: 23%;
-    height: 172%;
+    height: 100%;
+    margin: 0 auto;
+    z-index: 1;
+  }
+  #audio-art-shadow {
+    width: 60%;
+    height: 100%;
     margin: 0 auto;
     z-index: 1;
   }
