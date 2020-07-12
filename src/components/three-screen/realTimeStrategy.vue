@@ -1,5 +1,5 @@
 <template>
-  <div class="real-time-strategy" id="realTimeStrategy">
+  <div class="real-time-strategy" id="realTimeStrategy" :style="`float:${float}`">
     <div class="title">{{title}}</div>
     <div class="num">
       <ul>
@@ -19,7 +19,7 @@
 <script>
 import IndicatorChart from "../first-screen/indicator.vue";
 export default {
-  props: ["title", "num", "blank"],
+  props: ["title", "num", "blank",'float'],
   data() {
     return {
       styleObj: {
@@ -93,7 +93,8 @@ export default {
 }
 .real-time-strategy {
   margin: 30px;
-  display: inline-block;
+  display: block;
+
   .title {
     text-align: left;
     font-size: 32px;
@@ -109,7 +110,6 @@ export default {
       text-align: center;
       font-size: 64px;
       margin-right: 10px;
-
       font-family: "UnidreamLED";
       // background: url("../../assets/images/num-bg.png") no-repeat;
       // background-size: 100% 100%;

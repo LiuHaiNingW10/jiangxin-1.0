@@ -24,8 +24,8 @@
       <div class="center-box">
         <!-- 地图 -->
         <div class="strategy-box">
-          <real-time-strategy v-if="showUses" title="当日累计拦截金额（元）" :num="usesTime.year" :blank="1" />
-          <real-time-strategy v-if="showUses" title="当日累计拦截笔数（笔）" :num="usesTime.day" :blank="2" />
+          <real-time-strategy v-if="showUses" title="当日累计拦截金额（元）" :num="usesTime.year" :blank="1" :float="'left'"/>
+          <real-time-strategy v-if="showUses" title="当日累计拦截笔数（笔）" :num="usesTime.day" :blank="2"  :float="'right'"/>
         </div>
         <map-chart class="map-charts" />
         <!-- <div class="map-panel"></div> -->
@@ -440,6 +440,7 @@ export default {
       width: 45.4%;
       height: 100%;
       .strategy-box {
+        height: 210px;
         width: 100%;
       }
       .map-charts {

@@ -1,4 +1,5 @@
 <template>
+<!-- p1 -->
   <div class="sec-map-charts">
     <div id="secMiddleMap"></div>
   </div>
@@ -50,7 +51,7 @@ export default {
         广西: [108.479, 23.1152],
         海南: [110.3893, 19.8516],
         黑龙江: [127.9688, 45.368],
-        台湾: [121.4648, 25.563]
+        台湾: [121.4648, 25.563],
       };
       var colorData = [
         { name: "北京", value: 199 },
@@ -85,7 +86,8 @@ export default {
         { name: "香港", value: 203 },
         { name: "澳门", value: 199 },
         { name: "广西", value: 59 },
-        { name: "海南", value: 14 }
+        { name: "海南", value: 14 },
+        { name: "台湾", value: 15 },
       ];
       var convertData = function(data) {
         var res = [];
@@ -94,7 +96,7 @@ export default {
           if (geoCoord) {
             res.push({
               name: data[i].name,
-              value: geoCoord.concat(data[i].value)
+              value: geoCoord.concat(data[i].value),
             });
           }
         }
@@ -106,10 +108,10 @@ export default {
       );
       myEcharts.setOption({
         legend: {
-          show: false
+          show: false,
         },
         tooltip: {
-          show: true
+          show: true,
         },
         visualMap: {
           show: false,
@@ -120,16 +122,16 @@ export default {
           calculable: true,
           seriesIndex: [1],
           inRange: {
-            color: ["#467bc0", "#003377"] // 蓝绿
-          }
+            color: ["#467bc0", "#467bc0"], // 蓝绿
+          },
         },
         geo: {
           map: "china",
           aspectScale: 0.75,
           label: {
             emphasis: {
-              show: false
-            }
+              show: false,
+            },
           },
           regions: [
             {
@@ -139,11 +141,11 @@ export default {
                 normal: {
                   opacity: 0,
                   label: {
-                    show: false
-                  }
-                }
-              }
-            }
+                    show: false,
+                  },
+                },
+              },
+            },
           ],
           // itemStyle: {
           //   normal: {
@@ -188,27 +190,27 @@ export default {
                 colorStops: [
                   {
                     offset: 0,
-                    color: "rgba(147, 235, 248, 0)" // 0% 处的颜色
+                    color: "rgba(147, 235, 248, 0)", // 0% 处的颜色
                   },
                   {
                     offset: 1,
-                    color: "rgba(147, 235, 248, .2)" // 100% 处的颜色
-                  }
+                    color: "rgba(147, 235, 248, .2)", // 100% 处的颜色
+                  },
                 ],
-                globalCoord: false // 缺省为 false
+                globalCoord: false, // 缺省为 false
               },
               shadowColor: "rgba(128, 217, 248, 1)",
               // shadowColor: 'rgba(255, 255, 255, 1)',
               shadowOffsetX: -2,
               shadowOffsetY: 2,
-              shadowBlur: 10
+              shadowBlur: 10,
             },
             emphasis: {
               areaColor: "#389BB7",
-              borderWidth: 0
-            }
+              borderWidth: 0,
+            },
           },
-          z: 2
+          z: 2,
         },
         series: [
           {
@@ -222,23 +224,23 @@ export default {
               normal: {
                 formatter: "{b}",
                 position: "right",
-                show: true
+                show: true,
               },
               emphasis: {
-                show: true
-              }
+                show: true,
+              },
             },
             itemStyle: {
               normal: {
-                color: "#fff"
-              }
-            }
+                color: "#fff",
+              },
+            },
           },
           {
             type: "map",
             map: "china",
             tooltip: {
-              show: false
+              show: false,
             },
             showLegendSymbol: false,
             // label: {
@@ -251,6 +253,7 @@ export default {
             // left: "12.5%",
             aspectScale: 0.75,
             roam: false,
+            //地图的样式设计
             itemStyle: {
               normal: {
                 borderColor: "#2cb3dd",
@@ -264,31 +267,31 @@ export default {
                   colorStops: [
                     {
                       offset: 0,
-                      color: "#274d68" // 0% 处的颜色
+                      color: "#274d68", // 0% 处的颜色
                     },
                     {
                       offset: 1,
-                      color: "#09132c" // 50% 处的颜色
-                    }
+                      color: "#09132c", // 50% 处的颜色
+                    },
                   ],
-                  global: true // 缺省为 false
-                }
+                  global: true, // 缺省为 false
+                },
               },
               emphasis: {
                 show: false,
-                areaColor: "#274d62"
-              }
+                areaColor: "#274d62",
+              },
             },
             label: {
               normal: {
-                show: false
+                show: false,
               },
               emphasis: {
                 show: false,
                 textStyle: {
-                  color: "#fff"
-                }
-              }
+                  color: "#fff",
+                },
+              },
             },
             // roam: false,
             // itemStyle: {
@@ -306,9 +309,10 @@ export default {
             // },
             animation: false,
             zlevel: 1,
-            data: colorData
+            data: colorData,
           },
           {
+
             type: "effectScatter",
             coordinateSystem: "geo",
             zlevel: 4,
@@ -336,26 +340,25 @@ export default {
                       company: "企业1",
                       credit: "589,298",
                       grade: "87",
-                      value: [116.4551, 40.2539, 48]
+                      value: [116.4551, 40.2539, 48],
                     },
                     {
                       company: "企业2",
                       credit: "589,298,583",
                       grade: "96",
-                      value: [103.9526, 30.7617, 48]
-                    }
+                      value: [103.9526, 30.7617, 48],
+                    },
                   ],
-            symbolSize: 40,
             showEffectOn: "render",
 
             // 涟漪的设置
-            rippleEffect: {
-              color: "#7FFFAA",
-              scale: 4,
-              brushType: "stroke"
-            },
+            // rippleEffect: {
+            //   color: "#7FFFAA",
+            //   scale: 4,
+            //   brushType: "stroke",
+            // },
 
-            // 标签
+            // 标签 p1弹出的
             label: {
               normal: {
                 show: true,
@@ -366,39 +369,46 @@ export default {
                     "省份：" +
                     params.data.province +
                     "\n" +
-                    "授信：¥" +
+                    "授信：" +
                     params.data.credit +
-                    "\n"
+                    "\n" +
+                    "城市："+
+                    params.data.address
                   );
                   // return (
                   //   "{fline|" + " " + params.data.name + " " + "重点关注" + "}"
                   // );
                 },
-                position: "top",
-                distance: 40,
-                backgroundColor: "rgba(0,0,0,.3)",
-                borderColor: "rgba(0,191,255,.9)",
-                borderWidth: 2,
-                padding: [20, 30],
+                position: [-300, -80],
+                distance: 0,
+                backgroundColor: {
+                  image: require("@/assets/images/p3/map-modal.png")
+                },
+                // borderColor: "rgba(0,191,255,.9)",
+                // borderWidth: 2,
+                padding: [30, 40],
                 borderRadius: 3,
-                lineHeight: 24,
+                lineHeight: 28,
                 verticalAlign: "middle",
                 color: "#fff",
                 z: 11,
+                textStyle: {
+                  fontSize: 20,
+                },
                 rich: {
                   fline: {
                     padding: [0, 10],
-                    color: "#ffffff"
-                  }
-                }
-              }
+                    color: "#ffffff",
+                  },
+                },
+              },
             },
             itemStyle: {
-              normal: {
-                color: "#7FFFAA",
+             normal: {
+                color: "#F5B523",
                 shadowBlur: 2
               }
-            }
+            },
           },
           {
             type: "lines",
@@ -406,7 +416,7 @@ export default {
             effect: {
               show: true,
               period: 5,
-              color: "rgba(127,255,170, 1)"
+              color: "rgba(127,255,170, 1)",
             },
             lineStyle: {
               normal: {
@@ -418,32 +428,32 @@ export default {
                   [
                     {
                       offset: 0,
-                      color: "rgba(127,255,170, 1)"
+                      color: "rgba(127,255,170, 1)",
                     },
                     {
                       offset: 1,
-                      color: "rgba(127,255,170, 0)"
-                    }
+                      color: "rgba(127,255,170, 0)",
+                    },
                   ],
                   false
                 ),
                 width: 2,
                 opacity: 0.5,
-                curveness: 0
-              }
+                curveness: 0,
+              },
             },
-            data: chartData
-              ? chartData.map(item => {
-                  return {
-                    fromName: 1,
-                    toName: 1,
-                    coords: [
-                      [Number(item.value[0]), Number(item.value[1])],
-                      [Number(item.value[0]), Number(item.value[1]) + 3]
-                    ]
-                  };
-                })
-              : []
+            // data: chartData
+            //   ? chartData.map((item) => {
+            //       return {
+            //         fromName: 1,
+            //         toName: 1,
+            //         coords: [
+            //           [Number(item.value[0]), Number(item.value[1])],
+            //           [Number(item.value[0]), Number(item.value[1]) + 3],
+            //         ],
+            //       };
+            //     })
+            //   : [],
             // data: Object.keys(geoCoordMap).map(item => {
             //   return {
             //     fromName: 1,
@@ -464,17 +474,17 @@ export default {
             //     ]
             //   }
             // ]
-          }
-        ]
+          },
+        ],
       });
-    }
+    },
   },
   components: {},
   watch: {
     chartData: function(newVal) {
       this.initMap(newVal);
-    }
-  }
+    },
+  },
 };
 </script>
 
