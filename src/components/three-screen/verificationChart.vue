@@ -21,7 +21,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.tableData)
+    // console.log(this.tableData)
   },
   methods: {
   },

@@ -742,7 +742,7 @@ export default {
     },
     getMsgFormSon(data) {
       this.msgFormSon = data;
-      console.log(this.msgFormSon);
+      // console.log(this.msgFormSon);
     },
 
     // 5s请求一次数据

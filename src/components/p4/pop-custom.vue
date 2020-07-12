@@ -10,6 +10,8 @@
 </template>
 <script>
 import Vue from "vue";
+import "echarts-wordcloud/dist/echarts-wordcloud";
+import "echarts-wordcloud/dist/echarts-wordcloud.min";
 export default {
   name: "tableAuto",
   props: ["tableDatas", "ids", "columns", "heights"],
@@ -23,16 +25,18 @@ export default {
   },
   computed: {},
   mounted() {
-    this.drawChart();
+    // this.drawChart();
+    this.drawCloudChart();
   },
   methods: {
     translate(arr) {
       let a = [];
-      let maxItem = Vue.filter('sortByValue')(arr,'num')[0]
+      let maxItem = Vue.filter("sortByValue")(arr, "num")[0];
       arr.forEach(it => {
         a.push({
           name: it.want,
-          value: it.num + "人",
+          // value: it.num + "人",
+          value: it.num,
           symbolSize: getSize(it.num),
           symbol: getSymbol(it.num),
           draggable: true,
@@ -41,25 +45,25 @@ export default {
           }
         });
       });
-      return a
+      return a;
 
-      function getSize (num) {
-        let a = Math.floor(num/maxItem.num * 280)
-        if(a < 150) {
-          a = 150
+      function getSize(num) {
+        let a = Math.floor((num / maxItem.num) * 280);
+        if (a < 150) {
+          a = 150;
         }
-        return a
-      };
-      function getSymbol (num) {
-        let rate = num/maxItem.num;
-        if(rate < 1/4) {
-          return `image://${require("@/assets/images/p2/loan1.svg")}`
-        }else if(rate < 2/4) {
-          return `image://${require("@/assets/images/p2/loan4.svg")}`
-        }else if(rate < 3/4) {
-          return `image://${require("@/assets/images/p2/loan5.svg")}`
-        }else {
-          return `image://${require("@/assets/images/p2/loan3.svg")}`
+        return a;
+      }
+      function getSymbol(num) {
+        let rate = num / maxItem.num;
+        if (rate < 1 / 4) {
+          return `image://${require("@/assets/images/p2/loan1.svg")}`;
+        } else if (rate < 2 / 4) {
+          return `image://${require("@/assets/images/p2/loan4.svg")}`;
+        } else if (rate < 3 / 4) {
+          return `image://${require("@/assets/images/p2/loan5.svg")}`;
+        } else {
+          return `image://${require("@/assets/images/p2/loan3.svg")}`;
         }
       }
     },
@@ -120,6 +124,57 @@ export default {
                   fontSize: "24",
                   align: "center"
                 }
+              }
+            },
+            data: seriesData
+          }
+        ]
+      });
+    },
+
+    //  词云
+    drawCloudChart() {
+      let myChart = this.$echarts.init(document.getElementById(this.id.id));
+      let seriesData = this.translate(this.tableData);
+      let randcolor = () => {
+        let r = 100 + ~~(Math.random() * 100);
+        let g = 135 + ~~(Math.random() * 100);
+        let b = 100 + ~~(Math.random() * 100);
+        return `rgb(${r}, ${g}, ${b})`;
+      };
+      myChart.setOption({
+        // backgroundColor: "rgba(0,0,0,.5)",
+        tooltip: {
+          trigger: "item",
+          padding: [10, 15],
+          textStyle: {
+            fontSize: 20
+          },
+          formatter: params => {
+            const { name, value } = params;
+
+            return `
+                    异常问题：${name} <br/>
+                    数量：${value}
+                `;
+          }
+        },
+        series: [
+          {
+            type: "wordCloud",
+            gridSize: 20,
+            sizeRange: [12, 50],
+            rotationRange: [0, 0],
+            shape: "circle",
+            textStyle: {
+              normal: {
+                color: params => {
+                  return randcolor();
+                }
+              },
+              emphasis: {
+                shadowBlur: 10,
+                shadowColor: "#333"
               }
             },
             data: seriesData
