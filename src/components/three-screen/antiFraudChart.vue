@@ -15,21 +15,30 @@ export default {
   computed: {},
   methods: {
     initPieChart(id,antiFraudDatas) {
-      // const colorList = [
-      //   "#47A2FF",
-      //   "#53C8D1",
-      //   "#59CB74",
-      //   "#FBD444",
-      //   "#7F6AAD",
-      //   "#585247"
-      // ];
+      // [{
+      //     "value": "60",
+      //     "name": "mxjczb"
+      // },
+      // {
+      //     "value": "20",
+      //     "name": "rgsh"
+      // },
+      // {
+      //     "value": "20",
+      //     "name": "cljc"
+      // }]
+      const colorList = [
+        "#7F6AAD",
+        "#59CB74",
+        "#FBD444"
+      ];
       let myCharts = this.$echarts.init(document.getElementById(id));
       // let _that = this;
       myCharts.setOption({
         title: {
-          text: '南丁格尔玫瑰图',
-          subtext: '纯属虚构',
-          left: 'center'
+          text: '',
+          subtext: '',
+          left: 'center',
         },
         tooltip: {
           trigger: 'item',
@@ -38,9 +47,16 @@ export default {
         legend: {
           type: 'scroll',
           orient: 'vertical',
-          left: 'center',
+          right: "30%",
           top: 'center',
-          data: ['rose1', 'rose2', 'rose3']
+          textStyle: {
+            fontSize: 16,
+            color: "#FFF",
+            lineHeight: 20
+          },
+          data: antiFraudDatas.map(item => {
+            return item.name;
+          }),
         },
         toolbox: {
           show: true,
@@ -55,12 +71,13 @@ export default {
             saveAsImage: {show: true}
           }
         },
+        color: colorList,
         series: [
         {
           name: '半径模式',
           type: 'pie',
           radius: [20, 110],
-          center: ['25%', '50%'],
+          center: ['35%', '50%'],
           roseType: 'radius',
           label: {
               show: false
@@ -86,4 +103,8 @@ export default {
 </script>
 
 <style lang="less">
+  .anti-echarts {
+    width: 100%;
+    height: 260px;
+  }
 </style>

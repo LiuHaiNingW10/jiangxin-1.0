@@ -70,9 +70,9 @@ export default {
       /* end */
       IDFdata: [
         { flag: "名单层", callNum: 300, percent: 30 },
-        { flag: "聚集层", callNum: 300, percent: 30 },
+        { flag: "关系层", callNum: 300, percent: 30 },
         { flag: "场景层", callNum: 200, percent: 20 },
-        { flag: "动态层", callNum: 200, percent: 20 }
+        { flag: "行为层", callNum: 200, percent: 20 }
       ],
       frm_cc: base64.frm_cc.value
     };
