@@ -29,7 +29,7 @@ export default {
       };
       let arr = Vue.filter('sortByValue')(this.tableData,'percent')
       arr.forEach(el => {
-        obj.series.push(el.percent);
+        obj.series.push(el.percent.toFixed(2));
         obj.yAxis.push(el.indexname);
       });
       this.drawLineG(this.id, obj);
