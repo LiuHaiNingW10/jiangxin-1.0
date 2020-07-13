@@ -1,7 +1,7 @@
 <template>
   <div class="right-columnar">
     <div v-for="(item, index) in ids" :key="item.id" class="single-columnar">
-      <div>{{item.title}}</div>
+      <div class="single-columnar-title">{{item.title}}</div>
       <div class="current-data">
         <!-- {{chartData.totalData[index]}} -->
         <!-- <scroll-span :number="chartData.totalData[index]" class="total-money-span" ids="current" /> -->
@@ -46,7 +46,7 @@ export default {
       },
       singleStyle: {
         width: "4%",
-        fontFamily: 'inherit'
+        fontFamily: "inherit"
         // marginLeft: "1%",
         // lineHeight: "150%"
       },
@@ -171,10 +171,12 @@ export default {
 .right-columnar {
   width: 100%;
   display: flex;
-  text-align: center;
   .single-columnar {
     height: 100%;
-    width: 50%;
+    width: 100%;
+    .single-columnar-title {
+      text-align: left;
+    }
     .current-data {
       font-weight: bold;
       color: #ff0088;
@@ -187,8 +189,7 @@ export default {
     }
   }
 }
-.total-money-span
-{
+.total-money-span {
   margin-bottom: -2px;
 }
 </style>
