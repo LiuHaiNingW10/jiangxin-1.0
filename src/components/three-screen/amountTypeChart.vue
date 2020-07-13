@@ -65,10 +65,10 @@ export default {
             }
         },
         grid: {
-          top: "10%",
-          left: "10%",
-          right: "10%",
-          bottom: "10%",
+          top: 15,
+          left: 73,
+          right: 29,
+          bottom: '11%',
           containLabel: true
         },
         xAxis: {
@@ -87,6 +87,9 @@ export default {
             type: 'category',
             axisLabel: {
               color: 'rgba(255,255,255)'
+            },
+            axisLine:{
+             show:false
             },
             data: data.map(item=>item.event).reverse()
           },

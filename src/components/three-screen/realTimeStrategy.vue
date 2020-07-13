@@ -1,17 +1,15 @@
 <template>
-  <div class="real-time-strategy" id="realTimeStrategy" :style="`float:${float}`">
-    <div class="title">{{title}}</div>
-    <div class="num">
-      <ul>
-        <li v-for="(item, index) in numArr" :key="index">{{item||''}}</li>
-        <!-- <indicator-chart
-          :chartData="this.formatMoney(this.num)"
-          :styleData="styleObj"
-          marginTop="-120px"
-          :styleSingle="singleStyle"
-          :chartId="'cheat-money' + this.blank"
-        />-->
-      </ul>
+  <div
+    class="real-time-strategy"
+    id="realTimeStrategy"
+    :style="`float:${float}`"
+  >
+    <div class="title">{{ title }}</div>
+    <div class="num" :style="`float:${float}`">
+      {{numArr}}
+      <!-- <ul>
+        <li v-for="(item, index) in numArr" :key="index">{{ item || "" }}</li>
+      </ul> -->
     </div>
   </div>
 </template>
@@ -19,18 +17,18 @@
 <script>
 import IndicatorChart from "../first-screen/indicator.vue";
 export default {
-  props: ["title", "num", "blank",'float'],
+  props: ["title", "num", "blank", "float"],
   data() {
     return {
       styleObj: {
         height: "45%",
-        fontSize: "64px"
+        fontSize: "64px",
       },
       singleStyle: {
         width: "5%",
         marginLeft: "1%",
-        lineHeight: "150%"
-      }
+        lineHeight: "150%",
+      },
     };
   },
   computed: {
@@ -40,10 +38,10 @@ export default {
         for (var i = 0; i < this.blank; i++) {
           arr.unshift("");
         }
-        return arr;
+        return arr.join('');
       }
       return [];
-    }
+    },
   },
   methods: {
     formatMoney(num, bool = false) {
@@ -73,11 +71,11 @@ export default {
             : "0";
         }
       }
-    }
+    },
   },
   components: {
-    "indicator-chart": IndicatorChart
-  }
+    "indicator-chart": IndicatorChart,
+  },
 };
 </script>
 
@@ -92,13 +90,18 @@ export default {
     local("UnidreamLED"), url("../first-screen/font/UnidreamLED.woff"); /***默认使用本地的***/
 }
 .real-time-strategy {
-  margin: 30px;
-  display: block;
 
   .title {
     text-align: left;
-    font-size: 32px;
-    margin-bottom: 22px;
+  font-size: 32px;
+  margin: 38px 48px 32px 48px;
+  display: block;
+  color: #ffffff;
+  font-family: Microsoft YaHei;
+  font-weight: bold;
+  font-size: 32px;
+  line-height: normal;
+  letter-spacing: 0px;
   }
   ul {
     display: flex;
@@ -115,5 +118,15 @@ export default {
       // background-size: 100% 100%;
     }
   }
+}
+.num{
+  color: #FFFFFF;
+font-family: Microsoft YaHei;
+font-weight: bold;
+font-size: 80px;
+line-height: normal;
+letter-spacing: 0px;
+text-align: left;
+padding: 0 48px 0 48px;
 }
 </style>

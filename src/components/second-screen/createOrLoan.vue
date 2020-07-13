@@ -1,41 +1,24 @@
 <template>
   <div class="credit-properties">
-    <!-- <div class="content-title">
-      <span class="first-title-span">{{typeData.first}}</span>
-    </div>-->
-
     <!-- 底部的标题 -->
     <div class="middle-title" v-if="showCredit">
       <div class="middle-left middle-single">{{typeData.littleTitle[0]}}</div>
       <div class="middle-right middle-single">{{typeData.littleTitle[1]}}</div>
     </div>
+    <div>
 
+    </div>
     <div class="bottom-graph" v-if="showCredit">
-      <div v-if="typeData.type === 1" class="top-graph-div">
-        <classification-account
-          class="company-columnar"
-          idsLeft="account-chart"
-          idsRight="account-columnar-chart"
-          v-if="classificationData"
-          :chartData="classificationData"
-        />
-        <income-level
-          class="company-columnar"
-          ids="company-columnar-chart"
-          :chartData="levelData"
-          v-if="levelData"
-        />
-      </div>
-      <div v-else-if="typeData.type === 2" class="bottom-graph-div">
+      <div v-if="typeData.type === 2" class="bottom-graph-div">
         <person-columnar
           class="person-columnar"
-          :ids="industryColumnarId"
+          :ids="createId"
           :chartData="industryColumnarData"
           v-if="industryJudge"
         />
         <person-columnar
           class="person-columnar"
-          :ids="enterpriseColumnarId"
+          :ids="loanId"
           v-if="enterpriseJudge"
           :chartData="enterpriseColumnarData"
         />
@@ -46,16 +29,11 @@
 
 <script>
 import PersonColumnar from "./personColumnar.vue";
-import ClassificationAccount from "./classificationAccount.vue";
-import IncomeLevel from "./incomeLevel.vue";
 
-import ScrollSpan from "../../components/scrollSpan.vue";
 export default {
   name: "",
   props: ["typeData", "indicatorData", "showCredit"],
   created() {
-    this.getClassificationData();
-    this.getLevelData();
     this.getEnterpriseData();
   },
   mounted() {},
@@ -64,11 +42,9 @@ export default {
       enterpriseJudge: false,
       industryJudge: false,
       industryColumnarData: {},
-      industryColumnarId: "industryColumnar",
+      createId: "createId",
       enterpriseColumnarData: {},
-      enterpriseColumnarId: "enterpriseColumnar",
-      classificationData: undefined,
-      levelData: {}
+      loanId: "loanId",
     };
   },
   computed: {},
@@ -102,50 +78,10 @@ export default {
       value = toThousands(value);
       return value;
     },
-    getClassificationData() {
-      let that = this;
-      this.axios({
-        url: "/api/p2/category",
-        method: "get",
-        data: "",
-        type: "json"
-      }).then(data => {
-        if (data.data.code === 100) {
-          var tData = data.data.data;
-          that.classificationData = tData.map(item => {
-            return {
-              name: item.description,
-              value: parseFloat(item.percent)
-            };
-          });
-        }
-      });
-    },
-    getLevelData() {
-      let that = this;
-      this.axios({
-        url: "/api/p2/incomeLevel",
-        method: "get",
-        data: "",
-        type: "json"
-      }).then(data => {
-        if (data.data.code === 100) {
-          var tData = data.data.data;
-          let xAxis = [];
-          let yAxis = [];
-          tData.forEach(item => {
-            xAxis.push(item.description);
-            yAxis.push(parseFloat(item.percent));
-          });
-
-          that.levelData = Object.assign({}, { xAxis: xAxis, yAxis: yAxis });
-        }
-      });
-    },
     getEnterpriseData() {
       let that = this;
       this.axios({
-        url: "/api/p2/cmpScale",
+        url: "/api/p1/distributeInfo?category=xw_qx&flag=xw",
         method: "get",
         data: "",
         type: "json"
@@ -155,8 +91,8 @@ export default {
           let xAxis = [];
           let yAxis = [];
           tData.forEach(item => {
-            xAxis.push(item.category);
-            yAxis.push(parseFloat(item.percent));
+            xAxis.push(item.key);
+            yAxis.push(parseFloat(item.perc));
           });
           xAxis = xAxis.reverse();
           yAxis = yAxis.reverse();
@@ -171,7 +107,7 @@ export default {
         }
       });
       this.axios({
-        url: "/api/p2/industry",
+        url: "/api/p1/distributeInfo?category=xw_ed&flag=xw",
         method: "get",
         data: "",
         type: "json"
@@ -181,8 +117,8 @@ export default {
           let xAxis = [];
           let yAxis = [];
           tData.forEach(item => {
-            xAxis.push(item.industryname);
-            yAxis.push(parseFloat(item.percent));
+            xAxis.push(item.key);
+            yAxis.push(parseFloat(item.perc));
           });
           // 客户要求写死数据
           // xAxis = ["零售批发", "金融业", "农业", "交通运输", "服务业"];
@@ -203,9 +139,6 @@ export default {
   },
   components: {
     "person-columnar": PersonColumnar,
-    "classification-account": ClassificationAccount,
-    "income-level": IncomeLevel,
-    "scroll-span": ScrollSpan
   }
 };
 </script>
@@ -213,77 +146,9 @@ export default {
 <style lang="less" scoped>
 .credit-properties {
   // padding: 1.97% 3.47%;
-  .content-title {
-    width: 100%;
-    height: 9.55%;
-    // background: url("../../assets/images/bg-content-title.png") no-repeat;
-    // background-size: 100% 100%;
-    margin-bottom: 2%;
-    .first-title-span {
-      display: block;
-      smargin-left: 5%;
-    }
-  }
-  .num-and-coin {
-    width: 100%;
-    // height: 17.36%;
-    height: 70%;
-    background: url("../../assets/images/group-7.png") no-repeat;
-    background-size: 100% 100%;
-    margin-bottom: 2%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    .top-single {
-      display: flex;
-      align-items: center;
-      width: 49%;
-      height: 100%;
-      padding: 0.5% 6%;
-      .portrait {
-        height: 70%;
-        width: 22%;
-        background: url("../../assets/images/portrait-left.svg") no-repeat;
-        background-size: 100% 100%;
-        text-align: center;
-        .portrait-img {
-          padding-top: 16%;
-        }
-      }
-      .num-span {
-        width: 88%;
-        height: 88%;
-        .num-span-title {
-          font-size: 21px;
-        }
-        .middle-rec {
-          background: url("../../assets/images/num-cut-off.png") no-repeat;
-          background-size: 100% 100%;
-          width: 100%;
-          height: 10%;
-        }
-        .num-span-data {
-          font-size: 36px;
-          height: 100%;
-          color: #04bbff;
-          display: inline-block;
-          overflow: hidden;
-
-          .total-money-span {
-            height: 40%;
-          }
-        }
-      }
-    }
-    .top-middle {
-      width: 0.3%;
-      height: 66%;
-      background: url("../../assets/images/rectangle.png") no-repeat;
-      background-size: 100% 100%;
-    }
-  }
   .middle-title {
     width: 100%;
+    // height: 6.36%;
     display: flex;
     justify-content: space-around;
     .middle-single {
@@ -297,6 +162,8 @@ export default {
       line-height: 40px;
       letter-spacing: 0px;
       text-align: left;
+      // background: url("../../assets/images/title4.png") no-repeat;
+      // background-size: 100% 100%;
     }
   }
   .bottom-graph {

@@ -1,19 +1,19 @@
 <template>
   <div class="common-box" :style="id.style">
-      <div :id="id.id"></div>
+    <div :id="id.id"></div>
   </div>
 </template>
 <script>
 import Vue from "vue";
 export default {
   name: "tableAuto",
-  props: ["tableDatas", "ids", "columns", "heights","isShowPercent"],
+  props: ["tableDatas", "ids", "columns", "heights", "isShowPercent"],
   data() {
     return {
       tableData: this.tableDatas,
       id: this.ids,
       height: this.heights,
-      lineData: []
+      lineData: [],
     };
   },
   computed: {},
@@ -25,10 +25,10 @@ export default {
       let obj = {
         type: "bar",
         yAxis: [],
-        series: []
+        series: [],
       };
-      let arr = Vue.filter('sortByValue')(this.tableData,'percent')
-      arr.forEach(el => {
+      let arr = Vue.filter("sortByValue")(this.tableData, "percent");
+      arr.forEach((el) => {
         obj.series.push(el.percent.toFixed(2));
         obj.yAxis.push(el.indexname);
       });
@@ -38,7 +38,20 @@ export default {
       var _this = this;
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById(ele.id));
+      // 每一个
+      var payAmounts = data.series.map((item) => item).reverse();
+      // 总的
+      var totalAmount = payAmounts.reduce((x, y) => x * 1 + y * 1);
+
+      //总的截取到小数后两位
+      var totalArr = new Array(data.series).fill(
+        parseFloat(totalAmount).toFixed(2)
+      );
+      totalArr = data.series.map(() => {
+        return totalAmount;
+      });
       // 绘制图表
+
       myChart.setOption({
         title: {
           text: [`{b|${ele.title}}`].join(""),
@@ -47,120 +60,119 @@ export default {
             rich: {
               b: {
                 color: "#fff",
-                fontSize: "20"
-              }
-            }
+                fontSize: "20",
+              },
+            },
           },
           itemGap: 10,
-          margin: 10,
-          left: '5%',
-          top: 10
+          margin: 0,
+          left: "5%",
+          top: 0,
         },
         color: ["#C98531", "#0177a9"],
         grid: {
-          top: "15%",
-          left: "20%",
-          right: "10%",
-          bottom: '4%'
+          top: '10%',
+          left: "10%",
+          right: "0%",
+          bottom: '7%'
+          // containLabel: true,
         },
         xAxis: {
+          show: false,
           type: "value",
-          nameTextStyle: {
-            color: "#7397C4"
-          },
-          axisLabel: {
-            show: false
-          },
-          axisTick: {
-            show: false
-          },
-          axisLine: {
-            show: false
-          },
-          nameGap: 25,
           boundaryGap: [0, 0.01],
+          axisLabel: {
+            color: "rgba(255,255,255)",
+          },
           splitLine: {
-            show: false
-          }
+            show: false,
+          },
         },
         yAxis: [
           {
-            name: "活动：信贷MGM",
             type: "category",
             axisLabel: {
-              //刻度标签文字的颜色
-              show: true,
-              color: "#ccc",
-              fontSize: 16
+              color: "rgba(255,255,255)",
             },
-            axisLine: {
-              show: true,
-              color: "#fff",
-            },
-            axisTick: {
-              show: false
-            },
-            interval: 2,
-            data: data.yAxis
+            data: data.yAxis.map((item) => item).reverse(),
           },
         ],
         series: [
           {
-            name: "折人民币余额",
+            name: "拦截金融",
+            type: "bar",
+            zlevel: 1,
             label: {
               show: true,
-              color: "#ccc",
               position: "right",
-              right: 0,
-              fontSize: 22,
-              /* 7月10日wk修改：修改p3页面右侧欺诈风险画像为% */
-              formatter: data => {
-                if(this.isShowPercent) {
-                  return data.value + '%';
-                }
-                return data.value;
-              }
-              /* end */
+              color: "rgba(255,255,255)",
+              formatter: "{@score}%",
             },
-
-            roundCap: true,
-            type: "bar",
-            data: data.series.reverse(),
-            barWidth: 12,
-            barCategoryGap: "2",
             itemStyle: {
-              normal: {
-                barBorderRadius: [10, 10, 10, 10],
-                color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              barBorderRadius: 6,
+              color: {
+                type: "linear",
+                x: 0,
+                y: 0,
+                x2: 1,
+                y2: 0,
+                colorStops: [
                   {
                     offset: 0,
-                    color: "#40BEFF"
+                    color: "#1F7CFF", // 0% 处的颜色
+                  },
+                  {
+                    offset: 0.9,
+                    color: "#2BF1FF",
                   },
                   {
                     offset: 1,
-                    color: "#5BEEFF"
-                  }
-                ])
-              }
-            }
-          }
-        ]
+                    color: "#FFFFFF ", // 100% 处的颜色
+                  },
+                ],
+                global: false, // 缺省为 false
+              },
+            },
+            barWidth: 16,
+            data: payAmounts,
+          },
+          {
+            name: "背景",
+            type: "bar",
+            barWidth: 16,
+            barGap: "-100%",
+            label: {
+              show: false,
+              position: "right",
+              color: "rgba(255,255,255)",
+            },
+            data: totalArr,
+            itemStyle: {
+              color: "rgba(255,255,255,0)",
+              barBorderRadius: 30,
+              borderWidth: 2,
+              borderColor: "rgba(255,255,255,.4)",
+            },
+          },
+        ],
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
-#echarts03, #echarts04, #echarts05 {
+#echarts03,
+#echarts04,
+#echarts05 {
   width: 98%;
   height: 100%;
   color: #fff;
+  margin-top: 10px;
 }
-
 .line-body {
   display: flex;
   .line-data {
-    padding: 17px;
+    padding: 0px;
     text-align: right;
     span {
       display: inline-block;

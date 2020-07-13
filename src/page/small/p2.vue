@@ -12,71 +12,55 @@
     <!-- 内容 -->
     <div class="frame-content">
       <div class="content-left">
-        <div class="credit-properties-div">
-          <credit-properties
-            class="credit-properties"
-            :typeData="propertyLoans"
-            :indicatorData="propertyData"
-            :showCredit="showPropertyCredit"
-            :propertyIds="propertyIds"
-          />
-          <credit-properties
-            class="credit-properties"
-            :typeData="personLoans"
-            :indicatorData="personData"
-            :showCredit="showPropertyCredit"
-            :propertyIds="propertyPersonIds"
-          />
+        <titleOrNum :title="xtitle" :num="xnum" />
+        <!-- <indicator-div
+          :titleContent="littleTitle[0]"
+          :titleStyle="littleTitleStyle[0]"
+          :digital="threeMoneyArr.third"
+          :digitalStyle="digitalStyle[0]"
+        /> -->
+        <!-- <portrayal-exp v-if="showPortrayal" class="left-center" :tableDatas="OpperiodAndFinance" /> -->
+        
+        <div class="left-center">
+          <div class="single-distribution">
+            <span class="single-graph-title">首贷占比</span>
+            <cyclic-annular
+              class="basic-chart"
+              :ids="financeId"
+              :chartData="opPeriodData"
+            />
+          </div>
+          <div class="single-distribution">
+            <span class="single-graph-title">经营年限</span>
+            <whole-pie-chart
+              class="basic-chart"
+              :ids="financeNameId"
+              :chartData="financeData"
+            />
+          </div>
         </div>
-
-        <!-- <credit-properties-chart
-          class="credit-properties-chart"
-          :typeData="propertyLoans"
-          :indicatorData="propertyData"
-          :showCredit="showPropertyCredit"
-        />-->
-        <portrayal-exp v-if="showPortrayal" class="portrayal-exp" :tableDatas="OpperiodAndFinance" />
         <credit-properties-chart
-          class="credit-properties-chart"
+          class="left-btm"
           :typeData="personLoans"
           :indicatorData="personData"
           :showCredit="showPropertyCredit"
         />
       </div>
       <div class="content-middle">
-        <server-money class="server-money" />
-
+        <centerTitleOrNum :title="ctitle" :num="cnum" />
         <sec-map-chart v-if="mapJudge" :chartData="mapData" class="sec-map-charts" />
-        <!-- <portrayal-exp v-if="showPortrayal" class="portrayal-exp" :tableDatas="OpperiodAndFinance" />
-        <portrayal-server v-if="showPortrayal" class="portrayal-server" :tableDatas="serverData" />-->
       </div>
       <div class="content-right">
-        <!-- <enterprise-loan class="enterprise-loan" /> -->
-        <form-chart
-          :ids="agriculture"
-          v-if="showRight"
-          :chartData="{agriculture: agricultureData}"
-          class="form-charts"
-          :tableTitle="agriculture[0].title"
-          :tableIndex="agricultureIndex"
-        />
-        <form-chart
-          :ids="primaryPro"
-          v-if="showRight"
-          :chartData="{primaryPro: primaryProData}"
-          class="form-charts"
-          :tableTitle="primaryPro[0].title"
-          :tableIndex="primaryProIndex"
-          :tableHeader="primaryProHeader"
-        />
-        <form-chart
-          :ids="threeProject"
-          v-if="showRight"
-          :chartData="{threeProject: threeProjectData}"
-          class="form-charts"
-          :tableTitle="threeProject[0].title"
-          :tableIndex="threeProjectIndex"
-          :tableHeader="threeProjectHeader"
+        <titleOrNum :title="dtitle" :num="dnum" />
+        <div class="right-center">
+          <cyclicAndPie class="item-pie" :ids="loanModelId" :title="loanModelTitle" :chartData="loanModelData" />
+          <cyclicAndPie  class="item-pie" :ids="serveModelId" :title="serveModelTitle" :chartData="serveModelData" />
+        </div>
+        <createOrLoan
+          class="right-btm"
+          :typeData="averangeLoans"
+          :indicatorData="personData"
+          :showCredit="showPropertyCredit"
         />
         <distribution-chart :ids="distributionIds" v-if="showRight" :chartData="distributionData" />
       </div>
@@ -86,28 +70,41 @@
 
 <script>
 import WeatherCom from "../../components/weather.vue";
-import CreditProperties from "../../components/second-screen/creditProperties.vue";
 import CreditPropertiesChart from "../../components/second-screen/creditPropertiesChart.vue";
-import EnterpriseLoan from "../../components/second-screen/enterpriseLoan.vue";
-import ServerMoney from "../../components/second-screen/serverMoney.vue";
 import SecMapChart from "../../components/second-screen/secondMapChart.vue";
 import PortrayalExp from "../../components/second-screen/portrayalExp.vue";
-import FormChart from "../../components/first-screen/newFormChart.vue";
-import DistributionChart from "../../components/second-screen/distributionChart.vue";
+import titleOrNum from "../../components/titleOrNum.vue"
+import centerTitleOrNum from "../../components/centerTitleOrNum.vue"
+import createOrLoan from "../../components/second-screen/createOrLoan.vue"
+import cyclicAndPie from "../../components/second-screen/cyclicAndPie.vue"
+// import dkOrFwModel from "../../components/second-screen/dkOrFwModel.vue"
+import IndicatorDiv from "@/components/first-screen/indicatorDiv.vue";
+import CyclicAnnular from "@/components/first-screen/cyclicAnnular.vue";
+import WholePieChart from "@/components/first-screen/wholePieChart.vue";
 
 // import PortrayalServer from "../../components/second-screen/portrayalServer.vue";
 export default {
   mounted() {},
   data() {
     return {
-      propertyLoans: {
-        first: "小微属性信贷",
-        littleTitle: ["分类占比", "收入水平"],
-        type: 1
-      },
+      xtitle:'小微服务客户',
+      xnum: '',
+      dtitle:'小微贷款投放',
+      dnum: '',
+      ctitle:'小微服务金额',
+      cnum: '',
+      loanModelId: 'loanModelId',
+      loanModelData: [],
+      loanModelTitle:'贷款模式',
+      serveModelId: 'serveModelId',
+      serveModelData: [],
+      serveModelTitle:'服务渠道',
       personLoans: {
-        first: "个人经营贷",
         littleTitle: ["行业", "企业规模"],
+        type: 2
+      },
+      averangeLoans: {
+        littleTitle: ["笔均金额", "贷款期限"],
         type: 2
       },
       showPortrayal: false,
@@ -115,6 +112,10 @@ export default {
       propertyData: {},
       personData: {},
       OpperiodAndFinance: {},
+      financeId:'financeId',
+      financeData:[],
+      financeNameId:'financeNameId',
+      opPeriodData:[],
       serverData: [],
       mapData: [],
       mapJudge: false,
@@ -147,118 +148,20 @@ export default {
       showRight: false,
       agriculture: [{ id: "agriculture", title: "小微企业及三农" }],
       agricultureJudge: false,
-      // agricultureData: [
-      //   [
-      //     { name: "累计放款金额", style: "" },
-      //     { name: "711,745,603.61", style: "number-div" },
-      //     { name: "元", style: "" }
-      //   ],
-      //   [
-      //     { name: "累计放款企业数", style: "" },
-      //     { name: "3,782.0", style: "number-div" },
-      //     { name: "家", style: "" }
-      //   ],
-      //   [
-      //     { name: "累计授信额度", style: "" },
-      //     { name: "680,112,980.61", style: "number-div" },
-      //     { name: "元", style: "" }
-      //   ]
-      // ],
       agricultureData: [],
-      // agricultureData: [
-      //   {
-      //     indicator: "累计放款金额",
-      //     value: "711,745,603.61",
-      //     unit: "元"
-      //   },
-      //   {
-      //     indicator: "累计放款企业数",
-      //     value: "3,782.0",
-      //     unit: "家"
-      //   },
-      //   {
-      //     indicator: "累计授信额度",
-      //     value: "680,112,980.61",
-      //     unit: "元"
-      //   }
-      // ],
 
       // 主要产品
       primaryPro: [{ id: "primaryPro", title: "主要产品" }],
       primaryProData: [],
-      // primaryProData: [
-      //   [
-      //     { name: "产品", style: "" },
-      //     { name: "累计放款金额", style: "" },
-      //     { name: "累计放款企业数", style: "" }
-      //   ],
-      //   [
-      //     { name: "百链融 - 订货易", style: "" },
-      //     { name: "¥ 198,994,351.9", style: "number-div" },
-      //     { name: "3613", style: "number-div" }
-      //   ],
-      //   [
-      //     { name: "百链融 - 销货易", style: "" },
-      //     { name: "¥ 3,247,000", style: "number-div" },
-      //     { name: "11", style: "number-div" }
-      //   ],
-      //   [
-      //     { name: "百链融 - 外贸易", style: "" },
-      //     { name: "¥ 6,190,000", style: "number-div" },
-      //     { name: "10", style: "number-div" }
-      //   ],
-      //   [
-      //     { name: "百农宝 - 养殖易", style: "" },
-      //     { name: "¥ 195,600,000", style: "number-div" },
-      //     { name: "79", style: "number-div" }
-      //   ]
-      // ],
 
       // 三农专案
       threeProject: [{ id: "threeProject", title: "百兴贷三农专案" }],
       threeProjectData: [],
-      // threeProjectData: [
-      //   [
-      //     { name: "农户数", style: "" },
-      //     { name: "养猪头数", style: "" },
-      //     { name: "放款金额", style: "" }
-      //   ],
-      //   [
-      //     { name: "79", style: "number-div" },
-      //     { name: "93,150", style: "number-div" },
-      //     { name: "¥ 19,560", style: "number-div" }
-      //   ]
-      // ],
 
       // 分布数据
       distributionIds: { id: "distributionIds", title: "养户分布" },
       distributionData: {},
-      // distributionData: {
-      //   xAxis: [
-      //     "安徽",
-      //     "河北",
-      //     "河南",
-      //     "湖北",
-      //     "吉林",
-      //     "江西",
-      //     "辽宁",
-      //     "四川",
-      //     "总计"
-      //   ],
-      //   yAxis1: [
-      //     "4471",
-      //     "1563",
-      //     "3071",
-      //     "4270",
-      //     "1112",
-      //     "1562",
-      //     "653",
-      //     "2858",
-      //     "19560"
-      //   ],
-      //   yAxis2: ["18", "7", "9", "21", "3", "6", "3", "12", "79"]
-      // },
-
+      
       // 对接接口数据
       agricultureIndex: [
         {
@@ -335,8 +238,69 @@ export default {
     this.getPropertyCredit();
     this.getProductHandler();
     this.getMapData();
+    this.getLoanModelData()
+    this.getServeModelData()
   },
   methods: {
+    // 将数字进行千分位格式化
+      toThousands(num) {
+        num = (num || 0).toString();
+        var parts = num.split(".");
+        var bigZeroPart = parts[0];
+        var result = "";
+        while (bigZeroPart.length > 3) {
+          result = "," + bigZeroPart.slice(-3) + result;
+          bigZeroPart = bigZeroPart.slice(0, bigZeroPart.length - 3);
+        }
+        if (bigZeroPart) {
+          result = bigZeroPart + result;
+        }
+        if (parts.length > 1) {
+          result += "." + parts[1].toString();
+          // if(parts[1]) {
+          //   result += "." + parts[1].toString();
+          // }else {
+          //   result += "." + '00';
+          // }
+        }
+        return result;
+      },
+    getLoanModelData() {
+      let _that = this;
+      this.axios({
+        url: "/api/p1/distributeInfo?category=xw_xydb&flag=xw",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        var indiData = data.data.data? 
+        data.data.data.map(item => {
+          return {
+            name: item.key,
+            value: item.perc
+          };
+        }): [];
+        _that.loanModelData = indiData
+      });
+    },
+    getServeModelData() {
+      let _that = this;
+      this.axios({
+        url: "/api/p1/distributeInfo?category=xw_xsxx&flag=xw",
+        method: "get",
+        data: "",
+        type: "json"
+      }).then(data => {
+        var indiData = data.data.data? 
+        data.data.data.map(item => {
+          return {
+            name: item.key,
+            value: item.perc
+          };
+        }): [];
+        _that.serveModelData = indiData
+      });
+    },
     getOpperiodAndFinance() {
       this.axios
         .all([
@@ -396,6 +360,8 @@ export default {
             //     value: 578
             //   }
             // ];
+            this.financeData=financeData;
+            this.opPeriodData=opPeriodData;
             this.OpperiodAndFinance = Object.assign(
               {},
               {
@@ -416,27 +382,6 @@ export default {
     },
 
     getPropertyCredit() {
-      // this.axios
-      //   .all([
-      //     this.axios.get("/api/p2/xwBaseinfo"),
-      //     this.axios.get("/api/p2/smallCreditInfo?flag=grjy")
-      //   ])
-      //   .then(
-      //     this.axios.spread((...obj) => {
-      //       // this.propertyData = obj[0].data.data || 0;
-      //       // this.personData = obj[1].data.data || 0;
-      //       // // 假数据
-      //       // this.propertyData.applyperson = 28.16;
-      //       // this.propertyData.applyvalue = 1100774;
-      //       // this.propertyData.applynum = 52.25;
-      //       // this.personData.applyperson = 10163;
-      //       // this.personData.applyvalue = 56509;
-      //       // this.personData.applynum = 6;
-      //       // this.$nextTick(() => {
-      //       //   this.showPropertyCredit = true;
-      //       // });
-      //     })
-      //   );
       let _that = this;
       this.axios({
         url: "/api/p2/xwBaseinfo",
@@ -445,6 +390,9 @@ export default {
         type: "json"
       }).then(data => {
         var indiData = data.data.data || {};
+        _that.xnum = this.toThousands(indiData.custnum)
+        _that.dnum = this.toThousands(indiData.bal)
+        _that.cnum = this.toThousands(indiData.principal)
         _that.propertyData = Object.assign(
           {},
           {
@@ -534,17 +482,6 @@ export default {
 
     getMapData() {
       this.getMapDataHandler();
-      var _that = this;
-      var index = 0;
-      // if (mapInterval) clearInterval(mapInterval);
-      // this.mapInterval = setInterval(
-      //   () => {
-      //     _that.getMapDataHandler();
-      //   },
-      //   20000,
-      //   _that,
-      //   index
-      // );
     },
 
     // 格式化千分位
@@ -619,169 +556,6 @@ export default {
             _that,
             index
           );
-
-          // _that.mapData = [
-          //   {
-          //     name: "王**",
-          //     age: "28岁",
-          //     sex: "男",
-          //     type: "授信申请",
-          //     sum: "3000000",
-          //     value: [116.4551, 40.2539, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "25岁",
-          //     sex: "女",
-          //     type: "授信申请",
-          //     sum: "7000000",
-          //     value: [103.9526, 30.7617, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "28岁",
-          //     sex: "男",
-          //     type: "授信申请",
-          //     sum: "3000000",
-          //     value: [119.1803, 31.2891, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "25岁",
-          //     sex: "女",
-          //     type: "授信申请",
-          //     sum: "7000000",
-          //     value: [108.384366, 30.439702, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "28岁",
-          //     sex: "男",
-          //     type: "授信申请",
-          //     sum: "3000000",
-          //     value: [87.9236, 43.5883, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "25岁",
-          //     sex: "女",
-          //     type: "授信申请",
-          //     sum: "7000000",
-          //     value: [117.29, 32.0581, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "28岁",
-          //     sex: "男",
-          //     type: "授信申请",
-          //     sum: "3000000",
-          //     value: [113.0823, 28.2568, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "25岁",
-          //     sex: "女",
-          //     type: "授信申请",
-          //     sum: "7000000",
-          //     value: [121.4648, 25.563, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "28岁",
-          //     sex: "男",
-          //     type: "授信申请",
-          //     sum: "3000000",
-          //     value: [113.12244, 23.009505, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "25岁",
-          //     sex: "女",
-          //     type: "授信申请",
-          //     sum: "7000000",
-          //     value: [103.9526, 30.7617, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "28岁",
-          //     sex: "男",
-          //     type: "授信申请",
-          //     sum: "3000000",
-          //     value: [116.4551, 40.2539, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "25岁",
-          //     sex: "女",
-          //     type: "授信申请",
-          //     sum: "7000000",
-          //     value: [103.9526, 30.7617, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "28岁",
-          //     sex: "男",
-          //     type: "授信申请",
-          //     sum: "3000000",
-          //     value: [116.4551, 40.2539, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "25岁",
-          //     sex: "女",
-          //     type: "授信申请",
-          //     sum: "7000000",
-          //     value: [103.9526, 30.7617, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "28岁",
-          //     sex: "男",
-          //     type: "授信申请",
-          //     sum: "3000000",
-          //     value: [116.4551, 40.2539, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "25岁",
-          //     sex: "女",
-          //     type: "授信申请",
-          //     sum: "7000000",
-          //     value: [103.9526, 30.7617, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "28岁",
-          //     sex: "男",
-          //     type: "授信申请",
-          //     sum: "3000000",
-          //     value: [116.4551, 40.2539, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "25岁",
-          //     sex: "女",
-          //     type: "授信申请",
-          //     sum: "7000000",
-          //     value: [103.9526, 30.7617, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "28岁",
-          //     sex: "男",
-          //     type: "授信申请",
-          //     sum: "3000000",
-          //     value: [116.4551, 40.2539, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "25岁",
-          //     sex: "女",
-          //     type: "授信申请",
-          //     sum: "7000000",
-          //     value: [103.9526, 30.7617, 48]
-          //   }
-          // ];
           this.$nextTick(() => {
             _that.mapJudge = true;
           });
@@ -809,15 +583,18 @@ export default {
   },
   components: {
     "weather-com": WeatherCom,
-    "credit-properties": CreditProperties,
     "credit-properties-chart": CreditPropertiesChart,
-    "enterprise-loan": EnterpriseLoan,
-    "server-money": ServerMoney,
     "portrayal-exp": PortrayalExp,
     // "portrayal-server": PortrayalServe,
     "sec-map-chart": SecMapChart,
-    "distribution-chart": DistributionChart,
-    "form-chart": FormChart
+    "titleOrNum":titleOrNum,
+    "centerTitleOrNum":centerTitleOrNum,
+    "createOrLoan":createOrLoan,
+    "cyclicAndPie":cyclicAndPie,
+    "dkOrFwModel":dkOrFwModel,
+    "indicator-div": IndicatorDiv,
+    "cyclic-annular": CyclicAnnular,
+    "whole-pie-chart": WholePieChart,
   }
 };
 </script>
@@ -827,8 +604,6 @@ export default {
   width: 4224px;
   height: 1536px;
   overflow: hidden;
-  // width: 100%;
-  // height: 100%;
   background: url("../../assets/images/background-second.png") no-repeat;
   background-size: 100% 100%;
   padding-top: 1%;
@@ -868,7 +643,6 @@ export default {
     display: flex;
     height: 92%;
     width: 100%;
-    padding: 0 0.94%;
     .content-left,
     .content-right {
       width: 29.5%;
@@ -880,48 +654,37 @@ export default {
       width: 45%;
       height: 100%;
       padding: 0.6% 1%;
-      .server-money {
-        width: 100%;
-        // height: 33.59%;
-        // height: 21.59%;
-        height:190px;
-        background: url("../../assets/images/cancellation.png") no-repeat;
-        background-size: 100% 100%;
-      }
-      .portrayal-exp {
-        width: 100%;
-        height: 33%;
-      }
-      .portrayal-server {
-        width: 100%;
-        height: 33%;
-      }
     }
 
     // 左侧
     .content-left {
-      .credit-properties-div {
-        background: url("../../assets/images/bg-7.png") no-repeat;
-        background-size: 100% 100%;
-        height: 32%;
-        margin-bottom: 1.6%;
-      }
-      .credit-properties {
+      background: rgba(22, 28, 40, 0.32);
+      // background: url("../../assets/images/bg-8.png") no-repeat;
+      // background-size: 100% 100%;
+      .left-center {
         width: 100%;
-        height: 50%;
-        // height: 48.45%;
-        // height: 16%;
-        // margin-bottom: 1.6%;
-        // background: url("../../assets/images/bg-7.png") no-repeat;
-        // background-size: 100% 100%;
+        height: 38%;
+        display: flex;
+        .single-distribution {
+          width: 49%;
+          height: 100%;
+          .single-graph-title {
+            font-weight: bold;
+            font-size: 32px;
+            line-height: 40px;
+            letter-spacing: 0px;
+            margin-left: 40px;
+          }
+          .basic-chart {
+            height: 87%;
+            width: 100%;
+          }
+        }
       }
-      .credit-properties-chart {
+      .left-btm {
         width: 100%;
-        // height: 48.45%;
-        height: 32%;
+        height: 40%;
         margin-bottom: 1.6%;
-        background: url("../../assets/images/bg-7.png") no-repeat;
-        background-size: 100% 100%;
       }
     }
 
@@ -929,17 +692,26 @@ export default {
     .content-right {
       // width: 100%;
       height: 100%;
-      padding: 1% 0% 0%;
-      background: url("../../assets/images/bg-8.png") no-repeat;
-      background-size: 100% 100%;
-      .enterprise-loan {
+      background: rgba(22, 28, 40, 0.32);
+      // background: url("../../assets/images/bg-8.png") no-repeat;
+      // background-size: 100% 100%;
+      .right-center {
         width: 100%;
-        height: 98.5%;
-        background: url("../../assets/images/bg-8.png") no-repeat;
-        background-size: 100% 100%;
+        height: 38%;
+        display: flex;
+        flex-wrap: nowrap;
+
+        .item-pie {
+          height: 100%;
+          width: 45%;
+          &:first-child {
+            margin-right: 5%;
+          }
+        }
       }
-      .form-charts {
-        margin-left: 10%;
+      .right-btm{
+        width: 100%;
+        height: 40%;
       }
     }
   }

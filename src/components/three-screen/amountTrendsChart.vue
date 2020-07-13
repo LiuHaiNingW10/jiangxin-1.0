@@ -78,9 +78,9 @@ export default {
           formatter: "风险金额<br /><br /> {b}点：{c}元"
         },
         grid: {
-          top: "14%",
-          left: "10%",
-          right: "10%",
+          top: '14%',
+          left: 73,
+          right: 72,
           bottom: "10%",
           containLabel: true
         },
@@ -113,7 +113,7 @@ export default {
         ],
         yAxis: [
           {
-            name: '单位：元',
+            // name:'单位：元',
             splitLine: {
               show: false
             },
