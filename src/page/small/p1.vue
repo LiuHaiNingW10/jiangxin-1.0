@@ -148,7 +148,7 @@
               :ids="elite"
               v-if="eliteJudge"
               :chartData="eliteData"
-            /> -->
+            />-->
           </div>
         </div>
       </div>
@@ -190,14 +190,45 @@
           :digitalStyle="digitalStyle[0]"
         />
         <!-- <indicator-chart v-if="testN" :chartData="testN" chartId="total-money" /> -->
-        <line-chart
-          :ids="id"
-          v-if="leftLineData"
-          :chartData="getChartData"
-          :trueData="leftLineData"
-          class="line-chart"
-        />
-        <left-indicator-chart v-if="allDataIndicator" :chartData="allDataIndicator" />
+        <div class="single-distribution right-top-distribution">
+          <span class="single-graph-title">当日实时放款</span>
+          <line-chart
+            :ids="id"
+            v-if="leftLineJudge"
+            :chartData="getChartData"
+            :trueData="leftLineData"
+            class="line-chart"
+          />
+        </div>
+        <div class="right-middle-div">
+          <div class="single-distribution half-middle-distribution">
+            <span class="single-graph-title">授信时长</span>
+          </div>
+          <div class="single-distribution half-middle-distribution">
+            <span class="single-graph-title">贷款时长</span>
+          </div>
+        </div>
+        <div class="right-bottom-div">
+          <div class="single-distribution half-bottom-distribution">
+            <span class="single-graph-title">笔均金额</span>
+            <simple-column
+              class="basic-chart"
+              :ids="cityId"
+              v-if="cityJudge"
+              :chartData="cityData"
+            />
+          </div>
+          <div class="single-distribution half-bottom-distribution">
+            <span class="single-graph-title">贷款期限</span>
+            <!-- <simple-column
+              class="basic-chart"
+              :ids="elite"
+              v-if="eliteJudge"
+              :chartData="eliteData"
+            />-->
+          </div>
+        </div>
+        <!-- <left-indicator-chart v-if="allDataIndicator" :chartData="allDataIndicator" /> -->
         <!-- <repeat-purchase
           :ids="repeatPurchaseId"
           :v-if="plateJudge"
@@ -211,11 +242,11 @@
           class="form-charts"
         />
         横向柱状图-->
-        <div class="bottom-title-div">
+        <!-- <div class="bottom-title-div">
           <div class="bottom-title">审批时长（秒）</div>
           <div class="bottom-title">90天复购率</div>
         </div>
-        <oil-pie-chart :ids="oilPieIds" :chartData="oilPieData" />
+        <oil-pie-chart :ids="oilPieIds" :chartData="oilPieData" />-->
         <!-- <div class="bottom-title-div">
           <div class="bottom-title">星座&剁手</div>
           <div class="bottom-title">地域&贷款规模</div>
@@ -230,10 +261,10 @@
 
 <script>
 import LineChart from "../../components/first-screen/lineChart.vue";
-import LeftIndicatorChart from "../../components/first-screen/leftIndicator.vue";
+// import LeftIndicatorChart from "../../components/first-screen/leftIndicator.vue";
 import ColumnarChart from "../../components/first-screen/columnarChart.vue";
 import MapChart from "../../components/first-screen/mapChart.vue";
-import OilPieChart from "../../components/first-screen/oilPieChart.vue";
+// import OilPieChart from "../../components/first-screen/oilPieChart.vue";
 import WeatherCom from "../../components/weather.vue";
 import IndicatorDiv from "@/components/first-screen/indicatorDiv.vue";
 import CyclicAnnular from "@/components/first-screen/cyclicAnnular.vue";
@@ -332,11 +363,12 @@ export default {
       // 左侧实时放款数据
       allData: [
         {
-          chartName: "当日实时放款/七日均值",
+          chartName: "当日实时放款",
           money: Math.floor(Math.random() * 100000)
         }
       ],
       leftLineData: undefined,
+      leftLineJudge: false,
       id: ["echarts01"],
 
       // 左侧六个指标数据
@@ -672,6 +704,9 @@ export default {
           });
           _that.leftLineData.data_dt = cdata.map(item => {
             return item.event_hour + "时";
+          });
+          this.$nextTick(() => {
+            this.leftLineJudge = true;
           });
         }
       });
@@ -1350,7 +1385,7 @@ export default {
 
           let xAxis = [];
           let yAxis = [];
-          tData.forEach((item) => {
+          tData.forEach(item => {
             xAxis.push(item.regionname);
             yAxis.push(item.percent);
           });
@@ -1597,15 +1632,15 @@ export default {
   },
   components: {
     "line-chart": LineChart,
-    "left-indicator-chart": LeftIndicatorChart,
     "columnar-chart": ColumnarChart,
     "map-chart": MapChart,
     "weather-com": WeatherCom,
-    "oil-pie-chart": OilPieChart,
     "indicator-div": IndicatorDiv,
     "cyclic-annular": CyclicAnnular,
     "whole-pie-chart": WholePieChart,
     "simple-column": SimpleColumn
+    // "left-indicator-chart": LeftIndicatorChart,
+    // "oil-pie-chart": OilPieChart,
     // "indicator-chart": IndicatorChart,
     // "repeat-purchase": RepeatPurchase,
     // "pie-chart": PieChart,
@@ -1688,6 +1723,25 @@ export default {
       background: rgba(22, 28, 40, 0.32);
       // background: url("../../assets/images/p3/bg-cont.png") no-repeat;
       // background-size: 100% 97%;
+      .single-distribution {
+        width: 50%;
+        height: 100%;
+        text-align: left;
+        position: relative;
+        .single-graph-title {
+          // position: absolute;
+          // left: 0;
+          // top: 0;
+          font-weight: bold;
+          font-size: 32px;
+          line-height: 40px;
+          letter-spacing: 0px;
+        }
+        .basic-chart {
+          height: 87%;
+          width: 100%;
+        }
+      }
     }
     .current-amounts {
       width: 45%;
@@ -1710,7 +1764,8 @@ export default {
     }
     .accruing-amounts {
       .line-chart {
-        height: 500px;
+        // height: 500px;
+        height: 90%;
         padding-top: 2%;
       }
       .bottom-title-div {
@@ -1732,6 +1787,24 @@ export default {
           margin-right: 5%;
         }
       }
+      .right-top-distribution {
+        width: 100%;
+        height: 297px;
+        margin-top: 48px;
+      }
+      .right-middle-div, .right-bottom-div {
+        display: flex;
+      }
+      .half-middle-distribution {
+        width: 50%;
+        height: 332px;
+        margin-top: 40px;
+      }
+      .half-bottom-distribution {
+        height: 408px;
+        width: 50%;
+        margin-top: 40px;
+      }
     }
     .accruing-person {
       .columnar-chart {
@@ -1742,36 +1815,18 @@ export default {
         display: flex;
         height: 40%;
         padding-bottom: 20px;
-        .single-distribution {
-          width: 50%;
-          height: 100%;
-          text-align: left;
-          position: relative;
-          .single-graph-title {
-            // position: absolute;
-            // left: 0;
-            // top: 0;
-            font-weight: bold;
-            font-size: 32px;
-            line-height: 40px;
-            letter-spacing: 0px;
-          }
-          .basic-chart {
-            height: 87%;
-            width: 100%;
-          }
-        }
+
         .left-distribution {
           height: 400px;
         }
         .right-distribution {
           height: 400px;
         }
+
         &:first-child {
           padding-bottom: 40px;
         }
       }
-
       .middle-distirbution {
         height: 332px;
       }

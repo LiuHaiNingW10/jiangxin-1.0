@@ -326,7 +326,7 @@ export default {
               normal: {
                 show: true,
                 formatter: function(params) {
-                  console.log(params);
+                  // console.log(params);
                   return (
                     params.data.name +
                     "   " +
