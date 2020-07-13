@@ -25,48 +25,48 @@ export default {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById(id));
       // 绘制图表
-      var a = data.chartName || "";
+      // var a = data.chartName || "";
       myChart.setOption({
-        title: {
-          text: [data.DrillDown ? `{c|}` : "", `{a|${a} }`].join(""),
-          triggerEvent: true,
-          textStyle: {
-            fontSize: 14,
-            color: "#FFF",
-            rich: {
-              c: {
-                backgroundColor: {
-                  image: require("../../assets/images/DrillDown.svg")
-                },
-                height: 20,
-                width: 20
-              }
-            }
-          },
+        // title: {
+        //   text: [data.DrillDown ? `{c|}` : "", `{a|${a} }`].join(""),
+        //   triggerEvent: true,
+        //   textStyle: {
+        //     fontSize: 14,
+        //     color: "#FFF",
+        //     rich: {
+        //       c: {
+        //         backgroundColor: {
+        //           image: require("../../assets/images/DrillDown.svg")
+        //         },
+        //         height: 20,
+        //         width: 20
+        //       }
+        //     }
+        //   },
 
-          itemGap: 10,
-          margin: 10,
-          left: "center"
-        },
+        //   itemGap: 10,
+        //   margin: 10,
+        //   left: "center"
+        // },
         color: ["#0078d7", "#e5b322"],
-        legend: {
-          data: data.legend || [
-            { name: "当日实时放款" },
-            { name: "七日均值" }
-          ],
-          orient: "vertical",
-          align: "left",
-          top: 50,
-          left: 120,
-          height: 4,
-          width: 4,
-          itemHeight: 8,
-          itemWidth: 8,
-          textStyle: {
-            color: "#fff",
-            fontSize: 12
-          }
-        },
+        // legend: {
+        //   data: data.legend || [
+        //     { name: "当日实时放款" }
+        //     // { name: "七日均值" }
+        //   ],
+        //   orient: "vertical",
+        //   align: "left",
+        //   top: 50,
+        //   left: 120,
+        //   height: 4,
+        //   width: 4,
+        //   itemHeight: 8,
+        //   itemWidth: 8,
+        //   textStyle: {
+        //     color: "#fff",
+        //     fontSize: 12
+        //   }
+        // },
         tooltip: {
           trigger: "axis",
           formatter: function(option) {
@@ -187,33 +187,33 @@ export default {
               "54",
               "200"
             ]
-          },
-          {
-            name: (data.legend && data.legend[1].name) || "七日均值",
-            type: "line",
-            smooth: 0.5,
-            label: {
-              normal: {
-                show: true,
-                position: "inside",
-                color: "#FFF",
-                formatter: "{c}"
-              }
-            },
-            data: trueData.amtavg || [
-              "5",
-              "20",
-              "36",
-              "10",
-              "10",
-              "22",
-              "36",
-              "79",
-              "233",
-              "54",
-              "200"
-            ]
           }
+          // {
+          //   name: (data.legend && data.legend[1].name) || "七日均值",
+          //   type: "line",
+          //   smooth: 0.5,
+          //   label: {
+          //     normal: {
+          //       show: true,
+          //       position: "inside",
+          //       color: "#FFF",
+          //       formatter: "{c}"
+          //     }
+          //   },
+          //   data: trueData.amtavg || [
+          //     "5",
+          //     "20",
+          //     "36",
+          //     "10",
+          //     "10",
+          //     "22",
+          //     "36",
+          //     "79",
+          //     "233",
+          //     "54",
+          //     "200"
+          //   ]
+          // }
         ]
       });
 
