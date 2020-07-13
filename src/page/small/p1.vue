@@ -35,7 +35,7 @@
     <!-- 内容 -->
     <div class="frame-content">
       <div class="accruing-person">
-        <div class="content-title">累计信贷服务人数</div>
+        <div class="content-title">信贷服务客户数</div>
         <indicator-chart
           v-if="threeMoneyArr.third"
           :chartData="threeMoneyArr.third"
@@ -111,7 +111,7 @@
         </div>
       </div>
       <div class="current-amounts">
-        <div class="content-title">当日信贷服务金额</div>
+        <div class="content-title">当日信贷投放金额</div>
         <indicator-chart
           v-if="threeMoneyArr.second"
           :chartData="threeMoneyArr.second"
@@ -125,7 +125,7 @@
         <map-chart v-if="mapJudge" :chartData="mapData" class="map-charts" />
       </div>
       <div class="accruing-amounts">
-        <div class="content-title">累计信贷服务金额</div>
+        <div class="content-title">累计信贷投放金额</div>
         <indicator-chart
           v-if="threeMoneyArr.first"
           :chartData="threeMoneyArr.first"
