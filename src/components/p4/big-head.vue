@@ -13,7 +13,7 @@
             <div
               :class="index%2 === 0 ? 'server' : 'user' "
               v-for="(item,index) in scrollList"
-              :key="index"
+              :key="Math.random()+index"
               class="list-complete-item"
             >
               <span class="title" v-if="index%2 === 0"></span>
