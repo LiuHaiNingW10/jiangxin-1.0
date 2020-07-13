@@ -1,7 +1,7 @@
 <template>
-  <div class="common-box table-auto">
+  <div class="table-auto">
     <div class="p4-table-title">
-      <span style="font-size: 30px">{{id.title}}</span>
+      <span style="font-size: 32px;font-weight:bold">{{id.title}}</span>
     </div>
     <div class="scroll-box">
       <a-table
@@ -81,32 +81,31 @@ export default {
 </script>
 <style lang="less">
 .table-auto {
-  background: url("../../assets/images/p4-table-title.png") no-repeat center;
+  overflow: hidden;
+  padding: 4%;
+  height: 32%;
   .scroll-box {
-    overflow: hidden;
-    padding: 4%;
-    height: 95%;
     background-size: 94% 98%;
     padding: 3% 4%;
-  }
-  .table-scroll {
-    position: relative;
-    transition: top 0.825s;
-    tbody {
-      tr:nth-child(odd) {
-        background: #0e3b8c;
-      }
+    .table-scroll {
+      overflow: hidden;
+      height: 30%;
     }
   }
   tr {
-    border-bottom: 1px dashed #484444;
+    border-bottom: 1px solid rgba(140, 141, 142, 0.38);
   }
   .table-td {
-    color: #7ca3d0;
+    color: #fff;
     padding: 8px 4px;
     background: transparent;
-    font-size: 16px;
     border: none;
+    font-size: 20px;
+  }
+  th.table-td {
+    color:#85BEFC;
+    font-weight: bold;
+    font-size: 22px;
   }
   .ant-tag {
     height: 4px;
@@ -115,6 +114,6 @@ export default {
 }
 .p4-table-title {
   text-align: left;
-  padding-left: 7%;
+  padding-left: 2%;
 }
 </style>
