@@ -1,16 +1,22 @@
 <template>
-<!-- p4 -->
+  <!-- p4 -->
   <div class="brain-content" @keyup.enter="keyEnter">
     <div class="brain-main">
       <div id="ChinaMap" v-if="showAudio"></div>
       <div class="light-spot">
         <canvas id="audio-art"></canvas>
-        <canvas id="audio-art-shadow"></canvas>
+        <!-- <canvas id="audio-art-shadow"></canvas> -->
       </div>
-      <img :src="robot" alt id="robot-img" v-if="!showAudio" />
-      <!-- <div class="topCity">
-        <RiskPortraitChart :ids="idRisk" :tableDatas="tableDataR" />
-      </div>-->
+      <div class="dialogue" >
+        <div class="server">
+          <span class="server-title"></span>
+          <span>{{dialogue.a}}</span>
+        </div>
+        <div class="user">
+          <span>{{dialogue.b}}</span>
+          <span class="user-title"></span>
+        </div>
+      </div>
     </div>
     <div class="brain-foot">
       <audio id="audio" ref="audio" :src="require('../../assets/video/chongqing.wav')"></audio>
@@ -67,11 +73,19 @@ export default {
           area: "Top1 厦门",
           percent: 56
         }
-      ]
+      ],
+      dialogue: {
+        a: '请问您是王先生吗？我是百信银行客服小李。',
+        b: '是的'
+      }
     };
   },
   computed: {},
   created() {
+    
+  },
+  mounted() {
+    this.init();
     document.addEventListener("keydown", event => {
       let e = event || window.event || arguments.callee.caller.arguments[0];
       let l = this._.split(window.location.href, "manage/P", 2),
@@ -80,15 +94,13 @@ export default {
         if (!this.showAudio) {
           return;
         }
-        this.$nextTick(() => {
+        this.$nextTick( () => {
           this.showAudio = false;
-        });
+        })
+        document.getElementsByClassName('dialogue')[0].style.display = 'block'
         this.DrawVideo("audio-art");
       }
     });
-  },
-  mounted() {
-    this.init();
   },
   watch: {
     bigPoint: function(a, b) {
@@ -111,7 +123,10 @@ export default {
         };
       let myChart = this.$echarts.init(document.getElementById("ChinaMap"));
       let mapName = "china";
-      let curruntArea = obj && (obj.province && obj.province.split('省')[0] ||  obj.accent && obj.accent.split('省')[0])
+      let curruntArea =
+        obj &&
+        ((obj.province && obj.province.split("省")[0]) ||
+          (obj.accent && obj.accent.split("省")[0]));
       var data = [
         { name: "北京", value: 199 },
         { name: "天津", value: 42 },
@@ -146,13 +161,13 @@ export default {
         { name: "澳门", value: 199 },
         { name: "广西", value: 59 },
         { name: "海南", value: 14 },
-        {name:'台湾',value:15}
+        { name: "台湾", value: 15 }
       ];
-      data.forEach( (item) => {
-        if(item.name == curruntArea) {
-          item.value = item.value*2
+      data.forEach(item => {
+        if (item.name == curruntArea) {
+          item.value = item.value * 2;
         }
-      })
+      });
 
       var geoCoordMap = {};
 
@@ -210,8 +225,8 @@ export default {
           itemStyle: {
             normal: {
               borderColor: "rgba(0,255,255, 1)",
-         
-              areaColor: "#023677",
+
+              areaColor: "#023677"
             },
             emphasis: {
               areaColor: "#4499d0"
@@ -262,9 +277,9 @@ export default {
             roam: true,
             itemStyle: {
               normal: {
-              borderColor: "#2cb3dd",
-              borderWidth: 0.8,
-              areaColor: "#031525",
+                borderColor: "#2cb3dd",
+                borderWidth: 0.8,
+                areaColor: "#031525"
               },
               emphasis: {
                 areaColor: "#2B91B7"
@@ -301,9 +316,12 @@ export default {
                   } = params.data;
                   let a = "";
                   if (accent) {
-                    a = `{a|口音识别}{b|${accent}}{a|产品}{b|${product}}\n{d|客户意图}{b|${want}}\n{a|手机号码}{b|${mobile}}`;
+                    a = `{a|口音识别}{b|${accent}}{a|产品}{b|${product}}\n{a|客户意图}{b|${want}}\n{a|手机号码}{b|${mobile}}`;
                   } else {
-                    a = `{a|行为}{b|${action}}{a|状态}{b|${status[0].value}}\n{a|问题定位}{b|${problem}}{c|智能处理}{b|${handle}}\n{a|手机号码}{b|${mobile}}`;
+                    a =
+                      status[0].value === "正常"
+                        ? `{a|行为}{b|${action}}{zc|${status[0].value}}\n{a|问题定位}{b|${problem}}{c|智能处理}{b|${handle}}\n{a|手机号码}{b|${mobile}}`
+                        : `{a|行为}{b|${action}}{yc|${status[0].value}}\n{a|问题定位}{b|${problem}}{c|智能处理}{b|${handle}}\n{a|手机号码}{b|${mobile}}`;
                   }
                   return a;
                 },
@@ -319,8 +337,8 @@ export default {
                 // verticalAlign: "middle",
                 color: "#fff",
                 z: 11,
-                 textStyle: {
-                  fontSize: 20,
+                textStyle: {
+                  fontSize: 20
                 },
                 rich: {
                   a: {
@@ -335,11 +353,21 @@ export default {
                   },
                   c: {
                     align: "left",
-                    fontSize: 16,
+                    fontSize: 16
                   },
                   d: {
                     color: "red",
-                    fontSize: 16,
+                    fontSize: 16
+                  },
+                  zc: {
+                    color: "#0088DC",
+                    fontSize: 20,
+                    bold: "1px solid #0088DC"
+                  },
+                  yc: {
+                    color: "red",
+                    fontSize: 20,
+                    bold: "1px solid red"
                   }
                 }
               }
@@ -404,9 +432,7 @@ export default {
       let audio = new Audio();
       audio.src = require("../../assets/video/chongqing.wav");
       var canvas = document.getElementById(id);
-      var canvasShadow = document.getElementById('audio-art-shadow');
       var ctx = canvas.getContext("2d");
-      var ctxShadow = canvasShadow.getContext("2d");
 
       var source = atx.createMediaElementSource(audio);
       var analyser = atx.createAnalyser();
@@ -416,30 +442,29 @@ export default {
       analyser.fftSize = 2048;
       var draw = () => {
         var cWidth = canvas.width,
-          cHeight = canvas.height * 1.5,
+          cHeight = canvas.height * 1.2,
           // frequencyBinCount的值固定为fftSize的一半
           audioArray = new Uint8Array(analyser.frequencyBinCount);
         // 解析频率数据，放入audioArray数组中
         analyser.getByteFrequencyData(audioArray);
         // 填充为柱状图
         ctx.clearRect(0, 0, cWidth, cHeight);
-        ctx.fillStyle = "#60D7FB";
+        ctx.fillStyle = "#4CD1FF";
         for (var i = 0; i < audioArray.length; i++) {
-          ctx.fillRect(i * 3, -(cHeight - audioArray[i]/2) - cHeight, 2, cHeight);
+          ctx.fillRect(i * 3, cHeight - audioArray[i] / 2, 1, cHeight);
         }
-        // drawShadow()
+        // drawShadow();
         // 刷新
         requestAnimationFrame(draw);
       };
       //制造半透明投影
       function drawShadow() {
-        // let canvas = canvasShadow,ctx = ctxShadow;
-        ctx.drawImage(canvas, 0, 0);
+        ctx.drawImage(outcanvas, 0, 0);
         ctx.save();
         ctx.translate(canvas.width / 2, canvas.height / 2);
         ctx.rotate(Math.PI);
         ctx.scale(-1, 1);
-        ctx.drawImage(canvas, -canvas.width / 2, -canvas.height / 2);
+        ctx.drawImage(outcanvas, -canvas.width / 2, -canvas.height / 2);
         ctx.restore();
         ctx.fillStyle = "rgba(54, 114, 206, 0.05)";
         ctx.fillRect(0, 0, canvas.width, canvas.height / 2);
@@ -447,11 +472,13 @@ export default {
       draw();
       audio.play();
       let audioTime = this.$refs.audio.duration;
+      console.log(audioTime)
       setTimeout(() => {
         this.$emit("func", { value: true });
         this.$nextTick(() => {
           this.showAudio = true;
         });
+        document.getElementsByClassName('dialogue')[0].style.display = 'none'
       }, audioTime * 1000);
     }
   },
@@ -465,7 +492,8 @@ export default {
   font-size: 12px;
   background-size: 40%;
   position: relative;
-  height: 100%;
+  height: 80%;
+  font-family: Microsoft YaHei;
   .brain-main {
     height: 85%;
     position: relative;
@@ -487,13 +515,62 @@ export default {
     margin-left: auto;
     margin-right: auto;
     min-height: 400px;
-    min-height: 450px;
+    height: 50%;
     position: absolute;
     top: 4%;
     text-align: center;
     audio {
       // display: none;
       visibility: hidden;
+    }
+  }
+  .dialogue {
+    width: 92%;
+    margin: 0 auto;
+    left: 100px;
+    right: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 40%;
+    position: absolute;
+    bottom: 10%;
+    display: none;
+    .server {
+      height: 50%;
+      .server-title {
+        width: 124px;
+        height: 124px;
+        margin-bottom: -20px;
+        display: inline-block;
+        background: url("../../assets/images/server-a.png") no-repeat center;
+        background-size: 90%;
+      }
+      span:nth-child(2) {
+        font-size: 32px;
+        padding: 20px;
+        font-weight: bold;
+        border-radius: 0px 64px 64px 64px;
+        background: rgba(22, 28, 40, 0.3);
+      }
+    }
+    .user {
+      height: 50%;
+      text-align: right;
+      .user-title {
+        width: 124px;
+        height: 124px;
+        margin-bottom: -20px;
+        display: inline-block;
+        background: url("../../assets/images/user-a.png") no-repeat center;
+        background-size: 90%;
+      }
+      span:nth-child(1) {
+        font-size: 32px;
+        padding: 20px;
+        font-weight: bold;
+        border-radius: 64px 0px 64px 64px;
+        background: rgba(22, 28, 40, 0.3);
+      }
     }
   }
   .brain-foot {
@@ -507,7 +584,7 @@ export default {
   }
   #audio-art {
     width: 60%;
-    height: 100%;
+    height: 60%;
     margin: 0 auto;
     z-index: 1;
   }

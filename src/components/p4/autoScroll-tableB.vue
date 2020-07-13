@@ -40,7 +40,7 @@ export default {
       activeIndex: 0,
       view: "",
       height: this.heights,
-      timeouts:  this.timeout
+      timeouts: this.timeout
     };
   },
   computed: {
@@ -53,22 +53,23 @@ export default {
   },
   methods: {
     init() {
-      this.timer = setInterval( () => {
-        this.autoScroll()
-      },8000)
-      
+      this.timer = setInterval(() => {
+        this.autoScroll();
+      }, 8000);
     },
     autoScroll() {
-      let time = this.activeIndex % 4 === 0 ? 10000 : 8000;
+      let time = this.activeIndex % 4 === 0 ? 9000 : 5000;
       let a = setInterval(_ => {
-        this.tableData = this.tableData.concat(this.initData[this.activeIndex] || []);
+        this.tableData = this.tableData.concat(
+          this.initData[this.activeIndex] || []
+        );
         if (this.activeIndex < this.tableData.length) {
           this.activeIndex += 1;
         } else {
           this.activeIndex = 0;
         }
         this.tableData.shift();
-        clearInterval(a)
+        clearInterval(a);
         this.needPoint && this.$emit("func", this.tableData[0]);
       }, time);
     }
@@ -79,54 +80,5 @@ export default {
 };
 </script>
 <style lang="less">
-.table-auto {
-  background: url("../../assets/images/p4-table-title.png") no-repeat center;
-  .scroll-box {
-    overflow: hidden;
-    padding: 4%;
-    height: 95%;
-    background-size: 94% 98%;
-    padding: 3% 4%;
-  }
-  .table-scroll {
-    position: relative;
-    transition: top 0.825s;
-    tbody {
-      tr:nth-child(even) {
-        tr:nth-child(even) {  
-      tr:nth-child(even) {
-        // background: #;
-            // background: #;  
-        // background: #;
-      }
-        }  
-      }
-      tr:nth-child(odd) {
-        tr:nth-child(odd) {  
-      tr:nth-child(odd) {
-        background: #0e3b8c;
-      }
-        }  
-      }
-    }
-  }
-  tr {
-    border-bottom: 1px dashed #484444;
-  }
-  .table-td {
-    color: #7ca3d0;
-    padding: 8px 4px;
-    background: transparent;
-    font-size: 16px;
-    border: none;
-  }
-  .ant-tag {
-    height: 4px;
-    border-radius: 0px;
-  }
-}
-.p4-table-title {
-  text-align: left;
-  padding-left: 7%;
-}
+
 </style>
