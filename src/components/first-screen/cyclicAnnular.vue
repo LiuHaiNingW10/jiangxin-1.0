@@ -45,7 +45,7 @@ export default {
             labelLine: {
               normal: {
                 length: 25,
-                length2: 120,
+                length2: 80,
                 lineStyle: {
                   type: "solid"
                 }
