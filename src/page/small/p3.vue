@@ -12,7 +12,7 @@
     <div class="frame-content">
       <div class="left-box">
         <div class="content-title">
-          <span>风险交易金额趋势</span>
+          <span class="title1">风险交易金额趋势</span>
         </div>
         <amount-trends-chart />
         <div class="content-title">
@@ -340,9 +340,9 @@ export default {
             this.tableDataR = obj[3].data.data;
             this.tableDataRM = obj[4].data.data;
             this.tableDataRR = obj[5].data.data;
-            this.antiFraudDatas = obj[6].data.data.map(item=>{
-              return {name:item.name,value:Number(item.value)}
-            })
+            this.antiFraudDatas = obj[6].data.data.map((item) => {
+              return { name: item.name, value: Number(item.value) };
+            });
             this.$nextTick(() => {
               this.showRight = true;
             });
@@ -436,7 +436,7 @@ export default {
   background-size: 100% 100%;
   font-size: 28px;
   color: #fff;
-  overflow: hidden;
+  // overflow: hidden;
   padding-top: 1%;
   // 标题样式
   .title-frame {
@@ -511,19 +511,30 @@ export default {
       span {
         display: inline-block;
         font-size: 30px;
-        padding: 17px 0 0 50px;
+        padding: 17px 0 0 40px;
+        color: #ffffff;
+        font-family: Microsoft YaHei;
+        font-weight: bold;
+        font-size: 32px;
+        line-height: 40px;
+        letter-spacing: 0px;
+        text-align: left;
       }
     }
   }
 }
-.box{
+.title1
+{
+  margin-top: 18px;
+}
+.box {
   width: 100%;
   display: flex;
-  &:nth-child(1){
-   flex:1
+  &:nth-child(1) {
+    flex: 1;
   }
-    &:nth-child(2){
-  flex:1;
-   }
+  &:nth-child(2) {
+    flex: 1;
+  }
 }
 </style>

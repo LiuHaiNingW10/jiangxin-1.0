@@ -44,7 +44,7 @@ export default {
           type: "scroll",
           orient: "vertical",
           right: "5%",
-          top: 180,
+          top: 130,
           icon: "pin",
           textStyle: {
             fontSize: 18,
@@ -60,7 +60,7 @@ export default {
           {
             name: "面积模式",
             type: "pie",
-            radius: [40, 110],
+            radius: [30, 110],
             center: ["45%", "50%"],
             roseType: "radius",
 
@@ -70,7 +70,6 @@ export default {
                 borderRadius: 4,
                 padding: [0,-70,60,-70],
                 formatter: function(data) {
-                  console.log(data);
                   /* 7月10日wk修改：添加左侧条形图 */
                   // return data.callNum;
                   // return data.data.name+'111111'+'\n'+''+Number(data.data.value).toFixed(0) + '%'

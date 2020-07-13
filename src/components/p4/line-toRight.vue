@@ -27,7 +27,6 @@ export default {
         yAxis: [],
         series: [],
       };
-      // console.log(this.tableData,'ssssssssssssssssssssssssssss')
       let arr = Vue.filter("sortByValue")(this.tableData, "percent");
       arr.forEach((el) => {
         obj.series.push(el.percent.toFixed(2));
@@ -41,7 +40,6 @@ export default {
       let myChart = this.$echarts.init(document.getElementById(ele.id));
       // 每一个
       var payAmounts = data.series.map((item) => item).reverse();
-      console.log(payAmounts, "23445");
       // 总的
       var totalAmount = payAmounts.reduce((x, y) => x * 1 + y * 1);
 
@@ -52,7 +50,6 @@ export default {
       totalArr = data.series.map(() => {
         return totalAmount;
       });
-      console.log(totalArr, "11111");
       // 绘制图表
 
       myChart.setOption({

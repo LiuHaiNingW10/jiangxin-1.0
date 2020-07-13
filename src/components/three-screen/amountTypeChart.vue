@@ -29,14 +29,11 @@ export default {
       });
     },
     drawChart(data) {
-      console.log(data,'data1')
       let myChart = this.$echarts.init(document.getElementById('amountTypeChart'));
       if(!data || !data.length) return
       var payAmounts = data.map(item=>item.payamount).reverse()
       var totalAmount = payAmounts.reduce((x,y)=>x+y)
       var totalArr = new Array(data.length).fill(parseFloat(totalAmount).toFixed(2))
-      console.log(totalArr,totalAmount,payAmounts,'ffffffffff')
-
       // 绘制图表
       myChart.setOption({
         color: [
@@ -68,10 +65,10 @@ export default {
             }
         },
         grid: {
-          top: "10%",
-          left: "10%",
-          right: "10%",
-          bottom: "10%",
+          top: 15,
+          left: 73,
+          right: 29,
+          bottom: '11%',
           containLabel: true
         },
         xAxis: {
@@ -90,6 +87,9 @@ export default {
             type: 'category',
             axisLabel: {
               color: 'rgba(255,255,255)'
+            },
+            axisLine:{
+             show:false
             },
             data: data.map(item=>item.event).reverse()
           },
@@ -140,7 +140,7 @@ export default {
               itemStyle: {
                 color: 'rgba(255,255,255,0)',
                 barBorderRadius: 30,
-                borderWidth: 2,
+                borderWidth: 1,
                 borderColor: 'rgba(255,255,255,.4)'
               },
             }

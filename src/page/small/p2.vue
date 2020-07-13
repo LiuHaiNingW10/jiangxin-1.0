@@ -77,7 +77,7 @@ import titleOrNum from "../../components/titleOrNum.vue"
 import centerTitleOrNum from "../../components/centerTitleOrNum.vue"
 import createOrLoan from "../../components/second-screen/createOrLoan.vue"
 import cyclicAndPie from "../../components/second-screen/cyclicAndPie.vue"
-import dkOrFwModel from "../../components/second-screen/dkOrFwModel.vue"
+// import dkOrFwModel from "../../components/second-screen/dkOrFwModel.vue"
 import IndicatorDiv from "@/components/first-screen/indicatorDiv.vue";
 import CyclicAnnular from "@/components/first-screen/cyclicAnnular.vue";
 import WholePieChart from "@/components/first-screen/wholePieChart.vue";
