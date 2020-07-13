@@ -235,38 +235,7 @@ export default {
       this.axios
         .all([
           this.axios.get("/api/p4/smartCall"),
-          this.axios.get("/api/p4/smartOperation")
-        ])
-        .then(
-          this.axios.spread((...obj) => {
-            obj.forEach((it, i) => {
-              let data = it.data.data;
-              if (i == 0) {
-                this.tableDataC = data;
-              } else if (i == 1) {
-                let arr = data;
-                arr.forEach((el, i) => {
-                  el.status = [
-                    {
-                      id: i,
-                      value: el.status
-                    }
-                  ];
-                });
-                this.bigPoints = arr[0];
-                this.tableDataA = arr;
-              }
-            });
-            this.$nextTick(() => {
-              this.showMain = true;
-            });
-          })
-        )
-        .catch(function(error) {
-          console.log(error);
-        });
-      this.axios
-        .all([
+          this.axios.get("/api/p4/smartOperation"),
           this.axios.get("/api/p4/outboundNum"), //外呼数量
           this.axios.get("/api/p4/procRatio", {
             params: {
@@ -289,12 +258,26 @@ export default {
             obj.forEach((it, i) => {
               let data = it.data.data;
               if (i == 0) {
-                // this.tableDataRight[0].value = data || 150;
+                this.tableDataC = data;
               } else if (i == 1) {
-                this.tableDataTop[0].value = data || "30%";
-              } else if (i == 2) {
-                this.tableDataTop[1].value = data || "91%";
+                let arr = data;
+                arr.forEach((el, i) => {
+                  el.status = [
+                    {
+                      id: i,
+                      value: el.status
+                    }
+                  ];
+                });
+                this.bigPoints = arr[0];
+                this.tableDataA = arr;
+              }else if (i == 2) {
+                // this.tableDataRight[0].value = data || 150;
               } else if (i == 3) {
+                this.tableDataTop[0].value = data || "30%";
+              } else if (i == 4) {
+                this.tableDataTop[1].value = data || "91%";
+              } else if (i == 5) {
                 this.tableDataRight[1].value = data || 6;
               }
             });
@@ -359,7 +342,7 @@ export default {
             it.num += 1;
           }
         });
-        this.tableDataD = cc;console.log(cc)
+        this.tableDataD = cc;
       } else if (par.problem) {
         let cc = this._.cloneDeep(this.tableDataB);
         cc.forEach(it => {
