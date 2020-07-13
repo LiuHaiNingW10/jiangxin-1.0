@@ -366,14 +366,12 @@ export default {
                   return (
                     params.data.company +
                     "\n" +
-                    "省份：" +
+                    "城市：" +
                     params.data.province +
                     "\n" +
                     "授信：" +
                     params.data.credit +
-                    "\n" +
-                    "城市："+
-                    params.data.address
+                    "\n"
                   );
                   // return (
                   //   "{fline|" + " " + params.data.name + " " + "重点关注" + "}"

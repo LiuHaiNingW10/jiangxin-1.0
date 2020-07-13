@@ -259,13 +259,13 @@ export default {
                 /* end */
               }
             },
-            barWidth: 30,
+            barWidth: 20,
             data: percentData || [15, 10, 60, 5]
           },
           {
             name: "背景",
             type: "bar",
-            barWidth: 30,
+            barWidth: 24,
             barGap: "-100%",
             data: [max * 1.6, max * 1.6, max * 1.6, max * 1.6],
             itemStyle: {
@@ -354,8 +354,8 @@ export default {
       .frim-chart {
         position: absolute;
         top: 0;
-        right: -20px;
-        width: 180px;
+        right: 0;
+        width: 320px;
         height: 100%;
         // background: url("../../assets/images/p3/frm-r.png") no-repeat;
         // background-size: 100% 100%;
@@ -363,11 +363,11 @@ export default {
       /* end */
     }
     .mc-c {
-      width: 212px;
+      width: 400px;
       height: 450px;
       // background: url('../../assets/images/p3/frm-cc.png') no-repeat;
       background-size: 100% 100%;
-      margin: 0 46px 0 27px;
+      margin: 30px 46px 0 27px;
     }
     .mc-r {
       margin-top: 40px;

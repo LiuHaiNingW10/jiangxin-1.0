@@ -29,11 +29,14 @@ export default {
       });
     },
     drawChart(data) {
+      console.log(data,'data1')
       let myChart = this.$echarts.init(document.getElementById('amountTypeChart'));
       if(!data || !data.length) return
       var payAmounts = data.map(item=>item.payamount).reverse()
       var totalAmount = payAmounts.reduce((x,y)=>x+y)
       var totalArr = new Array(data.length).fill(parseFloat(totalAmount).toFixed(2))
+      console.log(totalArr,totalAmount,payAmounts,'ffffffffff')
+
       // 绘制图表
       myChart.setOption({
         color: [
@@ -137,7 +140,7 @@ export default {
               itemStyle: {
                 color: 'rgba(255,255,255,0)',
                 barBorderRadius: 30,
-                borderWidth: 1,
+                borderWidth: 2,
                 borderColor: 'rgba(255,255,255,.4)'
               },
             }
