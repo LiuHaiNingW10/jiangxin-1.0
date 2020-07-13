@@ -20,7 +20,7 @@ export default {
       myChart.setOption({
         legend: {
           orient: "vertical",
-          left: "70%",
+          right: "8%",
           top: "50%",
           icon: "rect",
           itemWidth: 10,
@@ -42,7 +42,7 @@ export default {
           {
             type: "pie",
             center: ["40%", "50%"],
-            radius: "80%",
+            radius: "60%",
             label: {
               position: "inside",
               formatter: "{b}{c}%",
