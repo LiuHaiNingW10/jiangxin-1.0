@@ -35,8 +35,14 @@
     <!-- 内容 -->
     <div class="frame-content">
       <div class="accruing-person">
-        <div class="content-title">累计信贷服务人数</div>
-        <indicator-chart
+        <!-- <div class="content-title">信贷服务客户数</div> -->
+        <indicator-div
+          :titleContent="littleTitle[0]"
+          :titleStyle="littleTitleStyle[0]"
+          :digital="threeMoneyArr.third"
+          :digitalStyle="digitalStyle[0]"
+        />
+        <!-- <indicator-chart
           v-if="threeMoneyArr.third"
           :chartData="threeMoneyArr.third"
           type="person"
@@ -44,7 +50,7 @@
           :styleData="styleObj"
           marginTop="-120px"
           :styleSingle="singleStyle"
-        />
+        />-->
         <columnar-chart
           :ids="columnarId"
           v-if="currentPersonJudge"
@@ -52,7 +58,7 @@
           class="columnar-chart"
           :lineIds="repeatPurchaseId"
         />
-        <div class="distribution">
+        <div class="distribution middle-distirbution">
           <!-- <funnel-chart
             class="left-distribution single-distribution"
             :ids="funnelId"
@@ -66,7 +72,7 @@
             :chartData="ageData"
             chartTitle="年龄分布"
           />-->
-          <income-level
+          <!-- <income-level
             class="left-distribution single-distribution"
             :ids="funnelId"
             v-if="educationJudge"
@@ -79,70 +85,150 @@
             v-if="educationJudge"
             :chartData="educationData"
             chartTitle="学历分布"
-          />
+          />-->
+          <div class="single-distribution">
+            <span class="single-graph-title">年龄</span>
+            <cyclic-annular
+              class="basic-chart"
+              :ids="funnelId"
+              v-if="educationJudge"
+              :chartData="ageData"
+            />
+          </div>
+          <div class="single-distribution">
+            <span class="single-graph-title">学历</span>
+            <whole-pie-chart
+              class="basic-chart"
+              :ids="pieId"
+              v-if="educationJudge"
+              :chartData="educationData"
+            />
+          </div>
         </div>
-        <div class="distribution">
+        <div class="distribution bottom-distribution">
           <!-- <funnel-chart
             class="left-distribution single-distribution"
             :ids="funnelId"
             v-if="educationJudge"
             :chartData="ageData" 
           />-->
-          <pie-chart
+          <!-- <pie-chart
             class="left-distribution single-distribution"
             :ids="cityId"
             v-if="cityJudge"
             :chartData="cityData"
             chartTitle="地域分布"
-          />
+          />-->
           <!-- <pie-chart
             class="right-distribution single-distribution"
             :ids="pieId"
             v-if="educationJudge"
             :chartData="educationData"
           />-->
-          <form-chart
+          <!-- <form-chart
             :ids="elite"
             v-if="eliteJudge"
             :chartData="{elite: eliteData}"
             class="form-charts"
             tableTitle="精准扶贫"
-          />
+          />-->
+          <div class="single-distribution">
+            <span class="single-graph-title">地域</span>
+            <simple-column
+              class="basic-chart"
+              :ids="cityId"
+              v-if="cityJudge"
+              :chartData="cityData"
+            />
+          </div>
+          <div class="single-distribution">
+            <span class="single-graph-title">收入</span>
+            <!-- <simple-column
+              class="basic-chart"
+              :ids="elite"
+              v-if="eliteJudge"
+              :chartData="eliteData"
+            />-->
+          </div>
         </div>
       </div>
       <div class="current-amounts">
-        <div class="content-title">当日信贷服务金额</div>
-        <indicator-chart
+        <!-- <div class="content-title">当日信贷投放金额</div> -->
+        <!-- <indicator-chart
           v-if="threeMoneyArr.second"
           :chartData="threeMoneyArr.second"
           chartId="current-money"
           :styleData="styleObj"
           marginTop="-120px"
           :styleSingle="singleStyle"
+        />-->
+        <indicator-div
+          :titleContent="littleTitle[1]"
+          :titleStyle="littleTitleStyle[1]"
+          :digital="threeMoneyArr.second"
+          :digitalStyle="digitalStyle[1]"
+          class="middle-digital-span"
         />
 
         <!-- 地图 -->
         <map-chart v-if="mapJudge" :chartData="mapData" class="map-charts" />
       </div>
       <div class="accruing-amounts">
-        <div class="content-title">累计信贷服务金额</div>
-        <indicator-chart
+        <!-- <div class="content-title">累计信贷投放金额</div> -->
+        <!-- <indicator-chart
           v-if="threeMoneyArr.first"
           :chartData="threeMoneyArr.first"
           chartId="total-money"
           :styleData="styleObj"
           marginTop="-120px"
           :styleSingle="singleStyle"
+        />-->
+        <indicator-div
+          :titleContent="littleTitle[2]"
+          :titleStyle="littleTitleStyle[0]"
+          :digital="threeMoneyArr.first"
+          :digitalStyle="digitalStyle[0]"
         />
         <!-- <indicator-chart v-if="testN" :chartData="testN" chartId="total-money" /> -->
-        <line-chart
-          :ids="id"
-          v-if="leftLineData"
-          :chartData="getChartData"
-          :trueData="leftLineData"
-          class="line-chart"
-        />
-        <left-indicator-chart v-if="allDataIndicator" :chartData="allDataIndicator" />
+        <div class="single-distribution right-top-distribution">
+          <span class="single-graph-title">当日实时放款</span>
+          <line-chart
+            :ids="id"
+            v-if="leftLineJudge"
+            :chartData="getChartData"
+            :trueData="leftLineData"
+            class="line-chart"
+          />
+        </div>
+        <div class="right-middle-div">
+          <div class="single-distribution half-middle-distribution">
+            <span class="single-graph-title">授信时长</span>
+          </div>
+          <div class="single-distribution half-middle-distribution">
+            <span class="single-graph-title">贷款时长</span>
+          </div>
+        </div>
+        <div class="right-bottom-div">
+          <div class="single-distribution half-bottom-distribution">
+            <span class="single-graph-title">笔均金额</span>
+            <simple-column
+              class="basic-chart"
+              :ids="cityId"
+              v-if="cityJudge"
+              :chartData="cityData"
+            />
+          </div>
+          <div class="single-distribution half-bottom-distribution">
+            <span class="single-graph-title">贷款期限</span>
+            <!-- <simple-column
+              class="basic-chart"
+              :ids="elite"
+              v-if="eliteJudge"
+              :chartData="eliteData"
+            />-->
+          </div>
+        </div>
+        <!-- <left-indicator-chart v-if="allDataIndicator" :chartData="allDataIndicator" /> -->
         <!-- <repeat-purchase
           :ids="repeatPurchaseId"
           :v-if="plateJudge"
@@ -156,11 +242,11 @@
           class="form-charts"
         />
         横向柱状图-->
-        <div class="bottom-title-div">
+        <!-- <div class="bottom-title-div">
           <div class="bottom-title">审批时长（秒）</div>
           <div class="bottom-title">90天复购率</div>
         </div>
-        <oil-pie-chart :ids="oilPieIds" :chartData="oilPieData" />
+        <oil-pie-chart :ids="oilPieIds" :chartData="oilPieData" />-->
         <!-- <div class="bottom-title-div">
           <div class="bottom-title">星座&剁手</div>
           <div class="bottom-title">地域&贷款规模</div>
@@ -174,27 +260,30 @@
 </template>
 
 <script>
-import IndicatorChart from "../../components/first-screen/indicator.vue";
 import LineChart from "../../components/first-screen/lineChart.vue";
-import LeftIndicatorChart from "../../components/first-screen/leftIndicator.vue";
-// import RepeatPurchase from "../../components/first-screen/repeatPurchase.vue";
+// import LeftIndicatorChart from "../../components/first-screen/leftIndicator.vue";
 import ColumnarChart from "../../components/first-screen/columnarChart.vue";
-import PieChart from "../../components/first-screen/pieChart.vue";
-// import FunnelChart from "../../components/first-screen/funnelChart.vue";
-import FormChart from "../../components/first-screen/formChart.vue";
 import MapChart from "../../components/first-screen/mapChart.vue";
-import OilPieChart from "../../components/first-screen/oilPieChart.vue";
+// import OilPieChart from "../../components/first-screen/oilPieChart.vue";
 import WeatherCom from "../../components/weather.vue";
-
-// import PersonColumnar from "../../components/second-screen/personColumnar.vue";
-import IncomeLevel from "../../components/second-screen/incomeLevel.vue";
-// import ScrollSpan from "../../components/scrollSpan.vue";
+import IndicatorDiv from "@/components/first-screen/indicatorDiv.vue";
+import CyclicAnnular from "@/components/first-screen/cyclicAnnular.vue";
+import WholePieChart from "@/components/first-screen/wholePieChart.vue";
+import SimpleColumn from "@/components/first-screen/simpleColumn.vue";
 
 import Money from "../../components/first-screen/icon/money.svg";
 import Avg from "../../components/first-screen/icon/avg.svg";
 import Life from "../../components/first-screen/icon/life.svg";
 import User from "../../components/first-screen/icon/user.svg";
 
+// import IndicatorChart from "../../components/first-screen/indicator.vue";
+// import RepeatPurchase from "../../components/first-screen/repeatPurchase.vue";
+// import PieChart from "../../components/first-screen/pieChart.vue";
+// import FunnelChart from "../../components/first-screen/funnelChart.vue";
+// import FormChart from "../../components/first-screen/formChart.vue";
+// import PersonColumnar from "../../components/second-screen/personColumnar.vue";
+// import IncomeLevel from "../../components/second-screen/incomeLevel.vue";
+// import ScrollSpan from "../../components/scrollSpan.vue";
 import { setInterval, clearInterval } from "timers";
 export default {
   created() {
@@ -216,6 +305,26 @@ export default {
   },
   data() {
     return {
+      littleTitle: ["信贷服务客户数", "当日信贷投放金额", "累计信贷投放金额"],
+      littleTitleStyle: [
+        {
+          textAlign: "left"
+        },
+        {
+          textAlign: "center"
+        },
+        {}
+      ],
+      digitalStyle: [
+        {
+          marginTop: "34px",
+          textAlign: "left"
+        },
+        {
+          marginTop: "34px",
+          textAlign: "center"
+        }
+      ],
       styleObj: {
         height: "90px",
         fontSize: "64px"
@@ -254,11 +363,12 @@ export default {
       // 左侧实时放款数据
       allData: [
         {
-          chartName: "当日实时放款/七日均值",
+          chartName: "当日实时放款",
           money: Math.floor(Math.random() * 100000)
         }
       ],
       leftLineData: undefined,
+      leftLineJudge: false,
       id: ["echarts01"],
 
       // 左侧六个指标数据
@@ -396,10 +506,10 @@ export default {
         // ]
       },
       columnarId: [
-        {
-          id: "echarts04",
-          title: "当日授信人数"
-        },
+        // {
+        //   id: "echarts04",
+        //   title: "当日授信人数"
+        // },
         {
           id: "echarts05",
           title: "当日用信人数"
@@ -594,6 +704,9 @@ export default {
           });
           _that.leftLineData.data_dt = cdata.map(item => {
             return item.event_hour + "时";
+          });
+          this.$nextTick(() => {
+            this.leftLineJudge = true;
           });
         }
       });
@@ -1005,21 +1118,21 @@ export default {
           tData.forEach(item => {
             total += Number(item.val);
           });
-          // _that.ageData = tData.map(item => {
-          //   return { name: item.xid, value: item.val, total: total };
-          // });
-
-          let xAxis = [];
-          let yAxis = [];
-
-          tData.forEach(item => {
-            xAxis.push(item.xid);
-            yAxis.push(((parseFloat(item.val) / total) * 100).toFixed(1));
+          _that.ageData = tData.map(item => {
+            return { name: item.xid, value: item.val };
           });
-          xAxis = xAxis.reverse();
-          yAxis = yAxis.reverse();
 
-          _that.ageData = Object.assign({}, { xAxis: xAxis, yAxis: yAxis });
+          // let xAxis = [];
+          // let yAxis = [];
+
+          // tData.forEach(item => {
+          //   xAxis.push(item.xid);
+          //   yAxis.push(((parseFloat(item.val) / total) * 100).toFixed(1));
+          // });
+          // xAxis = xAxis.reverse();
+          // yAxis = yAxis.reverse();
+
+          // _that.ageData = Object.assign({}, { xAxis: xAxis, yAxis: yAxis });
         }
         this.$nextTick(() => {
           _that.ageJudge = true;
@@ -1035,12 +1148,13 @@ export default {
       }).then(data => {
         if (data.data.code === 100) {
           var tData = data.data.data;
-          var total = 0;
-          tData.forEach(item => {
-            total += Number(item.percent);
-          });
+          // var total = 0;
+          // tData.forEach(item => {
+          //   total += Number(item.percent);
+          // });
           _that.educationData = tData.map(item => {
-            return { name: item.education, value: item.percent, total: total };
+            // return { name: item.education, value: item.percent, total: total };
+            return { name: item.education, value: item.percent };
           });
         }
         this.$nextTick(() => {
@@ -1233,41 +1347,53 @@ export default {
         if (data.data.code === 100 || data.data.data !== null) {
           var tData = data.data.data;
 
-          let total = tData.reduce((p, e) => p + e.val, 0);
-          _that.cityData = tData.map(item => {
-            // let IconFont = undefined;
-            // switch (item.icon) {
-            //   case "Money":
-            //     IconFont = Money;
-            //     break;
-            //   case "User":
-            //     IconFont = User;
-            //     break;
-            //   case "Avg":
-            //     IconFont = Avg;
-            //     break;
-            //   case "Life":
-            //     IconFont = Life;
-            //     break;
-            //   default:
-            //     break;
-            // }
-            // let formatArr = ["笔均", "户均", "累计放款金额"];
-            return {
-              name: item.regionname,
-              value: item.percent,
-              total: total
-            };
+          // let total = tData.reduce((p, e) => p + e.val, 0);
+          // _that.cityData = tData.map(item => {
+          //   // let IconFont = undefined;
+          //   // switch (item.icon) {
+          //   //   case "Money":
+          //   //     IconFont = Money;
+          //   //     break;
+          //   //   case "User":
+          //   //     IconFont = User;
+          //   //     break;
+          //   //   case "Avg":
+          //   //     IconFont = Avg;
+          //   //     break;
+          //   //   case "Life":
+          //   //     IconFont = Life;
+          //   //     break;
+          //   //   default:
+          //   //     break;
+          //   // }
+          //   // let formatArr = ["笔均", "户均", "累计放款金额"];
+          //   return {
+          //     name: item.regionname,
+          //     value: item.percent,
+          //     total: total
+          //   };
 
-            //        cityData: [
-            //   { name: "一线城市", value: 3584, total: 10000 },
-            //   { name: "二线城市", value: 2218, total: 10000 },
-            //   { name: "三线城市", value: 2263, total: 10000 },
-            //   { name: "四线城市", value: 1806, total: 10000 },
-            //   { name: "五线城市", value: 129, total: 10000 }
-            //   // return { name: item.xid, value: item.val, total: total };
-            // ],
+          //   //        cityData: [
+          //   //   { name: "一线城市", value: 3584, total: 10000 },
+          //   //   { name: "二线城市", value: 2218, total: 10000 },
+          //   //   { name: "三线城市", value: 2263, total: 10000 },
+          //   //   { name: "四线城市", value: 1806, total: 10000 },
+          //   //   { name: "五线城市", value: 129, total: 10000 }
+          //   //   // return { name: item.xid, value: item.val, total: total };
+          //   // ],
+          // });
+
+          let xAxis = [];
+          let yAxis = [];
+          tData.forEach(item => {
+            xAxis.push(item.regionname);
+            yAxis.push(item.percent);
           });
+          xAxis = xAxis.slice(0, 5).reverse();
+          yAxis = yAxis.slice(0, 5).reverse();
+
+          _that.cityData = Object.assign({}, { xAxis: xAxis, yAxis: yAxis });
+
           this.$nextTick(() => {
             _that.cityJudge = true;
           });
@@ -1505,20 +1631,24 @@ export default {
     clearInterval(this.coinInterval);
   },
   components: {
-    "indicator-chart": IndicatorChart,
     "line-chart": LineChart,
-    "left-indicator-chart": LeftIndicatorChart,
-    // "repeat-purchase": RepeatPurchase,
     "columnar-chart": ColumnarChart,
-    "pie-chart": PieChart,
-    // "funnel-chart": FunnelChart,
-    "form-chart": FormChart,
     "map-chart": MapChart,
     "weather-com": WeatherCom,
-    "oil-pie-chart": OilPieChart,
+    "indicator-div": IndicatorDiv,
+    "cyclic-annular": CyclicAnnular,
+    "whole-pie-chart": WholePieChart,
+    "simple-column": SimpleColumn
+    // "left-indicator-chart": LeftIndicatorChart,
+    // "oil-pie-chart": OilPieChart,
+    // "indicator-chart": IndicatorChart,
+    // "repeat-purchase": RepeatPurchase,
+    // "pie-chart": PieChart,
+    // "funnel-chart": FunnelChart,
+    // "form-chart": FormChart,
     // "scroll-span": ScrollSpan,
     // "person-columnar": PersonColumnar,
-    "income-level": IncomeLevel
+    // "income-level": IncomeLevel,
   }
 };
 </script>
@@ -1529,11 +1659,15 @@ export default {
   height: 1536px;
   // width: 100%;
   // height: 100%;
-  background: url("../../assets/images/background-second.png") no-repeat;
+  background: url("../../assets/images/material/exports/background.png")
+    no-repeat;
   background-size: 100% 100%;
   padding-top: 1%;
   font-size: 28px;
   color: #fff;
+  overflow: hidden;
+  font-family: Microsoft YaHei;
+
   .total-money-span {
     color: #ffcc22;
     height: 37%;
@@ -1579,15 +1713,35 @@ export default {
   // 内容样式
   .frame-content {
     display: flex;
-    padding: 0 40px;
+    // padding: 0 40px;
     justify-content: space-between;
     .accruing-amounts,
     .accruing-person {
       width: 27%;
-      height: 100%;
-      padding: 20px 20px 50px;
-      background: url("../../assets/images/p3/bg-cont.png") no-repeat;
-      background-size: 100% 97%;
+      height: 92.96%;
+      padding: 40px;
+      background: rgba(22, 28, 40, 0.32);
+      // background: url("../../assets/images/p3/bg-cont.png") no-repeat;
+      // background-size: 100% 97%;
+      .single-distribution {
+        width: 50%;
+        height: 100%;
+        text-align: left;
+        position: relative;
+        .single-graph-title {
+          // position: absolute;
+          // left: 0;
+          // top: 0;
+          font-weight: bold;
+          font-size: 32px;
+          line-height: 40px;
+          letter-spacing: 0px;
+        }
+        .basic-chart {
+          height: 87%;
+          width: 100%;
+        }
+      }
     }
     .current-amounts {
       width: 45%;
@@ -1595,6 +1749,9 @@ export default {
       .map-charts {
         width: 100%;
         height: 1200px;
+      }
+      .middle-digital-span {
+        margin-top: 38px;
       }
     }
     .content-title {
@@ -1607,7 +1764,8 @@ export default {
     }
     .accruing-amounts {
       .line-chart {
-        height: 500px;
+        // height: 500px;
+        height: 90%;
         padding-top: 2%;
       }
       .bottom-title-div {
@@ -1629,28 +1787,51 @@ export default {
           margin-right: 5%;
         }
       }
+      .right-top-distribution {
+        width: 100%;
+        height: 297px;
+        margin-top: 48px;
+      }
+      .right-middle-div, .right-bottom-div {
+        display: flex;
+      }
+      .half-middle-distribution {
+        width: 50%;
+        height: 332px;
+        margin-top: 40px;
+      }
+      .half-bottom-distribution {
+        height: 408px;
+        width: 50%;
+        margin-top: 40px;
+      }
     }
     .accruing-person {
       .columnar-chart {
         height: 40%;
+        margin-top: 48px;
       }
       .distribution {
         display: flex;
         height: 40%;
         padding-bottom: 20px;
-        .single-distribution {
-          width: 50%;
-          text-align: left;
-        }
+
         .left-distribution {
           height: 400px;
         }
         .right-distribution {
           height: 400px;
         }
+
         &:first-child {
           padding-bottom: 40px;
         }
+      }
+      .middle-distirbution {
+        height: 332px;
+      }
+      .bottom-distribution {
+        height: 408px;
       }
       .form-charts {
         width: 50%;
