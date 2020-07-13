@@ -40,21 +40,21 @@ export default {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)",
         },
-        legend: {
-          type: "scroll",
-          orient: "vertical",
-          right: "5%",
-          top: 130,
-          icon: "pin",
-          textStyle: {
-            fontSize: 18,
-            color: "#CCC",
-            lineHeight: 24,
-          },
-          data: antiFraudDatas.map((item) => {
-            return item.name;
-          }),
-        },
+        // legend: {
+        //   type: "scroll",
+        //   orient: "vertical",
+        //   right: "5%",
+        //   top: 130,
+        //   icon: "pin",
+        //   textStyle: {
+        //     fontSize: 18,
+        //     color: "#CCC",
+        //     lineHeight: 24,
+        //   },
+        //   data: antiFraudDatas.map((item) => {
+        //     return item.name;
+        //   }),
+        // },
         color: colorList,
         series: [
           {
@@ -79,7 +79,7 @@ export default {
                     `}` +
                     "\n" +
                     `{uvalue|${name}}{uvalue|` +
-                    (Number(data.value).toFixed(1) + "%") +
+                    (Number(data.value).toFixed(2) + "%") +
                     `}`
                   );
                   /* end */

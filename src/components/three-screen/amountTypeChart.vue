@@ -65,7 +65,7 @@ export default {
             }
         },
         grid: {
-          top: 15,
+          top: 40,
           left: 73,
           right: 29,
           bottom: '11%',
@@ -86,7 +86,10 @@ export default {
           {
             type: 'category',
             axisLabel: {
-              color: 'rgba(255,255,255)'
+              textStyle: {
+                color: 'rgba(255,255,255,0.7)',
+                fontSize:20
+              }
             },
             axisLine:{
              show:false

@@ -1,7 +1,6 @@
 <template>
   <div>
-    <span class="myspan">欺诈损失率:万万分之4.5</span>
-
+    <span class="myspan">风险模型策略&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sun">欺诈损失率  万万分之4.5</span></span>
     <div class="microfinance-chart">
       <div class="mc-header">
         <!-- 近一小时攻击数 -->
@@ -426,5 +425,24 @@ export default {
       }
     }
   }
+}
+.sun{
+  color: #FFFFFF;
+font-family: Microsoft YaHei;
+font-weight: bold;
+font-size: 32px;
+line-height: normal;
+letter-spacing: 0px;
+text-align: left;
+}
+.fen
+{
+  color: #FFFFFF;
+font-family: Microsoft YaHei;
+font-weight: bold;
+font-size: 32px;
+line-height: normal;
+letter-spacing: 0px;
+text-align: left;
 }
 </style>
