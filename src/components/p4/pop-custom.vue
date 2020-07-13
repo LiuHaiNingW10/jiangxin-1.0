@@ -30,7 +30,8 @@ export default {
   },
   watch: {
     tableDatas(newValue, oldValue) {
-      this.drawChart()
+      // this.drawChart()
+      this.drawCloudChart();
     }
   },
   methods: {
