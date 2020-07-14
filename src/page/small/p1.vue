@@ -933,7 +933,7 @@ export default {
         if (data.data.code === 100) {
           _that.totalMoney = "¥" + _that.thousandFormat(data.data.data, 0) || 0;
           _that.threeMoneyArr = Object.assign({}, _that.threeMoneyArr, {
-            first: _that.thousandFormat(data.data.data, 0) || 0
+            first: _that.thousandFormat(data.data.data, 2) || 0
           });
           if (_that.totalMoney !== _that.preTotalMoney) {
             _that.scroll(_that.totalMoney, _that.$refs);
@@ -953,7 +953,7 @@ export default {
         if (data.data.code === 100) {
           // _that.currentMoney = _that.thousandFormat(data.data.data, 2) || 0;
           _that.threeMoneyArr = Object.assign({}, _that.threeMoneyArr, {
-            second: _that.thousandFormat(data.data.data, 0) || 0
+            second: _that.thousandFormat(data.data.data, 2) || 0
           });
         }
       });
