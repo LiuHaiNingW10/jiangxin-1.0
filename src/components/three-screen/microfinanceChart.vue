@@ -1,57 +1,66 @@
 <template>
-  <div class="microfinance-chart">
-    <div class="mc-header">
-      <span>欺诈损失率:万万分之4.5</span>
-      <!-- 近一小时攻击数 -->
-      <!-- <span>{{ 537 || attckTimes}}次/小时</span> -->
-    </div>
-    <div class="mc-content">
-      <div class="mc-l">
-        <span class="left-title">反欺诈策略分布</span>
-        <ul>
-          <!-- 7月10日wk修改：删除右侧高亮及百分比展示 -->
-          <li :style="moveLocaiton === 1 ? 'color: #fff' : 'color: gray'">
-            <img src="../../assets/images/p3/frm-cricle1.png" alt />
-            <div>
-              <div class="title">{{IDFdatas[0].flag}}</div>
-            </div>
-          </li>
-          <li :style="moveLocaiton === 2 ? 'color: #fff' : 'color: gray'">
-            <img src="../../assets/images/p3/frm-cricle2.png" alt />
-            <div>
-              <div class="title">{{IDFdatas[1].flag}}</div>
-            </div>
-          </li>
-          <li :style="moveLocaiton === 3 ? 'color: #fff' : 'color: gray'">
-            <img src="../../assets/images/p3/frm-cricle1.png" alt />
-            <div>
-              <div class="title">{{IDFdatas[2].flag}}</div>
-            </div>
-          </li>
-          <li :style="moveLocaiton === 4 ? 'color: #fff' : 'color: gray'">
-            <img src="../../assets/images/p3/frm-cricle2.png" alt />
-            <div>
-              <div class="title">{{IDFdatas[3].flag}}</div>
-            </div>
-          </li>
-        <!-- end -->
-        <!-- 7月10日wk修改：添加左侧条形图 -->
-        <div class="frim-chart" id="frimChart"></div>
-        <!-- end -->
-        </ul>
+  <div>
+    <span class="myspan">风险模型策略&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sun">欺诈损失率  万万分之4.5</span></span>
+    <div class="microfinance-chart">
+      <div class="mc-header">
+        <!-- 近一小时攻击数 -->
+        <!-- <span>{{ 537 || attckTimes}}次/小时</span> -->
       </div>
-      <div class="mc-c" :style="'background:url('+ frm_cc+');background-size: 100% 110%;background-position: center -22px'"></div>
-      <!-- <div class="mc-r">
+      <div class="mc-content">
+        <div class="mc-l">
+          <span class="left-title">反欺诈策略分布</span>
+          <ul>
+            <!-- 7月10日wk修改：删除右侧高亮及百分比展示 -->
+            <li :style="moveLocaiton === 1 ? 'color: #fff' : 'color: gray'">
+              <img src="../../assets/images/p3/frm-cricle1.png" alt />
+              <div>
+                <div class="title">{{ IDFdatas[0].flag }}</div>
+              </div>
+            </li>
+            <li :style="moveLocaiton === 2 ? 'color: #fff' : 'color: gray'">
+              <img src="../../assets/images/p3/frm-cricle2.png" alt />
+              <div>
+                <div class="title">{{ IDFdatas[1].flag }}</div>
+              </div>
+            </li>
+            <li :style="moveLocaiton === 3 ? 'color: #fff' : 'color: gray'">
+              <img src="../../assets/images/p3/frm-cricle1.png" alt />
+              <div>
+                <div class="title">{{ IDFdatas[2].flag }}</div>
+              </div>
+            </li>
+            <li :style="moveLocaiton === 4 ? 'color: #fff' : 'color: gray'">
+              <img src="../../assets/images/p3/frm-cricle2.png" alt />
+              <div>
+                <div class="title">{{ IDFdatas[3].flag }}</div>
+              </div>
+            </li>
+            <!-- end -->
+            <!-- 7月10日wk修改：添加左侧条形图 -->
+            <div class="frim-chart" id="frimChart"></div>
+            <!-- end -->
+          </ul>
+        </div>
+        <div
+          class="mc-c"
+          :style="
+            'background:url(' +
+              frm_cc +
+              ');background-size: 100% 110%;background-position: center -22px'
+          "
+        ></div>
+        <!-- <div class="mc-r">
         <div class="title">F.R.I.M命中次数</div>
         <ul>
           <li v-for="(item,index,) in IDFdatas" :key="index">{{item.callNum}}</li>
         </ul>
       </div> -->
-    </div>
-    <!-- <div class="mc-footer">
+      </div>
+      <!-- <div class="mc-footer">
       欺诈损失率
       <span>{{footerData}}% ，行业平均水平为0.0001%</span>
     </div> -->
+    </div>
   </div>
 </template>
 
@@ -72,9 +81,9 @@ export default {
         { flag: "名单层", callNum: 300, percent: 30 },
         { flag: "关系层", callNum: 300, percent: 30 },
         { flag: "场景层", callNum: 200, percent: 20 },
-        { flag: "行为层", callNum: 200, percent: 20 }
+        { flag: "行为层", callNum: 200, percent: 20 },
       ],
-      frm_cc: base64.frm_cc.value
+      frm_cc: base64.frm_cc.value,
     };
   },
   computed: {
@@ -87,11 +96,11 @@ export default {
     moveLocaiton: {
       get() {
         return this.moveLocaitons;
-      }
+      },
     },
     IDFdatas() {
       return this.IDFdata;
-    }
+    },
   },
   mounted() {
     this.getLossRate();
@@ -113,7 +122,7 @@ export default {
     getIDF() {
       this.axios
         .get("/api/p3/riskIdfMatrix")
-        .then(response => {
+        .then((response) => {
           // this.IDFdata = response.data.data;
           this.drawChart();
         })
@@ -124,12 +133,12 @@ export default {
     getLossRate() {
       //欺诈损失率
       this.axios
-        .get("/api/p3/lossRate",{
+        .get("/api/p3/lossRate", {
           params: {
-            indexname: 'qzssl'
-          }
+            indexname: "qzssl",
+          },
         })
-        .then(response => {
+        .then((response) => {
           this.footerdata = response.data.data;
         })
         .catch(function(error) {
@@ -151,7 +160,7 @@ export default {
       //近一小时攻击数P3-4
       this.axios
         .get("/api/p3/attackRecent")
-        .then(response => {
+        .then((response) => {
           this.attcktimes = response.data.data;
         })
         .catch(function(error) {
@@ -167,7 +176,7 @@ export default {
       // });
       // let max = Vue.filter("sortByValue")(this.IDFdata, "callNum")[0].callNum;
       /* 7月10日wk修改：修改左侧条形图 */
-      this.IDFdata.forEach(el => {
+      this.IDFdata.forEach((el) => {
         percentData.push(el.percent);
       });
       let max = Vue.filter("sortByValue")(this.IDFdata, "percent")[0].percent;
@@ -185,24 +194,24 @@ export default {
             colorStops: [
               {
                 offset: 0,
-                color: "#1F7CFF" // 0% 处的颜色
+                color: "#1F7CFF", // 0% 处的颜色
               },
               {
                 offset: 0.9,
-                color: "#2BF1FF"
+                color: "#2BF1FF",
               },
               {
                 offset: 1,
-                color: "#FFFFFF " // 100% 处的颜色
-              }
+                color: "#FFFFFF ", // 100% 处的颜色
+              },
             ],
-            global: false // 缺省为 false
-          }
+            global: false, // 缺省为 false
+          },
         ],
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            type: "shadow"
+            type: "shadow",
           },
           formatter: function(params) {
             return (
@@ -216,31 +225,31 @@ export default {
               ).toLocaleString() +
               " 万元<br/>"
             );
-          }
+          },
         },
         grid: {
           top: "-15",
-          left: "15%",
+          left: "20%",
           right: "15%",
           bottom: "-3%",
-          containLabel: false
+          containLabel: false,
         },
         xAxis: {
           show: false,
           type: "value",
           boundaryGap: [0, 0.01],
           axisLabel: {
-            color: "rgba(255,255,255)"
+            color: "rgba(255,255,255)",
           },
           splitLine: {
-            show: false
-          }
+            show: false,
+          },
         },
         yAxis: [
           {
             type: "category",
-            show: false
-          }
+            show: false,
+          },
         ],
         series: [
           {
@@ -255,54 +264,62 @@ export default {
               formatter: function(data) {
                 /* 7月10日wk修改：添加左侧条形图 */
                 // return data.callNum;
-                return data.value + '%';
+                return data.value + "%";
                 /* end */
-              }
+              },
             },
-            barWidth: 30,
-            data: percentData || [15, 10, 60, 5]
+            barWidth: 20,
+            data: percentData || [15, 10, 60, 5],
           },
           {
             name: "背景",
             type: "bar",
-            barWidth: 30,
+            barWidth: 24,
             barGap: "-100%",
             data: [max * 1.6, max * 1.6, max * 1.6, max * 1.6],
             itemStyle: {
               color: "rgba(255,255,255,0)",
               // barBorderRadius: 30,
               borderWidth: 1,
-              borderColor: "rgba(255,255,255,.4)"
-            }
-          }
-        ]
+              borderColor: "rgba(255,255,255,.4)",
+            },
+          },
+        ],
       });
-    }
+    },
   },
   beforeDestroy() {
     clearInterval(this.timeinterval);
     clearInterval(this.timer);
     clearInterval(this.timerIDF);
   },
-  components: {}
+  components: {},
 };
 </script>
 
 <style lang="less" scoped>
+.myspan {
+  color: #ffffff;
+  font-family: Microsoft YaHei;
+  font-weight: bold;
+  font-size: 32px;
+  line-height: normal;
+  letter-spacing: 0px;
+  text-align: left;
+  display: block;
+  margin-left: 40px;
+  margin-top: -18px;
+}
 .microfinance-chart {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
+  padding: 0 0 0 144px;
   height: 30%;
   .mc-header,
   .mc-footer {
     font-size: 18px;
     color: rgba(255, 255, 255, 0.72);
     text-align: center;
-    & > span {
-      font-size: 24px;
-      color: #fff;
-      margin-left: 8px;
-    }
   }
   .mc-content {
     display: flex;
@@ -328,7 +345,7 @@ export default {
           background: url("../../assets/images/p3/frm-l.png") no-repeat;
           overflow: hidden;
           margin-bottom: 28px;
-          background-size:cover; 
+          background-size: cover;
           img {
             float: left;
             width: 38px;
@@ -354,8 +371,8 @@ export default {
       .frim-chart {
         position: absolute;
         top: 0;
-        right: -20px;
-        width: 180px;
+        right: 0;
+        width: 320px;
         height: 100%;
         // background: url("../../assets/images/p3/frm-r.png") no-repeat;
         // background-size: 100% 100%;
@@ -363,11 +380,11 @@ export default {
       /* end */
     }
     .mc-c {
-      width: 212px;
+      width: 450px;
       height: 450px;
       // background: url('../../assets/images/p3/frm-cc.png') no-repeat;
       background-size: 100% 100%;
-      margin: 0 46px 0 27px;
+      margin: 30px 55px 0 0px;
     }
     .mc-r {
       margin-top: 40px;
@@ -395,7 +412,7 @@ export default {
       ul > li {
         /* 7月10日wk修改：修改右侧命中次数展示 */
         border: 1px solid #fff;
-        margin: 0 auto;;
+        margin: 0 auto;
         margin-bottom: 60px;
         list-style: none;
         width: 80px;
@@ -408,5 +425,24 @@ export default {
       }
     }
   }
+}
+.sun{
+  color: #FFFFFF;
+font-family: Microsoft YaHei;
+font-weight: bold;
+font-size: 32px;
+line-height: normal;
+letter-spacing: 0px;
+text-align: left;
+}
+.fen
+{
+  color: #FFFFFF;
+font-family: Microsoft YaHei;
+font-weight: bold;
+font-size: 32px;
+line-height: normal;
+letter-spacing: 0px;
+text-align: left;
 }
 </style>

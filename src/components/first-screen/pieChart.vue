@@ -1,7 +1,6 @@
 <template>
   <div class="pie-echarts" :id="ids"></div>
 </template>
-
 <script>
 export default {
   name: "education",

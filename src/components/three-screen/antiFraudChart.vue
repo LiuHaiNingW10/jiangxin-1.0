@@ -14,7 +14,7 @@ export default {
   },
   computed: {},
   methods: {
-    initPieChart(id,antiFraudDatas) {
+    initPieChart(id, antiFraudDatas) {
       // [{
       //     "value": "60",
       //     "name": "mxjczb"
@@ -27,84 +27,108 @@ export default {
       //     "value": "20",
       //     "name": "cljc"
       // }]
-      const colorList = [
-        "#7F6AAD",
-        "#59CB74",
-        "#FBD444"
-      ];
+      const colorList = ["#1f71ff", "#1d9dfa", "#00f7ff"];
       let myCharts = this.$echarts.init(document.getElementById(id));
       // let _that = this;
       myCharts.setOption({
         title: {
-          text: '',
-          subtext: '',
-          left: 'center',
+          text: "",
+          subtext: "",
+          left: "center",
         },
         tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)'
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)",
         },
-        legend: {
-          type: 'scroll',
-          orient: 'vertical',
-          right: "30%",
-          top: 'center',
-          textStyle: {
-            fontSize: 16,
-            color: "#FFF",
-            lineHeight: 20
-          },
-          data: antiFraudDatas.map(item => {
-            return item.name;
-          }),
-        },
-        toolbox: {
-          show: true,
-          feature: {
-            mark: {show: true},
-            dataView: {show: true, readOnly: false},
-            magicType: {
-                show: true,
-                type: ['pie', 'funnel']
-            },
-            restore: {show: true},
-            saveAsImage: {show: true}
-          }
-        },
+        // legend: {
+        //   type: "scroll",
+        //   orient: "vertical",
+        //   right: "5%",
+        //   top: 130,
+        //   icon: "pin",
+        //   textStyle: {
+        //     fontSize: 18,
+        //     color: "#CCC",
+        //     lineHeight: 24,
+        //   },
+        //   data: antiFraudDatas.map((item) => {
+        //     return item.name;
+        //   }),
+        // },
         color: colorList,
         series: [
-        {
-          name: '半径模式',
-          type: 'pie',
-          radius: [20, 110],
-          center: ['35%', '50%'],
-          roseType: 'radius',
-          label: {
-              show: false
+          {
+            name: "面积模式",
+            type: "pie",
+            radius: [30, 110],
+            center: ["45%", "50%"],
+            roseType: "radius",
+
+            label: {
+              normal: {
+                borderWidth: 20,
+                borderRadius: 4,
+                padding: [0,-70,60,-70],
+                formatter: function(data) {
+                  /* 7月10日wk修改：添加左侧条形图 */
+                  // return data.callNum;
+                  // return data.data.name+'111111'+'\n'+''+Number(data.data.value).toFixed(0) + '%'
+                  return (
+                    `{uname|${name}}{uname|` +
+                    data.name +
+                    `}` +
+                    "\n" +
+                    `{uvalue|${name}}{uvalue|` +
+                    (Number(data.value).toFixed(2) + "%") +
+                    `}`
+                  );
+                  /* end */
+                },
+                rich: {
+                  uname: {
+                    position: "insideTopLeft",
+                    color: "#CCC",
+                    lineHeight: 30,
+                    align: "right",
+                    fontSize: 16,
+                  },
+                  uvalue: {
+                    position: "insideTopLeft",
+                    color: "#FFF",
+                    lineHeight: 30,
+                    align: "right",
+                    fontSize: 20,
+                  },
+                },
+              },
+              show: true,
+              fontSize: 20,
+            },
+            data: antiFraudDatas,
+            labelLine: {
+              normal: {
+                show: true,
+                length: 20,
+                length2: 70,
+              },
+            },
           },
-          emphasis: {
-              label: {
-                  show: true
-              }
-          },
-          data: antiFraudDatas
-        }
-      ]  
+        ],
       });
-    }
+    },
   },
   components: {},
   watch: {
     antiFraudDatas: function(newVal) {
       this.initPieChart(this.ids, newVal);
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="less">
-  .anti-echarts {
-    width: 100%;
-    height: 260px;
-  }
+.anti-echarts {
+  width: 130%;
+  height: 360px;
+}
 </style>

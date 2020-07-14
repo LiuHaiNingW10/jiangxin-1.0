@@ -2,8 +2,9 @@
   <div class="verification">
     <ul>
       <li v-for="item in tableData" :key="item.title">
-        <div class="item-title">{{item.title}}</div>
+       
         <img :src="item.img" alt="">
+         <div class="item-title">{{item.title}}</div>
         <!-- <div><i>{{item.times}}</i>次</div> -->
       </li>
     </ul>
@@ -36,6 +37,7 @@ export default {
 <style lang="less" scoped>
 .verification {
   height: 16%;
+  margin-top: 90px;
   ul {
     width: 80%;
     margin: 0 auto;
@@ -48,6 +50,7 @@ export default {
       width: 24%;
       text-align: center;
       padding-top: 20px;
+      margin-left: 32px;
       i {
         font-style: normal;
         color: #587D5D;
@@ -56,7 +59,8 @@ export default {
         width: 122px;
       }
       .item-title {
-        padding-bottom: 15px;
+        color: white;
+        padding-top: 15px;
       }
     }
   }

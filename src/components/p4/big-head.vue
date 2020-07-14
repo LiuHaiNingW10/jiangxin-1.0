@@ -1,16 +1,30 @@
 <template>
-<!-- p4 -->
+  <!-- p4 -->
   <div class="brain-content" @keyup.enter="keyEnter">
     <div class="brain-main">
       <div id="ChinaMap" v-if="showAudio"></div>
       <div class="light-spot">
-        <canvas id="audio-art"></canvas>
-        <canvas id="audio-art-shadow"></canvas>
+        <!-- <canvas ></canvas> -->
+        <img id="audio-art" :src="require('../../assets/images/voice-view.png')" alt />
       </div>
-      <img :src="robot" alt id="robot-img" v-if="!showAudio" />
-      <!-- <div class="topCity">
-        <RiskPortraitChart :ids="idRisk" :tableDatas="tableDataR" />
-      </div>-->
+      <div class="chat-box demo" id="list-demo">
+        <div id="dialogue-box">
+          <transition-group name="list-complete" tag="p">
+            <div
+              :class="index%2 === 0 ? 'server' : 'user' "
+              v-for="(item,index) in scrollList"
+              :key="Math.random()+index"
+              class="list-complete-item"
+            >
+              <span class="title" v-if="index%2 === 0"></span>
+              <span v-if="index%2 === 0">{{item.value}}</span>
+
+              <span v-if="index%2 !== 0">{{item.value}}</span>
+              <span class="title" v-if="index%2 !== 0"></span>
+            </div>
+          </transition-group>
+        </div>
+      </div>
     </div>
     <div class="brain-foot">
       <audio id="audio" ref="audio" :src="require('../../assets/video/chongqing.wav')"></audio>
@@ -67,11 +81,39 @@ export default {
           area: "Top1 厦门",
           percent: 56
         }
+      ],
+      scrollList: [],
+      msgList: [
+        {
+          value: "您好，请问是王先生吗"
+        },
+        {
+          value: "嗯，我是"
+        },
+        {
+          value:
+            "这里是百信银行的客服，我们看到您的贷款已经到期，金额是2500，您是忘了，还是什么情况"
+        },
+        {
+          value: "嗯，我查一下，可能是忘了，前段时间没得钱"
+        },
+        {
+          value: "您看今天六点前可以处理吗"
+        },
+        {
+          value: "嗯，要的要的，可以，我晚上还"
+        },
+        {
+          value:
+            "我们会关注您的还款，如未收到款项，后续会有工作人员再次与您联系，感谢您的接听，再见 "
+        }
       ]
     };
   },
   computed: {},
-  created() {
+  created() {},
+  mounted() {
+    this.init();
     document.addEventListener("keydown", event => {
       let e = event || window.event || arguments.callee.caller.arguments[0];
       let l = this._.split(window.location.href, "manage/P", 2),
@@ -80,15 +122,19 @@ export default {
         if (!this.showAudio) {
           return;
         }
-        this.$nextTick(() => {
-          this.showAudio = false;
-        });
+        this.showAudio = false;
+        setTimeout(() => {
+          document.getElementById("dialogue-box").style.display = "block";
+          document.getElementById("audio-art").style.display = "block";
+        }, 800);
+        this.timerMsg = setInterval(() => {
+          this.add();
+          if (this.scrollList.length > 3) {
+          }
+        }, 2000);
         this.DrawVideo("audio-art");
       }
     });
-  },
-  mounted() {
-    this.init();
   },
   watch: {
     bigPoint: function(a, b) {
@@ -111,48 +157,53 @@ export default {
         };
       let myChart = this.$echarts.init(document.getElementById("ChinaMap"));
       let mapName = "china";
-      let curruntArea = obj && (obj.province && obj.province.split('省')[0] ||  obj.accent && obj.accent.split('省')[0])
+      let curruntArea =
+        obj &&
+        ((obj.province && obj.province.split("省")[0]) ||
+          (obj.accent && obj.accent.split("省")[0]));
       var data = [
-        { name: "北京", value: 199 },
-        { name: "天津", value: 42 },
-        { name: "河北", value: 102 },
-        { name: "山西", value: 81 },
-        { name: "内蒙古", value: 47 },
-        { name: "辽宁", value: 67 },
-        { name: "吉林", value: 82 },
-        { name: "黑龙江", value: 123 },
-        { name: "上海", value: 24 },
-        { name: "江苏", value: 92 },
-        { name: "浙江", value: 114 },
-        { name: "安徽", value: 139 },
-        { name: "福建", value: 116 },
-        { name: "江西", value: 91 },
-        { name: "山东", value: 119 },
-        { name: "河南", value: 137 },
-        { name: "湖北", value: 116 },
-        { name: "湖南", value: 114 },
-        { name: "重庆", value: 91 },
-        { name: "四川", value: 125 },
-        { name: "贵州", value: 62 },
-        { name: "云南", value: 83 },
-        { name: "西藏", value: 9 },
-        { name: "陕西", value: 80 },
-        { name: "甘肃", value: 56 },
-        { name: "青海", value: 10 },
-        { name: "宁夏", value: 18 },
-        { name: "新疆", value: 18 },
-        { name: "广东", value: 183 },
-        { name: "香港", value: 203 },
-        { name: "澳门", value: 199 },
-        { name: "广西", value: 59 },
-        { name: "海南", value: 14 },
-        {name:'台湾',value:15}
+        { name: "北京", value: 0 },
+        { name: "天津", value: 0 },
+        { name: "河北", value: 0 },
+        { name: "山西", value: 0 },
+        { name: "内蒙古", value: 0 },
+        { name: "辽宁", value: 0 },
+        { name: "吉林", value: 0 },
+        { name: "黑龙江", value: 0 },
+        { name: "上海", value: 0 },
+        { name: "江苏", value: 0 },
+        { name: "浙江", value: 0 },
+        { name: "安徽", value: 0 },
+        { name: "福建", value: 0 },
+        { name: "江西", value: 0 },
+        { name: "山东", value: 0 },
+        { name: "河南", value: 0 },
+        { name: "湖北", value: 0 },
+        { name: "湖南", value: 0 },
+        { name: "重庆", value: 0 },
+        { name: "四川", value: 0 },
+        { name: "贵州", value: 0 },
+        { name: "云南", value: 0 },
+        { name: "西藏", value: 0 },
+        { name: "陕西", value: 0 },
+        { name: "甘肃", value: 0 },
+        { name: "青海", value: 0 },
+        { name: "宁夏", value: 0 },
+        { name: "新疆", value: 0 },
+        { name: "广东", value: 0 },
+        { name: "香港", value: 0 },
+        { name: "澳门", value: 0 },
+        { name: "广西", value: 0 },
+        { name: "海南", value: 0 },
+        { name: "台湾", value: 0 }
       ];
-      data.forEach( (item) => {
-        if(item.name == curruntArea) {
-          item.value = item.value*2
+      data.forEach(item => {
+        if (item.name === curruntArea) {
+          item.value = item.value + 150;
+        } else {
+          item.value = 0;
         }
-      })
+      });
 
       var geoCoordMap = {};
 
@@ -210,8 +261,8 @@ export default {
           itemStyle: {
             normal: {
               borderColor: "rgba(0,255,255, 1)",
-         
-              areaColor: "#023677",
+
+              areaColor: "#023677"
             },
             emphasis: {
               areaColor: "#4499d0"
@@ -262,9 +313,9 @@ export default {
             roam: true,
             itemStyle: {
               normal: {
-              borderColor: "#2cb3dd",
-              borderWidth: 0.8,
-              areaColor: "#031525",
+                borderColor: "#2cb3dd",
+                borderWidth: 0.8,
+                areaColor: "#031525"
               },
               emphasis: {
                 areaColor: "#2B91B7"
@@ -301,9 +352,12 @@ export default {
                   } = params.data;
                   let a = "";
                   if (accent) {
-                    a = `{a|口音识别}{b|${accent}}{a|产品}{b|${product}}\n{d|客户意图}{b|${want}}\n{a|手机号码}{b|${mobile}}`;
+                    a = `{a|口音识别}{b|${accent}}{a|产品}{b|${product}}\n{a|客户意图}{b|${want}}\n{a|手机号码}{b|${mobile}}`;
                   } else {
-                    a = `{a|行为}{b|${action}}{a|状态}{b|${status[0].value}}\n{a|问题定位}{b|${problem}}{c|智能处理}{b|${handle}}\n{a|手机号码}{b|${mobile}}`;
+                    a =
+                      status[0].value === "正常"
+                        ? `{a|行为}{b|${action}}{zc|${status[0].value}}\n{a|问题定位}{b|${problem}}{c|智能处理}{b|${handle}}\n{a|手机号码}{b|${mobile}}`
+                        : `{a|行为}{b|${action}}{yc|${status[0].value}}\n{a|问题定位}{b|${problem}}{c|智能处理}{b|${handle}}\n{a|手机号码}{b|${mobile}}`;
                   }
                   return a;
                 },
@@ -319,8 +373,8 @@ export default {
                 // verticalAlign: "middle",
                 color: "#fff",
                 z: 11,
-                 textStyle: {
-                  fontSize: 20,
+                textStyle: {
+                  fontSize: 20
                 },
                 rich: {
                   a: {
@@ -335,51 +389,61 @@ export default {
                   },
                   c: {
                     align: "left",
-                    fontSize: 16,
+                    fontSize: 16
                   },
                   d: {
                     color: "red",
-                    fontSize: 16,
+                    fontSize: 16
+                  },
+                  zc: {
+                    color: "#0088DC",
+                    fontSize: 20,
+                    bold: "1px solid #0088DC"
+                  },
+                  yc: {
+                    color: "red",
+                    fontSize: 20,
+                    bold: "1px solid red"
                   }
                 }
               }
             }
-          },
-          {
-            name: "Top 5",
-            type: "effectScatter",
-            coordinateSystem: "geo",
-            data: convertData(
-              data
-                .sort(function(a, b) {
-                  return b.value - a.value;
-                })
-                .slice(0, 10)
-            ),
-            symbolSize: function(val) {
-              return val[2] / 8;
-            },
-            showEffectOn: "render",
-            rippleEffect: {
-              brushType: "stroke"
-            },
-            hoverAnimation: true,
-            label: {
-              normal: {
-                formatter: "{b}",
-                position: "left",
-                show: false
-              }
-            },
-            itemStyle: {
-              normal: {
-                color: "yellow",
-                shadowBlur: 10,
-                shadowColor: "yellow"
-              }
-            },
-            zlevel: 1
           }
+          // {
+          //   name: "Top 5",
+          //   type: "effectScatter",
+          //   coordinateSystem: "geo",
+          //   data: convertData(
+          //     data
+          //       .sort(function(a, b) {
+          //         return b.value - a.value;
+          //       })
+          //       .slice(0, 10)
+          //   ),
+          //   symbolSize: function(val) {
+          //     return val[2] / 8;
+          //   },
+          //   showEffectOn: "render",
+          //   rippleEffect: {
+          //     brushType: "stroke"
+          //   },
+          //   hoverAnimation: true,
+          //   label: {
+          //     normal: {
+          //       formatter: "{b}",
+          //       position: "left",
+          //       show: false
+          //     }
+          //   },
+          //   itemStyle: {
+          //     normal: {
+          //       color: "yellow",
+          //       shadowBlur: 10,
+          //       shadowColor: "yellow"
+          //     }
+          //   },
+          //   zlevel: 1
+          // }
         ]
       };
       myChart.setOption(option);
@@ -403,11 +467,22 @@ export default {
       // var audio = document.getElementById("audio");
       let audio = new Audio();
       audio.src = require("../../assets/video/chongqing.wav");
-      var canvas = document.getElementById(id);
-      var canvasShadow = document.getElementById('audio-art-shadow');
-      var ctx = canvas.getContext("2d");
-      var ctxShadow = canvasShadow.getContext("2d");
+      // var canvas = document.getElementById(id);
+      // var ctx = canvas.getContext("2d");
 
+      audio.play();
+      let audioTime = this.$refs.audio.duration;
+      console.log(audioTime);
+      setTimeout(() => {
+        this.$emit("func", { value: true });
+        this.$nextTick(() => {
+          this.showAudio = true;
+        });
+        document.getElementById("dialogue-box").style.display = "none";
+        document.getElementById("audio-art").style.display = "none";
+      }, audioTime * 1000);
+
+      return;
       var source = atx.createMediaElementSource(audio);
       var analyser = atx.createAnalyser();
       source.connect(analyser);
@@ -416,43 +491,45 @@ export default {
       analyser.fftSize = 2048;
       var draw = () => {
         var cWidth = canvas.width,
-          cHeight = canvas.height * 1.5,
+          cHeight = canvas.height * 1.2,
           // frequencyBinCount的值固定为fftSize的一半
           audioArray = new Uint8Array(analyser.frequencyBinCount);
         // 解析频率数据，放入audioArray数组中
         analyser.getByteFrequencyData(audioArray);
         // 填充为柱状图
         ctx.clearRect(0, 0, cWidth, cHeight);
-        ctx.fillStyle = "#60D7FB";
+        ctx.fillStyle = "#4CD1FF";
         for (var i = 0; i < audioArray.length; i++) {
-          ctx.fillRect(i * 3, -(cHeight - audioArray[i]/2) - cHeight, 2, cHeight);
+          ctx.fillRect(i * 3, cHeight - audioArray[i] / 2, 1, cHeight);
         }
-        // drawShadow()
+        // drawShadow();
         // 刷新
         requestAnimationFrame(draw);
       };
       //制造半透明投影
       function drawShadow() {
-        // let canvas = canvasShadow,ctx = ctxShadow;
-        ctx.drawImage(canvas, 0, 0);
+        ctx.drawImage(outcanvas, 0, 0);
         ctx.save();
         ctx.translate(canvas.width / 2, canvas.height / 2);
         ctx.rotate(Math.PI);
         ctx.scale(-1, 1);
-        ctx.drawImage(canvas, -canvas.width / 2, -canvas.height / 2);
+        ctx.drawImage(outcanvas, -canvas.width / 2, -canvas.height / 2);
         ctx.restore();
         ctx.fillStyle = "rgba(54, 114, 206, 0.05)";
         ctx.fillRect(0, 0, canvas.width, canvas.height / 2);
       }
       draw();
-      audio.play();
-      let audioTime = this.$refs.audio.duration;
-      setTimeout(() => {
-        this.$emit("func", { value: true });
-        this.$nextTick(() => {
-          this.showAudio = true;
-        });
-      }, audioTime * 1000);
+    },
+    add: function() {
+      if (this.scrollList.length == 6) {
+        clearInterval(this.timerMsg);
+        return;
+      }
+      this.scrollList.splice(
+        this.scrollList.length,
+        0,
+        this.msgList[this.scrollList.length]
+      );
     }
   },
   components: {
@@ -465,7 +542,8 @@ export default {
   font-size: 12px;
   background-size: 40%;
   position: relative;
-  height: 100%;
+  height: 80%;
+  font-family: Microsoft YaHei;
   .brain-main {
     height: 85%;
     position: relative;
@@ -487,13 +565,63 @@ export default {
     margin-left: auto;
     margin-right: auto;
     min-height: 400px;
-    min-height: 450px;
+    height: 50%;
     position: absolute;
     top: 4%;
     text-align: center;
     audio {
       // display: none;
       visibility: hidden;
+    }
+  }
+  #dialogue-box {
+    width: 92%;
+    margin: 0 auto;
+    left: 100px;
+    right: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 56%;
+    position: absolute;
+    overflow: hidden;
+    bottom: 0%;
+    // display: none;
+    .server {
+      height: 28%;
+      span:nth-child(1) {
+        width: 124px;
+        height: 124px;
+        margin-bottom: -20px;
+        display: inline-block;
+        background: url("../../assets/images/server-a.png") no-repeat center;
+        background-size: 90%;
+      }
+      span:nth-child(2) {
+        font-size: 32px;
+        padding: 20px;
+        font-weight: bold;
+        border-radius: 0px 64px 64px 64px;
+        background: rgba(22, 28, 40, 0.3);
+      }
+    }
+    .user {
+      height: 26%;
+      text-align: right;
+      span:nth-child(2) {
+        width: 124px;
+        height: 124px;
+        margin-bottom: -20px;
+        display: inline-block;
+        background: url("../../assets/images/user-a.png") no-repeat center;
+        background-size: 90%;
+      }
+      span:nth-child(1) {
+        font-size: 32px;
+        padding: 20px;
+        font-weight: bold;
+        border-radius: 64px 0px 64px 64px;
+        background: rgba(22, 28, 40, 0.3);
+      }
     }
   }
   .brain-foot {
@@ -507,9 +635,10 @@ export default {
   }
   #audio-art {
     width: 60%;
-    height: 100%;
+    height: 60%;
     margin: 0 auto;
     z-index: 1;
+    display: none;
   }
   #audio-art-shadow {
     width: 60%;
@@ -526,5 +655,18 @@ export default {
   .person-columnar {
     height: 100%;
   }
+}
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 2s;
+}
+.list-enter,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
 }
 </style> 

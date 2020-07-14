@@ -141,7 +141,7 @@ export default {
     //  词云
     drawCloudChart() {
       let myChart = this.$echarts.init(document.getElementById(this.id.id));
-      let seriesData = this.translate(this.tableData);
+      let seriesData = this.translate(this._.cloneDeep(this.tableData));
       let randcolor = () => {
         let r = 100 + ~~(Math.random() * 100);
         let g = 135 + ~~(Math.random() * 100);
@@ -196,7 +196,12 @@ export default {
 </script>
 <style lang="less" scoped>
 .popToRight {
-  background: url("../../assets/images/p4-table-title.png") no-repeat center;
+  font-size: 16px;
+  position: relative;
+  overflow: hidden;
+  height: 40%;
+  background-size: 96% 98%;
+  padding: 2.8%;
   .pop-content {
     text-align: center;
     padding: 30px 0;

@@ -12,11 +12,13 @@
     <div class="frame-content">
       <div class="left-box">
         <div class="content-title">
-          <span>风险交易金额趋势</span>
+          <span class="title1">风险交易金额趋势</span>
+          <span class="wei">单位：元</span>
         </div>
         <amount-trends-chart />
         <div class="content-title">
           <span>风险交易拦截金额类型</span>
+          <span class="wei1">单位：元</span>
         </div>
         <amount-type-chart />
         <microfinance-chart />
@@ -24,31 +26,68 @@
       <div class="center-box">
         <!-- 地图 -->
         <div class="strategy-box">
-          <real-time-strategy v-if="showUses" title="当日累计拦截金额（元）" :num="usesTime.year" :blank="1" :float="'left'"/>
-          <real-time-strategy v-if="showUses" title="当日累计拦截笔数（笔）" :num="usesTime.day" :blank="2"  :float="'right'"/>
+          <real-time-strategy
+            v-if="showUses"
+            title="当日累计拦截金额（元）"
+            :num="usesTime.year"
+            :blank="1"
+            :float="'left'"
+          />
+          <real-time-strategy
+            v-if="showUses"
+            title="当日累计拦截笔数（笔）"
+            :num="usesTime.day"
+            :blank="2"
+            :float="'right'"
+          />
         </div>
         <map-chart class="map-charts" />
         <!-- <div class="map-panel"></div> -->
       </div>
       <div class="right-box">
-        <div class="content-title">
-          <span>实时反欺诈模型决策占比</span>
-        </div>
-        <div class="decisionRate">
-          <AntiFraudChart :ids="idsAntiFraud" :antiFraudDatas="antiFraudDatas"/>
-          <!-- <decisionRate-chart v-if="showRight" :ids="idsDecision" :tableDatas="decisionData" />
+        <div class="box">
+          <div>
+            <div class="content-title">
+              <span>实时反欺诈模型决策占比</span>
+            </div>
+            <div class="decisionRate">
+              <AntiFraudChart
+                :ids="idsAntiFraud"
+                :antiFraudDatas="antiFraudDatas"
+              />
+              <!-- <decisionRate-chart v-if="showRight" :ids="idsDecision" :tableDatas="decisionData" />
           <decisionRateB-chart v-if="showRight" :ids="idsDecisionB" :tableDatas="decisionDataB"  /> -->
+            </div>
+          </div>
+          <div>
+            <div class="content-title">
+              <span>实时加强验证</span>
+            </div>
+            <verification-chart v-if="showRight" :tableDatas="tableDataV" />
+          </div>
         </div>
-        <div class="content-title">
-          <span>实时加强验证</span>
-        </div>
-        <verification-chart v-if="showRight" :tableDatas="tableDataV" />
+
         <div class="content-title">
           <span>实时欺诈风险画像</span>
         </div>
-        <RiskPortraitChart v-if="showRight" :ids="idRisk" :tableDatas="tableDataR" :isShowPercent="true" />
-        <RiskPortraitChart v-if="showRight" :ids="idRiskM" :tableDatas="tableDataRM" :isShowPercent="true" />
-        <RiskPortraitChart v-if="showRight" :ids="idRiskR" :tableDatas="tableDataRR" :isShowPercent="true" />
+        <RiskPortraitChart
+          v-if="showRight"
+          :ids="idRisk"
+          :tableDatas="tableDataR"
+          :isShowPercent="true"
+        />
+        <RiskPortraitChart
+          v-if="showRight"
+          :ids="idRiskM"
+          :tableDatas="tableDataRM"
+          :isShowPercent="true"
+        />
+        <RiskPortraitChart
+          v-if="showRight"
+          :ids="idRiskR"
+          :tableDatas="tableDataRR"
+          :isShowPercent="true"
+        />
         <!-- <div class="content-title">
           <span>Top5拒绝原因</span>
         </div>
@@ -76,7 +115,7 @@ import verificationChart from "@/components/three-screen/verificationChart.vue";
 import * as base64 from "@/assets/base64.js";
 import RiskPortraitChart from "@/components/p4/line-toRight.vue";
 import moment, { max } from "moment";
-import AntiFraudChart from "@/components/three-screen/antiFraudChart"
+import AntiFraudChart from "@/components/three-screen/antiFraudChart";
 export default {
   data() {
     return {
@@ -86,126 +125,126 @@ export default {
       showRight: false,
       usesTime: {
         year: 0,
-        day: 0
+        day: 0,
       },
       variableNum: 0,
       ruleNum: 0,
       idsDecision: {
         id: "echarts01",
-        style: "width:44%"
+        style: "width:44%",
       },
       idsDecisionB: {
         id: "echarts02",
-        style: "width:55%"
+        style: "width:55%",
       },
       decisionData: [],
       decisionDataB: [],
-      idsAntiFraud:'idsAntiFraud',
-      antiFraudDatas:[],
+      idsAntiFraud: "idsAntiFraud",
+      antiFraudDatas: [],
       verificationData: [],
       tableDataV: [
         {
           title: "生物识别",
           img: base64.confirm_d.value,
-          times: "234"
+          times: "234",
         },
         {
           title: "人工外呼",
           img: base64.confirm_e.value,
-          times: "23"
+          times: "23",
         },
         {
           title: "短信加验",
           img: base64.confirm_a.value,
-          times: "45"
+          times: "45",
         },
         {
           title: "密码加验",
           img: base64.confirm_f.value,
-          times: "345"
-        }
+          times: "345",
+        },
       ],
       tableDataR: [
         {
           area: "南京",
-          percent: 0.4
+          percent: 0.4,
         },
         {
           area: "福州",
-          percent: 0.3
+          percent: 0.3,
         },
         {
           area: "杭州",
-          percent: 0.2
+          percent: 0.2,
         },
         {
           area: "贵阳",
-          percent: 0.08
+          percent: 0.08,
         },
         {
           area: "厦门",
-          percent: 0.02
-        }
+          percent: 0.02,
+        },
       ],
       tableDataRM: [
         {
           area: "华为荣耀",
-          percent: 0.4
+          percent: 0.4,
         },
         {
           area: "华为mate",
-          percent: 0.3
+          percent: 0.3,
         },
         {
           area: "小米米3",
-          percent: 0.2
+          percent: 0.2,
         },
         {
           area: "Oppo11",
-          percent: 0.08
+          percent: 0.08,
         },
         {
           area: "Apple8 ",
-          percent: 0.02
-        }
+          percent: 0.02,
+        },
       ],
       tableDataRR: [
         {
           area: "刷单",
-          percent: 0.4
+          percent: 0.4,
         },
         {
           area: "卡片被盗",
-          percent: 0.3
+          percent: 0.3,
         },
         {
           area: "账户接管",
-          percent: 0.2
+          percent: 0.2,
         },
         {
           area: "电信诈骗",
-          percent: 0.08
+          percent: 0.08,
         },
         {
           area: "羊毛党",
-          percent: 0.02
-        }
+          percent: 0.02,
+        },
       ],
       idRisk: {
         id: "echarts03",
-        style: "height: 15%",
-        title: "风险城市占比分布"
+        style: "height: 300px",
+        title: "风险城市占比分布",
       },
       idRiskM: {
         id: "echarts04",
-        style: "height: 15%",
-        title: "风险设备占比"
+        style: "height: 300px",
+        title: "风险设备占比",
       },
       idRiskR: {
         id: "echarts05",
-        style: "height: 15%",
-        title: "风险类型占比"
-      }
+        style: "height: 300px",
+        title: "风险类型占比",
+      },
     };
   },
   mounted() {
@@ -216,7 +255,7 @@ export default {
     // this.getVariable();
     this.getRight = setInterval(() => {
       this.getRightData();
-    },3000)
+    }, 3000);
   },
   methods: {
     getAccRiskAll() {
@@ -224,14 +263,14 @@ export default {
         .all([
           this.axios.get("/api/p3/accRiskAll", {
             params: {
-              type: "y"
-            }
+              type: "y",
+            },
           }),
           this.axios.get("/api/p3/accRiskAll", {
             params: {
-              type: "h"
-            }
-          })
+              type: "h",
+            },
+          }),
         ])
         .then(
           this.axios.spread((...obj) => {
@@ -242,7 +281,7 @@ export default {
             let year = this.usesTime.year;
             let day = this.usesTime.day;
             this.numFun(year, obj[0].data.data.amt, "year");
-            this.numFun(day, obj[1].data.data.cnt, "day",1000);
+            this.numFun(day, obj[1].data.data.cnt, "day", 1000);
             this.$nextTick(() => {
               this.showUses = true;
             });
@@ -278,32 +317,34 @@ export default {
           this.axios.get("/api/p3/ratio"),
           this.axios.get("/api/p3/modelRatio"),
           this.axios.get("/api/p3/validSummary"),
-          this.axios.get("/api/p3/riskGraph",{
+          this.axios.get("/api/p3/riskGraph", {
             params: {
-              type:'city'
-            }
+              type: "city",
+            },
           }),
-          this.axios.get("/api/p3/riskGraph",{
+          this.axios.get("/api/p3/riskGraph", {
             params: {
-              type:'device'
-            }
+              type: "device",
+            },
           }),
-          this.axios.get("/api/p3/riskGraph",{
+          this.axios.get("/api/p3/riskGraph", {
             params: {
-              type:'risktype'
-            }
+              type: "risktype",
+            },
           }),
           this.axios.get("/api/p3/counterFake"),
         ])
         .then(
           this.axios.spread((...obj) => {
-            this.decisionData = obj[0].data.data
-            this.transB(obj[1].data.data)
-            this.transV(obj[2].data.data)
-            this.tableDataR = obj[3].data.data
-            this.tableDataRM = obj[4].data.data
-            this.tableDataRR = obj[5].data.data
-            this.antiFraudDatas = obj[6].data.data
+            this.decisionData = obj[0].data.data;
+            this.transB(obj[1].data.data);
+            this.transV(obj[2].data.data);
+            this.tableDataR = obj[3].data.data;
+            this.tableDataRM = obj[4].data.data;
+            this.tableDataRR = obj[5].data.data;
+            this.antiFraudDatas = obj[6].data.data.map((item) => {
+              return { name: item.name, value: Number(item.value) };
+            });
             this.$nextTick(() => {
               this.showRight = true;
             });
@@ -314,32 +355,32 @@ export default {
         });
     },
     transB(arr) {
-      let obj = []
-      arr.forEach(el => {
+      let obj = [];
+      arr.forEach((el) => {
         obj.push({
           name: el.model,
-          value: el.percent
-        })
+          value: el.percent,
+        });
       });
-      this.decisionDataB = obj
+      this.decisionDataB = obj;
     },
     transV(arr) {
-      arr.forEach(el => {
-        this.tableDataV.forEach( it => {
-          if(it.title == el.type) {
-            it.times = el.cnt
+      arr.forEach((el) => {
+        this.tableDataV.forEach((it) => {
+          if (it.title == el.type) {
+            it.times = el.cnt;
           }
-        })
+        });
       });
     },
     getVariable() {
       this.axios
         .get("/api/p3/variable", {
           params: {
-            indexname: "bldy"
-          }
+            indexname: "bldy",
+          },
         })
-        .then(res => {
+        .then((res) => {
           const { data } = res.data;
           this.variableNum = data;
         })
@@ -349,17 +390,17 @@ export default {
       this.axios
         .get("/api/p3/variable", {
           params: {
-            indexname: "gzdy"
-          }
+            indexname: "gzdy",
+          },
         })
-        .then(res => {
+        .then((res) => {
           const { data } = res.data;
           this.ruleNum = data;
         })
         .catch(function(error) {
           console.log(error);
         });
-    }
+    },
   },
   components: {
     amountTrendsChart,
@@ -377,13 +418,13 @@ export default {
     verificationChart,
     RuleChart,
     RiskPortraitChart,
-    AntiFraudChart
+    AntiFraudChart,
   },
   beforeDestroy() {
     clearInterval(this.timer);
     clearInterval(this.getRight);
     this.timer = null;
-  }
+  },
 };
 </script>
 
@@ -397,7 +438,7 @@ export default {
   background-size: 100% 100%;
   font-size: 28px;
   color: #fff;
-  overflow: hidden;
+  // overflow: hidden;
   padding-top: 1%;
   // 标题样式
   .title-frame {
@@ -447,8 +488,11 @@ export default {
       width: 45.4%;
       height: 100%;
       .strategy-box {
+        display: flex;
         height: 210px;
         width: 100%;
+        justify-content: center;
+        align-items: center;
       }
       .map-charts {
         width: 100%;
@@ -464,17 +508,62 @@ export default {
       }
     }
     .content-title {
+      position: relative;
       width: 88%;
       height: 60px;
-      background: url("../../assets/images/p3/title-three.png") no-repeat;
+      // background: url("../../assets/images/p3/title-three.png") no-repeat;
       background-size: 100% 100%;
-      margin: 16px auto 0;
+      // margin: 16px auto 0;
       span {
         display: inline-block;
         font-size: 30px;
-        padding: 17px 0 0 50px;
+        padding: 17px 0 0 40px;
+        color: #ffffff;
+        font-family: Microsoft YaHei;
+        font-weight: bold;
+        font-size: 32px;
+        line-height: 40px;
+        letter-spacing: 0px;
+        text-align: left;
       }
     }
   }
+}
+.title1 {
+  margin-top: 18px;
+}
+.box {
+  width: 100%;
+  display: flex;
+  &:nth-child(1) {
+    flex: 1;
+  }
+  &:nth-child(2) {
+    flex: 1;
+  }
+}
+.wei {
+  position: absolute;
+  top: 65px;
+  right: 840px;
+  color: rgba(255,255,255,0.7) !important;
+  font-family: Microsoft YaHei;
+  font-weight: bold;
+  font-size: 20px !important;
+  line-height: 40px;
+  letter-spacing: 0px;
+  text-align: left;
+}
+.wei1 {
+  position: absolute;
+  top: 45px;
+  right: 840px;
+  color: rgba(255,255,255,0.7) !important;
+  font-family: Microsoft YaHei;
+  font-weight: bold;
+  font-size: 20px !important;
+  line-height: 40px;
+  letter-spacing: 0px;
+  text-align: left;
 }
 </style>

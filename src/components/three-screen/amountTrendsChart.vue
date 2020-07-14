@@ -1,6 +1,7 @@
 <template>
   <div class="amount-trends-chart" id='amountTrendsChart'>
-   
+ 
+     
   </div>
 </template>
 
@@ -78,10 +79,10 @@ export default {
           formatter: "风险金额<br /><br /> {b}点：{c}元"
         },
         grid: {
-          top: "14%",
-          left: "10%",
-          right: "10%",
-          bottom: "10%",
+          top: '22%',
+          left: 73,
+          right: 72,
+          bottom: "5%",
           containLabel: true
         },
         xAxis: [
@@ -113,7 +114,8 @@ export default {
         ],
         yAxis: [
           {
-            name: '单位：元',
+            // name:'单位：元',
+
             splitLine: {
               show: false
             },
@@ -127,6 +129,7 @@ export default {
               show: true,
               textStyle: {
                 color: 'rgba(255,255,255,0.7)',
+                fontSize:18
               }
             }
           }
@@ -225,4 +228,5 @@ export default {
   width: 100%;
   height: 24%;
 }
+
 </style>

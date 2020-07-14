@@ -2,14 +2,15 @@
   <div class="container">
     <div :class="'brain-bgg'">
       <div class="header">
-        <span class="header-bg">智能服务</span>
+        <span class="header-bg"></span>
+        <!--  智能服务 -->
         <div class="right-time">
           <weather-com />
         </div>
       </div>
       <div class="main-content" v-if="showMain">
         <div class="left">
-          <card-num :tableDatas="tableDataTop"/>
+          <card-num :tableDatas="tableDataTop" />
           <table-auto
             :tableDatas="tableDataAs"
             :ids="idA"
@@ -22,7 +23,8 @@
         </div>
         <div class="center">
           <div class="title">
-            机器人累计服务人数指标
+            <span>机器人累计服务人数</span>
+            <span>31,857</span>
           </div>
           <big-head
             :tableDatas="tableDataCs"
@@ -33,7 +35,7 @@
           />
         </div>
         <div class="right">
-          <card-num :tableDatas="tableDataRights"/>
+          <card-num :tableDatas="tableDataRights" />
           <table-autoB
             :tableDatas="tableDataC"
             :ids="idC"
@@ -59,7 +61,8 @@ import lineToRight from "../../components/p4/line-toRight.vue";
 import bigHeadVue from "../../components/p4/big-head.vue";
 import popCustom from "../../components/p4/pop-custom.vue";
 import WeatherCom from "../../components/weather.vue";
-import cardNum from "../../components/p4/card-num.vue"
+import cardNum from "../../components/p4/card-num.vue";
+import * as base64 from "@/assets/base64.js";
 const columnA = [
   {
     dataIndex: "mobile",
@@ -145,29 +148,29 @@ export default {
       // 时间
       tableDataTop: [
         {
-          name: '在线智能处置率',
-          value: '30%'
+          name: "客服智能处置率",
+          value: "91%"
         },
         {
-          name: '客服智能处置率',
-          value: '91%'
-        },
+          name: "事中客服处置率",
+          value: "30%"
+        }
       ],
       tableDataRight: [
         {
-          name: '智能外呼数量',
+          name: "智能外呼数量",
           value: 150
         },
         {
-          name: '单通交互次数',
-          value: '6'
-        },
+          name: "人机交互轮次",
+          value: "6"
+        }
       ],
-      
+
       tableDataA: [],
       idA: {
         id: "echarts01",
-        title: "智能客服"
+        title: "机器人客户"
       },
       columnA: columnA,
       tableDataB: [],
@@ -179,7 +182,7 @@ export default {
       tableDataC: [],
       idC: {
         id: "echarts03",
-        title: "智能催收"
+        title: "机器人催收"
       },
       columnC: columnC,
       idD: {
@@ -195,7 +198,7 @@ export default {
         { desire: "承诺马上还款", num: 26758 }
       ],
       clientHeight: document.body.clientHeight,
-      bigPoints: {},
+      bigPoints: {}
     };
   },
   created() {},
@@ -216,7 +219,7 @@ export default {
       return this.bigPoints;
     },
     tableDataRights() {
-      return this.tableDataRight
+      return this.tableDataRight;
     }
   },
   mounted() {
@@ -234,29 +237,29 @@ export default {
           this.axios.get("/api/p4/smartCall"),
           this.axios.get("/api/p4/smartOperation"),
           this.axios.get("/api/p4/outboundNum"), //外呼数量
-          this.axios.get("/api/p4/procRatio",{
+          this.axios.get("/api/p4/procRatio", {
             params: {
-              indexname: 'kfzn'
+              indexname: "kfzn"
             }
           }),
-          this.axios.get("/api/p4/procRatio",{
+          this.axios.get("/api/p4/procRatio", {
             params: {
-              indexname: 'zxzn'
+              indexname: "zxzn"
             }
           }),
-          this.axios.get("/api/p4/procRatio",{
+          this.axios.get("/api/p4/procRatio", {
             params: {
-              indexname: 'dtsc'
+              indexname: "dtsc"
             }
-          }),
+          })
         ])
         .then(
           this.axios.spread((...obj) => {
-            obj.forEach( (it,i) => {
+            obj.forEach((it, i) => {
               let data = it.data.data;
-              if(i == 0) {
+              if (i == 0) {
                 this.tableDataC = data;
-              }else if(i == 1) {
+              } else if (i == 1) {
                 let arr = data;
                 arr.forEach((el, i) => {
                   el.status = [
@@ -268,16 +271,16 @@ export default {
                 });
                 this.bigPoints = arr[0];
                 this.tableDataA = arr;
-              }else if(i == 2) {
-                this.tableDataRight[0].value = data || 150
-              }else if(i == 3) {
-                this.tableDataTop[0].value = data || '30%'
-              }else if(i == 4) {
-                this.tableDataTop[1].value = data || '91%'
-              }else if(i == 5) {
-                this.tableDataRight[1].value = data || 6
+              }else if (i == 2) {
+                // this.tableDataRight[0].value = data || 150;
+              } else if (i == 3) {
+                this.tableDataTop[0].value = data || "30%";
+              } else if (i == 4) {
+                this.tableDataTop[1].value = data || "91%";
+              } else if (i == 5) {
+                this.tableDataRight[1].value = data || 6;
               }
-            })
+            });
             this.$nextTick(() => {
               this.showMain = true;
             });
@@ -287,8 +290,7 @@ export default {
           console.log(error);
         });
     },
-    
-    
+
     tB() {
       this.getTableDataB();
       this.timerB = setInterval(() => {
@@ -321,9 +323,9 @@ export default {
         type: "json"
       }).then(data => {
         this.tableDataD = data.data.data;
-        this.$nextTick( () => {
-          this.popB = true
-        })
+        this.$nextTick(() => {
+          this.popB = true;
+        });
       });
     },
 
@@ -332,24 +334,23 @@ export default {
     },
     getPoint(par) {
       this.bigPoints = par;
-      if(par.accent) {
+      if (par.accent) {
         this.tableDataRight[0].value += 1;
-        let cc = this._.cloneDeep(this.tableDataD)
-        cc.forEach( it => {
-          if(it.want === par.want) {
-            it.num  += 1
+        let cc = this._.cloneDeep(this.tableDataD);
+        cc.forEach(it => {
+          if (it.want === par.want) {
+            it.num += 1;
           }
-        })
-        this.tableDataD = cc
-        
-      }else if(par.problem){
-        let cc = this._.cloneDeep(this.tableDataB)
-        cc.forEach( it => {
-          if(it.problem === par.problem) {
-            it.num  += 1
+        });
+        this.tableDataD = cc;
+      } else if (par.problem) {
+        let cc = this._.cloneDeep(this.tableDataB);
+        cc.forEach(it => {
+          if (it.problem === par.problem) {
+            it.num += 1;
           }
-        })
-        this.tableDataB = cc
+        });
+        this.tableDataB = cc;
       }
     }
   },
@@ -389,20 +390,21 @@ export default {
     bottom: 0;
     color: #fff;
     background-size: 70%;
-    padding-top: 1%;
+    padding-top: 28px;
   }
   .time-span {
     margin-left: 5%;
   }
   .header {
-    height: 5%;
+    height: 6%;
     text-align: center;
     background: url("../../assets/images/header.png") no-repeat 100% 100%;
     background-size: 100% 100%;
     position: relative;
     .header-bg {
       display: inline-block;
-      background-size: 40%;
+      background: url("../../assets/images/p4-title.png") no-repeat center;
+      background-size: 18%;
       font-size: 40px;
       font-weight: bold;
       width: 30%;
@@ -417,7 +419,6 @@ export default {
     }
   }
   .main-content {
-    padding: 0 30px;
     height: 93%;
     display: flex;
     div {
@@ -427,30 +428,36 @@ export default {
     .left {
       width: 27.2%;
       vertical-align: top;
+      background: rgba(22, 28, 40, 0.2);
     }
     .center {
       width: 45.4%;
       position: relative;
       height: 97%;
+      font-family: Microsoft YaHei;
+      .title {
+        text-align: center;
+        font-weight: bold;
+        color: #fff;
+        width: 100%;
+        height: 20%;
+        font-size: 38px;
+        padding: 2%;
+        :nth-child(1) {
+          font-size: 32px;
+        }
+        :nth-child(2) {
+          display: block;
+          padding-top: 20px;
+          font-size: 80px;
+        }
+      }
     }
     .right {
       width: 27.2%;
       vertical-align: top;
+      background: rgba(22, 28, 40, 0.2);
     }
   }
-}
-.common-box {
-  font-size: 16px;
-  position: relative;
-  overflow: hidden;
-  height: 44%;
-  background-size: 96% 98%;
-  padding: 2.8%;
-}
-.title{
-  width: 100%;
-  height: 210px;
-  font-size: 38px;
-  margin: 0 0 22px;
 }
 </style>

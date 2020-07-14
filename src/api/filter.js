@@ -27,7 +27,7 @@ const numFormat = function (params) {
 const toBase64 = function (str) {
   return btoa(str)
 }
-const sortByValue = function( arr,value) {
+const sortByValue = function(arr,value) {
   arr.sort(function(x,y) {
       let m = (value && x[value]) || x,
       n = (value && y[value]) || y;

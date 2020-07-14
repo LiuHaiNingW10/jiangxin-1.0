@@ -42,7 +42,7 @@ export default {
           {
             type: "pie",
             // center: ["40%", "50%"],
-            radius: "70%",
+            // radius: "70%",
             // label: {
             //   position: "inside",
             //   formatter: "{b}{c}%",
@@ -58,6 +58,8 @@ export default {
                 }
               }
             },
+            center: ["40%", "50%"],
+            radius: "60%",
             label: {
               normal: {
                 formatter: params => {
