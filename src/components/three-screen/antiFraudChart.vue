@@ -15,7 +15,6 @@ export default {
   computed: {},
   methods: {
     initPieChart(id, antiFraudDatas) {
-      console.log(antiFraudDatas,'kkkkkkkkkkk')
       antiFraudDatas= antiFraudDatas.map(item=>{
         return {
           ...item,

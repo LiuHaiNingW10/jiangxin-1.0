@@ -1,7 +1,7 @@
 <template>
   <div class="weather-module">
     <img :src="currentImg" alt class="weather-img" />
-    <span class>{{currentWeather.high}} ℃ ~ {{currentWeather.low}} ℃</span>
+    <span class="weather-span">{{currentWeather.high}} ℃ ~ {{currentWeather.low}} ℃</span>
     <span class="time-span">{{currentTime.date}}</span>
     <span class="time-span">{{currentTime.time}}</span>
   </div>
@@ -88,8 +88,8 @@ export default {
         this.currentWeather = this.localweather[index];
         this.currentImg = this.weatherImg[index];
       } else {
-        this.currentWeather = this.localweather[d-6];
-        this.currentImg = this.weatherImg[d-6];
+        this.currentWeather = this.localweather[d - 6];
+        this.currentImg = this.weatherImg[d - 6];
       }
     },
 
@@ -134,14 +134,26 @@ export default {
 </script>
 
 <style lang="less">
+@font-face {
+  font-family: "DS-Digital";
+  src: url(./font/DS-DIGIB-2.ttf); /***兼容ie9***/
+}
 .weather-img {
+  margin-right: 1%;
   width: 3%;
+}
+.weather-span {
+  color: rgba(255, 255, 255, 0.6);
 }
 .time-span {
   display: inline-block;
   margin-left: 5%;
+
+  font-family: "DS-Digital";
 }
 .weather-module {
   margin-top: 1%;
+
+  font-family: "DS-Digital";
 }
 </style>

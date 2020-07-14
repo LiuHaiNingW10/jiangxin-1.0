@@ -30,7 +30,6 @@ export default {
   },
   methods: {
     drawGraph() {
-      console.log(this.tableDatas)
       let p = this.tableDatas.toFixed(2) || 0 + '%'
       let myChart = this.$echarts.init(document.getElementById(this.id.id));
       var dataArr = [

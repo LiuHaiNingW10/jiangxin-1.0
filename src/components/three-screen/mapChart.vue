@@ -13,7 +13,7 @@ export default {
       timer: null,
       relationRes: [],
       currentTime: "",
-      city:''
+      city: "",
     };
   },
   mounted() {
@@ -22,67 +22,65 @@ export default {
   methods: {
     getData() {
       this.axios.get("/api/p3/relationmapData").then((relaRes) => {
-
-        console.log(relaRes,'dataadadsadasdasdsa')
-        let relaData = relaRes.data.data
-      // [
-      //   {
-      //     abnormal_related: "3",
-      //     age: 52,
-      //     appname: "百度闪付",
-      //     currentTime: "2020/07/14 16:51:32",
-      //     dealtypename: "账户冻结",
-      //     id: 7,
-      //     latitude: 43.83,
-      //     location: "新疆维吾尔自治区",
-      //     longitude: 87.62,
-      //     payamount: 1996.89,
-      //     relate_factor: "安卓设备",
-      //     relate_flag: "7",
-      //     relationInfoList: [
-      //       {
-      //         dealtypename: "账户冻结",
-      //         id: 23,
-      //         latitude: 23.13,
-      //         longitude: 113.28,
-      //         relate_age: 30,
-      //         relate_flag: "7",
-      //         relate_location: "广东省",
-      //         relate_name: "洪锐",
-      //       },
-      //       {
-      //         dealtypename: "账户冻结",
-      //         id: 23,
-      //         latitude: 23.13,
-      //         longitude: 113.28,
-      //         relate_age: 30,
-      //         relate_flag: "7",
-      //         relate_location: "广东省",
-      //         relate_name: "洪锐",
-      //       },
-      //       {
-      //         dealtypename: "账户冻结",
-      //         id: 23,
-      //         latitude: 23.13,
-      //         longitude: 113.28,
-      //         relate_age: 30,
-      //         relate_flag: "7",
-      //         relate_location: "广东省",
-      //         relate_name: "洪锐",
-      //       },
-      //     ],
-      //     residence: "四川省",
-      //     risk: "提现风险异常",
-      //     risktype: "伪冒开户",
-      //     username: "王云生",
-      //     value: [
-      //       {
-      //         0: 87.62,
-      //         1: 43.83,
-      //       },
-      //     ],
-      //   },
-      // ];;
+        let relaData = relaRes.data.data;
+        // [
+        //   {
+        //     abnormal_related: "3",
+        //     age: 52,
+        //     appname: "百度闪付",
+        //     currentTime: "2020/07/14 16:51:32",
+        //     dealtypename: "账户冻结",
+        //     id: 7,
+        //     latitude: 43.83,
+        //     location: "新疆维吾尔自治区",
+        //     longitude: 87.62,
+        //     payamount: 1996.89,
+        //     relate_factor: "安卓设备",
+        //     relate_flag: "7",
+        //     relationInfoList: [
+        //       {
+        //         dealtypename: "账户冻结",
+        //         id: 23,
+        //         latitude: 23.13,
+        //         longitude: 113.28,
+        //         relate_age: 30,
+        //         relate_flag: "7",
+        //         relate_location: "广东省",
+        //         relate_name: "洪锐",
+        //       },
+        //       {
+        //         dealtypename: "账户冻结",
+        //         id: 23,
+        //         latitude: 23.13,
+        //         longitude: 113.28,
+        //         relate_age: 30,
+        //         relate_flag: "7",
+        //         relate_location: "广东省",
+        //         relate_name: "洪锐",
+        //       },
+        //       {
+        //         dealtypename: "账户冻结",
+        //         id: 23,
+        //         latitude: 23.13,
+        //         longitude: 113.28,
+        //         relate_age: 30,
+        //         relate_flag: "7",
+        //         relate_location: "广东省",
+        //         relate_name: "洪锐",
+        //       },
+        //     ],
+        //     residence: "四川省",
+        //     risk: "提现风险异常",
+        //     risktype: "伪冒开户",
+        //     username: "王云生",
+        //     value: [
+        //       {
+        //         0: 87.62,
+        //         1: 43.83,
+        //       },
+        //     ],
+        //   },
+        // ];;
         this.relationRes = relaData ? relaData : [];
         // this.axios
         //   .get("/api/p3/mapData")
@@ -144,19 +142,19 @@ export default {
     },
     initMap(data, index) {
       // console.log((data = data.slice(8, 9)), "datadata");
-      data = 
-      // let relationMesg = {};
-      // this.relationRes.forEach(item => {
-      //   if (item.location === data[index].location) {
-      //     relationMesg =
-      //       item.relationInfoList && item.relationInfoList.length > 0
-      //         ? Object.assign({}, item)
-      //         : {};
-      //   }
-      // });
-      // console.log([relationMesg], "rsm");
-      // console.log([data[index]], "di");
-      this.nowTime();
+      data =
+        // let relationMesg = {};
+        // this.relationRes.forEach(item => {
+        //   if (item.location === data[index].location) {
+        //     relationMesg =
+        //       item.relationInfoList && item.relationInfoList.length > 0
+        //         ? Object.assign({}, item)
+        //         : {};
+        //   }
+        // });
+        // console.log([relationMesg], "rsm");
+        // console.log([data[index]], "di");
+        this.nowTime();
       // data = data.map(item => {
       //   return {
       //     ...item,
@@ -547,8 +545,8 @@ export default {
               normal: {
                 show: true,
                 formatter: function(params) {
-                  console.log(params, "params");
-                  const {
+
+                  var  {
                     location,
                     appname,
                     payamount,
@@ -562,10 +560,21 @@ export default {
                     relationInfoList,
                     currentTime,
                   } = params.data;
-                  return `{a|时间}{b|${currentTime}}{a|          区域}{b|${location}}{a|                 场景}{b|${appname}}\n{a|金额}{b|${payamount}元}{a|                                   风险类型}{e|${risktype}}{a|        处置方式}{e|${dealtypename}}\n{f|${username}}{f|${age}岁}{f|${residence}}{e|${risk}}\n{a|异常关联}{b|${relationInfoList.length}}{a|               关联要素}{d|${relate_factor}}`;
+                  
+                  var reg = /(?<=.)./g;
+                  if (username.length < 3) {
+                    username = username.replace(reg, "*");
+                  } else {
+                    username = username.replace(reg, "*");
+                  }
+
+                  return `{a|时间}{b|${currentTime}}{a|          省市}{b|${location}}{a|                 场景}{b|${appname}}\n{a|金额}{b|${payamount}元}{a|                                   风险类型}{e|${risktype}}{a|        处置方式}{e|${dealtypename}}\n{f|${username}}{f|${age}岁}{f|${residence}}{e|${risk}}\n{a|异常关联}{b|${relationInfoList.length}}{a|               关联要素}{d|${relate_factor}}`;
                   // return `aaaaaa`;
                 },
-                position:this.relationRes[index].location=='新疆维吾尔自治区'?[-600,-230]: [-820, -230],
+                position:
+                  this.relationRes[index].location == "新疆维吾尔自治区"
+                    ? [-600, -230]
+                    : [-820, -230],
                 distance: 0,
                 // width: 440,
                 // height: 180,
@@ -604,7 +613,8 @@ export default {
                   e: {
                     padding: [0, 10],
                     fontSize: 20,
-                    color: "#D24545",
+                    color: "#FF475D",
+                    fontWeight: "bold",
                   },
                   f: {
                     padding: [0, 10, 0, 0],
@@ -671,7 +681,10 @@ export default {
                   return returnStr;
                   // return `aaaaaa`;
                 },
-                position:this.relationRes[index].location=='新疆维吾尔自治区'?[300,-210]:[20, -210] ,
+                position:
+                  this.relationRes[index].location == "新疆维吾尔自治区"
+                    ? [300, -210]
+                    : [20, -210],
                 distance: 0,
                 width: 340,
                 height: 120,

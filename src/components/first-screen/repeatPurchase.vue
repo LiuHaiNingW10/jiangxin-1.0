@@ -164,14 +164,14 @@ export default {
         grid: {
           top: "18%",
           left: "5%",
-          right: "5%",
+          right: "5%"
           // bottom: "25%"
           // containLabel: true
         },
         xAxis: [
           {
             type: "category",
-            boundaryGap: true,
+            boundaryGap: false,
             axisLine: {
               //坐标轴轴线相关设置。数学上的x轴
               show: false,
@@ -206,6 +206,7 @@ export default {
                 color: "rgba(255, 255,255,0.4)"
               }
             },
+            splitNumber: 3,
             axisLine: {
               show: true,
               lineStyle: {
@@ -237,7 +238,7 @@ export default {
             symbol: "circle", // 默认是空心圆（中间是白色的），改成实心圆
             // showAllSymbol: false,
             showSymbol: false,
-            smooth: 0.5,
+            // smooth: 0.5,
             lineStyle: {
               normal: {
                 color: "#00FFFF" // 线条颜色
@@ -342,7 +343,7 @@ export default {
   .line-charts {
     width: 100%;
     height: 270px;
-    
+    padding-top: 2%;
   }
 }
 </style>

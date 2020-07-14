@@ -31,11 +31,11 @@ export default {
           {
             type: "pie",
             center: ["50%", "50%"],
-            radius: "50%",
+            radius: "70%",
             labelLine: {
               normal: {
                 length: 35,
-                length2: 80,
+                length2: 60,
                 lineStyle: {
                   type: "solid"
                 }
@@ -47,7 +47,7 @@ export default {
                   return (
                     "{b| " +
                     params.name +
-                    "}  " +
+                    "}  \n" +
                     "{c|" +
                     params.percent.toFixed(0) +
                     "%}"
@@ -55,7 +55,7 @@ export default {
                 },
                 borderWidth: 0,
                 borderRadius: 4,
-                padding: [0, -86],
+                padding: [0, -46],
                 height: 70,
                 fontSize: 13,
                 align: "center",
@@ -64,7 +64,7 @@ export default {
                   b: {
                     fontSize: 12,
                     lineHeight: 20,
-                    color: "#fff",
+                    color: "rgba(255, 255, 255, 0.6)",
                     padding: [0, 0, 5, 0]
                   },
                   c: {

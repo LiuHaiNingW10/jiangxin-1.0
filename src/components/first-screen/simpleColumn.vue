@@ -19,7 +19,7 @@ export default {
       let myChart = this.$echarts.init(document.getElementById(chartId));
       let lineOption = {
         lineStyle: {
-          color: "rgba(255 ,255 ,255 ,0.5)",
+          color: "rgba(255 ,255 ,255 ,0.5)"
           // type: "dashed"
         }
       };
@@ -33,7 +33,7 @@ export default {
         grid: {
           top: "14%",
           right: "10%",
-          left: "8%",
+          left: "8%"
         },
         xAxis: [
           {
@@ -44,7 +44,6 @@ export default {
               show: false
             },
             axisLabel: {
-
               margin: 10,
               color: "rgba(255 ,255 ,255 ,0.8)",
               textStyle: {
@@ -63,10 +62,10 @@ export default {
             axisTick: {
               show: false
             },
-            axisLine: 'rgba(0, 0, 0, 0)',
+            axisLine: "rgba(0, 0, 0, 0)",
             splitLine: lineOption,
-            splitNumber: 3,
-          },
+            splitNumber: 3
+          }
           // {
           //   axisLine: lineOption,
           //   axisTick: {
@@ -81,7 +80,8 @@ export default {
           {
             type: "bar",
             data: chartData.yAxis,
-            barWidth: "20px",
+            // barWidth: "20px",
+            barWidth: 32,
             itemStyle: {
               normal: {
                 color: new this.$echarts.graphic.LinearGradient(
