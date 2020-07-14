@@ -433,7 +433,7 @@ export default {
       color: #ffffff;
       text-shadow: 0px 6px 8px 0 #000000;
       font-family: FZZhengHeiS-B-GB;;
-      font-weight: 75w;
+      font-weight: bold;
       font-size: 64px;
       line-height: normal;
       letter-spacing: 8px;
