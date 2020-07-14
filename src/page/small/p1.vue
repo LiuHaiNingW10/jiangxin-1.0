@@ -1486,7 +1486,7 @@ export default {
             let creditDateAvg = "";
             if (xAxis3[0] == "均值") {
               xAxis3.shift();
-              creditDateAvg = parseInt(yAxis3.shift()) + '天';
+              creditDateAvg = parseInt(yAxis3.shift()) + "天";
             }
             _that.creditDateAvg = creditDateAvg;
             _that.creditDate = Object.assign(
@@ -1793,7 +1793,7 @@ export default {
   background: url("../../assets/images/material/exports/background.png")
     no-repeat;
   background-size: 100% 100%;
-  padding-top: 1%;
+  // padding-top: 1%;
   font-size: 28px;
   color: #fff;
   overflow: hidden;
@@ -1811,7 +1811,7 @@ export default {
   // 标题样式
   .title-frame {
     width: 100%;
-    height: 5%;
+    height: 7%;
     background: url("../../assets/images/header.png") no-repeat;
     background-size: 100% 100%;
     display: flex;
@@ -1832,8 +1832,9 @@ export default {
     .global-title {
       width: 33%;
       text-align: center;
-      font-size: 36px;
+      font-size: 64px;
       font-weight: bold;
+      font-family: FZZhengHeiS-B-GB;
     }
     .right-time {
       width: 33%;
@@ -1870,7 +1871,7 @@ export default {
           .avg-title {
             display: inline-block;
             margin-left: 24px;
-            color: rgba(255, 255, 255, .7);
+            color: rgba(255, 255, 255, 0.7);
             font-family: Microsoft YaHei;
             font-weight: bold;
             font-size: 24px;
@@ -1962,6 +1963,7 @@ export default {
     }
     .accruing-person {
       .columnar-chart {
+        margin-top: 48px;
         height: 40%;
         margin-top: 48px;
       }
@@ -1983,6 +1985,7 @@ export default {
       }
       .middle-distirbution {
         height: 374px;
+        margin-top: 48px;
       }
       .bottom-distribution {
         height: 408px;
