@@ -14,7 +14,7 @@
       </div>
       <div class="mc-content">
         <div class="mc-l">
-          <span class="left-title">反欺诈策略分布</span>
+          <span class="left-title"></span>
           <ul>
             <!-- 7月10日wk修改：删除右侧高亮及百分比展示 -->
             <li :style="moveLocaiton === 1 ? 'color: #fff' : 'color: #FFF'">
@@ -340,6 +340,8 @@ export default {
       .left-title {
         color: rgba(255, 255, 255, 0.7);
         font-size: 18px;
+        display: block;
+        height: 38px;
       }
       ul {
         position: relative;

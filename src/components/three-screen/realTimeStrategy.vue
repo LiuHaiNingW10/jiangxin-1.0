@@ -123,12 +123,8 @@ export default {
 .num{
   color: #FFFFFF;
 font-family: DS-Digital;
-
-
 line-height: 72px;
-
 // font-family: UnidreamLED;
-font-weight: 400;
 font-size: 64px;
 line-height: normal;
 letter-spacing: 0px;

@@ -61,7 +61,7 @@
           </div>
           <div>
             <div class="content-title  content-title2">
-              <span>实时加强验证</span>
+              <span class='yz'>实时加强验证</span>
             </div>
             <verification-chart v-if="showRight" :tableDatas="tableDataV" />
           </div>
@@ -233,7 +233,7 @@ export default {
       idRisk: {
         id: "echarts03",
         style: "height: 300px",
-        title: "风险城市占比分布",
+        title: "风险城市占比",
       },
       idRiskM: {
         id: "echarts04",
@@ -443,29 +443,28 @@ export default {
   font-size: 28px;
   color: #fff;
   // overflow: hidden;
-  padding-top: 1%;
   // 标题样式
   .title-frame {
     width: 100%;
-    height: 5%;
+    height: 7%;
     background: url("../../assets/images/header.png") no-repeat;
     background-size: 100% 100%;
     display: flex;
     justify-content: flex-end;
+    padding-bottom:1%;
     .global-title {
       width: 1366px;
       text-align: center;
       font-size: 64px;
       font-weight: bold;
       font-family: FZZhengHeiS-B-GB;
-      line-height: 1;
+      // line-height: 1;
       padding: 0 184px 0 0;
     }
     .right-time {
       width: 1300px;
       text-align: right;
       margin-right: 20px;
-      margin-top: -20px;
     }
     .time-span {
       display: inline-block;
@@ -579,5 +578,8 @@ export default {
 }
 .content-title2 span{
   margin-top: 23px;
+}
+.yz{
+   padding:17px 0 0 0 !important;
 }
 </style>
