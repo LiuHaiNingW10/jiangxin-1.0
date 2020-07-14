@@ -466,7 +466,7 @@ export default {
       width: 1300px;
       text-align: right;
       margin-right: 20px;
-      margin-top: -2px;
+      margin-top: -20px;
     }
     .time-span {
       display: inline-block;
