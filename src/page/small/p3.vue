@@ -460,7 +460,8 @@ export default {
       text-shadow: 0px 2px 4px 0 #000000;
       font-family: FZZhengHeiS-B-GB;
       font-weight: regular;
-      font-size: 40px;
+      font-size: 64px;
+      line-height: 1;
     }
     .right-time {
       width: 33%;
