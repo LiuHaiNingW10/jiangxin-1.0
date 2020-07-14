@@ -336,7 +336,6 @@ export default {
         ])
         .then(
           this.axios.spread((...obj) => {
-            console.log(obj)
             this.decisionData = obj[0].data.data;
             this.transB(obj[1].data.data);
             this.transV(obj[2].data.data);
@@ -466,7 +465,7 @@ export default {
       width: 1300px;
       text-align: right;
       margin-right: 20px;
-      margin-top: -2px;
+      margin-top: -20px;
     }
     .time-span {
       display: inline-block;

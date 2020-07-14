@@ -168,12 +168,12 @@ export default {
                 }
 
                 if (String(param.data).split(".").length === 2) {
-                  console.log(String(param.data).split(".")[1]);
+                
                   if (String(param.data).split(".")[1].length >= 2) {
-                    console.log(String(param.data).split(".")[1], "da");
+               
                     return `${transform(param.data)}`
                   } else {
-                    console.log(String(param.data).split(".")[1], "xiao");
+        
                    return `${transform(param.data)}`+'0'
                   }
                 } else {
