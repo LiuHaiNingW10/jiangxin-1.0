@@ -142,7 +142,10 @@ export default {
               show: true,
               position: "right",
               color: "rgba(255,255,255)",
-              formatter: "{@score}",
+              // formatter: "{@score}",
+              formatter: function(param) {
+                return `${param.data},`
+              },
               // fontWeight: "bold",
               fontSize: 20,
             },

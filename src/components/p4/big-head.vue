@@ -8,10 +8,11 @@
         <img id="audio-art" :src="require('../../assets/images/voice-view.png')" alt />
       </div>
       <div class="chat-box demo" id="list-demo">
-        <div id="dialogue-box">
-          <vue-seamless-scroll v-if="showDialogue" :data="scrollList" :class-option="optionHover" class="seamless-warp">
+        <div id="dialogue-box" >
+          <!-- <vue-seamless-scroll :data="scrollList" :class-option="optionHover" class="seamless-warp"> -->
+          <div v-if="showDialogue">
             <div
-              :class="index%2 === 0 ? 'server' : 'user' "
+              :class="index%2 === 0 ? 'server ' + index : 'user '+ index "
               v-for="(item,index) in scrollList"
               :key="Math.random()+index"
               class="list-complete-item"
@@ -22,7 +23,8 @@
               <span v-if="index%2 !== 0">{{item.value}}</span>
               <span class="title" v-if="index%2 !== 0"></span>
             </div>
-          </vue-seamless-scroll>
+          </div>
+          <!-- </vue-seamless-scroll> -->
         </div>
       </div>
     </div>
@@ -82,18 +84,6 @@ export default {
         {
           value:
             "我们会关注您的还款，如未收到款项，后续会有工作人员再次与您联系，感谢您的接听，再见 "
-        },
-        {
-          value: ''
-        },
-        {
-          value: ''
-        },
-        {
-          value: ''
-        },
-        {
-          value: ''
         }
       ]
     };
@@ -462,14 +452,14 @@ export default {
     DrawVideo(id) {
       this.$emit("func", { value: false });
       var atx = new (window.AudioContext || webkitAudioContext)();
-      // var audio = document.getElementById("audio");
-      let audio = new Audio();
-      audio.src = require("../../assets/video/chongqing.wav");
+      var audio = document.getElementById("audio");
+      // let audio = new Audio();
+      // audio.src = require("../../assets/video/chongqing.wav");
       // var canvas = document.getElementById(id);
       // var ctx = canvas.getContext("2d");
 
       audio.play();
-      let audioTime = this.$refs.audio.duration;
+      let audioTime = audio.duration;
       setTimeout(() => {
         this.$emit("func", { value: true });
         this.$nextTick(() => {
@@ -479,7 +469,7 @@ export default {
         // document.getElementById("dialogue-box").style.display = "none";
         document.getElementById("audio-art").style.display = "none";
       }, audioTime * 1000);
-      console.log(audioTime)
+      this.changeProgress()
       return;
       var source = atx.createMediaElementSource(audio);
       var analyser = atx.createAnalyser();
@@ -517,6 +507,31 @@ export default {
         ctx.fillRect(0, 0, canvas.width, canvas.height / 2);
       }
       draw();
+    },
+    changeProgress: function () {
+      const musicMp3 = document.getElementById('audio')
+      const timer = setInterval(() => {
+        const numbers = musicMp3.currentTime / musicMp3.duration
+        let perNumber = (numbers * 100).toFixed(2)
+        if (perNumber >= 100) {
+          this.isStore = true
+          this.progress = 0
+          clearInterval(timer)
+        }
+        this.progress = perNumber
+        let t = Number(perNumber)
+        if(5 < t && t <= 7) {
+          document.getElementsByClassName('0')[0].style.display = 'none'
+        }else if(10 < t && t <= 13) {
+          document.getElementsByClassName('1')[0].style.display = 'none'
+        }else if( 35 <  t && t <= 44 ) {
+          document.getElementsByClassName('2')[0].style.display = 'none'
+        }else if( 46 <  t && t <= 49 ) {
+          document.getElementsByClassName('3')[0].style.display = 'none'
+        }else if( 59 <  t && t <= 64 ) {
+          document.getElementsByClassName('4')[0].style.display = 'none'
+        }
+      }, 2000)
     },
     culTimeScroll() {
       setTimeout(() => {
@@ -577,10 +592,10 @@ export default {
     right: 100px;
     margin-left: auto;
     margin-right: auto;
-    height: 30%;
+    height: 36%;
     position: absolute;
     overflow: hidden;
-    top: 60%;
+    top: 50%;
     display: none;
     .server {
       height: 28%;
