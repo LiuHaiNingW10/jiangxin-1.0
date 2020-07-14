@@ -198,6 +198,20 @@ export default {
         ],
         yAxis: [
           {
+            name: "单位：人",
+            // nameRotate: 90,
+            // nameLocation: "middle",
+            // nameGap: "80",
+
+            nameTextStyle: {
+              // width: "200",
+              // height: "200",
+              color: "#FFF",
+              fontSize: 18
+              // backgroundColor: {
+              //   image: "../assets/images/logo.png"
+              // }
+            },
             // min: 0,
             // max: 100,
             splitLine: {
