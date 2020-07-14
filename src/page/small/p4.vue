@@ -456,7 +456,7 @@ export default {
     }
     .left {
       width: 1232px;
-      height: 1426px;
+      height: 1400px;
       vertical-align: top;
       background: rgba(22, 28, 40, 0.2);
     }
@@ -485,7 +485,7 @@ export default {
     }
     .right {
       width: 1232px;
-      height: 1426px;
+      height: 1400px;
       vertical-align: top;
       background: rgba(22, 28, 40, 0.2);
     }
