@@ -363,24 +363,14 @@ export default {
               normal: {
                 show: true,
                 formatter: function(params) {
-                  return (
-                    params.data.company +
-                    "\n" +
-                    "城市：" +
-                    params.data.province +
-                    "\n" +
-                    "授信：" +
-                    params.data.credit +
-                    "\n"
-                  );
-                  // return (
-                  //   "{fline|" + " " + params.data.name + " " + "重点关注" + "}"
-                  // );
+                  return `{a|公司名称:}{b|${params.data.company}}\n{a|省市:}{b|${params.data.province}}\n{a|授信金额:}{c|${params.data.province}}`
                 },
                 position: [-300, -80],
                 distance: 0,
+                // background: 'rgba(22, 28, 40, 0.32)',
+                // boxShadow: '0px 16px 24px 0 #030C24',
                 backgroundColor: {
-                  image: require("@/assets/images/p3/map-modal.png")
+                  image: require("@/assets/images/p2/mapmodelbg.png")
                 },
                 // borderColor: "rgba(0,191,255,.9)",
                 // borderWidth: 2,
@@ -394,11 +384,28 @@ export default {
                   fontSize: 20,
                 },
                 rich: {
-                  fline: {
+                  a: {
+                    color: "rgba(255,255,255,.7)",
+                    fontSize: 20,
+                  },
+                  b: {
                     padding: [0, 10],
                     color: "#ffffff",
+                    fontSize: 20,
+                    fontWeight: "bold",
                   },
-                },
+                  c: {
+                    padding: [0, 10],
+                    fontSize: 20,
+                    color: "#FFAF2B",
+                  }
+                }
+                // rich: {
+                  // fline: {
+                  //   padding: [0, 10],
+                  //   color: "#ffffff",
+                  // },
+                // },
               },
             },
             itemStyle: {
