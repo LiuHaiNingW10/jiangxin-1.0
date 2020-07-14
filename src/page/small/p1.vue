@@ -1444,9 +1444,9 @@ export default {
             let data1 = obj[0].data.data;
             let xAxis1 = [],
               yAxis1 = [];
-              let reg1 = /客群/g;
+              // let reg1 = /客群/g;
             data1.forEach(item => {
-              xAxis1.push(item.key.replace(reg1, ''));
+              xAxis1.push(item.key);
               yAxis1.push(item.perc);
             });
             // xAxis1 = xAxis1.reverse();

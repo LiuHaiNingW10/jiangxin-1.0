@@ -49,7 +49,7 @@ export default {
               // rotate: 20,
               color: "rgba(255 ,255 ,255 ,0.8)",
               textStyle: {
-                fontSize: 18
+                fontSize: 14
               }
             }
           }
@@ -57,7 +57,7 @@ export default {
         yAxis: [
           {
             axisLabel: {
-              fontSize: 18,
+              fontSize: 14,
               formatter: "{value}",
               color: "rgba(255 ,255 ,255 ,0.5)"
             },
