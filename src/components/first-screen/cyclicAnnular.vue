@@ -78,7 +78,7 @@ export default {
                   b: {
                     fontSize: 16,
                     lineHeight: 20,
-                    color: "#fff",
+                    color: "rgba(255, 255, 255, 0.6)",
                     padding: [0, 0, 5, 0]
                   },
                   c: {
@@ -106,7 +106,7 @@ export default {
             label: {
               show: false
             }
-          },
+          }
           // {
           //   // name: "散点",
           //   type: "scatter",

@@ -95,30 +95,35 @@ export default {
             return str + "</div>";
           }
         },
-        grid: {
-          top: 140,
-          bottom: 60,
-          left: "10%",
-          right: "10%",
-          borderWidth: 1
-        },
+        // grid: {
+        //   top: 140,
+        //   bottom: 60,
+        //   left: "10%",
+        //   right: "10%",
+        //   borderWidth: 1
+        // },
         xAxis: {
           type: "category",
           axisLabel: {
             //刻度标签文字的颜色
             show: true,
-            color: "#FFF"
+            color: "#FFF",
+            fontSize: 18
           },
+          boundaryGap: false,
           axisLine: {
             show: false,
             lineStyle: {
               color: "#FFF"
             }
           },
+          axisTick: {
+            show: false
+          },
           splitLine: {
-            show: true,
+            show: false,
             lineStyle: {
-              color: "#32346c "
+              color: "rgba(255, 255,255,0.4)"
             }
           },
           data: trueData.data_dt || [
@@ -136,21 +141,32 @@ export default {
           ]
         },
         yAxis: {
-          name: (data.yAxis && data.yAxis[0]) || "",
+          name: (data.yAxis && data.yAxis[0]) || "单位：万",
           // nameRotate: 90,
           // nameLocation: "middle",
           // nameGap: "80",
+
           nameTextStyle: {
-            color: "#FFF"
+            // width: "200",
+            // height: "200",
+            color: "#FFF",
+            fontSize: 18
+            // backgroundColor: {
+            //   image: "../assets/images/logo.png"
+            // }
           },
+          splitNumber: 3,
           // min: "10",
           axisLine: {
-            show: false
+            show: true,
+            lineStyle: {
+              color: "rgba(255, 255,255,0.4)"
+            }
           },
           splitLine: {
             show: true,
             lineStyle: {
-              color: "#32346c "
+              color: "rgba(255, 255,255,0.4)"
             }
           },
           axisTick: {
@@ -158,7 +174,8 @@ export default {
           },
           axisLabel: {
             show: true,
-            color: "#FFF",
+            fontSize: 18,
+            color: "rgba(255, 255,255,0.4)",
             formatter: "{value}"
           }
         },
@@ -166,13 +183,19 @@ export default {
           {
             name: (data.legend && data.legend[0].name) || "当日实时放款",
             type: "line",
-            smooth: 0.5,
+            // smooth: 0.5,
+            showSymbol: false,
             label: {
               normal: {
                 show: true,
                 color: "#FFF",
                 formatter: "{c}"
               }
+            },
+            itemStyle: {
+              color: "rgba(0,255,255,1)",
+              borderColor: "#FFF",
+              borderWidth: 2
             },
             data: trueData.amt_cur || [
               "5",
@@ -186,11 +209,36 @@ export default {
               "233",
               "54",
               "200"
-            ]
+            ],
+            areaStyle: {
+              //区域填充样式
+              normal: {
+                //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
+                color: new this.$echarts.graphic.LinearGradient(
+                  0,
+                  0,
+                  0,
+                  1,
+                  [
+                    {
+                      offset: 0,
+                      color: "rgba(3, 71, 191,1)"
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(3, 71, 191,0)"
+                    }
+                  ],
+                  false
+                ),
+                shadowColor: "rgba(53,142,215, 0.9)", //阴影颜色
+                shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
+              }
+            }
           }
         ]
       });
-    },
+    }
   }
 };
 </script>
