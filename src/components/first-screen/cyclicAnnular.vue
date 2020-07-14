@@ -78,15 +78,13 @@ export default {
                   b: {
                     fontSize: 16,
                     lineHeight: 20,
-                    color: "rgba(255, 255, 255, .7)",
-                    margin: [10, 0, 5, 0],
-                    fontWeight: "bold"
+                    color: "#fff",
+                    padding: [0, 0, 5, 0]
                   },
                   c: {
                     fontSize: 16,
                     lineHeight: 20,
-                    color: "rgba(255, 255, 255, 1)",
-                    fontWeight: "bold"
+                    color: "#fff"
                   }
                 }
               }

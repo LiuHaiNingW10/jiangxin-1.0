@@ -16,16 +16,15 @@
             :ids="idA"
             :columns="columnA"
             :heights="clientHeight"
-            :needPoint="true"
             @func="getPoint"
           />
           <pop-custom :tableDatas="tableDataB" :ids="idB" :heights="clientHeight" />
         </div>
         <div class="center">
-          <div class="title">
+          <!-- <div class="title">
             <span>机器人累计服务人数</span>
             <span>31,857</span>
-          </div>
+          </div>-->
           <big-head
             :tableDatas="tableDataCs"
             :ids="idC"
@@ -41,10 +40,9 @@
             :ids="idC"
             :columns="columnC"
             :heights="clientHeight"
-            :needPoint="true"
             @func="getPoint"
           />
-          <pop-custom :tableDatas="tableDataDs" :ids="idD" :heights="clientHeight" />
+          <pop-custom :tableDatas="tableDataD" :ids="idD" :heights="clientHeight" />
         </div>
       </div>
     </div>
@@ -63,11 +61,12 @@ import popCustom from "../../components/p4/pop-custom.vue";
 import WeatherCom from "../../components/weather.vue";
 import cardNum from "../../components/p4/card-num.vue";
 import * as base64 from "@/assets/base64.js";
+
 const columnA = [
   {
     dataIndex: "mobile",
     key: "mobile",
-    class: "table-td",
+    class: "table-mobile",
     title: "手机号",
     align: "center",
     width: "20%"
@@ -75,7 +74,7 @@ const columnA = [
   {
     dataIndex: "action",
     key: "action",
-    class: "table-td",
+    class: "table-action",
     title: "行为",
     align: "center",
     width: "20%"
@@ -84,7 +83,7 @@ const columnA = [
     dataIndex: "status",
     key: "status",
     scopedSlots: { customRender: "status" },
-    class: "table-td",
+    class: "table-status",
     title: "状态",
     align: "center",
     width: "16%"
@@ -92,7 +91,7 @@ const columnA = [
   {
     dataIndex: "problem",
     key: "problem",
-    class: "table-td",
+    class: "table-problem",
     title: "问题定位",
     align: "center",
     width: "24%"
@@ -100,7 +99,7 @@ const columnA = [
   {
     dataIndex: "handle",
     key: "handle",
-    class: "table-td",
+    class: "table-handle",
     title: "智能处理",
     align: "center",
     width: "20%"
@@ -110,7 +109,7 @@ const columnC = [
   {
     dataIndex: "mobile",
     key: "mobile",
-    class: "table-td",
+    class: "table-mobile",
     title: "手机号",
     align: "center",
     width: "20%"
@@ -118,7 +117,7 @@ const columnC = [
   {
     dataIndex: "accent",
     key: "accent",
-    class: "table-td",
+    class: "table-accent",
     title: "口音识别",
     align: "center",
     width: "20%"
@@ -126,7 +125,7 @@ const columnC = [
   {
     dataIndex: "product",
     key: "product",
-    class: "table-td",
+    class: "table-product",
     title: "产品",
     align: "center",
     width: "20%"
@@ -134,7 +133,7 @@ const columnC = [
   {
     dataIndex: "want",
     key: "want",
-    class: "table-td",
+    class: "table-want",
     title: "客户意图",
     align: "center",
     width: "24%"
@@ -174,6 +173,7 @@ export default {
       },
       columnA: columnA,
       tableDataB: [],
+      tableDataBB: [],
       idB: {
         id: "echarts02",
         title: "客户问题解决",
@@ -189,14 +189,7 @@ export default {
         id: "echarts04",
         title: "客户意愿理解"
       },
-      tableDataD: [
-        { desire: "未拔通", num: 21044 },
-        { desire: "承诺近期还款", num: 23618 },
-        { desire: "未接听", num: 24396 },
-        { desire: "延期还款", num: 25903 },
-        { desire: "通话中断", num: 26258 },
-        { desire: "承诺马上还款", num: 26758 }
-      ],
+      tableDataD: [],
       clientHeight: document.body.clientHeight,
       bigPoints: {}
     };
@@ -205,9 +198,6 @@ export default {
   computed: {
     tableDataAs() {
       return this.tableDataA;
-    },
-    tableDataBs() {
-      return this.tableDataB;
     },
     tableDataCs() {
       return this.tableDataC;
@@ -227,6 +217,7 @@ export default {
     this.timer = setInterval(() => {
       this.init();
     }, 60000);
+    this.tA();
     this.tB();
     this.tD();
   },
@@ -261,17 +252,10 @@ export default {
                 this.tableDataC = data;
               } else if (i == 1) {
                 let arr = data;
-                arr.forEach((el, i) => {
-                  el.status = [
-                    {
-                      id: i,
-                      value: el.status
-                    }
-                  ];
-                });
                 this.bigPoints = arr[0];
                 this.tableDataA = arr;
-              }else if (i == 2) {
+                // this.transTableDataB(arr);
+              } else if (i == 2) {
                 // this.tableDataRight[0].value = data || 150;
               } else if (i == 3) {
                 this.tableDataTop[0].value = data || "30%";
@@ -290,42 +274,78 @@ export default {
           console.log(error);
         });
     },
+    transTableDataB(arr) {
+      let a = [], b = []
+      arr[0] && arr.forEach( it => {
+        if(a.indexOf(it.problem) == -1) {
+          a.push(it.problem)
+        }
+      })
+      // console.log(a)
+      // a.forEach( it => {
+      //   b.push( {
+      //     key: it,
+      //     val: Math.floor(Math.random()*50) + 50
+      //   })
+      // })
+      this.tableDataBB.forEach( it => {
+        
+      })
+      this.tableDataB = this._.cloneDeep(this.tableDataBB);
+      // console.log(this.tableDataB)
+    },
 
+    tA() {
+      this.getTableDataA();
+      this.timerB = setInterval(() => {
+        this.getTableDataA();
+      }, 3000);
+    },
     tB() {
       this.getTableDataB();
-      this.timerB = setInterval(() => {
-        this.getTableDataB();
-      }, 60000);
     },
     tD() {
       this.getTableDataD();
       this.timerD = setInterval(() => {
         this.getTableDataD();
-      }, 60000);
+      }, 6000);
     },
-    getTableDataB() {
+    getTableDataA() {
       this.axios({
-        url: "/api/p4/smartOperationSummary",
+        url: "/api/p4/smartOperation",
         method: "get",
+        params: {
+          count: 1
+        },
         type: "json"
       }).then(data => {
         let arr = data.data.data;
-        arr.forEach(it => {
-          it.want = it.problem;
-        });
-        this.tableDataB = arr;
+        this.bigPoints = arr[0];
+      });
+    },
+    getTableDataB() {
+      this.axios({
+        url: "/api/p3/wordCloud",
+        params: {
+          category: "khwtjj"
+        },
+        method: "get",
+        type: "json"
+      }).then(data => {
+        this.tableDataB = data.data.data;
+        this.tableDataBB = data.data.data;
       });
     },
     getTableDataD() {
       this.axios({
-        url: "/api/p4/smartCallSummary",
+        url: "/api/p3/wordCloud",
+        params: {
+          category: "khyylj"
+        },
         method: "get",
         type: "json"
       }).then(data => {
         this.tableDataD = data.data.data;
-        this.$nextTick(() => {
-          this.popB = true;
-        });
       });
     },
 
@@ -334,6 +354,7 @@ export default {
     },
     getPoint(par) {
       this.bigPoints = par;
+      console.log(par);
       if (par.accent) {
         this.tableDataRight[0].value += 1;
         let cc = this._.cloneDeep(this.tableDataD);
@@ -426,7 +447,8 @@ export default {
       width: 100%;
     }
     .left {
-      width: 27.2%;
+      width: 1232px;
+      height: 1426px;
       vertical-align: top;
       background: rgba(22, 28, 40, 0.2);
     }
@@ -454,7 +476,8 @@ export default {
       }
     }
     .right {
-      width: 27.2%;
+      width: 1232px;
+      height: 1426px;
       vertical-align: top;
       background: rgba(22, 28, 40, 0.2);
     }

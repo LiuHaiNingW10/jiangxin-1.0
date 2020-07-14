@@ -50,7 +50,7 @@ export default {
       width: 24%;
       text-align: center;
       padding-top: 20px;
-      margin-left: 32px;
+      margin-right: 32px;
       i {
         font-style: normal;
         color: #587D5D;

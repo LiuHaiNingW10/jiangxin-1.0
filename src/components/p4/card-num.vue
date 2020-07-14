@@ -2,7 +2,7 @@
   <div id="num-and-coin">
     <div class="top-left top-single">
       <div class="portrait">
-        <img class="portrait-img" src="../../assets/images/icon2.png" alt />
+        <img class="portrait-img" src="../../assets/images/icon3.png" alt />
       </div>
       <div class="server-num num-span">
         <span>{{tableData[0].name}}</span>
@@ -11,7 +11,7 @@
     </div>
     <div class="top-right top-single">
       <div class="portrait">
-        <img class="portrait-img" src="../../assets/images/icon2.png" alt />
+        <img class="portrait-img" src="../../assets/images/icon3.png" alt />
       </div>
       <div class="shouxin-num num-span">
         <span>{{tableData[1].name}}</span>
@@ -34,38 +34,38 @@ export default {
 </script>
 <style lang="less" scoped>
 #num-and-coin {
-  width: 96%;
   margin: 0 auto;
   background-size: 100% 100%;
   justify-content: space-around;
   align-items: center;
   padding: 2.8%;
+  display: flex;
   .top-single {
     display: flex;
     align-items: center;
     height: 100%;
     padding-bottom: 3%;
+    width: 50%;
     .portrait {
-      width: 14%;
-      background: url("../../assets/images/portrait-left.svg") no-repeat;
-      background-size: 100% 100%;
-      text-align: center;
       .portrait-img {
         padding: 16%;
+        width: 116px;
+        height: 116px;
       }
     }
     .num-span {
       width: 88%;
       height: 88%;
       display: flex;
-      align-items: center;
+      align-items: left;
+      flex-flow: column;
+      margin-left: 4%;
       :nth-child(1) {
         font-size: 32px;
         font-weight: bold;
       }
       :nth-child(2) {
         display: inline-block;
-        margin-left: 10%;
         font-size: 48px;
         color: #04bbff;
         font-weight: bold;

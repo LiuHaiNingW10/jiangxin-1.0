@@ -2,8 +2,14 @@
   <div class="credit-properties">
     <!-- 底部的标题 -->
     <div class="middle-title" v-if="showCredit">
-      <div class="middle-left middle-single">{{typeData.littleTitle[0]}}</div>
-      <div class="middle-right middle-single">{{typeData.littleTitle[1]}}</div>
+      <div class="middle-left middle-single">
+        {{typeData.littleTitle[0]}} 
+        <span class="middle-title">平均值 <span class="middle-num">{{bjAverange.perc}}</span></span>
+      </div>
+      <div class="middle-right middle-single">
+        {{typeData.littleTitle[1]}}
+        <span class="middle-title">平均值 <span class="middle-num">{{qxAverange.perc}}天</span></span>
+      </div>
     </div>
     <div>
 
@@ -45,6 +51,8 @@ export default {
       createId: "createId",
       enterpriseColumnarData: {},
       loanId: "loanId",
+      bjAverange: [],
+      qxAverange: [],
     };
   },
   computed: {},
@@ -88,6 +96,7 @@ export default {
       }).then(data => {
         if (data.data.code === 100) {
           var tData = data.data.data;
+          this.qxAverange = tData.shift()
           let xAxis = [];
           let yAxis = [];
           tData.forEach(item => {
@@ -114,6 +123,7 @@ export default {
       }).then(data => {
         if (data.data.code === 100) {
           var tData = data.data.data;
+          this.bjAverange = tData.shift()
           let xAxis = [];
           let yAxis = [];
           tData.forEach(item => {
@@ -162,6 +172,25 @@ export default {
       line-height: 40px;
       letter-spacing: 0px;
       text-align: left;
+      .middle-title {
+        color: rgba(255,255,255,.5);
+        font-family: Microsoft YaHei;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 40px;
+        letter-spacing: 0px;
+        text-align: left;
+        display: inline;
+        .middle-num {
+          color: #49E5FA;
+          font-family: Microsoft YaHei;
+          font-weight: bold;
+          font-size: 24px;
+          line-height: 40px;
+          letter-spacing: 0px;
+          text-align: left;
+        }
+      }
       // background: url("../../assets/images/title4.png") no-repeat;
       // background-size: 100% 100%;
     }

@@ -15,6 +15,13 @@ export default {
   computed: {},
   methods: {
     initPieChart(id, antiFraudDatas) {
+      console.log(antiFraudDatas,'kkkkkkkkkkk')
+      antiFraudDatas= antiFraudDatas.map(item=>{
+        return {
+          ...item,
+          value:item.value.toFixed(2)
+        }
+      })
       // [{
       //     "value": "60",
       //     "name": "mxjczb"

@@ -33,6 +33,7 @@ const p1 = ()=> import('../page/small/p1.vue')
 const p2 = ()=> import('../page/small/p2.vue')
 const p3 = ()=> import('../page/small/p3.vue')
 const p4 = ()=> import('../page/small/p4.vue')
+const test = ()=> import('../page/small/test.vue')
 Vue.use(Router)
 
 export default new Router({
@@ -74,6 +75,10 @@ export default new Router({
         {
           path: 'p4',
           component: loadable(p4),
+        },
+        {
+          path: 'test',
+          component: loadable(test),
         },
         {
           path: 'debts',

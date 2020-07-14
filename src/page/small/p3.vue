@@ -28,14 +28,14 @@
         <div class="strategy-box">
           <real-time-strategy
             v-if="showUses"
-            title="当日累计拦截金额（元）"
+            title="当日累计拦截金额"
             :num="usesTime.year"
             :blank="1"
             :float="'left'"
           />
           <real-time-strategy
             v-if="showUses"
-            title="当日累计拦截笔数（笔）"
+            title="当日累计拦截笔数"
             :num="usesTime.day"
             :blank="2"
             :float="'right'"
@@ -473,8 +473,10 @@ export default {
     .left-box,
     .right-box {
       width: 27.2%;
-      height: 1440px;
-      background: url("../../assets/images/p3/bg-cont.png") no-repeat;
+      height: 1406px;
+      background: rgba(22,28,40,0.32);
+      // opacity: 0.32;
+      
       background-size: 100% 97%;
       .decisionRate {
         height: 18%;
