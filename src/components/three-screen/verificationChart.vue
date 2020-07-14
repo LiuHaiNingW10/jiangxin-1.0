@@ -2,9 +2,8 @@
   <div class="verification">
     <ul>
       <li v-for="item in tableData" :key="item.title">
-       
-        <img :src="item.img" alt="">
-         <div class="item-title">{{item.title}}</div>
+        <img :src="item.img" alt="" />
+        <div class="item-title">{{ item.title }}</div>
         <!-- <div><i>{{item.times}}</i>次</div> -->
       </li>
     </ul>
@@ -13,24 +12,23 @@
 
 <script>
 export default {
-  name: 'verification',
-  props: ['tableDatas',],
+  name: "verification",
+  props: ["tableDatas"],
   data() {
     return {
       id: this.ids,
-      tableData: this.tableDatas
-    }
+      tableData: this.tableDatas,
+    };
   },
   mounted() {
     // console.log(this.tableData)
   },
-  methods: {
-  },
+  methods: {},
   beforeDestroy() {
     clearInterval(this.timer);
     this.timer = null;
   },
-  components: {}
+  components: {},
 };
 </script>
 
@@ -53,14 +51,19 @@ export default {
       margin-right: 32px;
       i {
         font-style: normal;
-        color: #587D5D;
+        color: #587d5d;
       }
       img {
         width: 122px;
       }
       .item-title {
-        color: white;
-        padding-top: 15px;
+        color: #ffffff;
+        font-family: Microsoft YaHei;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 40px;
+        letter-spacing: 0px;
+        margin-top: 18px;
       }
     }
   }

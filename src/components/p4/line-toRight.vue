@@ -60,7 +60,8 @@ export default {
             rich: {
               b: {
                 color: "#fff",
-                fontSize: "20",
+                fontSize: 22,
+                fontWeight:'bold'
               },
             },
           },
@@ -72,7 +73,7 @@ export default {
         color: ["#C98531", "#0177a9"],
         grid: {
           top: "10%",
-          left: "10%",
+          left: "15%",
           right: "0%",
           bottom: "7%",
           // containLabel: true,
@@ -92,7 +93,9 @@ export default {
           {
             type: "category",
             axisLabel: {
-              color: "rgba(255,255,255)",
+              color: "rgba(255,255,255,.7)",
+              fontSize: 20,
+              fontWeight: 'bold',
             },
             axisLine: {
               show: false,
@@ -110,6 +113,9 @@ export default {
               position: "right",
               color: "rgba(255,255,255)",
               formatter: "{@score}%",
+              fontSize:20,
+              alignment:1,
+              padding: [2,0,0,0],
             },
             itemStyle: {
               barBorderRadius: 2,
@@ -136,13 +142,13 @@ export default {
                 global: false, // 缺省为 false
               },
             },
-            barWidth: 12,
+            barWidth: 14,
             data: payAmounts,
           },
           {
             name: "背景",
             type: "bar",
-            barWidth: 16,
+            barWidth: 20,
             barGap: "-115%",
             label: {
               show: false,
@@ -167,7 +173,7 @@ export default {
 #echarts03,
 #echarts04,
 #echarts05 {
-  width: 103%;
+  width: 100%;
   height: 100%;
   color: #fff;
   margin-top: 10px;

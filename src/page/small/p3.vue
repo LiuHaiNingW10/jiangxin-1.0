@@ -47,7 +47,7 @@
       <div class="right-box">
         <div class="box">
           <div>
-            <div class="content-title">
+            <div class="content-title content-title2">
               <span>实时反欺诈模型决策占比</span>
             </div>
             <div class="decisionRate">
@@ -60,7 +60,7 @@
             </div>
           </div>
           <div>
-            <div class="content-title">
+            <div class="content-title  content-title2">
               <span>实时加强验证</span>
             </div>
             <verification-chart v-if="showRight" :tableDatas="tableDataV" />
@@ -188,45 +188,45 @@ export default {
       ],
       tableDataRM: [
         {
-          area: "华为荣耀",
+          indexname: "华为荣耀",
           percent: 0.4,
         },
         {
-          area: "华为mate",
+          indexname: "华为mate",
           percent: 0.3,
         },
         {
-          area: "小米米3",
+          indexname: "小米米3",
           percent: 0.2,
         },
         {
-          area: "Oppo11",
+          indexname: "Oppo11",
           percent: 0.08,
         },
         {
-          area: "Apple8 ",
+          indexname: "Apple8 ",
           percent: 0.02,
         },
       ],
       tableDataRR: [
         {
-          area: "刷单",
+          indexname: "刷单",
           percent: 0.4,
         },
         {
-          area: "卡片被盗",
+          indexname: "卡片被盗",
           percent: 0.3,
         },
         {
-          area: "账户接管",
+          indexname: "账户接管",
           percent: 0.2,
         },
         {
-          area: "电信诈骗",
+          indexname: "电信诈骗",
           percent: 0.08,
         },
         {
-          area: "羊毛党",
+          indexname: "羊毛党",
           percent: 0.02,
         },
       ],
@@ -336,6 +336,7 @@ export default {
         ])
         .then(
           this.axios.spread((...obj) => {
+            console.log(obj)
             this.decisionData = obj[0].data.data;
             this.transB(obj[1].data.data);
             this.transV(obj[2].data.data);
@@ -460,8 +461,7 @@ export default {
       text-shadow: 0px 2px 4px 0 #000000;
       font-family: FZZhengHeiS-B-GB;
       font-weight: regular;
-      font-size: 64px;
-      line-height: 1;
+      font-size: 40px;
     }
     .right-time {
       width: 33%;
@@ -556,7 +556,7 @@ export default {
 .wei {
   position: absolute;
   top: 65px;
-  right: 840px;
+  right: 830px;
   color: rgba(255, 255, 255, 0.7) !important;
   font-family: Microsoft YaHei;
   font-weight: bold;
@@ -576,5 +576,8 @@ export default {
   line-height: 40px;
   letter-spacing: 0px;
   text-align: left;
+}
+.content-title2 span{
+  margin-top: 23px;
 }
 </style>

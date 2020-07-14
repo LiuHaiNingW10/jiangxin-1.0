@@ -121,22 +121,26 @@ export default {
   }
 }
 .num{
-color: #FFFFFF;
+  color: #FFFFFF;
 font-family: DS-Digital;
+
+
+line-height: 72px;
+
 // font-family: UnidreamLED;
-font-weight: bold;
-font-size: 80px;
+font-weight: 400;
+font-size: 64px;
 line-height: normal;
 letter-spacing: 0px;
 padding: 0 48px 0 48px;
  text-align: center;
- letter-spacing:8px
+ letter-spacing: 12px;
 }
 .margin{
   margin-left: 100px;
 }
 @font-face {
   font-family: "DS-Digital";
-  src: url(../font/DS-DIGIB-2.ttf); /***兼容ie9***/
+  src: url(../font/DS-DIGI-1.ttf); /***兼容ie9***/
 }
 </style>
