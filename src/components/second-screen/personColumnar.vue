@@ -104,7 +104,7 @@ export default {
             name: "用户数",
             type: "bar",
             data: chartData ? chartData.yAxis : yAxisValue,
-            barWidth: 14,
+            barWidth: 22,
             itemStyle: {
               normal: {
                 //柱状图颜色
