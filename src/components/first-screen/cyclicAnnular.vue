@@ -84,7 +84,8 @@ export default {
                   c: {
                     fontSize: 20,
                     lineHeight: 20,
-                    color: "#fff"
+                    color: "#fff",
+                    padding: [15, 0, 5, 0]
                   }
                 }
               }
