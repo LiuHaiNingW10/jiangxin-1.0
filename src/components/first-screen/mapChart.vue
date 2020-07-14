@@ -311,7 +311,7 @@ export default {
                     //   value: [103.9526, 30.7617, 48]
                     // }
                   ],
-            // symbolSize: 40,
+            symbolSize: 32,
             showEffectOn: "render",
 
             // 涟漪的设置

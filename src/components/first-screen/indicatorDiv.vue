@@ -50,7 +50,7 @@ export default {
     font-weight: bold;
     font-size: 80px;
     line-height: normal;
-    letter-spacing: 0px;
+    letter-spacing: 20px;
     // text-align: left;
     // margin-top: 34px;
   }

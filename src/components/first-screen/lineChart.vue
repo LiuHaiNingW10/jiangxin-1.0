@@ -102,6 +102,9 @@ export default {
         //   right: "10%",
         //   borderWidth: 1
         // },
+        grid: {
+          right: "3%"
+        },
         xAxis: {
           type: "category",
           axisLabel: {

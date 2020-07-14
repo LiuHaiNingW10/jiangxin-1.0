@@ -1566,7 +1566,8 @@ export default {
                 type: item.trade_type,
                 sum: item.trade_amount,
                 inbusshopaddress: item.inbusshopaddress,
-                value: [item.longitude, item.latitude, item.score]
+                value: [116.4551, 40.2539, item.score]
+                // value: [item.longitude, item.latitude, item.score]
               };
             })
           ];
@@ -1850,7 +1851,7 @@ export default {
     justify-content: space-between;
     .accruing-amounts,
     .accruing-person {
-      width: 27%;
+      width: 28%;
       height: 92.96%;
       padding: 40px;
       background: rgba(22, 28, 40, 0.32);
@@ -1899,7 +1900,7 @@ export default {
       }
     }
     .current-amounts {
-      width: 45%;
+      width: 44%;
       height: 100%;
       .map-charts {
         width: 100%;
