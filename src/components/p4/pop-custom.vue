@@ -157,10 +157,10 @@ export default {
             fontSize: 20
           },
           formatter: params => {
-            const { key, val } = params;
+            const { name, value } = params;
             return `
-                    异常问题：${key} <br/>
-                    数量：${val}
+                    异常问题：${name} <br/>
+                    数量：${value}
                 `;
           }
         },
@@ -171,6 +171,7 @@ export default {
             sizeRange: [12, 50],
             rotationRange: [0, 0],
             shape: "circle",
+            gridSize: 80,
             textStyle: {
               normal: {
                 color: params => {

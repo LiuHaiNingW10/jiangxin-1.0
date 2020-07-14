@@ -417,7 +417,7 @@ export default {
     margin-left: 5%;
   }
   .header {
-    height: 7%;
+    height: 6.5%;
     text-align: center;
     background: url("../../assets/images/header.png") no-repeat 100% 100%;
     background-size: 100% 100%;
