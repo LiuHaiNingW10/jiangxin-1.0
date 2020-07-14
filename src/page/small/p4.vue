@@ -440,7 +440,7 @@ export default {
       text-align: center;
     }
     .right-time {
-      width: 13%;
+      width: 23%;
       text-align: right;
       position: absolute;
       top: 1%;
