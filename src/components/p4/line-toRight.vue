@@ -39,17 +39,21 @@ export default {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById(ele.id));
       // 每一个
-      var payAmounts = data.series.map((item) => item).reverse();
+    
       // 总的
+        var payAmounts = data.series.map((item) => item).reverse();
       var totalAmount = payAmounts.reduce((x, y) => x * 1 + y * 1);
-
+  console.log(totalAmount,'totalAmount')
       //总的截取到小数后两位
       var totalArr = new Array(data.series).fill(
         parseFloat(totalAmount).toFixed(2)
       );
+       console.log(totalArr,'11')
       totalArr = data.series.map(() => {
-        return totalAmount;
+        return 100
       });
+      console.log(totalArr,'11')
+      console.log(payAmounts,'22')
       // 绘制图表
 
       myChart.setOption({
@@ -76,6 +80,7 @@ export default {
           left: "15%",
           right: "0%",
           bottom: "7%",
+          width:1070,
           // containLabel: true,
         },
         xAxis: {

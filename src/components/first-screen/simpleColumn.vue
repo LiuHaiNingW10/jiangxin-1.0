@@ -32,7 +32,7 @@ export default {
         },
         grid: {
           top: "14%",
-          right: "10%",
+          right: "4%",
           left: "8%"
         },
         xAxis: [
@@ -46,10 +46,10 @@ export default {
             axisLabel: {
               interval: 0,
               margin: 10,
-              // rotate: 40,
+              // rotate: 20,
               color: "rgba(255 ,255 ,255 ,0.8)",
               textStyle: {
-                fontSize: 18
+                fontSize: 14
               }
             }
           }
@@ -57,7 +57,7 @@ export default {
         yAxis: [
           {
             axisLabel: {
-              fontSize: 18,
+              fontSize: 14,
               formatter: "{value}",
               color: "rgba(255 ,255 ,255 ,0.5)"
             },

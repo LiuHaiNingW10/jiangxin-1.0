@@ -169,7 +169,7 @@ export default {
 }
 .weather-module {
   margin-top: 1%;
-
   font-family: "DS-Digital";
+  margin-right: 20px;
 }
 </style>

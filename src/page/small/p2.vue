@@ -257,11 +257,8 @@ export default {
         }
         if (parts.length > 1) {
           result += "." + parts[1].toString();
-          // if(parts[1]) {
-          //   result += "." + parts[1].toString();
-          // }else {
-          //   result += "." + '00';
-          // }
+        }else {
+          result += "." + '00';
         }
         return result;
       },
@@ -390,7 +387,7 @@ export default {
         type: "json"
       }).then(data => {
         var indiData = data.data.data || {};
-        _that.xnum = this.toThousands(indiData.custnum)
+        _that.xnum = this.toThousands(indiData.bal)
         _that.dnum = this.toThousands(indiData.bal)
         _that.cnum = this.toThousands(indiData.principal)
         _that.propertyData = Object.assign(
@@ -605,14 +602,15 @@ export default {
   overflow: hidden;
   background: url("../../assets/images/background-second.png") no-repeat;
   background-size: 100% 100%;
-  padding-top: 1%;
+  // padding-top: 1%;
   font-size: 28px;
   color: #fff;
+  font-family: Microsoft YaHei;
 
   // 标题样式
   .title-frame {
     width: 100%;
-    height: 5.7%;
+    height: 7%;
     background: url("../../assets/images/header.png") no-repeat;
     background-size: 100% 100%;
     display: flex;
@@ -623,7 +621,6 @@ export default {
     }
     .global-title {
       width: 33%;
-      line-height: 72px;
       letter-spacing: 1px;
       text-align: center;
       font-size: 64px;

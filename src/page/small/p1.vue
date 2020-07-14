@@ -132,7 +132,7 @@
             class="form-charts"
             tableTitle="精准扶贫"
           />-->
-          <div class="single-distribution">
+          <div class="single-distribution" style="width: 46%; margin-right: 4%" >
             <span class="single-graph-title">地域</span>
             <simple-column
               class="basic-chart"
@@ -211,7 +211,7 @@
           </div>
         </div>
         <div class="right-bottom-div">
-          <div class="single-distribution half-bottom-distribution">
+          <div class="single-distribution half-bottom-distribution" style="width: 46%; margin-right: 4%">
             <span class="single-graph-title">
               笔均金额
               <span class="avg-title">平均值</span>
@@ -933,7 +933,7 @@ export default {
         if (data.data.code === 100) {
           _that.totalMoney = "¥" + _that.thousandFormat(data.data.data, 0) || 0;
           _that.threeMoneyArr = Object.assign({}, _that.threeMoneyArr, {
-            first: _that.thousandFormat(data.data.data, 0) || 0
+            first: _that.thousandFormat(data.data.data, 2) || 0
           });
           if (_that.totalMoney !== _that.preTotalMoney) {
             _that.scroll(_that.totalMoney, _that.$refs);
@@ -953,7 +953,7 @@ export default {
         if (data.data.code === 100) {
           // _that.currentMoney = _that.thousandFormat(data.data.data, 2) || 0;
           _that.threeMoneyArr = Object.assign({}, _that.threeMoneyArr, {
-            second: _that.thousandFormat(data.data.data, 0) || 0
+            second: _that.thousandFormat(data.data.data, 2) || 0
           });
         }
       });
@@ -1444,6 +1444,7 @@ export default {
             let data1 = obj[0].data.data;
             let xAxis1 = [],
               yAxis1 = [];
+              // let reg1 = /客群/g;
             data1.forEach(item => {
               xAxis1.push(item.key);
               yAxis1.push(item.perc);
@@ -1477,8 +1478,9 @@ export default {
             let data3 = obj[2].data.data;
             let xAxis3 = [],
               yAxis3 = [];
+              let reg = /天/g;
             data3.forEach(item => {
-              xAxis3.push(item.key);
+              xAxis3.push(item.key.replace(reg, ''));
               yAxis3.push(item.perc);
             });
             // xAxis3 = xAxis3.reverse();
@@ -1560,11 +1562,12 @@ export default {
             ...tData.map(item => {
               return {
                 name: item.name,
-                age: item.age,
+                age: item.age + '岁',
                 sex: item.sex,
                 type: item.trade_type,
                 sum: item.trade_amount,
                 inbusshopaddress: item.inbusshopaddress,
+                // value: [116.4551, 40.2539, item.score]
                 value: [item.longitude, item.latitude, item.score]
               };
             })
@@ -1849,7 +1852,7 @@ export default {
     justify-content: space-between;
     .accruing-amounts,
     .accruing-person {
-      width: 27%;
+      width: 28%;
       height: 92.96%;
       padding: 40px;
       background: rgba(22, 28, 40, 0.32);
@@ -1898,7 +1901,7 @@ export default {
       }
     }
     .current-amounts {
-      width: 45%;
+      width: 44%;
       height: 100%;
       .map-charts {
         width: 100%;

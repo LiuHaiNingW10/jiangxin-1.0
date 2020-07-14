@@ -339,7 +339,7 @@ export default {
             type: "scatter",
             coordinateSystem: "geo",
             data: convertData(colorData),
-            symbolSize: 0,
+            symbolSize: 32,
             zlevel: -1,
             label: {
               normal: {
@@ -533,6 +533,7 @@ export default {
             type: "effectScatter",
             coordinateSystem: "geo",
             zlevel: 10,
+             symbolSize: 32,
             data: this.relationRes[index] ? [this.relationRes[index]] : [],
             itemStyle: {
               normal: {
@@ -638,7 +639,9 @@ export default {
             itemStyle: {
               normal: {
                 color: "#F5B523",
-                shadowBlur: 2,
+                shadowBlur: 0,
+                width:32,
+                height:32
               },
             },
             // 标签

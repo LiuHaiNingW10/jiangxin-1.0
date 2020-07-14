@@ -134,7 +134,7 @@ line-height: normal;
 letter-spacing: 0px;
 padding: 0 48px 0 48px;
  text-align: center;
- letter-spacing: 12px;
+ letter-spacing: 20px;
 }
 .margin{
   margin-left: 100px;

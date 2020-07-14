@@ -28,25 +28,26 @@ export default {
         });
     },
     drawChart(data) {
-      data = data.map((item) => {
-        if (String(item.payamount).split(".").length === 2) {
-          if (String(item.payamount).split(".")[1].length >= 2) {
-            return { event: item.event, payamount: Number(item.payamount) };
-          } else {
-            var x = String(item.payamount).split(".")[1];
-            return {
-              event: item.event,
-              payamount: Number(item.payamount + "0"),
-            };
-          }
-        } else {
-          var x = (String(item.payamount).split(".")[1] = "00");
-          return {
-            event: item.event,
-            payamount: Number(item.payamount + "." + x),
-          };
-        }
-      });
+      // data = data.map((item) => {
+      //   if (String(item.payamount).split(".").length === 2) {
+      //     console.log(String(item.payamount).split(".")[1]);
+      //     if (String(item.payamount).split(".")[1].length >= 2) {
+      //       console.log(String(item.payamount).split(".")[1], "da");
+      //     } else {
+      //       console.log(String(item.payamount).split(".")[1], "xiao");
+      //       return {
+      //         event: item.event,
+      //         payamount: Number(item.payamount + "0"),
+      //       };
+      //     }
+      //   } else {
+      //     var y = (String(item.payamount).split(".")[1] = "00");
+      //     return {
+      //       event: item.event,
+      //       payamount: Number(item.payamount + "." + y),
+      //     };
+      //   }
+      // });
       let myChart = this.$echarts.init(
         document.getElementById("amountTypeChart")
       );
@@ -142,9 +143,44 @@ export default {
               show: true,
               position: "right",
               color: "rgba(255,255,255)",
-              // formatter: "{@score}",
               formatter: function(param) {
-                return `${param.data},`
+                function transform(number) {
+                  var num = number.toString();
+                  var numArr = num.split(".");
+                  var [num, dotNum] = numArr;
+
+                  var operateNum = num.split("").reverse();
+                  var result = [],
+                    len = operateNum.length;
+                  for (var i = 0; i < len; i++) {
+                    result.push(operateNum[i]);
+                    if ((i + 1) % 3 === 0 && i !== len - 1) {
+                      result.push(",");
+                    }
+                  }
+
+                  if (dotNum) {
+                    result.reverse().push(".", ...dotNum);
+                    return result.join("");
+                  } else {
+                    return result.reverse().join("");
+                  }
+                }
+
+                if (String(param.data).split(".").length === 2) {
+                  console.log(String(param.data).split(".")[1]);
+                  if (String(param.data).split(".")[1].length >= 2) {
+                    console.log(String(param.data).split(".")[1], "da");
+                    return `${transform(param.data)}`
+                  } else {
+                    console.log(String(param.data).split(".")[1], "xiao");
+                   return `${transform(param.data)}`+'0'
+                  }
+                } else {
+                  // var y = (String(param.data).split(".")[1] = "00");
+                    return `${transform(param.data)}`+'.00';
+                }
+                // return `${transform(param.data)}`;
               },
               // fontWeight: "bold",
               fontSize: 20,
