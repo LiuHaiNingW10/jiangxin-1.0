@@ -411,13 +411,12 @@ export default {
     bottom: 0;
     color: #fff;
     background-size: 70%;
-    padding-top: 28px;
   }
   .time-span {
     margin-left: 5%;
   }
   .header {
-    height: 6.5%;
+    height: 7%;
     text-align: center;
     background: url("../../assets/images/header.png") no-repeat 100% 100%;
     background-size: 100% 100%;
