@@ -569,7 +569,7 @@ export default {
                     username = username.replace(reg, "*");
                   }
 
-                  return `{a|时间}{b|${currentTime}}{a|          省市}{b|${location}}{a|                 场景}{b|${appname}}\n{a|金额}{b|${payamount}.00元}{a|                               风险类型}{e|${risktype}}{a|      处置方式}{e|${dealtypename}}\n{f|${username}}{f|${age}岁}{f|${residence}}{e|${risk}}\n{a|异常关联}{b|${relationInfoList.length}}{a|               关联要素}{d|${relate_factor}}`;
+                  return `{a|时间}{b|${currentTime}}{a|          省市}{b|${location}}{a|                 场景}{b|${appname}}\n{a|金额}{b|${payamount}.00元}{a|                               风险类型}{e|${risktype}}{a|      处置方式}{e|${dealtypename}}\n{f|${username}}{f|   ${age}岁}{f|   ${residence}}{e|   ${risk}}\n{a|异常关联}{b|${relationInfoList.length}}{a|               关联要素}{d|${relate_factor}}`;
                   // return `aaaaaa`;
                 },
                 position:

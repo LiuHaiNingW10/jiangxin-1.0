@@ -2,11 +2,11 @@
   <div
     class="real-time-strategy"
     id="realTimeStrategy"
-   :class="float==='right'?'margin':''"
+    :class="float === 'right' ? 'margin' : ''"
   >
     <div class="title">{{ title }}</div>
     <div class="num">
-      {{numArr}}
+      {{ numArr }}
       <!-- <ul>
         <li v-for="(item, index) in numArr" :key="index">{{ item || "" }}</li>
       </ul> -->
@@ -39,7 +39,7 @@ export default {
           arr.unshift("");
         }
 
-        return arr.join('');
+        return arr.join("");
       }
       return [];
     },
@@ -91,18 +91,17 @@ export default {
     local("UnidreamLED"), url("../first-screen/font/UnidreamLED.woff"); /***默认使用本地的***/
 }
 .real-time-strategy {
-
   .title {
     text-align: center;
-  font-size: 32px;
-  margin: 38px 48px 32px 48px;
-  display: block;
-  color: #ffffff;
-  font-family: Microsoft YaHei;
-  font-weight: bold;
-  font-size: 32px;
-  line-height: normal;
-  letter-spacing: 0px;
+    font-size: 32px;
+    margin: 38px 48px 32px 48px;
+    display: block;
+    color: #ffffff;
+    font-family: Microsoft YaHei;
+    font-weight: bold;
+    font-size: 32px;
+    line-height: normal;
+    letter-spacing: 0px;
   }
   ul {
     display: flex;
@@ -120,19 +119,20 @@ export default {
     }
   }
 }
-.num{
-  color: #FFFFFF;
-font-family: DS-Digital;
-line-height: 72px;
-// font-family: UnidreamLED;
-font-size: 64px;
-line-height: normal;
-letter-spacing: 0px;
-padding: 0 48px 0 48px;
- text-align: center;
- letter-spacing: 20px;
+.num {
+  color: #ffffff;
+  font-family: DS-Digital;
+  line-height: 72px;
+  // font-family: UnidreamLED;
+  font-size: 64px;
+  line-height: normal;
+  letter-spacing: 0px;
+  padding: 0 48px 0 48px;
+  text-align: center;
+  letter-spacing: 20px;
+  font-weight: 700;
 }
-.margin{
+.margin {
   margin-left: 100px;
 }
 @font-face {
