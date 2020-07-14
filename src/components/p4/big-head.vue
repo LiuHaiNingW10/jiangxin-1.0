@@ -60,11 +60,17 @@ export default {
       analyser: {},
       xy: "",
       robot: baseBox.robot.value,
-      scrollList: [],
-      msgList: [
+      list: [
         {
           value: "您好，请问是王先生吗"
         },
+      ],
+      scrollList: [
+        {
+          value: "您好，请问是王先生吗"
+        },
+      ],
+      msgList: [
         {
           value: "嗯，我是"
         },
@@ -469,6 +475,7 @@ export default {
         });
         // document.getElementById("dialogue-box").style.display = "none";
         document.getElementById("audio-art").style.display = "none";
+        this.scrollList = this.list;
       }, audioTime * 1000);
       this.changeProgress()
       return;
@@ -521,29 +528,44 @@ export default {
         }
         this.progress = perNumber
         let t = Number(perNumber)
-        if(5 < t && t <= 7) {
-          document.getElementsByClassName('0')[0].style.display = 'none'
-        }else if(10 < t && t <= 13) {
-          document.getElementsByClassName('1')[0].style.display = 'none'
-        }else if( 35 <  t && t <= 44 ) {
-          document.getElementsByClassName('2')[0].style.display = 'none'
-        }else if( 46 <  t && t <= 49 ) {
-          document.getElementsByClassName('3')[0].style.display = 'none'
-        }else if( 59 <  t && t <= 64 ) {
-          document.getElementsByClassName('4')[0].style.display = 'none'
+        // if(52 < t && t <= 57) {
+        //   this.scrollList.shift()
+        // }
+        if(52 < t && t <= 58) {
+          this.scrollList = this.scrollList.slice(2)
         }
+        if( 68 < t && t <= 75 ) {
+          this.scrollList = this.scrollList.slice(2)
+        }
+        //   document.getElementsByClassName('1')[0].style.display = 'none'
+        // }else if( 35 <  t && t <= 44 ) {
+        //   document.getElementsByClassName('2')[0].style.display = 'none'
+        // }else if( 46 <  t && t <= 49 ) {
+        //   document.getElementsByClassName('3')[0].style.display = 'none'
+        // }else if( 59 <  t && t <= 64 ) {
+        //   document.getElementsByClassName('4')[0].style.display = 'none'
+        // }
       }, 2000)
     },
     culTimeScroll() {
       setTimeout(() => {
-        this.scrollList = this._.cloneDeep(this.msgList)
-        setTimeout( () => {
-          this.animate = true;
-        },3000)
-      }, 1000);
-      setTimeout( () => {
-          this.animate = false;
-      },23000)
+        this.scrollList = this.scrollList.concat(this.msgList[0])
+      }, 2000);
+      setTimeout(() => {
+        this.scrollList = this.scrollList.concat(this.msgList[1])
+      }, 4000);
+      setTimeout(() => {
+        this.scrollList = this.scrollList.concat(this.msgList[2])
+      }, 13000);
+      setTimeout(() => {
+        this.scrollList = this.scrollList.concat(this.msgList[3])
+      }, 16000);
+      setTimeout(() => {
+        this.scrollList = this.scrollList.concat(this.msgList[4])
+      }, 20000);
+      setTimeout(() => {
+        this.scrollList = this.scrollList.concat(this.msgList[5])
+      }, 24000);
     }
   },
   

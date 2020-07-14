@@ -53,7 +53,7 @@ export default {
         hoverStop: false, // 鼠标悬停停止滚动
         direction: 1, // 向下/上滚动
         step: 0.8, // 滚动速度
-        singleHeight: 78, // 滚动单行
+        singleHeight: 78*4, // 滚动单行
         waitTime: 2000, // 单行停顿时间
       };
     }
