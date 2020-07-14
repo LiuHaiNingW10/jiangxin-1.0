@@ -30,7 +30,7 @@ export default {
         series: [
           {
             type: "pie",
-            center: ["55%", "50%"],
+            center: ["53%", "50%"],
             radius: "70%",
             labelLine: {
               normal: {
