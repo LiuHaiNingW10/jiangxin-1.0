@@ -342,7 +342,7 @@ export default {
             label: {
               normal: {
                 show: true,
-                align: "center",
+                align: "left",
                 formatter: function(params) {
                   const {
                     accent,
@@ -385,7 +385,7 @@ export default {
                   a: {
                     color: "rgba(255,255,255,.6)",
                     fontSize: 20,
-                    align: "right",
+                    align: "left",
                     fontWeight: "bold"
                   },
                   b: {
