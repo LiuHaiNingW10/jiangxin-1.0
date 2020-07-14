@@ -65,8 +65,6 @@ export default {
               color: "#FFF",
               fontSize: 14
             },
-
-            show: false
           },
 
           interval: 0,
@@ -85,8 +83,8 @@ export default {
           axisLabel: {
             show: true,
             textStyle: {
-              color: "#FFF",
-              fontSize: 14
+              color: "rgba(255,255,255,.5)",
+              fontSize: 18
             }
           },
           axisTick: {
