@@ -132,7 +132,7 @@
             class="form-charts"
             tableTitle="精准扶贫"
           />-->
-          <div class="single-distribution">
+          <div class="single-distribution" style="width: 46%; margin-right: 4%" >
             <span class="single-graph-title">地域</span>
             <simple-column
               class="basic-chart"
@@ -211,7 +211,7 @@
           </div>
         </div>
         <div class="right-bottom-div">
-          <div class="single-distribution half-bottom-distribution">
+          <div class="single-distribution half-bottom-distribution" style="width: 46%; margin-right: 4%">
             <span class="single-graph-title">
               笔均金额
               <span class="avg-title">平均值</span>
@@ -1477,8 +1477,9 @@ export default {
             let data3 = obj[2].data.data;
             let xAxis3 = [],
               yAxis3 = [];
+              let reg = /天/g;
             data3.forEach(item => {
-              xAxis3.push(item.key);
+              xAxis3.push(item.key.replace(reg, ''));
               yAxis3.push(item.perc);
             });
             // xAxis3 = xAxis3.reverse();
