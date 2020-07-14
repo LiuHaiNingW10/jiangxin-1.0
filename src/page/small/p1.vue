@@ -1891,7 +1891,7 @@ export default {
             color: #49e5fa;
             font-family: Microsoft YaHei;
             font-weight: bold;
-            font-size: 8px;
+            font-size: 24px;
             line-height: 40px;
             letter-spacing: 0px;
             text-align: left;
