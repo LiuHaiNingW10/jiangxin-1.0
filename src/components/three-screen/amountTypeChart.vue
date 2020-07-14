@@ -205,7 +205,7 @@ export default {
 
 <style lang="less" scoped>
 .amount-type-chart {
-  width: 109%;
+  width: 101%;
   height: 24%;
 }
 </style>

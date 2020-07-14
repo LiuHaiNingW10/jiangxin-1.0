@@ -429,6 +429,10 @@ export default {
 </script>
 
 <style lang="less">
+// @font-face {
+//   font-family: "FZZhengHeiS-B-GB";
+//   src: url(../../components/font/FZZDHJW.TTF); /***兼容ie9***/
+// }
 .p3-container {
   width: 4224px;
   height: 1536px;
@@ -451,8 +455,12 @@ export default {
     .global-title {
       width: 33%;
       text-align: center;
-      font-size: 40px;
       font-weight: bold;
+      color: #ffffff;
+      text-shadow: 0px 2px 4px 0 #000000;
+      font-family: FZZhengHeiS-B-GB;
+      font-weight: regular;
+      font-size: 40px;
     }
     .right-time {
       width: 33%;
@@ -474,9 +482,9 @@ export default {
     .right-box {
       width: 27.2%;
       height: 1406px;
-      background: rgba(22,28,40,0.32);
+      background: rgba(22, 28, 40, 0.32);
       // opacity: 0.32;
-      
+
       background-size: 100% 97%;
       .decisionRate {
         height: 18%;
@@ -548,7 +556,7 @@ export default {
   position: absolute;
   top: 65px;
   right: 840px;
-  color: rgba(255,255,255,0.7) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
   font-family: Microsoft YaHei;
   font-weight: bold;
   font-size: 20px !important;
@@ -560,7 +568,7 @@ export default {
   position: absolute;
   top: 45px;
   right: 840px;
-  color: rgba(255,255,255,0.7) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
   font-family: Microsoft YaHei;
   font-weight: bold;
   font-size: 20px !important;
