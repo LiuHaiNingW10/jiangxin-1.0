@@ -19,7 +19,7 @@ export default {
       let myChart = this.$echarts.init(document.getElementById(chartId));
       let lineOption = {
         lineStyle: {
-          color: "rgba(255 ,255 ,255 ,0.5)"
+          color: "rgba(255 ,255 ,255 ,0.2)"
           // type: "dashed"
         }
       };
