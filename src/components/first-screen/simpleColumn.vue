@@ -44,7 +44,9 @@ export default {
               show: false
             },
             axisLabel: {
+              interval: 0,
               margin: 10,
+              // rotate: 40,
               color: "rgba(255 ,255 ,255 ,0.8)",
               textStyle: {
                 fontSize: 18
