@@ -126,7 +126,7 @@ export default {
           splitLine: {
             show: false,
             lineStyle: {
-              color: "rgba(255, 255,255,0.4)"
+              color: "rgba(255, 255,255,0.2)"
             }
           },
           data: trueData.data_dt || [
@@ -169,7 +169,7 @@ export default {
           splitLine: {
             show: true,
             lineStyle: {
-              color: "rgba(255, 255,255,0.4)"
+              color: "rgba(255, 255,255,0.2)"
             }
           },
           axisTick: {

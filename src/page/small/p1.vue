@@ -1444,6 +1444,7 @@ export default {
             let data1 = obj[0].data.data;
             let xAxis1 = [],
               yAxis1 = [];
+              // let reg1 = /客群/g;
             data1.forEach(item => {
               xAxis1.push(item.key);
               yAxis1.push(item.perc);
@@ -1561,13 +1562,13 @@ export default {
             ...tData.map(item => {
               return {
                 name: item.name,
-                age: item.age,
+                age: item.age + '岁',
                 sex: item.sex,
                 type: item.trade_type,
                 sum: item.trade_amount,
                 inbusshopaddress: item.inbusshopaddress,
-                value: [116.4551, 40.2539, item.score]
-                // value: [item.longitude, item.latitude, item.score]
+                // value: [116.4551, 40.2539, item.score]
+                value: [item.longitude, item.latitude, item.score]
               };
             })
           ];
