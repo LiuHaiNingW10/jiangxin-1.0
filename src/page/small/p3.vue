@@ -336,7 +336,6 @@ export default {
         ])
         .then(
           this.axios.spread((...obj) => {
-            console.log(obj)
             this.decisionData = obj[0].data.data;
             this.transB(obj[1].data.data);
             this.transV(obj[2].data.data);
