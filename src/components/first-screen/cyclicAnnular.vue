@@ -33,22 +33,6 @@ export default {
           "#4A5D73"
         ],
         series: [
-          // {
-          //   type: "scatter",
-          //   zlevel: 60,
-          //   itemStyle: {
-          //     opacity: 1 // 控制 满意icon的 透明度
-          //   },
-          //   data: [
-          //     {
-          //       // 外圈 点状圈
-          //       value: 5,
-          //       symbol: "image://" + ringBg,
-          //       symbolSize: 200,
-          //       symbolOffset: [0, 0]
-          //     }
-          //   ]
-          // },
           {
             color: [
               "#5B4CFF",
@@ -124,7 +108,37 @@ export default {
             label: {
               show: false
             }
-          }
+          },
+          // {
+          //   // name: "散点",
+          //   type: "scatter",
+          //   // zlevel: 60,
+          //   itemStyle: {
+          //     opacity: 1 // 控制 满意icon的 透明度
+          //   },
+          //   data: [
+          //     {
+          //       // 外圈 点状圈
+          //       value: 5,
+          //       symbol: `image://${require("@/assets/images/material/circle.png")}`,
+          //       symbolSize: 200
+          //       // symbolOffset: [0, 0]
+          //     }
+          //   ],
+          //   coordinateSystem: "geo",
+          //   // symbolSize: 0,
+          //   zlevel: 0,
+          //   label: {
+          //     normal: {
+          //       formatter: "{b}",
+          //       position: "right",
+          //       show: true
+          //     },
+          //     emphasis: {
+          //       show: true
+          //     }
+          //   }
+          // }
         ]
       });
     }

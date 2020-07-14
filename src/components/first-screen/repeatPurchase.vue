@@ -163,7 +163,7 @@ export default {
         },
         grid: {
           top: "18%",
-          left: "15%",
+          left: "5%",
           right: "5%",
           bottom: "25%"
           // containLabel: true
@@ -176,14 +176,15 @@ export default {
               //坐标轴轴线相关设置。数学上的x轴
               show: false,
               lineStyle: {
-                color: "#092b5d"
+                color: "rgba(255, 255,255,0.4)"
               }
             },
             axisLabel: {
               //坐标轴刻度标签的相关设置
               textStyle: {
-                color: "#24c4ff",
-                margin: 15
+                color: "#FFF",
+                margin: 15,
+                fontSize: 18
               },
               formatter: function(data) {
                 return data + "时";
@@ -202,25 +203,26 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-                color: "#092b5d"
+                color: "rgba(255, 255,255,0.4)"
               }
             },
             axisLine: {
-              show: false,
+              show: true,
               lineStyle: {
-                color: "#092b5d"
+                color: "rgba(255, 255,255,0.4)"
               }
             },
             axisLabel: {
               show: true,
               textStyle: {
-                color: "#24c4ff"
+                fontSize: 18,
+                color: "rgba(255, 255,255,0.4)"
               },
               formatter: function(value) {
                 if (value === 0) {
                   return value;
                 }
-                return value
+                return value;
               }
             },
             axisTick: {
@@ -275,11 +277,11 @@ export default {
                   [
                     {
                       offset: 0,
-                      color: "rgba(0,255,255,.3)"
+                      color: "rgba(3, 71, 191,1)"
                     },
                     {
                       offset: 1,
-                      color: "rgba(0,255,255, 0)"
+                      color: "rgba(3, 71, 191,0)"
                     }
                   ],
                   false
