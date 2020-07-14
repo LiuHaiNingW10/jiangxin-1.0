@@ -79,8 +79,8 @@ import createOrLoan from "../../components/second-screen/createOrLoan.vue"
 import cyclicAndPie from "../../components/second-screen/cyclicAndPie.vue"
 // import dkOrFwModel from "../../components/second-screen/dkOrFwModel.vue"
 // import IndicatorDiv from "@/components/first-screen/indicatorDiv.vue";
-import CyclicAnnular from "@/components/first-screen/cyclicAnnular.vue";
-import WholePieChart from "@/components/first-screen/wholePieChart.vue";
+import CyclicAnnular from "@/components/second-screen/cyclicAnnlar.vue";
+import WholePieChart from "@/components/second-screen/wholePieChart.vue";
 
 // import PortrayalServer from "../../components/second-screen/portrayalServer.vue";
 export default {
@@ -325,24 +325,24 @@ export default {
                   };
                 })
               : [];
-            // financeData = [
-            //   {
-            //     name: "1年",
-            //     value: 2158
-            //   },
-            //   {
-            //     name: "2年",
-            //     value: 1896
-            //   },
-            //   {
-            //     name: "3年",
-            //     value: 1543
-            //   },
-            //   {
-            //     name: "4年",
-            //     value: 4405
-            //   }
-            // ];
+            financeData = [
+              {
+                name: "1年",
+                value: 2158
+              },
+              {
+                name: "2年",
+                value: 1896
+              },
+              {
+                name: "3年",
+                value: 1543
+              },
+              {
+                name: "4年",
+                value: 4405
+              }
+            ];
             // opPeriodData = [
             //   {
             //     name: "首贷",
@@ -665,7 +665,7 @@ export default {
         height: 38%;
         display: flex;
         .single-distribution {
-          width: 49%;
+          width: 50%;
           height: 100%;
           .single-graph-title {
             font-weight: bold;

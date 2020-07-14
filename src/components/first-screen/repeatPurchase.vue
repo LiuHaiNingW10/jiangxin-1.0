@@ -207,7 +207,8 @@ export default {
               // width: "200",
               // height: "200",
               color: "#FFF",
-              fontSize: 18
+              fontSize: 18,
+              padding:[0,0,10,0]
               // backgroundColor: {
               //   image: "../assets/images/logo.png"
               // }

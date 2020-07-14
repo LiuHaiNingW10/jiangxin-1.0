@@ -364,7 +364,7 @@ export default {
               normal: {
                 show: true,
                 formatter: function(params) {
-                  return `{a|公司名称:}{b|${params.data.company}}\n{a|省市:}{b|${params.data.province}}\n{a|授信金额:}{c|${params.data.province}}`
+                  return `{a|公司名称:}{b|${params.data.company}}\n{a|省市:}{b|${params.data.province}}\n{a|授信金额:}{c|${params.data.credit}}`
                 },
                 position: [-300, -80],
                 distance: 0,
@@ -377,7 +377,7 @@ export default {
                 // borderWidth: 2,
                 padding: [30, 40],
                 borderRadius: 3,
-                lineHeight: 28,
+                lineHeight: 48,
                 verticalAlign: "middle",
                 color: "#fff",
                 z: 11,

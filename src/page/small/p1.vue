@@ -200,7 +200,7 @@
             class="line-chart"
           />
         </div>
-        <div class="right-middle-div">
+        <div class="right-middle-div" style="height:374px">
           <div class="single-distribution half-middle-distribution">
             <span class="single-graph-title">授信时长</span>
             <sec-chart v-if="extensionDateJudge" :chartData="extensionDate" ids="extension" />
@@ -1990,7 +1990,7 @@ export default {
         }
       }
       .middle-distirbution {
-        height: 374px;
+        height: 394px;
         margin-top: 48px;
       }
       .bottom-distribution {

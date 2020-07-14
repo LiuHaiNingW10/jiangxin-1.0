@@ -43,7 +43,7 @@ export default {
               "#5957C2"
             ],
             type: "pie",
-            radius: ["62", "100"],
+            radius: ["97", "135"],
             labelLine: {
               normal: {
                 length: 20,
@@ -94,7 +94,7 @@ export default {
           },
           {
             type: "pie",
-            radius: ["110", "111"],
+            radius: ["145", "146"],
             data: [100],
             label: {
               show: false
@@ -102,7 +102,7 @@ export default {
           },
           {
             type: "pie",
-            radius: ["50", "51"],
+            radius: ["85", "86"],
             data: [100],
             label: {
               show: false

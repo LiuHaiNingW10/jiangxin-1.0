@@ -30,7 +30,7 @@ export default {
           {
             type: "pie",
             center: ["52%", "50%"],
-            radius: "62%",
+            radius: "55%",
             labelLine: {
               normal: {
                 length: 35,
