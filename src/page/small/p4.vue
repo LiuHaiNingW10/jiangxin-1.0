@@ -403,6 +403,8 @@ export default {
   font-family: Microsoft YaHei;
   background: url("../../assets/images/p4-background.png") no-repeat 100% 100%;
   background-size: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
   .brain-bgg {
     position: absolute;
     top: 0;

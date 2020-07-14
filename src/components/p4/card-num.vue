@@ -66,8 +66,8 @@ export default {
       }
       :nth-child(2) {
         display: inline-block;
-        font-size: 48px;
-        color: #04bbff;
+        font-size: 64px;
+        color: #6FFEFF;
         font-weight: bold;
       }
     }
