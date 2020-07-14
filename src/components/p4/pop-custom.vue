@@ -37,14 +37,14 @@ export default {
   methods: {
     translate(arr) {
       let a = [];
-      let maxItem = Vue.filter("sortByValue")(arr, "num")[0];
+      let maxItem = Vue.filter("sortByValue")(arr, "val")[0];
       arr.forEach(it => {
         a.push({
-          name: it.want,
+          name: it.key,
           // value: it.num + "人",
-          value: it.num,
-          symbolSize: getSize(it.num),
-          symbol: getSymbol(it.num),
+          value: it.val,
+          symbolSize: getSize(it.val),
+          symbol: getSymbol(it.val),
           draggable: true,
           label: {
             align: "center"
@@ -141,7 +141,7 @@ export default {
     //  词云
     drawCloudChart() {
       let myChart = this.$echarts.init(document.getElementById(this.id.id));
-      let seriesData = this.translate(this._.cloneDeep(this.tableData));
+      let seriesData = this.translate(this._.cloneDeep(this.tableDatas));
       let randcolor = () => {
         let r = 100 + ~~(Math.random() * 100);
         let g = 135 + ~~(Math.random() * 100);
@@ -157,11 +157,10 @@ export default {
             fontSize: 20
           },
           formatter: params => {
-            const { name, value } = params;
-
+            const { key, val } = params;
             return `
-                    异常问题：${name} <br/>
-                    数量：${value}
+                    异常问题：${key} <br/>
+                    数量：${val}
                 `;
           }
         },
