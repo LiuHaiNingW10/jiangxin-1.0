@@ -9,7 +9,7 @@
       </div>
       <div class="chat-box demo" id="list-demo">
         <div id="dialogue-box">
-          <transition-group name="list-complete" tag="p">
+          <vue-seamless-scroll v-if="showDialogue" :data="scrollList" :class-option="optionHover" class="seamless-warp">
             <div
               :class="index%2 === 0 ? 'server' : 'user' "
               v-for="(item,index) in scrollList"
@@ -22,7 +22,7 @@
               <span v-if="index%2 !== 0">{{item.value}}</span>
               <span class="title" v-if="index%2 !== 0"></span>
             </div>
-          </transition-group>
+          </vue-seamless-scroll>
         </div>
       </div>
     </div>
@@ -42,6 +42,7 @@ import f from "../../assets/images/brain-f.png";
 import g from "../../assets/images/brain-g.png";
 import RiskPortraitChart from "@/components/p4/line-toRight.vue";
 import * as baseBox from "@/assets/base64.js";
+import vueSeamlessScroll from "vue-seamless-scroll";
 export default {
   name: "tableAuto",
   props: ["tableDatas", "ids", "heights", "bigPoint"],
@@ -52,36 +53,11 @@ export default {
       height: this.heights,
       lineData: [],
       showAudio: true,
+      animate: false,
+      showDialogue: false,
       analyser: {},
       xy: "",
       robot: baseBox.robot.value,
-      idRisk: {
-        id: "echarts05",
-        style: "height: 100%",
-        title: "客群城市排行"
-      },
-      tableDataR: [
-        {
-          area: "Top5 南京",
-          percent: 343
-        },
-        {
-          area: "Top4 福州",
-          percent: 234
-        },
-        {
-          area: "Top3 杭州",
-          percent: 134
-        },
-        {
-          area: "Top2 贵阳",
-          percent: 90
-        },
-        {
-          area: "Top1 厦门",
-          percent: 56
-        }
-      ],
       scrollList: [],
       msgList: [
         {
@@ -106,11 +82,38 @@ export default {
         {
           value:
             "我们会关注您的还款，如未收到款项，后续会有工作人员再次与您联系，感谢您的接听，再见 "
+        },
+        {
+          value: ''
+        },
+        {
+          value: ''
+        },
+        {
+          value: ''
+        },
+        {
+          value: ''
         }
       ]
     };
   },
-  computed: {},
+  components: {
+    RiskPortraitChart,
+    vueSeamlessScroll
+  },
+  computed: {
+    optionHover() {
+      return {
+        autoPlay: this.animate,
+        hoverStop: false, // 鼠标悬停停止滚动
+        direction: 1, // 向下/上滚动
+        step: 0.8, // 滚动速度
+        singleHeight: 130, // 滚动单行
+        waitTime: 2800 // 单行停顿时间
+      };
+    }
+  },
   created() {},
   mounted() {
     this.init();
@@ -124,14 +127,11 @@ export default {
         }
         this.showAudio = false;
         setTimeout(() => {
+          this.showDialogue = true;
           document.getElementById("dialogue-box").style.display = "block";
           document.getElementById("audio-art").style.display = "block";
         }, 800);
-        this.timerMsg = setInterval(() => {
-          this.add();
-          if (this.scrollList.length > 3) {
-          }
-        }, 2000);
+        this.culTimeScroll();
         this.DrawVideo("audio-art");
       }
     });
@@ -143,6 +143,9 @@ export default {
         return;
       }
       this.drawMap();
+    },
+    scrollList: function() {
+      return this.scrollList
     }
   },
   methods: {
@@ -339,6 +342,7 @@ export default {
             label: {
               normal: {
                 show: true,
+                align: "center",
                 formatter: function(params) {
                   const {
                     accent,
@@ -347,6 +351,7 @@ export default {
                     want,
                     status,
                     action,
+                    province,
                     handle,
                     problem
                   } = params.data;
@@ -355,18 +360,18 @@ export default {
                     a = `{a|口音识别}{b|${accent}}{a|产品}{b|${product}}\n{a|客户意图}{b|${want}}\n{a|手机号码}{b|${mobile}}`;
                   } else {
                     a =
-                      status[0].value === "正常"
-                        ? `{a|行为}{b|${action}}{zc|${status[0].value}}\n{a|问题定位}{b|${problem}}{c|智能处理}{b|${handle}}\n{a|手机号码}{b|${mobile}}`
-                        : `{a|行为}{b|${action}}{yc|${status[0].value}}\n{a|问题定位}{b|${problem}}{c|智能处理}{b|${handle}}\n{a|手机号码}{b|${mobile}}`;
+                      status === "正常"
+                        ? `{a|行为}{b|${action}}{zc|${status}}\n{a|问题定位}{b|${problem}}\n{a|手机号码}{b|${mobile}}\n{a|省市}{b|${province}}`
+                        : `{a|行为}{b|${action}}{yc|${status}}\n{a|问题定位}{b|${problem}}\n{a|手机号码}{b|${mobile}}\n{a|省市}{b|${province}}`;
                   }
                   return a;
                 },
-                position: [0, 0],
+                position: [224, 0],
                 distance: 0,
                 width: 340,
                 height: 170,
                 backgroundColor: {
-                  image: require("@/assets/images/p3/map-modal.png")
+                  image: require("@/assets/images/map-modal.png")
                 },
                 padding: [30, 50],
                 lineHeight: 40,
@@ -378,8 +383,10 @@ export default {
                 },
                 rich: {
                   a: {
-                    color: "rgba(255,255,255,.7)",
-                    fontSize: 20
+                    color: "rgba(255,255,255,.6)",
+                    fontSize: 20,
+                    align: "right",
+                    fontWeight: "bold"
                   },
                   b: {
                     padding: [0, 10],
@@ -392,17 +399,17 @@ export default {
                     fontSize: 16
                   },
                   d: {
-                    color: "red",
+                    color: "#FF9431",
                     fontSize: 16
                   },
                   zc: {
                     color: "#0088DC",
-                    fontSize: 20,
+                    fontSize: 26,
                     bold: "1px solid #0088DC"
                   },
                   yc: {
                     color: "red",
-                    fontSize: 20,
+                    fontSize: 26,
                     bold: "1px solid red"
                   }
                 }
@@ -448,19 +455,6 @@ export default {
       };
       myChart.setOption(option);
     },
-    transLateData() {
-      let obj = {
-        type: "bar",
-        yAxis: [],
-        series: []
-      };
-      this.tableData.forEach(el => {
-        obj.series.push(el.num);
-        obj.yAxis.push(el.categroy);
-      });
-      this.lineData = obj.series;
-      this.drawLineG(this.id.id, obj);
-    },
     DrawVideo(id) {
       this.$emit("func", { value: false });
       var atx = new (window.AudioContext || webkitAudioContext)();
@@ -472,16 +466,16 @@ export default {
 
       audio.play();
       let audioTime = this.$refs.audio.duration;
-      console.log(audioTime);
       setTimeout(() => {
         this.$emit("func", { value: true });
         this.$nextTick(() => {
           this.showAudio = true;
+          this.showDialogue = false
         });
-        document.getElementById("dialogue-box").style.display = "none";
+        // document.getElementById("dialogue-box").style.display = "none";
         document.getElementById("audio-art").style.display = "none";
       }, audioTime * 1000);
-
+      console.log(audioTime)
       return;
       var source = atx.createMediaElementSource(audio);
       var analyser = atx.createAnalyser();
@@ -520,21 +514,19 @@ export default {
       }
       draw();
     },
-    add: function() {
-      if (this.scrollList.length == 6) {
-        clearInterval(this.timerMsg);
-        return;
-      }
-      this.scrollList.splice(
-        this.scrollList.length,
-        0,
-        this.msgList[this.scrollList.length]
-      );
+    culTimeScroll() {
+      setTimeout(() => {
+        this.scrollList = this._.cloneDeep(this.msgList)
+        setTimeout( () => {
+          this.animate = true;
+        },3000)
+      }, 1000);
+      setTimeout( () => {
+          this.animate = false;
+      },23000)
     }
   },
-  components: {
-    RiskPortraitChart
-  }
+  
 };
 </script>
 <style lang="less" scoped>
@@ -542,10 +534,10 @@ export default {
   font-size: 12px;
   background-size: 40%;
   position: relative;
-  height: 80%;
+  height: 100%;
   font-family: Microsoft YaHei;
   .brain-main {
-    height: 85%;
+    height: 100%;
     position: relative;
     #ChinaMap {
       height: 100%;
@@ -581,11 +573,11 @@ export default {
     right: 100px;
     margin-left: auto;
     margin-right: auto;
-    height: 56%;
+    height: 30%;
     position: absolute;
     overflow: hidden;
-    bottom: 0%;
-    // display: none;
+    top: 60%;
+    display: none;
     .server {
       height: 28%;
       span:nth-child(1) {
@@ -622,6 +614,10 @@ export default {
         border-radius: 64px 0px 64px 64px;
         background: rgba(22, 28, 40, 0.3);
       }
+    }
+    .seamless-warp {
+      height: 100%;
+      overflow: hidden;
     }
   }
   .brain-foot {
