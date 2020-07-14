@@ -1566,8 +1566,8 @@ export default {
                 type: item.trade_type,
                 sum: item.trade_amount,
                 inbusshopaddress: item.inbusshopaddress,
-                value: [116.4551, 40.2539, item.score]
-                // value: [item.longitude, item.latitude, item.score]
+                // value: [116.4551, 40.2539, item.score]
+                value: [item.longitude, item.latitude, item.score]
               };
             })
           ];
