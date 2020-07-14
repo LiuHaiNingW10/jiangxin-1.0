@@ -155,7 +155,7 @@ export default {
           let xAxis = [];
           let yAxis = [];
           tData.forEach(item => {
-            xAxis.push(item.category);
+            xAxis.push(item.description);
             yAxis.push(parseFloat(item.percent));
           });
           xAxis = xAxis.reverse();

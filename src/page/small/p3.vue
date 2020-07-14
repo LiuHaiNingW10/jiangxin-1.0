@@ -149,9 +149,9 @@ export default {
           times: "234",
         },
         {
-          title: "人工外呼",
-          img: base64.confirm_e.value,
-          times: "23",
+          title: "密码加验",
+          img: base64.confirm_f.value,
+          times: "345",
         },
         {
           title: "短信加验",
@@ -159,9 +159,9 @@ export default {
           times: "45",
         },
         {
-          title: "密码加验",
-          img: base64.confirm_f.value,
-          times: "345",
+          title: "人工外呼",
+          img: base64.confirm_e.value,
+          times: "23",
         },
       ],
       tableDataR: [
@@ -211,23 +211,23 @@ export default {
       tableDataRR: [
         {
           indexname: "刷单",
-          percent: 0.4,
+          percent: 40,
         },
         {
           indexname: "卡片被盗",
-          percent: 0.3,
+          percent: 30,
         },
         {
           indexname: "账户接管",
-          percent: 0.2,
+          percent:20,
         },
         {
           indexname: "电信诈骗",
-          percent: 0.08,
+          percent: 8,
         },
         {
           indexname: "羊毛党",
-          percent: 0.02,
+          percent: 2
         },
       ],
       idRisk: {
@@ -454,18 +454,19 @@ export default {
     display: flex;
     justify-content: flex-end;
     .global-title {
-      width: 33%;
+      width: 1366px;
       text-align: center;
+      font-size: 64px;
       font-weight: bold;
-      color: #ffffff;
-      text-shadow: 0px 2px 4px 0 #000000;
       font-family: FZZhengHeiS-B-GB;
-      font-weight: regular;
-      font-size: 40px;
+      line-height: 1;
+      padding: 0 184px 0 0;
     }
     .right-time {
-      width: 33%;
+      width: 1300px;
       text-align: right;
+      margin-right: 20px;
+      margin-top: -2px;
     }
     .time-span {
       display: inline-block;

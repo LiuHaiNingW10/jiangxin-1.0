@@ -23,11 +23,12 @@
           v-if="industryJudge"
         />
         <person-columnar
-          class="person-columnar"
+          class="person-columnar sperial"
           :ids="loanId"
           v-if="enterpriseJudge"
           :chartData="enterpriseColumnarData"
         />
+        <!-- <div class="line"></div> -->
       </div>
     </div>
   </div>
@@ -214,6 +215,7 @@ export default {
       }
     }
     .bottom-graph-div {
+      position: relative;
       height: 100%;
       width: 100%;
       display: flex;
@@ -224,6 +226,19 @@ export default {
         &:first-child {
           margin-right: 5%;
         }
+      }
+      .line {
+        position: absolute;
+        left: 641px;
+        top: 11%;
+        height: 85%;
+        width: 1px;
+        background: #00F7FF;
+        opacity: 0.5;
+        // border: 0.5px solid #00F7FF;
+      }
+      .sperial {
+        height: 82%;
       }
       .company-columnar {
         height: 100%;
