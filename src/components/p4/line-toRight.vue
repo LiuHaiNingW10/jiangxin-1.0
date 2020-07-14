@@ -74,7 +74,7 @@ export default {
         },
         color: ["#C98531", "#0177a9"],
         grid: {
-          top: "10%",
+          top: "13%",
           left: "15%",
           right: "0%",
           bottom: "7%",
