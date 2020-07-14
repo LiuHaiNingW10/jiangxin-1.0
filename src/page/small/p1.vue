@@ -1444,8 +1444,9 @@ export default {
             let data1 = obj[0].data.data;
             let xAxis1 = [],
               yAxis1 = [];
+              let reg1 = /客群/g;
             data1.forEach(item => {
-              xAxis1.push(item.key);
+              xAxis1.push(item.key.replace(reg1, ''));
               yAxis1.push(item.perc);
             });
             // xAxis1 = xAxis1.reverse();
@@ -1561,7 +1562,7 @@ export default {
             ...tData.map(item => {
               return {
                 name: item.name,
-                age: item.age,
+                age: item.age + '岁',
                 sex: item.sex,
                 type: item.trade_type,
                 sum: item.trade_amount,
