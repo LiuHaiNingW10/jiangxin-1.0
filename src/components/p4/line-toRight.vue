@@ -61,7 +61,9 @@ export default {
               b: {
                 color: "#fff",
                 fontSize: 22,
-                fontWeight:'bold'
+                fontWeight:'bold',
+                // padding:[-15,0,0,0]
+                margin:[100,60,40]
               },
             },
           },
@@ -72,7 +74,7 @@ export default {
         },
         color: ["#C98531", "#0177a9"],
         grid: {
-          top: "10%",
+          top: "13%",
           left: "15%",
           right: "0%",
           bottom: "7%",
@@ -177,7 +179,8 @@ export default {
   width: 100%;
   height: 100%;
   color: #fff;
-  margin-top: 10px;
+  margin-top: 24px;
+  margin-left: -18px;
 }
 .line-body {
   display: flex;
