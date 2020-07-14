@@ -361,8 +361,8 @@ export default {
                   } else {
                     a =
                       status === "正常"
-                        ? `{a|行为}{b|${action}}{zc|${status}}\n{a|问题定位}{b|${problem}}\n{a|手机号码}{b|${mobile}}\n{a|省市}{b|${province}}`
-                        : `{a|行为}{b|${action}}{yc|${status}}\n{a|问题定位}{b|${problem}}\n{a|手机号码}{b|${mobile}}\n{a|省市}{b|${province}}`;
+                        ? `{a|行为}{b|${action}}{zc|${status}}\n{a|问题定位}{b|${problem || '--'}}\n{a|手机号码}{b|${mobile}}\n{a|省市}{b|${province}}`
+                        : `{a|行为}{b|${action}}{yc|${status}}\n{a|问题定位}{b|${problem || '--'}}\n{a|手机号码}{b|${mobile}}\n{a|省市}{b|${province}}`;
                   }
                   return a;
                 },
