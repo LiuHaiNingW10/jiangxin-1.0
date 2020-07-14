@@ -1,5 +1,5 @@
 <template>
-<!-- p3 -->
+  <!-- p3 -->
   <div class="map-charts">
     <div id="threeMapChart"></div>
   </div>
@@ -12,7 +12,8 @@ export default {
     return {
       timer: null,
       relationRes: [],
-      currentTime: ""
+      currentTime: "",
+      city:''
     };
   },
   mounted() {
@@ -20,8 +21,68 @@ export default {
   },
   methods: {
     getData() {
-      this.axios.get("/api/p3/relationmapData").then(relaRes => {
-        let relaData = relaRes.data.data;
+      this.axios.get("/api/p3/relationmapData").then((relaRes) => {
+
+        console.log(relaRes,'dataadadsadasdasdsa')
+        let relaData = relaRes.data.data
+      // [
+      //   {
+      //     abnormal_related: "3",
+      //     age: 52,
+      //     appname: "百度闪付",
+      //     currentTime: "2020/07/14 16:51:32",
+      //     dealtypename: "账户冻结",
+      //     id: 7,
+      //     latitude: 43.83,
+      //     location: "新疆维吾尔自治区",
+      //     longitude: 87.62,
+      //     payamount: 1996.89,
+      //     relate_factor: "安卓设备",
+      //     relate_flag: "7",
+      //     relationInfoList: [
+      //       {
+      //         dealtypename: "账户冻结",
+      //         id: 23,
+      //         latitude: 23.13,
+      //         longitude: 113.28,
+      //         relate_age: 30,
+      //         relate_flag: "7",
+      //         relate_location: "广东省",
+      //         relate_name: "洪锐",
+      //       },
+      //       {
+      //         dealtypename: "账户冻结",
+      //         id: 23,
+      //         latitude: 23.13,
+      //         longitude: 113.28,
+      //         relate_age: 30,
+      //         relate_flag: "7",
+      //         relate_location: "广东省",
+      //         relate_name: "洪锐",
+      //       },
+      //       {
+      //         dealtypename: "账户冻结",
+      //         id: 23,
+      //         latitude: 23.13,
+      //         longitude: 113.28,
+      //         relate_age: 30,
+      //         relate_flag: "7",
+      //         relate_location: "广东省",
+      //         relate_name: "洪锐",
+      //       },
+      //     ],
+      //     residence: "四川省",
+      //     risk: "提现风险异常",
+      //     risktype: "伪冒开户",
+      //     username: "王云生",
+      //     value: [
+      //       {
+      //         0: 87.62,
+      //         1: 43.83,
+      //       },
+      //     ],
+      //   },
+      // ];;
         this.relationRes = relaData ? relaData : [];
         // this.axios
         //   .get("/api/p3/mapData")
@@ -82,6 +143,8 @@ export default {
       return num;
     },
     initMap(data, index) {
+      // console.log((data = data.slice(8, 9)), "datadata");
+      data = 
       // let relationMesg = {};
       // this.relationRes.forEach(item => {
       //   if (item.location === data[index].location) {
@@ -101,11 +164,11 @@ export default {
       //   };
       // });
       // data = [];
-      this.relationRes = this.relationRes.map(item => {
+      this.relationRes = this.relationRes.map((item) => {
         return {
           ...item,
           currentTime: this.currentTime,
-          value: [item.longitude, item.latitude]
+          value: [item.longitude, item.latitude],
         };
       });
 
@@ -144,7 +207,7 @@ export default {
         广西: [108.479, 23.1152],
         海南: [110.3893, 19.8516],
         黑龙江: [127.9688, 45.368],
-        台湾: [121.4648, 25.563]
+        台湾: [121.4648, 25.563],
       };
       var colorData = [
         { name: "北京", value: 199 },
@@ -180,7 +243,8 @@ export default {
         { name: "澳门", value: 199 },
         { name: "广西", value: 59 },
         { name: "海南", value: 14 },
-        {name:"台湾",value:15}
+        { name: "台湾", value: 15 },
+        { name: "南海诸岛", value: 16 },
       ];
 
       var convertData = function(data) {
@@ -190,7 +254,7 @@ export default {
           if (geoCoord) {
             res.push({
               name: data[i].name,
-              value: geoCoord.concat(data[i].value)
+              value: geoCoord.concat(data[i].value),
             });
           }
         }
@@ -198,10 +262,10 @@ export default {
       };
       myEcharts.setOption({
         legend: {
-          show: false
+          show: false,
         },
         tooltip: {
-          show: true
+          show: true,
         },
         visualMap: {
           show: false,
@@ -212,16 +276,16 @@ export default {
           calculable: true,
           seriesIndex: [1],
           inRange: {
-            color: ["#467bc0", "#467bc0"] // 蓝绿
-          }
+            color: ["#467bc0", "#467bc0"], // 蓝绿
+          },
         },
         geo: {
           map: "china",
           aspectScale: 0.75,
           label: {
             emphasis: {
-              show: false
-            }
+              show: false,
+            },
           },
           regions: [
             {
@@ -231,11 +295,11 @@ export default {
                 normal: {
                   opacity: 0,
                   label: {
-                    show: false
-                  }
-                }
-              }
-            }
+                    show: false,
+                  },
+                },
+              },
+            },
           ],
           itemStyle: {
             normal: {
@@ -249,27 +313,27 @@ export default {
                 colorStops: [
                   {
                     offset: 0,
-                    color: "rgba(0,255,255, 0)" // 0% 处的颜色
+                    color: "rgba(0,255,255, 0)", // 0% 处的颜色
                   },
                   {
                     offset: 1,
-                    color: "rgba(0,255,255, .2)" // 100% 处的颜色
-                  }
+                    color: "rgba(0,255,255, .2)", // 100% 处的颜色
+                  },
                 ],
-                globalCoord: false // 缺省为 false
+                globalCoord: false, // 缺省为 false
               },
               shadowColor: "rgba(128, 217, 248, 1)",
               // shadowColor: 'rgba(255, 255, 255, 1)',
               shadowOffsetX: -2,
               shadowOffsetY: 2,
-              shadowBlur: 10
+              shadowBlur: 10,
             },
             emphasis: {
               areaColor: "#389BB7",
-              borderWidth: 0
-            }
+              borderWidth: 0,
+            },
           },
-          z: 2
+          z: 2,
         },
         series: [
           {
@@ -283,23 +347,23 @@ export default {
               normal: {
                 formatter: "{b}",
                 position: "right",
-                show: true
+                show: true,
               },
               emphasis: {
-                show: true
-              }
+                show: true,
+              },
             },
             itemStyle: {
               normal: {
-                color: "#fff"
-              }
-            }
+                color: "#fff",
+              },
+            },
           },
           {
             type: "map",
             map: "china",
             tooltip: {
-              show: false
+              show: false,
             },
             showLegendSymbol: false,
             top: "9.5%",
@@ -318,31 +382,32 @@ export default {
                   colorStops: [
                     {
                       offset: 0,
-                      color: "#274d68" // 0% 处的颜色
+                      color: "#274d68", // 0% 处的颜色
                     },
                     {
                       offset: 1,
-                      color: "#09132c" // 50% 处的颜色
-                    }
+                      color: "#09132c", // 50% 处的颜色
+                    },
                   ],
-                  global: true // 缺省为 false
-                }
+                  global: true, // 缺省为 false
+                },
               },
+              //这里
               emphasis: {
                 show: false,
-                areaColor: "#274d62"
-              }
+                areaColor: "#467bc0",
+              },
             },
             label: {
               normal: {
-                show: false
+                show: false,
               },
               emphasis: {
                 show: false,
                 textStyle: {
-                  color: "#fff"
-                }
-              }
+                  color: "#fff",
+                },
+              },
             },
             // label: {
             //   normal: {
@@ -371,7 +436,7 @@ export default {
             // },
             animation: false,
             zlevel: 1,
-            data: colorData
+            data: colorData,
           },
           // {
           //   type: "effectScatter",
@@ -474,14 +539,15 @@ export default {
             itemStyle: {
               normal: {
                 color: "#F5B523",
-                shadowBlur: 2
-              }
+                shadowBlur: 2,
+              },
             },
             // 标签
             label: {
               normal: {
                 show: true,
                 formatter: function(params) {
+                  console.log(params, "params");
                   const {
                     location,
                     appname,
@@ -494,17 +560,17 @@ export default {
                     risk,
                     relate_factor,
                     relationInfoList,
-                    currentTime
+                    currentTime,
                   } = params.data;
-                  return `{a|时间}{b|${currentTime}}{a|区域}{b|${location}}{a|场景}{b|${appname}}\n{a|金额}{b|${payamount}元}{a|风险类型}{e|${risktype}}{a|处置方式}{e|${dealtypename}}\n{f|${username}}{f|${age}岁}{f|${residence}}{e|${risk}}\n{a|异常关联}{b|${relationInfoList.length}}{a|关联要素}{d|${relate_factor}}`;
+                  return `{a|时间}{b|${currentTime}}{a|          区域}{b|${location}}{a|                 场景}{b|${appname}}\n{a|金额}{b|${payamount}元}{a|                                   风险类型}{e|${risktype}}{a|        处置方式}{e|${dealtypename}}\n{f|${username}}{f|${age}岁}{f|${residence}}{e|${risk}}\n{a|异常关联}{b|${relationInfoList.length}}{a|               关联要素}{d|${relate_factor}}`;
                   // return `aaaaaa`;
                 },
-                position: [-500, -210],
+                position:this.relationRes[index].location=='新疆维吾尔自治区'?[-600,-230]: [-820, -230],
                 distance: 0,
                 // width: 440,
                 // height: 180,
                 backgroundColor: {
-                  image: require("@/assets/images/p3/map-modal.png")
+                  image: require("@/assets/images/p3/map-alert.png"),
                 },
                 padding: [30, 40],
                 lineHeight: 40,
@@ -517,37 +583,37 @@ export default {
                 rich: {
                   a: {
                     color: "rgba(255,255,255,.7)",
-                    fontSize: 20
+                    fontSize: 20,
                   },
                   b: {
                     padding: [0, 10],
                     color: "#ffffff",
                     fontSize: 20,
-                    fontWeight: "bold"
+                    fontWeight: "bold",
                   },
                   c: {
                     margin: 20,
                     fontSize: 20,
-                    color: "rgba(255,255,255,.9)"
+                    color: "rgba(255,255,255,.9)",
                   },
                   d: {
                     padding: [0, 10],
                     fontSize: 20,
-                    color: "#FFAF2B"
+                    color: "#FFAF2B",
                   },
                   e: {
                     padding: [0, 10],
                     fontSize: 20,
-                    color: "#D24545"
+                    color: "#D24545",
                   },
                   f: {
                     padding: [0, 10, 0, 0],
                     color: "#ffffff",
-                    fontSize: 20
-                  }
-                }
-              }
-            }
+                    fontSize: 20,
+                  },
+                },
+              },
+            },
           },
           {
             // 关联关系
@@ -562,24 +628,41 @@ export default {
             itemStyle: {
               normal: {
                 color: "#F5B523",
-                shadowBlur: 2
-              }
+                shadowBlur: 2,
+              },
             },
             // 标签
             label: {
               normal: {
                 show: true,
                 formatter: function(params) {
-                  const { relationInfoList } = params.data;
+                  let { relationInfoList } = params.data;
+                  // console.log(relationInfoList);
+                  var reg = /(?<=.)./g;
+                  relationInfoList = relationInfoList.map((item) => {
+                    if (item.relate_name.length < 3) {
+                      return {
+                        ...item,
+                        relate_name: item.relate_name.replace(reg, "*  "),
+                      };
+                    } else {
+                      return {
+                        ...item,
+                        relate_name: item.relate_name.replace(reg, "*"),
+                      };
+                    }
+
+                    // item.relate_name.replace(reg, "*");
+                  });
                   // return `{a|区域名称}{b|${location}}{a|交易类型}{b|${eventid}}\n{a|渠道类型}{b|${appname}}{a|事件类型}{b|${risktype}}\n{c|实时拦截金额}{d|${rejamt}万}`;
                   let tmp = relationInfoList.map((item, index) => {
                     return (
                       item.relate_name +
-                      "、" +
+                      "    " +
                       item.relate_age +
-                      "、" +
+                      "    " +
                       item.relate_location +
-                      "、处理方式：" +
+                      "  " +
                       item.dealtypename +
                       (index < relationInfoList.length - 1 ? "\n" : "")
                     );
@@ -588,19 +671,19 @@ export default {
                   return returnStr;
                   // return `aaaaaa`;
                 },
-                position: [-400,-400],
+                position:this.relationRes[index].location=='新疆维吾尔自治区'?[300,-210]:[20, -210] ,
                 distance: 0,
                 width: 340,
                 height: 120,
                 backgroundColor: {
-                  image: require("@/assets/images/p3/map-modal.png")
+                  image: require("@/assets/images/p3/map-alert.png"),
                 },
                 padding: [30, 40],
                 lineHeight: 40,
                 // verticalAlign: "middle",
                 color: "#fff",
                 z: 11,
-                 textStyle: {
+                textStyle: {
                   fontSize: 20,
                 },
                 // rich: {
@@ -625,17 +708,17 @@ export default {
                 //     color: "#FFAF2B"
                 //   }
                 // }
-              }
-            }
-          }
-        ]
+              },
+            },
+          },
+        ],
       });
-    }
+    },
   },
   beforeDestroy() {
     clearInterval(this.timer);
   },
-  components: {}
+  components: {},
 };
 </script>
 

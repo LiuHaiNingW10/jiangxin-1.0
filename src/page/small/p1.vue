@@ -38,9 +38,9 @@
         <!-- <div class="content-title">信贷服务客户数</div> -->
         <indicator-div
           :titleContent="littleTitle[0]"
-          :titleStyle="littleTitleStyle[0]"
+          :titleStyle="littleTitleStyle[1]"
           :digital="threeMoneyArr.third"
-          :digitalStyle="digitalStyle[0]"
+          :digitalStyle="digitalStyle[1]"
         />
         <!-- <indicator-chart
           v-if="threeMoneyArr.third"
@@ -185,9 +185,9 @@
         />-->
         <indicator-div
           :titleContent="littleTitle[2]"
-          :titleStyle="littleTitleStyle[0]"
+          :titleStyle="littleTitleStyle[1]"
           :digital="threeMoneyArr.first"
-          :digitalStyle="digitalStyle[0]"
+          :digitalStyle="digitalStyle[1]"
         />
         <!-- <indicator-chart v-if="testN" :chartData="testN" chartId="total-money" /> -->
         <div class="single-distribution right-top-distribution">
@@ -1828,7 +1828,7 @@ export default {
         }
       }
       .middle-distirbution {
-        height: 332px;
+        height: 374px;
       }
       .bottom-distribution {
         height: 408px;

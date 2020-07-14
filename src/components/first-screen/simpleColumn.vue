@@ -19,8 +19,8 @@ export default {
       let myChart = this.$echarts.init(document.getElementById(chartId));
       let lineOption = {
         lineStyle: {
-          color: "rgba(151,151,151,0.5)",
-          type: "dashed"
+          color: "rgba(255 ,255 ,255 ,0.5)",
+          // type: "dashed"
         }
       };
       myChart.setOption({
@@ -34,7 +34,6 @@ export default {
           top: "14%",
           right: "3%",
           left: "5%",
-          bottom: "14%"
         },
         xAxis: [
           {
@@ -46,7 +45,7 @@ export default {
             },
             axisLabel: {
               margin: 10,
-              color: "#FFF",
+              color: "rgba(255 ,255 ,255 ,0.8)",
               textStyle: {
                 fontSize: 14
               }
@@ -57,23 +56,24 @@ export default {
           {
             axisLabel: {
               formatter: "{value}",
-              color: "#FFF"
+              color: "rgba(255 ,255 ,255 ,0.5)"
             },
             axisTick: {
               show: false
             },
-            axisLine: lineOption,
-            splitLine: lineOption
+            axisLine: 'rgba(0, 0, 0, 0)',
+            splitLine: lineOption,
+            splitNumber: 3,
           },
-          {
-            axisLine: lineOption,
-            axisTick: {
-              show: false
-            },
-            splitLine: {
-              show: false
-            }
-          }
+          // {
+          //   axisLine: lineOption,
+          //   axisTick: {
+          //     show: false
+          //   },
+          //   splitLine: {
+          //     show: false
+          //   }
+          // }
         ],
         series: [
           {
@@ -90,11 +90,11 @@ export default {
                   [
                     {
                       offset: 0,
-                      color: "#00BD89" // 0% 处的颜色
+                      color: "#4BE8FA" // 0% 处的颜色
                     },
                     {
                       offset: 1,
-                      color: "#C9F9E1" // 100% 处的颜色
+                      color: "#0047FF" // 100% 处的颜色
                     }
                   ],
                   false

@@ -1,7 +1,12 @@
 <template>
   <div>
-    <span class="myspan">欺诈损失率:万万分之4.5</span>
-
+    <span class="myspan"
+      >风险模型策略&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+        class="sun"
+        >欺诈损失率 </span
+      >
+      <span class="fen">万万分之4.5</span></span
+    >
     <div class="microfinance-chart">
       <div class="mc-header">
         <!-- 近一小时攻击数 -->
@@ -12,25 +17,25 @@
           <span class="left-title">反欺诈策略分布</span>
           <ul>
             <!-- 7月10日wk修改：删除右侧高亮及百分比展示 -->
-            <li :style="moveLocaiton === 1 ? 'color: #fff' : 'color: gray'">
+            <li :style="moveLocaiton === 1 ? 'color: #fff' : 'color: #FFF'">
               <img src="../../assets/images/p3/frm-cricle1.png" alt />
               <div>
                 <div class="title">{{ IDFdatas[0].flag }}</div>
               </div>
             </li>
-            <li :style="moveLocaiton === 2 ? 'color: #fff' : 'color: gray'">
+            <li :style="moveLocaiton === 2 ? 'color: #fff' : 'color:  #FFF'">
               <img src="../../assets/images/p3/frm-cricle2.png" alt />
               <div>
                 <div class="title">{{ IDFdatas[1].flag }}</div>
               </div>
             </li>
-            <li :style="moveLocaiton === 3 ? 'color: #fff' : 'color: gray'">
+            <li :style="moveLocaiton === 3 ? 'color: #fff' : 'color:  #FFF'">
               <img src="../../assets/images/p3/frm-cricle1.png" alt />
               <div>
                 <div class="title">{{ IDFdatas[2].flag }}</div>
               </div>
             </li>
-            <li :style="moveLocaiton === 4 ? 'color: #fff' : 'color: gray'">
+            <li :style="moveLocaiton === 4 ? 'color: #fff' : 'color:  #FFF'">
               <img src="../../assets/images/p3/frm-cricle2.png" alt />
               <div>
                 <div class="title">{{ IDFdatas[3].flag }}</div>
@@ -269,14 +274,14 @@ export default {
                 /* end */
               },
             },
-            barWidth: 20,
+            barWidth: 14,
             data: percentData || [15, 10, 60, 5],
           },
           {
             name: "背景",
             type: "bar",
-            barWidth: 24,
-            barGap: "-100%",
+            barWidth: 18,
+            barGap: "-115%",
             data: [max * 1.6, max * 1.6, max * 1.6, max * 1.6],
             itemStyle: {
               color: "rgba(255,255,255,0)",
@@ -372,8 +377,8 @@ export default {
       .frim-chart {
         position: absolute;
         top: 0;
-        right: 0;
-        width: 320px;
+        right: -52px;
+        width: 400px;
         height: 100%;
         // background: url("../../assets/images/p3/frm-r.png") no-repeat;
         // background-size: 100% 100%;
@@ -426,5 +431,23 @@ export default {
       }
     }
   }
+}
+.sun {
+  color: rgba(255, 255, 255, 0.8);
+  font-family: Microsoft YaHei;
+  font-weight: bold;
+  font-size: 32px;
+  line-height: normal;
+  letter-spacing: 0px;
+  text-align: left;
+}
+.fen {
+  color: #43F3FF;
+  font-family: Microsoft YaHei;
+  font-weight: bold;
+  font-size: 32px;
+  line-height: normal;
+  letter-spacing: 0px;
+  text-align: left;
 }
 </style>

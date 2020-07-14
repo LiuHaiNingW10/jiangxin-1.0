@@ -71,10 +71,10 @@ export default {
         },
         color: ["#C98531", "#0177a9"],
         grid: {
-          top: '10%',
+          top: "10%",
           left: "10%",
           right: "0%",
-          bottom: '7%'
+          bottom: "7%",
           // containLabel: true,
         },
         xAxis: {
@@ -94,6 +94,9 @@ export default {
             axisLabel: {
               color: "rgba(255,255,255)",
             },
+            axisLine: {
+              show: false,
+            },
             data: data.yAxis.map((item) => item).reverse(),
           },
         ],
@@ -109,7 +112,7 @@ export default {
               formatter: "{@score}%",
             },
             itemStyle: {
-              barBorderRadius: 6,
+              barBorderRadius: 2,
               color: {
                 type: "linear",
                 x: 0,
@@ -133,14 +136,14 @@ export default {
                 global: false, // 缺省为 false
               },
             },
-            barWidth: 16,
+            barWidth: 12,
             data: payAmounts,
           },
           {
             name: "背景",
             type: "bar",
             barWidth: 16,
-            barGap: "-100%",
+            barGap: "-115%",
             label: {
               show: false,
               position: "right",
@@ -149,7 +152,7 @@ export default {
             data: totalArr,
             itemStyle: {
               color: "rgba(255,255,255,0)",
-              barBorderRadius: 30,
+              barBorderRadius: 2,
               borderWidth: 2,
               borderColor: "rgba(255,255,255,.4)",
             },
@@ -164,7 +167,7 @@ export default {
 #echarts03,
 #echarts04,
 #echarts05 {
-  width: 98%;
+  width: 103%;
   height: 100%;
   color: #fff;
   margin-top: 10px;

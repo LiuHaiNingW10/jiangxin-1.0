@@ -72,13 +72,13 @@
 import WeatherCom from "../../components/weather.vue";
 import CreditPropertiesChart from "../../components/second-screen/creditPropertiesChart.vue";
 import SecMapChart from "../../components/second-screen/secondMapChart.vue";
-import PortrayalExp from "../../components/second-screen/portrayalExp.vue";
+// import PortrayalExp from "../../components/second-screen/portrayalExp.vue";
 import titleOrNum from "../../components/titleOrNum.vue"
 import centerTitleOrNum from "../../components/centerTitleOrNum.vue"
 import createOrLoan from "../../components/second-screen/createOrLoan.vue"
 import cyclicAndPie from "../../components/second-screen/cyclicAndPie.vue"
 // import dkOrFwModel from "../../components/second-screen/dkOrFwModel.vue"
-import IndicatorDiv from "@/components/first-screen/indicatorDiv.vue";
+// import IndicatorDiv from "@/components/first-screen/indicatorDiv.vue";
 import CyclicAnnular from "@/components/first-screen/cyclicAnnular.vue";
 import WholePieChart from "@/components/first-screen/wholePieChart.vue";
 
@@ -87,20 +87,20 @@ export default {
   mounted() {},
   data() {
     return {
-      xtitle:'小微服务客户',
+      xtitle:'小微客户服务数',
       xnum: '',
-      dtitle:'小微贷款投放',
+      dtitle:'小微贷款累计投放金额',
       dnum: '',
       ctitle:'小微服务金额',
       cnum: '',
       loanModelId: 'loanModelId',
       loanModelData: [],
-      loanModelTitle:'贷款模式',
+      loanModelTitle:'信用占比',
       serveModelId: 'serveModelId',
       serveModelData: [],
-      serveModelTitle:'服务渠道',
+      serveModelTitle:'线上占比',
       personLoans: {
-        littleTitle: ["行业", "企业规模"],
+        littleTitle: ["服务行业", "企业规模"],
         type: 2
       },
       averangeLoans: {
@@ -584,15 +584,14 @@ export default {
   components: {
     "weather-com": WeatherCom,
     "credit-properties-chart": CreditPropertiesChart,
-    "portrayal-exp": PortrayalExp,
+    // "portrayal-exp": PortrayalExp,
     // "portrayal-server": PortrayalServe,
     "sec-map-chart": SecMapChart,
     "titleOrNum":titleOrNum,
     "centerTitleOrNum":centerTitleOrNum,
     "createOrLoan":createOrLoan,
     "cyclicAndPie":cyclicAndPie,
-    "dkOrFwModel":dkOrFwModel,
-    "indicator-div": IndicatorDiv,
+    // "indicator-div": IndicatorDiv,
     "cyclic-annular": CyclicAnnular,
     "whole-pie-chart": WholePieChart,
   }
@@ -625,8 +624,13 @@ export default {
     .global-title {
       width: 33%;
       text-align: center;
-      font-size: 36px;
-      font-weight: bold;
+      color: #FFFFFF;
+      text-shadow: 0px 2px 4px 0 #000000;
+      font-family: FZZhengHeiS-B-GB;
+      font-weight: regular;
+      font-size: 64px;
+      line-height: 72px;
+      letter-spacing: 1px;
     }
     .right-time {
       width: 33%;
@@ -641,7 +645,7 @@ export default {
   // 内容样式
   .frame-content {
     display: flex;
-    height: 92%;
+    height: 94%;
     width: 100%;
     .content-left,
     .content-right {

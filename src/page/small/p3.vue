@@ -13,10 +13,12 @@
       <div class="left-box">
         <div class="content-title">
           <span class="title1">风险交易金额趋势</span>
+          <span class="wei">单位：元</span>
         </div>
         <amount-trends-chart />
         <div class="content-title">
           <span>风险交易拦截金额类型</span>
+          <span class="wei1">单位：元</span>
         </div>
         <amount-type-chart />
         <microfinance-chart />
@@ -26,14 +28,14 @@
         <div class="strategy-box">
           <real-time-strategy
             v-if="showUses"
-            title="当日累计拦截金额（元）"
+            title="当日累计拦截金额"
             :num="usesTime.year"
             :blank="1"
             :float="'left'"
           />
           <real-time-strategy
             v-if="showUses"
-            title="当日累计拦截笔数（笔）"
+            title="当日累计拦截笔数"
             :num="usesTime.day"
             :blank="2"
             :float="'right'"
@@ -471,8 +473,10 @@ export default {
     .left-box,
     .right-box {
       width: 27.2%;
-      height: 1440px;
-      background: url("../../assets/images/p3/bg-cont.png") no-repeat;
+      height: 1406px;
+      background: rgba(22,28,40,0.32);
+      // opacity: 0.32;
+      
       background-size: 100% 97%;
       .decisionRate {
         height: 18%;
@@ -486,8 +490,11 @@ export default {
       width: 45.4%;
       height: 100%;
       .strategy-box {
+        display: flex;
         height: 210px;
         width: 100%;
+        justify-content: center;
+        align-items: center;
       }
       .map-charts {
         width: 100%;
@@ -503,6 +510,7 @@ export default {
       }
     }
     .content-title {
+      position: relative;
       width: 88%;
       height: 60px;
       // background: url("../../assets/images/p3/title-three.png") no-repeat;
@@ -523,8 +531,7 @@ export default {
     }
   }
 }
-.title1
-{
+.title1 {
   margin-top: 18px;
 }
 .box {
@@ -536,5 +543,29 @@ export default {
   &:nth-child(2) {
     flex: 1;
   }
+}
+.wei {
+  position: absolute;
+  top: 65px;
+  right: 840px;
+  color: rgba(255,255,255,0.7) !important;
+  font-family: Microsoft YaHei;
+  font-weight: bold;
+  font-size: 20px !important;
+  line-height: 40px;
+  letter-spacing: 0px;
+  text-align: left;
+}
+.wei1 {
+  position: absolute;
+  top: 45px;
+  right: 840px;
+  color: rgba(255,255,255,0.7) !important;
+  font-family: Microsoft YaHei;
+  font-weight: bold;
+  font-size: 20px !important;
+  line-height: 40px;
+  letter-spacing: 0px;
+  text-align: left;
 }
 </style>

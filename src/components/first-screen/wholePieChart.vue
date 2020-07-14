@@ -18,18 +18,7 @@ export default {
     initChart(chartId, chartData) {
       let myChart = this.$echarts.init(document.getElementById(chartId));
       myChart.setOption({
-        legend: {
-          orient: "vertical",
-          right: "8%",
-          top: "50%",
-          icon: "rect",
-          itemWidth: 10,
-          itemHeight: 10,
-          itemGap: 15,
-          textStyle: {
-            color: "#FFF"
-          }
-        },
+        
         color: [
           "#5B4CFF",
           "#00F7FF",
@@ -41,14 +30,57 @@ export default {
         series: [
           {
             type: "pie",
-            center: ["40%", "50%"],
-            radius: "60%",
-            label: {
-              position: "inside",
-              formatter: "{b}{c}%",
-              color: "#FFF",
-              fontSize: 14
+            center: ["50%", "50%"],
+            radius: "50%",
+            labelLine: {
+              normal: {
+                length: 35,
+                length2: 80,
+                lineStyle: {
+                  type: "solid"
+                }
+              }
             },
+            label: {
+              normal: {
+                formatter: params => {
+                  return (
+                    "{b| " +
+                    params.name +
+                    "}  " +
+                    "{c|" +
+                    params.percent.toFixed(0) +
+                    "%}"
+                  );
+                },
+                borderWidth: 0,
+                borderRadius: 4,
+                padding: [0, -86],
+                height: 70,
+                fontSize: 13,
+                align: "center",
+                color: "#fff",
+                rich: {
+                  b: {
+                    fontSize: 12,
+                    lineHeight: 20,
+                    color: "#fff",
+                    padding: [0, 0, 5, 0]
+                  },
+                  c: {
+                    fontSize: 20,
+                    lineHeight: 20,
+                    color: "#fff"
+                  }
+                }
+              }
+            },
+            // label: {
+            //   position: "inside",
+            //   formatter: "{b}{c}%",
+            //   color: "#FFF",
+            //   fontSize: 14
+            // },
             data: chartData
           }
         ]

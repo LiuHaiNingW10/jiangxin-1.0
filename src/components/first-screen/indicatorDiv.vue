@@ -20,6 +20,13 @@ export default {
 </script>
 
 <style lang="less" scroped>
+@font-face {
+  font-family: "UnidreamLED";
+  src: url(./font/UnidreamLED.eot); /***兼容ie9***/
+  src: url(./font/UnidreamLED.eot?#iefix) format("embedded-opentype"),
+    /***兼容ie6-ie8***/ url("./font/UnidreamLED.woff") format("woff"),
+    local("UnidreamLED"), url("./font/UnidreamLED.woff"); /***默认使用本地的***/
+}
 .indicator-div {
   width: 100%;
   .title-content {
@@ -32,6 +39,7 @@ export default {
     // text-align: left;
   }
   .digital-data {
+    font-family: "UnidreamLED";
     color: rgba(255, 255, 255, 1);
     font-family: Microsoft YaHei;
     font-weight: bold;

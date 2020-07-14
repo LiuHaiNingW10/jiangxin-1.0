@@ -2,10 +2,10 @@
   <div
     class="real-time-strategy"
     id="realTimeStrategy"
-    :style="`float:${float}`"
+   :class="float==='right'?'margin':''"
   >
     <div class="title">{{ title }}</div>
-    <div class="num" :style="`float:${float}`">
+    <div class="num">
       {{numArr}}
       <!-- <ul>
         <li v-for="(item, index) in numArr" :key="index">{{ item || "" }}</li>
@@ -38,6 +38,7 @@ export default {
         for (var i = 0; i < this.blank; i++) {
           arr.unshift("");
         }
+
         return arr.join('');
       }
       return [];
@@ -92,7 +93,7 @@ export default {
 .real-time-strategy {
 
   .title {
-    text-align: left;
+    text-align: center;
   font-size: 32px;
   margin: 38px 48px 32px 48px;
   display: block;
@@ -120,13 +121,22 @@ export default {
   }
 }
 .num{
-  color: #FFFFFF;
-font-family: Microsoft YaHei;
+color: #FFFFFF;
+font-family: DS-Digital;
+// font-family: UnidreamLED;
 font-weight: bold;
 font-size: 80px;
 line-height: normal;
 letter-spacing: 0px;
-text-align: left;
 padding: 0 48px 0 48px;
+ text-align: center;
+ letter-spacing:8px
+}
+.margin{
+  margin-left: 100px;
+}
+@font-face {
+  font-family: "DS-Digital";
+  src: url(../font/DS-DIGIB-2.ttf); /***兼容ie9***/
 }
 </style>

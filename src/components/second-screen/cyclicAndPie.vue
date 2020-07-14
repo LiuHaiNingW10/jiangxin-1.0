@@ -19,7 +19,7 @@ export default {
     initChart(ids,title ,chartData) {
       var myCharts = this.$echarts.init(document.getElementById(ids));
       myCharts.setOption({
-        color: ['#00F7FF','#005AD9'],
+        color: ['#005AD9','#00F7FF'],
         title: {
           text: title,
           subtext: '',
@@ -81,7 +81,7 @@ export default {
                 color: "#FFF"
               },
               lineStyle: {
-                color: '#005AD9',
+                // color: '#005AD9',
                 width: 1
               }
             }

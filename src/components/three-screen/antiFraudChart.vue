@@ -15,6 +15,13 @@ export default {
   computed: {},
   methods: {
     initPieChart(id, antiFraudDatas) {
+      console.log(antiFraudDatas,'kkkkkkkkkkk')
+      antiFraudDatas= antiFraudDatas.map(item=>{
+        return {
+          ...item,
+          value:item.value.toFixed(2)
+        }
+      })
       // [{
       //     "value": "60",
       //     "name": "mxjczb"
@@ -40,21 +47,21 @@ export default {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)",
         },
-        legend: {
-          type: "scroll",
-          orient: "vertical",
-          right: "5%",
-          top: 130,
-          icon: "pin",
-          textStyle: {
-            fontSize: 18,
-            color: "#CCC",
-            lineHeight: 24,
-          },
-          data: antiFraudDatas.map((item) => {
-            return item.name;
-          }),
-        },
+        // legend: {
+        //   type: "scroll",
+        //   orient: "vertical",
+        //   right: "5%",
+        //   top: 130,
+        //   icon: "pin",
+        //   textStyle: {
+        //     fontSize: 18,
+        //     color: "#CCC",
+        //     lineHeight: 24,
+        //   },
+        //   data: antiFraudDatas.map((item) => {
+        //     return item.name;
+        //   }),
+        // },
         color: colorList,
         series: [
           {
@@ -79,7 +86,7 @@ export default {
                     `}` +
                     "\n" +
                     `{uvalue|${name}}{uvalue|` +
-                    (Number(data.value).toFixed(1) + "%") +
+                    (Number(data.value).toFixed(2) + "%") +
                     `}`
                   );
                   /* end */
