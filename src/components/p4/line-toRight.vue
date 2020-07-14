@@ -74,10 +74,10 @@ export default {
         },
         color: ["#C98531", "#0177a9"],
         grid: {
-          top: "13%",
+          top: "15%",
           left: "15%",
           right: "0%",
-          bottom: "7%",
+          bottom: "10%",
           width:1070,
           // containLabel: true,
         },
@@ -179,7 +179,7 @@ export default {
   width: 100%;
   height: 100%;
   color: #fff;
-  margin-top: 24px;
+  margin-top: 15px;
   margin-left: -18px;
 }
 .line-body {

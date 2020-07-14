@@ -568,7 +568,6 @@ export default {
                     username = username.replace(reg, "*");
                   }
                   function sum(num) {
-                    console.log(num + 10);
                     var str = "";
                     for (var i = 0; i < num; i++) {
                       str += " ";
