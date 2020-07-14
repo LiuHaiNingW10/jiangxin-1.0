@@ -201,6 +201,10 @@ export default {
   height: 40%;
   background-size: 96% 98%;
   padding: 2.8%;
+  .p4-table-title {
+    font-size: 32px;
+    font-weight: bold;
+  }
   .pop-content {
     text-align: center;
     padding: 30px 0;

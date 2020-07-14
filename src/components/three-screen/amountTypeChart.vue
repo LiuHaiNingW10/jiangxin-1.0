@@ -28,9 +28,7 @@ export default {
         });
     },
     drawChart(data) {
-      console.log(data);
       data = data.map((item) => {
-        console.log(String(item.payamount).split("."));
         if (String(item.payamount).split(".").length === 2) {
           if (String(item.payamount).split(".")[1].length >= 2) {
             return { event: item.event, payamount: Number(item.payamount) };
@@ -126,6 +124,7 @@ export default {
               textStyle: {
                 color: "rgba(255,255,255,0.7)",
                 fontSize: 20,
+                fontWeight: "bold",
               },
             },
             axisLine: {
@@ -144,6 +143,8 @@ export default {
               position: "right",
               color: "rgba(255,255,255)",
               formatter: "{@score}",
+              // fontWeight: "bold",
+              fontSize: 20,
             },
             itemStyle: {
               barBorderRadius: 2,

@@ -3,8 +3,8 @@
     <span class="myspan"
       >风险模型策略&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
         class="sun"
-        >欺诈损失率 </span
-      >
+        >欺诈损失率
+      </span>
       <span class="fen">万万分之4.5</span></span
     >
     <div class="microfinance-chart">
@@ -318,7 +318,7 @@ export default {
 }
 .microfinance-chart {
   width: 100%;
-  margin: 0 auto;
+  margin: 70px auto;
   padding: 0 0 0 144px;
   height: 30%;
   .mc-header,
@@ -360,8 +360,10 @@ export default {
           }
           .title {
             font-size: 20px;
-            line-height: 1;
+            line-height: 30px;
             margin-top: 20px;
+            font-family: Microsoft YaHei;
+            font-weight: bold;
           }
           .desc {
             font-size: 14px;
@@ -423,6 +425,7 @@ export default {
         list-style: none;
         width: 80px;
         font-size: 20px;
+        text-align: center;
         color: #fff;
         &:last-child {
           margin-bottom: 0;
@@ -442,7 +445,7 @@ export default {
   text-align: left;
 }
 .fen {
-  color: #43F3FF;
+  color: #43f3ff;
   font-family: Microsoft YaHei;
   font-weight: bold;
   font-size: 32px;

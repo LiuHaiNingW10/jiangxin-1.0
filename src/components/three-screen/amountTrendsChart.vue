@@ -43,7 +43,6 @@ export default {
       return obj
     },
     drawChart(arr) {
-      console.log(arr)
       let obj = this.translateData(arr)
       let myChart = this.$echarts.init(document.getElementById('amountTrendsChart'));
       // 绘制图表
@@ -129,7 +128,8 @@ export default {
               show: true,
               textStyle: {
                 color: 'rgba(255,255,255,0.7)',
-                fontSize:18
+                fontSize:18,
+                fontWeight:'bold'
               }
             }
           }
