@@ -321,6 +321,7 @@ export default {
             type: "effectScatter",
             coordinateSystem: "geo",
             zlevel: 10,
+            symbolSize: 32,
             data: [seriesData],
             itemStyle: {
               normal: {
@@ -356,7 +357,7 @@ export default {
                   }
                   return a;
                 },
-                position: [0, 0],
+                position: [20, 20],
                 distance: 0,
                 width: 340,
                 height: 170,

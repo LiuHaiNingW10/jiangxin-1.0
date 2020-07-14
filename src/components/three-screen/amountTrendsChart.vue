@@ -116,7 +116,10 @@ export default {
           {
             // name:'单位：元',
             splitLine: {
-              show: true
+              show: true,
+              lineStyle: {
+                color: 'rgba(255,255,255,0.5)'
+              }
             },
             axisLine: {
               show: true,
