@@ -165,7 +165,7 @@ export default {
           top: "18%",
           left: "5%",
           right: "5%",
-          bottom: "25%"
+          // bottom: "25%"
           // containLabel: true
         },
         xAxis: [
@@ -341,7 +341,8 @@ export default {
   }
   .line-charts {
     width: 100%;
-    height: 250px;
+    height: 270px;
+    
   }
 }
 </style>

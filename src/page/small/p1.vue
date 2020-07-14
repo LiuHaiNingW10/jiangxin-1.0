@@ -1943,7 +1943,7 @@ export default {
       }
       .right-top-distribution {
         width: 100%;
-        height: 297px;
+        height: 320px;
         margin-top: 48px;
       }
       .right-middle-div,

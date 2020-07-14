@@ -196,7 +196,8 @@ export default {
 </script>
 <style lang="less">
 .line-chart-div {
-  height: 100%;
+  // height: 100%;
+  height: 270px;
   width: 100%;
 }
 </style>
