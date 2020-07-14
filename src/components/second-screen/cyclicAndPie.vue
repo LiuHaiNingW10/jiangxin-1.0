@@ -44,7 +44,7 @@ export default {
                 return (
                   "{b| " +
                   params.name +
-                  "}  " +
+                  "} \n" +
                   "{c|" +
                   params.value+
                   "%}"
@@ -59,9 +59,9 @@ export default {
               color: "#3494BD",
               rich: {
                 b: {
-                  fontSize: 12,
+                  fontSize: 16,
                   lineHeight: 20,
-                  color: "#fff",
+                  color: "rgba(255,255,255,.5)",
                   padding: [0, 0, 5, 0]
                 },
                 c: {

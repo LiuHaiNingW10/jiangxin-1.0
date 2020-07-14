@@ -8,7 +8,7 @@
       </div>
       <div class="middle-right middle-single">
         {{typeData.littleTitle[1]}}
-        <span class="middle-title">平均值 <span class="middle-num">{{qxAverange.perc}}天</span></span>
+        <span class="middle-title">平均值 <span class="middle-num">{{qxAverange.perc}}月</span></span>
       </div>
     </div>
     <div>

@@ -361,12 +361,12 @@ export default {
                   } else {
                     a =
                       status === "正常"
-                        ? `{a|行为}{b|${action}}{zc|${status}}\n{a|问题定位}{b|${problem}}\n{a|手机号码}{b|${mobile}}\n{a|省市}{b|${province}}`
-                        : `{a|行为}{b|${action}}{yc|${status}}\n{a|问题定位}{b|${problem}}\n{a|手机号码}{b|${mobile}}\n{a|省市}{b|${province}}`;
+                        ? `{a|行为}{b|${action}}{zc|${status}}\n{a|问题定位}{b|${problem || '--'}}\n{a|手机号码}{b|${mobile}}\n{a|省市}{b|${province}}`
+                        : `{a|行为}{b|${action}}{yc|${status}}\n{a|问题定位}{b|${problem || '--'}}\n{a|手机号码}{b|${mobile}}\n{a|省市}{b|${province}}`;
                   }
                   return a;
                 },
-                position: [224, 0],
+                position: [0, 0],
                 distance: 0,
                 width: 340,
                 height: 170,
@@ -405,12 +405,16 @@ export default {
                   zc: {
                     color: "#0088DC",
                     fontSize: 26,
+                    padding: 4,
                     bold: "1px solid #0088DC"
                   },
                   yc: {
-                    color: "red",
+                    color: "#FF9431",
                     fontSize: 26,
-                    bold: "1px solid red"
+                    padding: 8,
+                    borderWidth: 1,
+                    borderColor: '#FF9431',
+                    borderRadius: 8
                   }
                 }
               }

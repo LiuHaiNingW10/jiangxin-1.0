@@ -41,25 +41,26 @@ export default {
   components: {
     vueSeamlessScroll
   },
+  created() {
+    setTimeout( () => {
+      this.animate = true
+    },2000)
+  },
   computed: {
     optionHover() {
       return {
-        hoverStop: true, // 鼠标悬停停止滚动
+        autoPlay: this.animate,
+        hoverStop: false, // 鼠标悬停停止滚动
         direction: 1, // 向下/上滚动
         step: 0.8, // 滚动速度
-        singleHeight: 74, // 滚动单行
-        waitTime: 2500, // 单行停顿时间
-        openWatch: true,
-        onChange:  (index) =>  {
-          console.log(index)
-        }
+        singleHeight: 78, // 滚动单行
+        waitTime: 2000, // 单行停顿时间
       };
     }
   },
   
   methods: {
     scroll() {
-      this.animate = true; // 因为在消息向上滚动的时候需要添加css3过渡动画，所以这里需要设置true
       setTimeout(() => {
         //  这里直接使用了es6的箭头函数，省去了处理this指向偏移问题，代码也比之前简化了很多
         if (this.activeIndex < this.tableData.length-1) {
@@ -113,6 +114,7 @@ export default {
       tbody {
         tr {
           border-bottom: 1px solid rgba(140, 141, 142, 0.38);
+          height: 78px;
         }
       }
       tr {

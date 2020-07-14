@@ -78,11 +78,11 @@ export default {
                   b: {
                     fontSize: 16,
                     lineHeight: 20,
-                    color: "rgba(255, 255, 255, 0.6)",
+                    color: "rgba(255,255,255,.5)",
                     padding: [0, 0, 5, 0]
                   },
                   c: {
-                    fontSize: 16,
+                    fontSize: 20,
                     lineHeight: 20,
                     color: "#fff"
                   }

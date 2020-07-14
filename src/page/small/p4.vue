@@ -354,7 +354,6 @@ export default {
     },
     getPoint(par) {
       this.bigPoints = par;
-      console.log(par);
       if (par.accent) {
         this.tableDataRight[0].value += 1;
         let cc = this._.cloneDeep(this.tableDataD);
@@ -401,6 +400,7 @@ export default {
   left: 0;
   bottom: 0;
   color: #fff;
+  font-family: Microsoft YaHei;
   background: url("../../assets/images/p4-background.png") no-repeat 100% 100%;
   background-size: 100%;
   .brain-bgg {

@@ -148,8 +148,24 @@ export default {
 .time-span {
   display: inline-block;
   margin-left: 5%;
-
-  font-family: "DS-Digital";
+  opacity: 0.800000011920929;
+  color: #FFFFFF;
+  font-family: 'DS-Digital';
+  font-weight: bold;
+  font-size: 34px;
+  line-height: normal;
+  letter-spacing: 2px;
+  // text-align: center;
+}
+.weather-span {
+  opacity: 0.6399999856948853;
+  color: #FFFFFF;
+  font-family: PingFang SC;
+  font-weight: semibold;
+  font-size: 32px;
+  line-height: normal;
+  letter-spacing: 0px;
+  text-align: center;
 }
 .weather-module {
   margin-top: 1%;
