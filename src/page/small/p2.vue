@@ -623,14 +623,12 @@ export default {
     }
     .global-title {
       width: 33%;
-      text-align: center;
-      color: #FFFFFF;
-      text-shadow: 0px 2px 4px 0 #000000;
-      font-family: FZZhengHeiS-B-GB;
-      font-weight: regular;
-      font-size: 64px;
       line-height: 72px;
       letter-spacing: 1px;
+      text-align: center;
+      font-size: 64px;
+      font-weight: bold;
+      font-family: FZZhengHeiS-B-GB;
     }
     .right-time {
       width: 33%;

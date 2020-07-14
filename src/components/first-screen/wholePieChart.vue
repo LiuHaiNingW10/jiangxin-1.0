@@ -30,7 +30,7 @@ export default {
         series: [
           {
             type: "pie",
-            center: ["50%", "50%"],
+            center: ["55%", "50%"],
             radius: "70%",
             labelLine: {
               normal: {
@@ -49,7 +49,7 @@ export default {
                     params.name +
                     "}  \n" +
                     "{c|" +
-                    params.percent.toFixed(0) +
+                    params.percent +
                     "%}"
                   );
                 },
@@ -62,9 +62,9 @@ export default {
                 color: "#fff",
                 rich: {
                   b: {
-                    fontSize: 12,
+                    fontSize: 16,
                     lineHeight: 20,
-                    color: "rgba(255, 255, 255, 0.6)",
+                    color: "rgba(255,255,255,.5)",
                     padding: [0, 0, 5, 0]
                   },
                   c: {
