@@ -3,6 +3,7 @@
 </template>
 
 <script>
+// import ringBg from "../../assets/images/material/circle.png";
 export default {
   name: "",
   props: ["ids", "chartData"],
@@ -18,25 +19,42 @@ export default {
     initChart(chartId, chartData) {
       let myChart = this.$echarts.init(document.getElementById(chartId));
       myChart.setOption({
-        // grid: {
-        //   left: "20%"
-        // },
+        grid: {
+          top: "5%",
+          left: "20%"
+        },
         color: [
-          "#2AC9FD",
-          "#76FBC0",
-          "#35C96E",
-          "#FCC708",
+          "#5B4CFF",
+          "#00F7FF",
+          "#1D9DFA",
+          "#0048F1",
           "#48B188",
           "#5957C2",
           "#4A5D73"
         ],
         series: [
+          // {
+          //   type: "scatter",
+          //   zlevel: 60,
+          //   itemStyle: {
+          //     opacity: 1 // 控制 满意icon的 透明度
+          //   },
+          //   data: [
+          //     {
+          //       // 外圈 点状圈
+          //       value: 5,
+          //       symbol: "image://" + ringBg,
+          //       symbolSize: 200,
+          //       symbolOffset: [0, 0]
+          //     }
+          //   ]
+          // },
           {
             color: [
-              "#2AC9FD",
-              "#76FBC0",
-              "#35C96E",
-              "#FCC708",
+              "#5B4CFF",
+              "#00F7FF",
+              "#1D9DFA",
+              "#0048F1",
               "#48B188",
               "#5957C2"
             ],
@@ -44,8 +62,8 @@ export default {
             radius: ["62", "100"],
             labelLine: {
               normal: {
-                length: 25,
-                length2: 120,
+                length: 20,
+                length2: 50,
                 lineStyle: {
                   type: "solid"
                 }
@@ -59,6 +77,7 @@ export default {
                     "{b| " +
                     params.name +
                     "}  " +
+                    "\n" +
                     "{c|" +
                     params.percent.toFixed(0) +
                     "%}"
@@ -66,22 +85,24 @@ export default {
                 },
                 borderWidth: 0,
                 borderRadius: 4,
-                padding: [0, -86],
+                padding: [0, -40],
                 height: 70,
                 fontSize: 13,
                 align: "center",
                 color: "#3494BD",
                 rich: {
                   b: {
-                    fontSize: 12,
+                    fontSize: 16,
                     lineHeight: 20,
-                    color: "#41B3DC",
-                    padding: [0, 0, 5, 0]
+                    color: "rgba(255, 255, 255, .7)",
+                    margin: [10, 0, 5, 0],
+                    fontWeight: "bold"
                   },
                   c: {
-                    fontSize: 20,
+                    fontSize: 16,
                     lineHeight: 20,
-                    color: "orange"
+                    color: "rgba(255, 255, 255, 1)",
+                    fontWeight: "bold"
                   }
                 }
               }
