@@ -4,11 +4,11 @@
     <div class="middle-title" v-if="showCredit">
       <div class="middle-left middle-single">
         {{typeData.littleTitle[0]}} 
-        <span class="middle-title">平均值 <span class="middle-num">{{bjAverange.perc}}</span></span>
+        <span class="middle-titlea">平均值<span class="middle-num">{{bjAverange.perc}}</span></span>
       </div>
       <div class="middle-right middle-single">
         {{typeData.littleTitle[1]}}
-        <span class="middle-title">平均值 <span class="middle-num">{{qxAverange.perc}}月</span></span>
+        <span class="middle-titlea">平均值<span class="middle-num">{{qxAverange.perc}}月</span></span>
       </div>
     </div>
     <div>
@@ -173,7 +173,7 @@ export default {
       line-height: 40px;
       letter-spacing: 0px;
       text-align: left;
-      .middle-title {
+      .middle-titlea {
         color: rgba(255,255,255,.5);
         font-family: Microsoft YaHei;
         font-weight: bold;
@@ -181,7 +181,8 @@ export default {
         line-height: 40px;
         letter-spacing: 0px;
         text-align: left;
-        display: inline;
+        display: inline-block;
+        padding-left: 24px;
         .middle-num {
           color: #49E5FA;
           font-family: Microsoft YaHei;
@@ -190,6 +191,7 @@ export default {
           line-height: 40px;
           letter-spacing: 0px;
           text-align: left;
+          padding-left: 15px;
         }
       }
       // background: url("../../assets/images/title4.png") no-repeat;

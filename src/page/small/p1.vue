@@ -132,7 +132,7 @@
             class="form-charts"
             tableTitle="精准扶贫"
           />-->
-          <div class="single-distribution" style="width: 46%; margin-right: 4%" >
+          <div class="single-distribution" style="width: 46%; margin-right: 4%">
             <span class="single-graph-title">地域</span>
             <simple-column
               class="basic-chart"
@@ -211,7 +211,10 @@
           </div>
         </div>
         <div class="right-bottom-div">
-          <div class="single-distribution half-bottom-distribution" style="width: 46%; margin-right: 4%">
+          <div
+            class="single-distribution half-bottom-distribution"
+            style="width: 46%; margin-right: 4%"
+          >
             <span class="single-graph-title">
               笔均金额
               <span class="avg-title">平均值</span>
@@ -1444,7 +1447,7 @@ export default {
             let data1 = obj[0].data.data;
             let xAxis1 = [],
               yAxis1 = [];
-              // let reg1 = /客群/g;
+            // let reg1 = /客群/g;
             data1.forEach(item => {
               xAxis1.push(item.key);
               yAxis1.push(item.perc);
@@ -1478,9 +1481,9 @@ export default {
             let data3 = obj[2].data.data;
             let xAxis3 = [],
               yAxis3 = [];
-              let reg = /天/g;
+            let reg = /天/g;
             data3.forEach(item => {
-              xAxis3.push(item.key.replace(reg, ''));
+              xAxis3.push(item.key.replace(reg, ""));
               yAxis3.push(item.perc);
             });
             // xAxis3 = xAxis3.reverse();
@@ -1562,7 +1565,7 @@ export default {
             ...tData.map(item => {
               return {
                 name: item.name,
-                age: item.age + '岁',
+                age: item.age + "岁",
                 sex: item.sex,
                 type: item.trade_type,
                 sum: item.trade_amount,
@@ -1888,7 +1891,7 @@ export default {
             color: #49e5fa;
             font-family: Microsoft YaHei;
             font-weight: bold;
-            font-size: 8px;
+            font-size: 24px;
             line-height: 40px;
             letter-spacing: 0px;
             text-align: left;
@@ -1959,7 +1962,7 @@ export default {
         margin-top: 40px;
       }
       .half-bottom-distribution {
-        height: 408px;
+        height: 426px;
         width: 50%;
         margin-top: 40px;
       }
@@ -1991,7 +1994,7 @@ export default {
         margin-top: 48px;
       }
       .bottom-distribution {
-        height: 408px;
+        height: 440px;
       }
       .form-charts {
         width: 50%;

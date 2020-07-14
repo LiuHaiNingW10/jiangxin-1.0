@@ -18,7 +18,6 @@ export default {
     initChart(chartId, chartData) {
       let myChart = this.$echarts.init(document.getElementById(chartId));
       myChart.setOption({
-        
         color: [
           "#5B4CFF",
           "#00F7FF",
@@ -30,7 +29,7 @@ export default {
         series: [
           {
             type: "pie",
-            center: ["55%", "50%"],
+            center: ["53%", "50%"],
             radius: "70%",
             labelLine: {
               normal: {
@@ -47,7 +46,7 @@ export default {
                   return (
                     "{b| " +
                     params.name +
-                    "}  \n" +
+                    "}  \n " +
                     "{c|" +
                     params.percent +
                     "%}"
@@ -65,7 +64,7 @@ export default {
                     fontSize: 16,
                     lineHeight: 20,
                     color: "rgba(255,255,255,.5)",
-                    padding: [0, 0, 5, 0]
+                    padding: [20, 0, 5, 0]
                   },
                   c: {
                     fontSize: 20,

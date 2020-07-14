@@ -48,7 +48,7 @@ export default {
     color: rgba(255, 255, 255, 1);
     // font-family: Microsoft YaHei;
     font-weight: bold;
-    font-size: 80px;
+    font-size: 64px;
     line-height: normal;
     letter-spacing: 20px;
     // text-align: left;
