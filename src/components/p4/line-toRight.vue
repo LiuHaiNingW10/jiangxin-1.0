@@ -61,7 +61,8 @@ export default {
               b: {
                 color: "#fff",
                 fontSize: 22,
-                fontWeight:'bold'
+                fontWeight:'bold',
+                padding:[-15,0,0,0]
               },
             },
           },
@@ -72,8 +73,8 @@ export default {
         },
         color: ["#C98531", "#0177a9"],
         grid: {
-          top: "10%",
-          left: "15%",
+          top: "15%",
+          left: "12%",
           right: "0%",
           bottom: "7%",
           width:1070,

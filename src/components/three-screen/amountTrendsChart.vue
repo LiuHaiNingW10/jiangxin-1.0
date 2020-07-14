@@ -118,7 +118,7 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-                color: 'rgba(255,255,255,0.5)'
+                color: 'rgba(255,255,255,0.31)'
               }
             },
             axisLine: {
@@ -153,15 +153,15 @@ export default {
                 x2: 1,
                 y2: 0,
                 colorStops: [{
-                    offset: 0, color: '#00E3FF' 
+                    offset: 0, color: '#00FFEE' 
                 }, {
-                    offset: 0.25, color: '#004AFF ' 
+                    offset: 0.25, color: '#00FFEE ' 
                 }, {
-                    offset: 0.5, color: '#00E3FF' 
+                    offset: 0.5, color: '#00FFEE' 
                 }, {
-                    offset: 0.75, color: '#004AFF ' 
+                    offset: 0.75, color: '#00FFEE ' 
                 }, {
-                    offset: 1, color: '#00E3FF'
+                    offset: 1, color: '#00FFEE'
                 }],
                 global: false // 缺省为 false
               }

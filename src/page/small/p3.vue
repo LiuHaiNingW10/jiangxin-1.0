@@ -61,7 +61,7 @@
           </div>
           <div>
             <div class="content-title  content-title2">
-              <span>实时加强验证</span>
+              <span class='yz'>实时加强验证</span>
             </div>
             <verification-chart v-if="showRight" :tableDatas="tableDataV" />
           </div>
@@ -233,7 +233,7 @@ export default {
       idRisk: {
         id: "echarts03",
         style: "height: 300px",
-        title: "风险城市占比分布",
+        title: "风险城市占比",
       },
       idRiskM: {
         id: "echarts04",
@@ -579,5 +579,8 @@ export default {
 }
 .content-title2 span{
   margin-top: 23px;
+}
+.yz{
+   padding:17px 0 0 0 !important;
 }
 </style>
