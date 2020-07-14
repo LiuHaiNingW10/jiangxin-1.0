@@ -20,12 +20,17 @@ export default {
 </script>
 
 <style lang="less" scroped>
+// @font-face {
+//   font-family: "UnidreamLED";
+//   src: url(./font/UnidreamLED.eot); /***兼容ie9***/
+//   src: url(./font/UnidreamLED.eot?#iefix) format("embedded-opentype"),
+//     /***兼容ie6-ie8***/ url("./font/UnidreamLED.woff") format("woff"),
+//     local("UnidreamLED"), url("./font/UnidreamLED.woff"); /***默认使用本地的***/
+// }
+
 @font-face {
-  font-family: "UnidreamLED";
-  src: url(./font/UnidreamLED.eot); /***兼容ie9***/
-  src: url(./font/UnidreamLED.eot?#iefix) format("embedded-opentype"),
-    /***兼容ie6-ie8***/ url("./font/UnidreamLED.woff") format("woff"),
-    local("UnidreamLED"), url("./font/UnidreamLED.woff"); /***默认使用本地的***/
+  font-family: "DS-Digital";
+  src: url(../font/DS-DIGIB-2.ttf); /***兼容ie9***/
 }
 .indicator-div {
   width: 100%;
@@ -39,9 +44,9 @@ export default {
     // text-align: left;
   }
   .digital-data {
-    font-family: "UnidreamLED";
+    font-family: "DS-Digital";
     color: rgba(255, 255, 255, 1);
-    font-family: Microsoft YaHei;
+    // font-family: Microsoft YaHei;
     font-weight: bold;
     font-size: 80px;
     line-height: normal;

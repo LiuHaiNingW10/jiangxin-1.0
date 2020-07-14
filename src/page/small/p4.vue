@@ -2,7 +2,7 @@
   <div class="container">
     <div :class="'brain-bgg'">
       <div class="header">
-        <span class="header-bg"></span>
+        <span class="header-bg">智能客服</span>
         <!--  智能服务 -->
         <div class="right-time">
           <weather-com />
@@ -275,12 +275,14 @@ export default {
         });
     },
     transTableDataB(arr) {
-      let a = [], b = []
-      arr[0] && arr.forEach( it => {
-        if(a.indexOf(it.problem) == -1) {
-          a.push(it.problem)
-        }
-      })
+      let a = [],
+        b = [];
+      arr[0] &&
+        arr.forEach(it => {
+          if (a.indexOf(it.problem) == -1) {
+            a.push(it.problem);
+          }
+        });
       // console.log(a)
       // a.forEach( it => {
       //   b.push( {
@@ -288,9 +290,7 @@ export default {
       //     val: Math.floor(Math.random()*50) + 50
       //   })
       // })
-      this.tableDataBB.forEach( it => {
-        
-      })
+      this.tableDataBB.forEach(it => {});
       this.tableDataB = this._.cloneDeep(this.tableDataBB);
       // console.log(this.tableDataB)
     },
@@ -423,13 +423,21 @@ export default {
     background-size: 100% 100%;
     position: relative;
     .header-bg {
-      display: inline-block;
-      background: url("../../assets/images/p4-title.png") no-repeat center;
-      background-size: 18%;
-      font-size: 40px;
+      // display: inline-block;
+      // // background: url("../../assets/images/p4-title.png") no-repeat center;
+      // background-size: 18%;
+      // font-size: 40px;
+      // font-weight: bold;
+      // width: 30%;
+      // height: 100%;
+      color: #ffffff;
+      text-shadow: 0px 6px 8px 0 #000000;
+      font-family: FZZhengHeiS-B-GB;;
       font-weight: bold;
-      width: 30%;
-      height: 100%;
+      font-size: 64px;
+      line-height: normal;
+      letter-spacing: 8px;
+      text-align: center;
     }
     .right-time {
       width: 13%;

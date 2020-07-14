@@ -18,14 +18,14 @@ export default {
       mapIndex: 2,
       myEcharts: undefined,
       rollMapInterval: undefined,
-      l:this,
+      l: this
     };
   },
   computed: {},
   methods: {
     initMap(chartData) {
-     // eslint-disable-next-line no-unused-vars
-     var that = this
+      // eslint-disable-next-line no-unused-vars
+      var that = this;
       var geoCoordMap = {
         上海: [119.1803, 31.2891],
         福建: [119.4543, 25.9222],
@@ -58,7 +58,7 @@ export default {
         广西: [108.479, 23.1152],
         海南: [110.3893, 19.8516],
         黑龙江: [127.9688, 45.368],
-        台湾: [121.4648, 25.563],
+        台湾: [121.4648, 25.563]
       };
       var colorData = [
         { name: "北京", value: 199 },
@@ -94,7 +94,7 @@ export default {
         { name: "澳门", value: 199 },
         { name: "广西", value: 59 },
         { name: "海南", value: 14 },
-        { name: "台湾", value: 15 },
+        { name: "台湾", value: 15 }
       ];
 
       var convertData = function(data) {
@@ -104,7 +104,7 @@ export default {
           if (geoCoord) {
             res.push({
               name: data[i].name,
-              value: geoCoord.concat(data[i].value),
+              value: geoCoord.concat(data[i].value)
             });
           }
         }
@@ -113,10 +113,10 @@ export default {
       this.myEcharts = this.$echarts.init(document.getElementById("middleMap"));
       this.myEcharts.setOption({
         legend: {
-          show: false,
+          show: false
         },
         tooltip: {
-          show: true,
+          show: true
         },
         visualMap: {
           show: false,
@@ -127,16 +127,16 @@ export default {
           calculable: true,
           seriesIndex: [1],
           inRange: {
-            color: ["#467bc0", "#467bc0"], // 蓝绿
-          },
+            color: ["#467bc0", "#467bc0"] // 蓝绿
+          }
         },
         geo: {
           map: "china",
           aspectScale: 0.75,
           label: {
             emphasis: {
-              show: false,
-            },
+              show: false
+            }
           },
           regions: [
             {
@@ -146,11 +146,11 @@ export default {
                 normal: {
                   opacity: 0,
                   label: {
-                    show: false,
-                  },
-                },
-              },
-            },
+                    show: false
+                  }
+                }
+              }
+            }
           ],
           itemStyle: {
             normal: {
@@ -164,27 +164,27 @@ export default {
                 colorStops: [
                   {
                     offset: 0,
-                    color: "rgba(147, 235, 248, 0)", // 0% 处的颜色
+                    color: "rgba(147, 235, 248, 0)" // 0% 处的颜色
                   },
                   {
                     offset: 1,
-                    color: "rgba(147, 235, 248, .2)", // 100% 处的颜色
-                  },
+                    color: "rgba(147, 235, 248, .2)" // 100% 处的颜色
+                  }
                 ],
-                globalCoord: false, // 缺省为 false
+                globalCoord: false // 缺省为 false
               },
               shadowColor: "rgba(128, 217, 248, 1)",
               // shadowColor: 'rgba(255, 255, 255, 1)',
               shadowOffsetX: -2,
               shadowOffsetY: 2,
-              shadowBlur: 10,
+              shadowBlur: 10
             },
             emphasis: {
               areaColor: "#389BB7",
-              borderWidth: 0,
-            },
+              borderWidth: 0
+            }
           },
-          z: 2,
+          z: 2
         },
         series: [
           {
@@ -198,23 +198,23 @@ export default {
               normal: {
                 formatter: "{b}",
                 position: "right",
-                show: true,
+                show: true
               },
               emphasis: {
-                show: true,
-              },
+                show: true
+              }
             },
             itemStyle: {
               normal: {
-                color: "#fff",
-              },
-            },
+                color: "#fff"
+              }
+            }
           },
           {
             type: "map",
             map: "china",
             tooltip: {
-              show: false,
+              show: false
             },
             // label: {
             //   emphasis: {
@@ -241,31 +241,31 @@ export default {
                   colorStops: [
                     {
                       offset: 0,
-                      color: "#274d68", // 0% 处的颜色
+                      color: "#274d68" // 0% 处的颜色
                     },
                     {
                       offset: 1,
-                      color: "#09132c", // 50% 处的颜色
-                    },
+                      color: "#09132c" // 50% 处的颜色
+                    }
                   ],
-                  global: true, // 缺省为 false
-                },
+                  global: true // 缺省为 false
+                }
               },
               emphasis: {
                 show: false,
-                areaColor: "#274d62",
-              },
+                areaColor: "#274d62"
+              }
             },
             label: {
               normal: {
-                show: false,
+                show: false
               },
               emphasis: {
                 show: false,
                 textStyle: {
-                  color: "#fff",
-                },
-              },
+                  color: "#fff"
+                }
+              }
             },
             // roam: false,
             // itemStyle: {
@@ -283,7 +283,7 @@ export default {
             // },
             animation: false,
             zlevel: 1,
-            data: colorData,
+            data: colorData
           },
           {
             type: "effectScatter",
@@ -330,52 +330,65 @@ export default {
                   return (
                     params.data.name +
                     "   " +
-                    params.data.age +
-                    "   " +
                     params.data.sex +
-                    "\n" +
+                    "   " +
+                    params.data.age +
+                    "\n\n" +
+                    "{fline|" +
                     "交易类型：" +
-                   params.data.type
-                     +
-                    "\n" +
+                    "}" +
+                    params.data.type +
+                    "\n\n" +
+                    "{fline|" +
+                    "省市：" +
+                    "}" +
+                    params.data.inbusshopaddress +
+                    "\n\n" +
+                    "{fline|" +
                     "交易金额：" +
-                     that.formattedNumber(params.data.sum)+'.00'
-                    
+                    "}" +
+                    "{fnum|" +
+                    that.thousandFormat(params.data.sum, 2) +
+                    "}"
                   );
                   // return (
                   //   "{fline|" + " " + params.data.name + " " + "重点关注" + "}"
                   // );
                 },
-                position: [-180, -60],
+                position: [-275, -120],
                 distance: 40,
                 backgroundColor: {
-                  image: require("@/assets/images/p3/map-modal.png"),
+                  image: require("@/assets/images/material/exports/group-9.png")
                 },
                 // borderColor: "rgba(0,191,255,.9)",
                 borderWidth: 2,
-                padding: [30, 40],
+                padding: [32, 48],
                 borderRadius: 3,
                 lineHeight: 24,
                 verticalAlign: "middle",
                 color: "#fff",
                 z: 11,
                 textStyle: {
-                  fontSize: 20,
+                  fontSize: 20
                 },
                 rich: {
-                  fline: {
-                    padding: [0, 10],
-                    color: "#ffffff",
+                  fnum: {
+                    fontSize: 20,
+                    color: "#FF9029"
                   },
-                },
-              },
+                  fline: {
+                    fontSize: 20,
+                    color: "rgba(255, 255, 255, .6)"
+                  }
+                }
+              }
             },
             itemStyle: {
               normal: {
                 color: "#F5B523",
-                shadowBlur: 2,
-              },
-            },
+                shadowBlur: 2
+              }
+            }
           },
           {
             type: "lines",
@@ -383,7 +396,7 @@ export default {
             effect: {
               show: true,
               period: 5,
-              color: "rgba(127,255,170, 1)",
+              color: "rgba(127,255,170, 1)"
             },
             lineStyle: {
               normal: {
@@ -395,20 +408,20 @@ export default {
                   [
                     {
                       offset: 0,
-                      color: "rgba(127,255,170, 1)",
+                      color: "rgba(127,255,170, 1)"
                     },
                     {
                       offset: 1,
-                      color: "rgba(127,255,170, 0)",
-                    },
+                      color: "rgba(127,255,170, 0)"
+                    }
                   ],
                   false
                 ),
                 width: 2,
                 opacity: 0.5,
-                curveness: 0,
-              },
-            },
+                curveness: 0
+              }
+            }
             // data: chartData
             //   ? chartData.map(item => {
             //       return {
@@ -441,8 +454,8 @@ export default {
             //     ]
             //   }
             // ]
-          },
-        ],
+          }
+        ]
       });
     },
     formattedNumber(num) {
@@ -456,6 +469,36 @@ export default {
         result = num + result;
       }
       return result;
+    },
+
+    // 格式化千分位
+    thousandFormat(value, fixed) {
+      fixed = fixed !== undefined ? fixed : 2;
+      if (value === null || value === undefined || isNaN(parseFloat(value))) {
+        return;
+      }
+      // 将数字进行千分位格式化
+      function toThousands(num) {
+        num = (num || 0).toString();
+        var parts = num.split(".");
+        var bigZeroPart = parts[0];
+        var result = "";
+        while (bigZeroPart.length > 3) {
+          result = "," + bigZeroPart.slice(-3) + result;
+          bigZeroPart = bigZeroPart.slice(0, bigZeroPart.length - 3);
+        }
+        if (bigZeroPart) {
+          result = bigZeroPart + result;
+        }
+        if (parts.length > 1) {
+          result += "." + parts[1].toString();
+        }
+        return result;
+      }
+
+      value = parseFloat(value).toFixed(fixed);
+      value = toThousands(value);
+      return value;
     },
     rollMap() {
       var _that = this;
@@ -475,7 +518,7 @@ export default {
         5000,
         _that
       );
-    },
+    }
   },
   beforeDestroy() {
     clearInterval(this.rollMapInterval);
@@ -484,8 +527,8 @@ export default {
   watch: {
     chartData: function(newVal) {
       this.initMap(newVal.slice(0, 1));
-    },
-  },
+    }
+  }
 };
 </script>
 

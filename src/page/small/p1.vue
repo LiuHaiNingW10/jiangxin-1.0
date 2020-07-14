@@ -143,12 +143,12 @@
           </div>
           <div class="single-distribution">
             <span class="single-graph-title">收入</span>
-            <!-- <simple-column
+            <simple-column
               class="basic-chart"
-              :ids="elite"
-              v-if="eliteJudge"
-              :chartData="eliteData"
-            />-->
+              :ids="incomeId"
+              v-if="incomeJudge"
+              :chartData="income"
+            />
           </div>
         </div>
       </div>
@@ -203,29 +203,39 @@
         <div class="right-middle-div">
           <div class="single-distribution half-middle-distribution">
             <span class="single-graph-title">授信时长</span>
+            <sec-chart v-if="extensionDateJudge" :chartData="extensionDate" ids="extension" />
           </div>
           <div class="single-distribution half-middle-distribution">
             <span class="single-graph-title">贷款时长</span>
+            <sec-chart v-if="loanDateJudge" :chartData="loanDate" ids="loan" />
           </div>
         </div>
         <div class="right-bottom-div">
           <div class="single-distribution half-bottom-distribution">
-            <span class="single-graph-title">笔均金额</span>
+            <span class="single-graph-title">
+              笔均金额
+              <span class="avg-title">平均值</span>
+              <span class="avg-num">{{avgNumberAvg}}</span>
+            </span>
             <simple-column
               class="basic-chart"
-              :ids="cityId"
-              v-if="cityJudge"
-              :chartData="cityData"
+              :ids="avgNumberId"
+              v-if="avgNumberJudge"
+              :chartData="avgNumber"
             />
           </div>
           <div class="single-distribution half-bottom-distribution">
-            <span class="single-graph-title">贷款期限</span>
-            <!-- <simple-column
+            <span class="single-graph-title">
+              用信天数
+              <span class="avg-title">平均值</span>
+              <span class="avg-num">{{creditDateAvg}}</span>
+            </span>
+            <simple-column
               class="basic-chart"
-              :ids="elite"
-              v-if="eliteJudge"
-              :chartData="eliteData"
-            />-->
+              :ids="creditDateId"
+              v-if="creditDateJudge"
+              :chartData="creditDate"
+            />
           </div>
         </div>
         <!-- <left-indicator-chart v-if="allDataIndicator" :chartData="allDataIndicator" /> -->
@@ -261,6 +271,7 @@
 
 <script>
 import LineChart from "../../components/first-screen/lineChart.vue";
+import SecChart from "../../components/first-screen/secChart.vue";
 // import LeftIndicatorChart from "../../components/first-screen/leftIndicator.vue";
 import ColumnarChart from "../../components/first-screen/columnarChart.vue";
 import MapChart from "../../components/first-screen/mapChart.vue";
@@ -371,6 +382,11 @@ export default {
       leftLineJudge: false,
       id: ["echarts01"],
 
+      //授信时长 贷款时长
+      extensionDate: undefined,
+      extensionDateJudge: false,
+      loanDate: undefined,
+      loanDateJudge: false,
       // 左侧六个指标数据
       allDataIndicator: undefined,
       // allDataIndicator: [
@@ -619,6 +635,21 @@ export default {
       ageJudge: false,
       educationJudge: false,
       educationData: undefined,
+
+      // 收入、笔均金额、用信天数
+      income: undefined,
+      incomeJudge: false,
+      incomeId: "echarts10",
+
+      avgNumberAvg: "",
+      avgNumber: undefined,
+      avgNumberJudge: false,
+      avgNumberId: "echarts11",
+      creditDateAvg: "",
+      creditDate: undefined,
+      creditDateJudge: false,
+      creditDateId: "echarts12",
+
       // 伪造数据
       mockData: {
         leftTop: [
@@ -699,9 +730,9 @@ export default {
           _that.leftLineData.amt_cur = cdata.map(item => {
             return item.amt_cur;
           });
-          _that.leftLineData.amtavg = cdata.map(item => {
-            return item.amtavg;
-          });
+          // _that.leftLineData.amtavg = cdata.map(item => {
+          //   return item.amtavg;
+          // });
           _that.leftLineData.data_dt = cdata.map(item => {
             return item.event_hour + "时";
           });
@@ -1389,8 +1420,8 @@ export default {
             xAxis.push(item.regionname);
             yAxis.push(item.percent);
           });
-          xAxis = xAxis.slice(0, 5).reverse();
-          yAxis = yAxis.slice(0, 5).reverse();
+          xAxis = xAxis.slice(0, 5);
+          yAxis = yAxis.slice(0, 5);
 
           _that.cityData = Object.assign({}, { xAxis: xAxis, yAxis: yAxis });
 
@@ -1399,6 +1430,104 @@ export default {
           });
         }
       });
+
+      // 收入、笔均金额、用信天数
+      this.axios
+        .all([
+          this.axios.get("/api/p1/distributeInfo?category=ph_sr&flag=ph"),
+          this.axios.get("/api/p1/distributeInfo?category=ph_fkje&flag=ph"),
+          this.axios.get("/api/p1/distributeInfo?category=ph_yxts&flag=ph")
+        ])
+        .then(
+          this.axios.spread((...obj) => {
+            // 收入
+            let data1 = obj[0].data.data;
+            let xAxis1 = [],
+              yAxis1 = [];
+            data1.forEach(item => {
+              xAxis1.push(item.key);
+              yAxis1.push(item.perc);
+            });
+            // xAxis1 = xAxis1.reverse();
+            // yAxis1 = yAxis1.reverse();
+            _that.income = Object.assign({}, { xAxis: xAxis1, yAxis: yAxis1 });
+
+            // 笔均金额
+            let data2 = obj[1].data.data;
+            let xAxis2 = [],
+              yAxis2 = [];
+            data2.forEach(item => {
+              xAxis2.push(item.key);
+              yAxis2.push(item.perc);
+            });
+            // xAxis2 = xAxis2.reverse();
+            // yAxis2 = yAxis2.reverse();
+            let avgNumberAvg = "";
+            if (xAxis2[0] == "均值") {
+              xAxis2.shift();
+              avgNumberAvg = this.thousandFormat(yAxis2.shift(), 2);
+            }
+            _that.avgNumberAvg = avgNumberAvg;
+            _that.avgNumber = Object.assign(
+              {},
+              { xAxis: xAxis2, yAxis: yAxis2 }
+            );
+
+            // 笔均金额
+            let data3 = obj[2].data.data;
+            let xAxis3 = [],
+              yAxis3 = [];
+            data3.forEach(item => {
+              xAxis3.push(item.key);
+              yAxis3.push(item.perc);
+            });
+            // xAxis3 = xAxis3.reverse();
+            // yAxis3 = yAxis3.reverse();
+            let creditDateAvg = "";
+            if (xAxis3[0] == "均值") {
+              xAxis3.shift();
+              creditDateAvg = parseInt(yAxis3.shift()) + "天";
+            }
+            _that.creditDateAvg = creditDateAvg;
+            _that.creditDate = Object.assign(
+              {},
+              { xAxis: xAxis3, yAxis: yAxis3 }
+            );
+
+            this.$nextTick(() => {
+              this.incomeJudge = true;
+              this.avgNumberJudge = true;
+              this.creditDateJudge = true;
+            });
+          })
+        )
+        .catch(function(error) {
+          console.log(error);
+        });
+
+      // 授信、用信时长
+      this.axios
+        .all([
+          this.axios.get("/api/p1/randValue?flag=sxsc"),
+          this.axios.get("/api/p1/randValue?flag=dksc")
+        ])
+        .then(
+          this.axios.spread((...obj) => {
+            // 授信时长
+            this.extensionDate = obj[0].data.data;
+
+            // 贷款时长
+            this.loanDate = obj[1].data.data;
+
+            this.$nextTick(() => {
+              this.extensionDateJudge = true;
+              this.loanDateJudge = true;
+            });
+          })
+        )
+        .catch(function(error) {
+          console.log(error);
+        });
     },
 
     getMapData() {
@@ -1435,6 +1564,7 @@ export default {
                 sex: item.sex,
                 type: item.trade_type,
                 sum: item.trade_amount,
+                inbusshopaddress: item.inbusshopaddress,
                 value: [item.longitude, item.latitude, item.score]
               };
             })
@@ -1632,6 +1762,7 @@ export default {
   },
   components: {
     "line-chart": LineChart,
+    "sec-chart": SecChart,
     "columnar-chart": ColumnarChart,
     "map-chart": MapChart,
     "weather-com": WeatherCom,
@@ -1662,7 +1793,7 @@ export default {
   background: url("../../assets/images/material/exports/background.png")
     no-repeat;
   background-size: 100% 100%;
-  padding-top: 1%;
+  // padding-top: 1%;
   font-size: 28px;
   color: #fff;
   overflow: hidden;
@@ -1680,7 +1811,7 @@ export default {
   // 标题样式
   .title-frame {
     width: 100%;
-    height: 5%;
+    height: 7%;
     background: url("../../assets/images/header.png") no-repeat;
     background-size: 100% 100%;
     display: flex;
@@ -1701,8 +1832,9 @@ export default {
     .global-title {
       width: 33%;
       text-align: center;
-      font-size: 36px;
+      font-size: 64px;
       font-weight: bold;
+      font-family: FZZhengHeiS-B-GB;
     }
     .right-time {
       width: 33%;
@@ -1736,6 +1868,28 @@ export default {
           font-size: 32px;
           line-height: 40px;
           letter-spacing: 0px;
+          .avg-title {
+            display: inline-block;
+            margin-left: 24px;
+            color: rgba(255, 255, 255, 0.7);
+            font-family: Microsoft YaHei;
+            font-weight: bold;
+            font-size: 24px;
+            line-height: 40px;
+            letter-spacing: 0px;
+            text-align: left;
+          }
+          .avg-num {
+            display: inline-block;
+            margin-left: 24px;
+            color: #49e5fa;
+            font-family: Microsoft YaHei;
+            font-weight: bold;
+            font-size: 8px;
+            line-height: 40px;
+            letter-spacing: 0px;
+            text-align: left;
+          }
         }
         .basic-chart {
           height: 87%;
@@ -1789,10 +1943,11 @@ export default {
       }
       .right-top-distribution {
         width: 100%;
-        height: 297px;
+        height: 320px;
         margin-top: 48px;
       }
-      .right-middle-div, .right-bottom-div {
+      .right-middle-div,
+      .right-bottom-div {
         display: flex;
       }
       .half-middle-distribution {
@@ -1808,6 +1963,7 @@ export default {
     }
     .accruing-person {
       .columnar-chart {
+        margin-top: 48px;
         height: 40%;
         margin-top: 48px;
       }
@@ -1829,6 +1985,7 @@ export default {
       }
       .middle-distirbution {
         height: 374px;
+        margin-top: 48px;
       }
       .bottom-distribution {
         height: 408px;

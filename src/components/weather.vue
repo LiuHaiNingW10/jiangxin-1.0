@@ -141,4 +141,7 @@ export default {
   display: inline-block;
   margin-left: 5%;
 }
+.weather-module {
+  margin-top: 1%;
+}
 </style>

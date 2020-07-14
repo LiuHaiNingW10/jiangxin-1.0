@@ -2,9 +2,9 @@
   <div class="right-columnar">
     <div v-for="(item, index) in ids" :key="item.id" class="single-columnar">
       <div class="single-columnar-title">{{item.title}}</div>
-      <div class="current-data">
-        <!-- {{chartData.totalData[index]}} -->
-        <!-- <scroll-span :number="chartData.totalData[index]" class="total-money-span" ids="current" /> -->
+      <!-- <div class="current-data">
+        {{chartData.totalData[index]}}
+        <scroll-span :number="chartData.totalData[index]" class="total-money-span" ids="current" />
         <indicator-chart
           v-if="chartData.totalData[index]"
           :chartData="chartData.totalData[index]"
@@ -13,7 +13,7 @@
           :styleSingle="singleStyle"
           type="person"
         />
-      </div>
+      </div>-->
       <!-- <div :id="item.id" class="single-columnar-echarts"></div> -->
       <repeat-purchase
         :ids="lineIds[index]"
@@ -175,6 +175,12 @@ export default {
     height: 100%;
     width: 100%;
     .single-columnar-title {
+      color: #ffffff;
+      font-family: Microsoft YaHei;
+      font-weight: bold;
+      font-size: 32px;
+      line-height: 40px;
+      letter-spacing: 0px;
       text-align: left;
     }
     .current-data {
