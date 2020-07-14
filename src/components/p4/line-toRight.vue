@@ -62,7 +62,8 @@ export default {
                 color: "#fff",
                 fontSize: 22,
                 fontWeight:'bold',
-                padding:[-15,0,0,0]
+                // padding:[-15,0,0,0]
+                margin:[100,60,40]
               },
             },
           },
@@ -73,8 +74,8 @@ export default {
         },
         color: ["#C98531", "#0177a9"],
         grid: {
-          top: "15%",
-          left: "12%",
+          top: "10%",
+          left: "15%",
           right: "0%",
           bottom: "7%",
           width:1070,
@@ -178,7 +179,8 @@ export default {
   width: 100%;
   height: 100%;
   color: #fff;
-  margin-top: 10px;
+  margin-top: 24px;
+  margin-left: -18px;
 }
 .line-body {
   display: flex;
