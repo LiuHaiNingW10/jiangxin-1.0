@@ -339,16 +339,16 @@ export default {
             type: "scatter",
             coordinateSystem: "geo",
             data: convertData(colorData),
-            symbolSize: 32,
+            symbolSize: 0,
             zlevel: -1,
             label: {
               normal: {
                 formatter: "{b}",
                 position: "right",
-                show: true,
+                show: false,
               },
               emphasis: {
-                show: true,
+                show: false,
               },
             },
             itemStyle: {
@@ -387,7 +387,7 @@ export default {
                       color: "#09132c", // 50% 处的颜色
                     },
                   ],
-                  global: true, // 缺省为 false
+                  global: false, // 缺省为 false
                 },
               },
               //这里
@@ -569,7 +569,7 @@ export default {
                     username = username.replace(reg, "*");
                   }
 
-                  return `{a|时间}{b|${currentTime}}{a|          省市}{b|${location}}{a|                 场景}{b|${appname}}\n{a|金额}{b|${payamount}.00元}{a|                                   风险类型}{e|${risktype}}{a|        处置方式}{e|${dealtypename}}\n{f|${username}}{f|${age}岁}{f|${residence}}{e|${risk}}\n{a|异常关联}{b|${relationInfoList.length}}{a|               关联要素}{d|${relate_factor}}`;
+                  return `{a|时间}{b|${currentTime}}{a|          省市}{b|${location}}{a|                 场景}{b|${appname}}\n{a|金额}{b|${payamount}.00元}{a|                               风险类型}{e|${risktype}}{a|      处置方式}{e|${dealtypename}}\n{f|${username}}{f|${age}岁}{f|${residence}}{e|${risk}}\n{a|异常关联}{b|${relationInfoList.length}}{a|               关联要素}{d|${relate_factor}}`;
                   // return `aaaaaa`;
                 },
                 position:
@@ -686,7 +686,7 @@ export default {
                 },
                 position:
                   this.relationRes[index].location == "新疆维吾尔自治区"
-                    ? [300, -210]
+                    ? [340, -210]
                     : [20, -210],
                 distance: 0,
                 width: 340,
