@@ -531,7 +531,6 @@ export default {
         // if(52 < t && t <= 57) {
         //   this.scrollList.shift()
         // }
-        console.log(t)
         if(52 < t && t <= 58) {
           this.scrollList = this.scrollList.slice(2)
         }
