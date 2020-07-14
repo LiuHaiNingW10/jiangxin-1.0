@@ -105,6 +105,7 @@ export default {
           left: 73,
           right: 29,
           bottom: "11%",
+          width: 950,
           containLabel: true,
         },
         xAxis: {
@@ -168,17 +169,14 @@ export default {
                 }
 
                 if (String(param.data).split(".").length === 2) {
-                
                   if (String(param.data).split(".")[1].length >= 2) {
-               
-                    return `${transform(param.data)}`
+                    return `${transform(param.data)}`;
                   } else {
-        
-                   return `${transform(param.data)}`+'0'
+                    return `${transform(param.data)}` + "0";
                   }
                 } else {
                   // var y = (String(param.data).split(".")[1] = "00");
-                    return `${transform(param.data)}`+'.00';
+                  return `${transform(param.data)}` + ".00";
                 }
                 // return `${transform(param.data)}`;
               },
@@ -245,7 +243,7 @@ export default {
 
 <style lang="less" scoped>
 .amount-type-chart {
-  width: 101%;
+  width: 100%;
   height: 24%;
 }
 </style>
