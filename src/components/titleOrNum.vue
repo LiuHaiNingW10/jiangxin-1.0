@@ -36,16 +36,16 @@ export default {
       font-size: 32px;
       line-height: normal;
       letter-spacing: 0px;
-      text-align: left;
+      text-align: center;
     }
     .number {
       color: #FFFFFF;
-      font-family: Microsoft YaHei;
+      font-family: DS-Digital;
       font-weight: bold;
-      font-size: 80px;
-      line-height: normal;
-      letter-spacing: 0px;
-      text-align: left;
+      font-size: 64px;
+      line-height: 72px;
+      letter-spacing: 12px;
+      text-align: center;
     }
   }
 </style>

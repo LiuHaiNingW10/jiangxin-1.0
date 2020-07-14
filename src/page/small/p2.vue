@@ -591,7 +591,6 @@ export default {
     "centerTitleOrNum":centerTitleOrNum,
     "createOrLoan":createOrLoan,
     "cyclicAndPie":cyclicAndPie,
-    "dkOrFwModel":dkOrFwModel,
     "indicator-div": IndicatorDiv,
     "cyclic-annular": CyclicAnnular,
     "whole-pie-chart": WholePieChart,
