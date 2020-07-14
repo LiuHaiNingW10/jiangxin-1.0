@@ -200,7 +200,7 @@ export default {
   overflow: hidden;
   height: 40%;
   background-size: 96% 98%;
-  padding: 2.8%;
+  padding: 1% 6%;
   .p4-table-title {
     font-size: 32px;
     font-weight: bold;

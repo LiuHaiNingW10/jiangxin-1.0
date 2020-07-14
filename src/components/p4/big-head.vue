@@ -366,7 +366,7 @@ export default {
                   }
                   return a;
                 },
-                position: [224, 0],
+                position: [0, 0],
                 distance: 0,
                 width: 340,
                 height: 170,
@@ -405,12 +405,16 @@ export default {
                   zc: {
                     color: "#0088DC",
                     fontSize: 26,
+                    padding: 4,
                     bold: "1px solid #0088DC"
                   },
                   yc: {
-                    color: "red",
+                    color: "#FF9431",
                     fontSize: 26,
-                    bold: "1px solid red"
+                    padding: 8,
+                    borderWidth: 1,
+                    borderColor: '#FF9431',
+                    borderRadius: 8
                   }
                 }
               }

@@ -53,7 +53,7 @@ export default {
     optionHover() {
       return {
         autoPlay: this.animate,
-        hoverStop: true, // 鼠标悬停停止滚动
+        hoverStop: false, // 鼠标悬停停止滚动
         direction: 1, // 向下/上滚动
         step: 0.8, // 滚动速度
         singleHeight: 78, // 滚动单行
@@ -64,7 +64,6 @@ export default {
   
   methods: {
     scroll() {
-      this.animate = true; // 因为在消息向上滚动的时候需要添加css3过渡动画，所以这里需要设置true
       setTimeout(() => {
         //  这里直接使用了es6的箭头函数，省去了处理this指向偏移问题，代码也比之前简化了很多
         if (this.activeIndex < this.tableData.length-1) {
@@ -72,7 +71,6 @@ export default {
         } else {
           this.activeIndex = 0;
         }
-        console.log(2)
         this.needPoint && this.$emit("func", this.tableData[0]);
         this.tableData.push(this.initData[this.activeIndex]); // 将数组的第一个元素添加到数组的
         this.tableData.shift(); //删除数组的第一个元素
@@ -122,12 +120,11 @@ export default {
       tbody {
         tr {
           border-bottom: 1px solid rgba(140, 141, 142, 0.38);
+          height: 78px;
+          text-align: center;
+          padding: 10px;
+          width: 100%;
         }
-      }
-      tr {
-        text-align: center;
-        padding: 10px;
-        width: 100%;
       }
       td {
         color: #fff;
