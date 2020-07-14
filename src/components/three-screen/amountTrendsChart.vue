@@ -43,6 +43,7 @@ export default {
       return obj
     },
     drawChart(arr) {
+      console.log(arr)
       let obj = this.translateData(arr)
       let myChart = this.$echarts.init(document.getElementById('amountTrendsChart'));
       // 绘制图表
@@ -103,7 +104,7 @@ export default {
                 margin: 15
               },
               formatter: function(data) {
-                return data + "点";
+                return data + ":00";
               }
             },
             axisTick: {
@@ -115,14 +116,13 @@ export default {
         yAxis: [
           {
             // name:'单位：元',
-
             splitLine: {
-              show: false
+              show: true
             },
             axisLine: {
               show: true,
               lineStyle: {
-                color: 'rgba(255,255,255,0.7)'
+                color: 'rgba(255,255,255,0.31)'
               }
             },
             axisLabel: {
@@ -140,9 +140,9 @@ export default {
             type: "line",
             symbol: "circle",
             showSymbol: false,
-            smooth: 0.5,
+            // smooth: 0.5,
             lineStyle: {
-              width: 5,
+              width: 3,
               color: {
                 type: 'linear',
                 x: 0,
@@ -196,7 +196,7 @@ export default {
                   [
                     {
                       offset: 0,
-                      color: "rgba(0,74,255,.3)"
+                      color: "rgba(0,74,255,.6)"
                     },
                     {
                       offset: 1,
