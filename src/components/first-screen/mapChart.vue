@@ -94,7 +94,8 @@ export default {
         { name: "澳门", value: 199 },
         { name: "广西", value: 59 },
         { name: "海南", value: 14 },
-        { name: "台湾", value: 15 }
+        { name: "台湾", value: 15 },
+        { name: "南海诸岛", value: 16 },
       ];
 
       var convertData = function(data) {
@@ -253,7 +254,7 @@ export default {
               },
               emphasis: {
                 show: false,
-                areaColor: "#274d62"
+                areaColor: "#467bc0"
               }
             },
             label: {
