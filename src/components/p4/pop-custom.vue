@@ -171,7 +171,7 @@ export default {
             sizeRange: [12, 50],
             rotationRange: [0, 0],
             shape: "circle",
-            gridSize: 80,
+            gridSize: 20,
             textStyle: {
               normal: {
                 color: params => {
@@ -199,7 +199,7 @@ export default {
   font-size: 16px;
   position: relative;
   overflow: hidden;
-  height: 40%;
+  height: 50%;
   background-size: 96% 98%;
   padding: 1% 6%;
   .p4-table-title {
@@ -209,7 +209,7 @@ export default {
   .pop-content {
     text-align: center;
     padding: 30px 0;
-    height: 90%;
+    height: 100%;
     .pop {
       height: 100%;
     }
