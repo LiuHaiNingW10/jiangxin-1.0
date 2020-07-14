@@ -533,7 +533,7 @@ export default {
             type: "effectScatter",
             coordinateSystem: "geo",
             zlevel: 10,
-             symbolSize: 32,
+            symbolSize: 32,
             data: this.relationRes[index] ? [this.relationRes[index]] : [],
             itemStyle: {
               normal: {
@@ -546,8 +546,7 @@ export default {
               normal: {
                 show: true,
                 formatter: function(params) {
-
-                  var  {
+                  var {
                     location,
                     appname,
                     payamount,
@@ -561,15 +560,36 @@ export default {
                     relationInfoList,
                     currentTime,
                   } = params.data;
-                  
+
                   var reg = /(?<=.)./g;
                   if (username.length < 3) {
                     username = username.replace(reg, "*");
                   } else {
                     username = username.replace(reg, "*");
                   }
+                  function sum(num) {
+                    console.log(num + 10);
+                    var str = "";
+                    for (var i = 0; i < num; i++) {
+                      str += " ";
+                    }
+                    return str;
+                  }
+                  function price(pic) {
+                   if(String(pic).split('.').length===2)
+                   {
+                     return pic
+                   }else
+                   {
+                     return pic+'.00'
+                   }
+                  }
 
-                  return `{a|时间}{b|${currentTime}}{a|          省市}{b|${location}}{a|                 场景}{b|${appname}}\n{a|金额}{b|${payamount}.00元}{a|                               风险类型}{e|${risktype}}{a|      处置方式}{e|${dealtypename}}\n{f|${username}}{f|   ${age}岁}{f|   ${residence}}{e|   ${risk}}\n{a|异常关联}{b|${relationInfoList.length}}{a|               关联要素}{d|${relate_factor}}`;
+                  return `{a|时间}{b|${currentTime}}{a|          省市}{b|${location}}{a|                 场景}{b|${appname}}\n{a|金额}{b|${price(payamount)}元}{a|${sum(
+                    String(payamount).length + (22 - String(payamount).length)
+                  )}风险类型}{e|${risktype}}{a|        处置方式}{e|${dealtypename}}\n{f|${username}}{f|   ${age}岁}{f|   ${residence}}{e|   ${risk}}\n{a|异常关联}{b|${
+                    relationInfoList.length
+                  }}{a|               关联要素}{d|${relate_factor}}`;
                   // return `aaaaaa`;
                 },
                 position:
@@ -640,8 +660,8 @@ export default {
               normal: {
                 color: "#F5B523",
                 shadowBlur: 0,
-                width:32,
-                height:32
+                width: 32,
+                height: 32,
               },
             },
             // 标签
