@@ -141,13 +141,27 @@ export default {
       return num;
     },
     initMap(data, index) {
-      function locat(city) {
-        var leftlocation=['新疆维吾尔自治区','西藏','青海','云南','甘肃']
-        if(leftlocation.indexOf(city)!=-1)
-        {
-          return [-560, -230]
-        }else{
-          return [-820, -230]
+      function locat(city, ch) {
+        var leftlocation = ["新疆维吾尔自治区", "西藏", "青海", "云南", "甘肃"];
+        if (ch.length > 4) {
+          return [-800, -230];
+        } else if (leftlocation.indexOf(city) != -1) {
+          return [-560, -230];
+        } else {
+          return [-760, -230];
+        }
+      }
+      //     this.relationRes[index].location == "新疆维吾尔自治区"
+      // ? [340, -210]
+      // : [20, -210],
+      function locat2(city) {
+        var leftlocation = ["新疆维吾尔自治区", "西藏", "青海", "云南", "甘肃"];
+        if (leftlocation.indexOf(city) != -1) {
+          return [300, -210];
+        } else if (city.length > 2) {
+          return [5, -210];
+        } else {
+          return [0, -210];
         }
       }
       // console.log((data = data.slice(8, 9)), "datadata");
@@ -600,7 +614,10 @@ export default {
                   }}{a|               关联要素}{d|${relate_factor}}`;
                   // return `aaaaaa`;
                 },
-                position: locat(this.relationRes[index].location),
+                position: locat(
+                  this.relationRes[index].location,
+                  this.relationRes[index].appname
+                ),
                 distance: 0,
                 // width: 440,
                 // height: 180,
@@ -709,10 +726,7 @@ export default {
                   return returnStr;
                   // return `aaaaaa`;
                 },
-                position:
-                  this.relationRes[index].location == "新疆维吾尔自治区"
-                    ? [340, -210]
-                    : [20, -210],
+                position: locat2(this.relationRes[index].location),
                 distance: 0,
                 width: 340,
                 height: 120,

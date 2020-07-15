@@ -244,6 +244,6 @@ export default {
 <style lang="less" scoped>
 .amount-type-chart {
   width: 100%;
-  height: 24%;
+  height: 30%;
 }
 </style>

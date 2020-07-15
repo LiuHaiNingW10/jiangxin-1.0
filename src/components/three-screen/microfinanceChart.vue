@@ -318,7 +318,7 @@ export default {
 }
 .microfinance-chart {
   width: 100%;
-  margin: 70px auto;
+  margin: 5px auto;
   padding: 0 0 0 144px;
   height: 30%;
   .mc-header,
@@ -391,7 +391,7 @@ export default {
     }
     .mc-c {
       width: 450px;
-      height: 450px;
+      height: 420px;
       // background: url('../../assets/images/p3/frm-cc.png') no-repeat;
       background-size: 100% 100%;
       margin: 30px 55px 0 0px;
