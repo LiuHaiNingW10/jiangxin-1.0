@@ -609,7 +609,7 @@ export default {
     }
   }
   #dialogue-box {
-    width: 92%;
+    width: 82%;
     margin: 0 auto;
     left: 100px;
     right: 100px;

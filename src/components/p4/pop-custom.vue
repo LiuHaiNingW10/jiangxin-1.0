@@ -169,7 +169,9 @@ export default {
             type: "wordCloud",
             gridSize: 20,
             sizeRange: [24, 50],
-            rotationRange: [0, 0],
+            rotationRange: [0, 90],
+            rotationStep: 90,
+            // textRotation: [0, 90],
             shape: "circle",
             gridSize: 20,
             textStyle: {

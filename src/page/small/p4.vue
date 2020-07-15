@@ -303,6 +303,9 @@ export default {
     },
     tB() {
       this.getTableDataB();
+      this.timerD = setInterval(() => {
+        this.getTableDataB();
+      }, 6000);
     },
     tD() {
       this.getTableDataD();

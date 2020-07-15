@@ -62,11 +62,11 @@ export default new Router({
         },
         {
           path: 'p1',
-          component: loadable(p2),
+          component: loadable(p1),
         },
         {
           path: 'p2',
-          component: loadable(p1),
+          component: loadable(p2),
         },
         {
           path: 'p3',

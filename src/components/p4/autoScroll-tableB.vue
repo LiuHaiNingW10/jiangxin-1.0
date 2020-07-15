@@ -9,11 +9,15 @@
       </ul>
       <table>
         <vue-seamless-scroll :data="tableData" :class-option="optionHover" class="seamless-warp">
-        <tbody>
-          <tr v-for="it in tableData" :key="it.key">
-            <td v-for="item in columns" :key="item.key" :class="item.class">{{it[item.key] || '--'}}</td>
-          </tr>
-        </tbody>
+          <tbody>
+            <tr v-for="it in tableData" :key="it.key">
+              <td
+                v-for="item in columns"
+                :key="item.key"
+                :class="item.class"
+              >{{it[item.key] || '--'}}</td>
+            </tr>
+          </tbody>
         </vue-seamless-scroll>
       </table>
     </div>
@@ -26,43 +30,47 @@ export default {
   props: ["tableDatas", "ids", "columns", "heights", "needPoint"],
   data() {
     return {
-      todos: [],
-      initData: this.tableDatas,
       tableData: this.tableDatas,
       id: this.ids,
-      column: this.columns,
-      activeIndex: 0,
-      view: "",
-      height: this.heights,
-      timeouts: this.timeout,
       animate: false,
+      spreed: 4
     };
   },
   components: {
     vueSeamlessScroll
   },
   created() {
-    setTimeout( () => {
-      this.animate = true
-    },2000)
+    setTimeout(() => {
+      this.animate = true;
+    }, 2000);
+    this.circle();
   },
   computed: {
     optionHover() {
       return {
         autoPlay: this.animate,
         hoverStop: false, // 鼠标悬停停止滚动
-        direction: 1, // 向下/上滚动
-        step: 1.6*2.5, // 滚动速度
-        singleHeight: 78*4, // 滚动单行
-        waitTime: 4000, // 单行停顿时间
+        // direction: 1, // 向下/上滚动
+        limitMoveNum: 10, // 开启无缝滚动的数据量
+        step: this.spreed // 滚动速度
+        // singleHeight: 78, // 滚动单行
+        // waitTime: 0 // 单行停顿时间
       };
     }
   },
-  
   methods: {
+    circle() {
+      this.timerA = setInterval(() => {
+        this.spreed = 2;
+      }, 5000);
+      this.timerB = setInterval(() => {
+        this.spreed = 4;
+      }, 7000);
+    }
   },
   beforeDestroy() {
-    clearInterval(this.timer);
+    clearInterval(this.timerA);
+    clearInterval(this.timerB);
   }
 };
 </script>
@@ -82,7 +90,7 @@ export default {
         display: inline-block;
         width: 24%;
         text-align: center;
-        color:#85BEFC;
+        color: #85befc;
         font-weight: bold;
         font-size: 22px;
       }
@@ -117,13 +125,13 @@ export default {
         font-size: 20px;
       }
       .table-mobile {
-        min-width: 280px
+        min-width: 280px;
       }
       .table-accent {
-        min-width: 220px
+        min-width: 220px;
       }
       .table-product {
-        min-width: 180px
+        min-width: 180px;
       }
       .table-want {
         min-width: 260px;
