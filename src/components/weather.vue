@@ -1,7 +1,7 @@
 <template>
   <div class="weather-module">
-    <img :src="currentImg" alt class="weather-img" />
-    <span class="weather-span">{{currentWeather.high}} ℃ ~ {{currentWeather.low}} ℃</span>
+    <!-- <img :src="currentImg" alt class="weather-img" /> -->
+    <!-- <span class="weather-span">{{currentWeather.high}} ℃ ~ {{currentWeather.low}} ℃</span> -->
     <span class="time-span">{{currentTime.date}}</span>
     <span class="time-span">{{currentTime.time}}</span>
   </div>

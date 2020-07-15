@@ -109,7 +109,7 @@ export default {
           }
           index++;
           this.initMap(this.relationRes, index);
-        }, 5000);
+        }, 120000);
       });
     },
     nowTime() {
@@ -141,6 +141,29 @@ export default {
       return num;
     },
     initMap(data, index) {
+      function locat(city, ch) {
+        var leftlocation = ["新疆维吾尔自治区", "西藏", "青海", "云南", "甘肃"];
+        if (ch.length > 4) {
+          return [-800, -230];
+        } else if (leftlocation.indexOf(city) != -1) {
+          return [-560, -230];
+        } else {
+          return [-760, -230];
+        }
+      }
+      //     this.relationRes[index].location == "新疆维吾尔自治区"
+      // ? [340, -210]
+      // : [20, -210],
+      function locat2(city) {
+        var leftlocation = ["新疆维吾尔自治区", "西藏", "青海", "云南", "甘肃"];
+        if (leftlocation.indexOf(city) != -1) {
+          return [300, -210];
+        } else if (city.length > 2) {
+          return [5, -210];
+        } else {
+          return [0, -210];
+        }
+      }
       // console.log((data = data.slice(8, 9)), "datadata");
       data =
         // let relationMesg = {};
@@ -575,26 +598,26 @@ export default {
                     return str;
                   }
                   function price(pic) {
-                   if(String(pic).split('.').length===2)
-                   {
-                     return pic
-                   }else
-                   {
-                     return pic+'.00'
-                   }
+                    if (String(pic).split(".").length === 2) {
+                      return pic;
+                    } else {
+                      return pic + ".00";
+                    }
                   }
 
-                  return `{a|时间}{b|${currentTime}}{a|          省市}{b|${location}}{a|                 场景}{b|${appname}}\n{a|金额}{b|${price(payamount)}元}{a|${sum(
+                  return `{a|时间}{b|${currentTime}}{a|          省市}{b|${location}}{a|                 场景}{b|${appname}}\n{a|金额}{b|${price(
+                    payamount
+                  )}元}{a|${sum(
                     String(payamount).length + (22 - String(payamount).length)
                   )}风险类型}{e|${risktype}}{a|        处置方式}{e|${dealtypename}}\n{f|${username}}{f|   ${age}岁}{f|   ${residence}}{e|   ${risk}}\n{a|异常关联}{b|${
                     relationInfoList.length
                   }}{a|               关联要素}{d|${relate_factor}}`;
                   // return `aaaaaa`;
                 },
-                position:
-                  this.relationRes[index].location == "新疆维吾尔自治区"
-                    ? [-600, -230]
-                    : [-820, -230],
+                position: locat(
+                  this.relationRes[index].location,
+                  this.relationRes[index].appname
+                ),
                 distance: 0,
                 // width: 440,
                 // height: 180,
@@ -703,10 +726,7 @@ export default {
                   return returnStr;
                   // return `aaaaaa`;
                 },
-                position:
-                  this.relationRes[index].location == "新疆维吾尔自治区"
-                    ? [340, -210]
-                    : [20, -210],
+                position: locat2(this.relationRes[index].location),
                 distance: 0,
                 width: 340,
                 height: 120,

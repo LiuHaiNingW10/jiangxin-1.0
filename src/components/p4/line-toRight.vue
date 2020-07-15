@@ -77,7 +77,7 @@ export default {
           top: "15%",
           left: "15%",
           right: "0%",
-          bottom: "10%",
+          bottom: "5%",
           width:1070,
           // containLabel: true,
         },

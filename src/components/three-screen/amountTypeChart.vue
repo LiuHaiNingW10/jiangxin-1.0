@@ -105,7 +105,7 @@ export default {
           left: 73,
           right: 29,
           bottom: "11%",
-          width: 950,
+          width: 1000,
           containLabel: true,
         },
         xAxis: {
@@ -244,6 +244,6 @@ export default {
 <style lang="less" scoped>
 .amount-type-chart {
   width: 100%;
-  height: 24%;
+  height: 30%;
 }
 </style>

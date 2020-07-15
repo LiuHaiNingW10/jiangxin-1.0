@@ -442,8 +442,6 @@ export default {
   background-size: 100% 100%;
   font-size: 28px;
   color: #fff;
-  overflow-x: hidden;
-  overflow-y: hidden;
   // overflow: hidden;
   // 标题样式
   .title-frame {
@@ -582,6 +580,6 @@ export default {
   margin-top: 23px;
 }
 .yz{
-   padding:17px 0 0 0 !important;
+   padding:17px 0  0 10px !important;
 }
 </style>
