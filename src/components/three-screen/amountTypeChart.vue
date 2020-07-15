@@ -105,7 +105,7 @@ export default {
           left: 73,
           right: 29,
           bottom: "11%",
-          width: 950,
+          width: 1000,
           containLabel: true,
         },
         xAxis: {
