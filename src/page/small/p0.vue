@@ -2,7 +2,6 @@
   <div class="container">
     <div :class="'brain-bgg'">
       <video id="video" width="640" height="360" :src="mp4" autobuffer autoplay> 
-      <div class="fallback"> <p>You must have an HTML5 capable browser.</p> </div> 
     </video>
     </div>
   </div>
@@ -40,6 +39,8 @@ export default {
   bottom: 0;
   color: #fff;
   background-size: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
   .brain-bgg {
     position: absolute;
     top: 0;
