@@ -29,7 +29,6 @@ export default {
           "#1D9DFA",
           "#0048F1",
           "#48B188",
-          "#5957C2",
           "#4A5D73"
         ],
         series: [
@@ -40,14 +39,14 @@ export default {
               "#1D9DFA",
               "#0048F1",
               "#48B188",
-              "#5957C2"
+              "#4A5D73"
             ],
             type: "pie",
             radius: ["62", "100"],
             labelLine: {
               normal: {
-                length: 20,
-                length2: 50,
+                length: 15,
+                length2: 80,
                 lineStyle: {
                   type: "solid"
                 }
@@ -69,25 +68,28 @@ export default {
                 },
                 borderWidth: 0,
                 borderRadius: 4,
-                padding: [0, -40],
+                padding: [0, -60],
                 height: 70,
-                fontSize: 13,
-                align: "center",
+                fontSize: 12,
+                align: "left",
                 color: "#3494BD",
                 rich: {
                   b: {
-                    fontSize: 16,
+                    fontSize: 14,
                     lineHeight: 20,
-                    color: "rgba(255,255,255,.5)",
+                    color: "rgba(255,255,255,.7)",
                     padding: [15, 0, 5, 0]
                   },
                   c: {
-                    fontSize: 20,
+                    fontSize: 16,
                     lineHeight: 20,
                     color: "#fff",
                     padding: [15, 0, 5, 0]
                   }
-                }
+                },
+                // position: "outer",
+                // alignTo: "edge",
+                // margin: 50
               }
             },
             data: chartData
