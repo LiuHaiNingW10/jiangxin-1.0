@@ -46,7 +46,7 @@ export default {
                   params.name +
                   "} \n" +
                   "{c|" +
-                  params.value+
+                  Number(params.value).toFixed(1)+
                   "%}"
                 );
               },

@@ -550,22 +550,22 @@ export default {
     culTimeScroll() {
       setTimeout(() => {
         this.scrollList = this.scrollList.concat(this.msgList[0])
-      }, 2000);
+      }, 2800);
       setTimeout(() => {
         this.scrollList = this.scrollList.concat(this.msgList[1])
-      }, 4000);
+      }, 5400);
       setTimeout(() => {
         this.scrollList = this.scrollList.concat(this.msgList[2])
-      }, 13000);
+      }, 15000);
       setTimeout(() => {
         this.scrollList = this.scrollList.concat(this.msgList[3])
-      }, 16000);
+      }, 18000);
       setTimeout(() => {
         this.scrollList = this.scrollList.concat(this.msgList[4])
-      }, 20000);
+      }, 22000);
       setTimeout(() => {
         this.scrollList = this.scrollList.concat(this.msgList[5])
-      }, 24000);
+      }, 26000);
     }
   },
   

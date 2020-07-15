@@ -243,7 +243,7 @@ export default {
   },
   methods: {
     // 将数字进行千分位格式化
-      toThousands(num) {
+      toThousands(num,tofix) {
         num = (num || 0).toString();
         var parts = num.split(".");
         var bigZeroPart = parts[0];
@@ -259,6 +259,9 @@ export default {
           result += "." + parts[1].toString();
         }else {
           result += "." + '00';
+        }
+        if(tofix && tofix == '0') {
+          result = result.split('.')[0]
         }
         return result;
       },
@@ -387,7 +390,7 @@ export default {
         type: "json"
       }).then(data => {
         var indiData = data.data.data || {};
-        _that.xnum = this.toThousands(indiData.bal)
+        _that.xnum = this.toThousands(indiData.custnum,'0')
         _that.dnum = this.toThousands(indiData.bal)
         _that.cnum = this.toThousands(indiData.principal)
         _that.propertyData = Object.assign(

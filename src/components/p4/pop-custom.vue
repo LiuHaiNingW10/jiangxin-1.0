@@ -54,7 +54,7 @@ export default {
       return a;
 
       function getSize(num) {
-        let a = Math.floor((num / maxItem.num) * 280);
+        let a = Math.floor((num / maxItem.val) * 280);
         if (a < 150) {
           a = 150;
         }
@@ -168,7 +168,7 @@ export default {
           {
             type: "wordCloud",
             gridSize: 20,
-            sizeRange: [12, 50],
+            sizeRange: [24, 50],
             rotationRange: [0, 0],
             shape: "circle",
             gridSize: 20,
