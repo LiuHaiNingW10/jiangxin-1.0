@@ -169,7 +169,7 @@ export default {
       tableDataA: [],
       idA: {
         id: "echarts01",
-        title: "机器人客户"
+        title: "机器人客服"
       },
       columnA: columnA,
       tableDataB: [],

@@ -3,17 +3,21 @@
     <!-- 底部的标题 -->
     <div class="middle-title" v-if="showCredit">
       <div class="middle-left middle-single">
-        {{typeData.littleTitle[0]}} 
-        <span class="middle-titlea">平均值<span class="middle-num">{{bjAverange.perc}}</span></span>
+        {{typeData.littleTitle[0]}}
+        <span class="middle-titlea">
+          平均值
+          <span class="middle-num">{{bjAverange.perc}}</span>
+        </span>
       </div>
       <div class="middle-right middle-single">
         {{typeData.littleTitle[1]}}
-        <span class="middle-titlea">平均值<span class="middle-num">{{qxAverange.perc}}月</span></span>
+        <span class="middle-titlea">
+          平均值
+          <span class="middle-num">{{qxAverange.perc}}月</span>
+        </span>
       </div>
     </div>
-    <div>
-
-    </div>
+    <div></div>
     <div class="bottom-graph" v-if="showCredit">
       <div v-if="typeData.type === 2" class="bottom-graph-div">
         <person-columnar
@@ -53,7 +57,7 @@ export default {
       enterpriseColumnarData: {},
       loanId: "loanId",
       bjAverange: [],
-      qxAverange: [],
+      qxAverange: []
     };
   },
   computed: {},
@@ -97,7 +101,7 @@ export default {
       }).then(data => {
         if (data.data.code === 100) {
           var tData = data.data.data;
-          this.qxAverange = tData.shift()
+          this.qxAverange = tData.shift();
           let xAxis = [];
           let yAxis = [];
           tData.forEach(item => {
@@ -124,7 +128,8 @@ export default {
       }).then(data => {
         if (data.data.code === 100) {
           var tData = data.data.data;
-          this.bjAverange = tData.shift()
+          this.bjAverange = tData.shift();
+          this.bjAverange.perc = this.thousandFormat(this.bjAverange.perc, 2);
           let xAxis = [];
           let yAxis = [];
           tData.forEach(item => {
@@ -149,7 +154,7 @@ export default {
     }
   },
   components: {
-    "person-columnar": PersonColumnar,
+    "person-columnar": PersonColumnar
   }
 };
 </script>
@@ -166,7 +171,7 @@ export default {
       width: 44.18%;
       height: 100%;
 
-      color: #FFFFFF;
+      color: #ffffff;
       font-family: Microsoft YaHei;
       font-weight: bold;
       font-size: 32px;
@@ -174,7 +179,7 @@ export default {
       letter-spacing: 0px;
       text-align: left;
       .middle-titlea {
-        color: rgba(255,255,255,.5);
+        color: rgba(255, 255, 255, 0.5);
         font-family: Microsoft YaHei;
         font-weight: bold;
         font-size: 24px;
@@ -184,7 +189,7 @@ export default {
         display: inline-block;
         padding-left: 24px;
         .middle-num {
-          color: #49E5FA;
+          color: #49e5fa;
           font-family: Microsoft YaHei;
           font-weight: bold;
           font-size: 24px;
@@ -235,7 +240,7 @@ export default {
         top: 11%;
         height: 85%;
         width: 1px;
-        background: #00F7FF;
+        background: #00f7ff;
         opacity: 0.5;
         // border: 0.5px solid #00F7FF;
       }
