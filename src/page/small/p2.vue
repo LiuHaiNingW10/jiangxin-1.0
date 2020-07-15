@@ -312,10 +312,11 @@ export default {
           this.axios.spread((...obj) => {
             let financeData = [];
             let opPeriodData = [];
+            let reg = /4年/g;
             financeData = obj[1].data.data
               ? obj[1].data.data.map(item => {
                   return {
-                    name: item.xid,
+                    name: item.xid.replace(reg, '3年+'),
                     value: item.perc
                   };
                 })
@@ -328,24 +329,24 @@ export default {
                   };
                 })
               : [];
-            financeData = [
-              {
-                name: "1年",
-                value: 2158
-              },
-              {
-                name: "2年",
-                value: 1896
-              },
-              {
-                name: "3年",
-                value: 1543
-              },
-              {
-                name: "4年",
-                value: 4405
-              }
-            ];
+            // financeData = [
+            //   {
+            //     name: "1年",
+            //     value: 2158
+            //   },
+            //   {
+            //     name: "2年",
+            //     value: 1896
+            //   },
+            //   {
+            //     name: "3年",
+            //     value: 1543
+            //   },
+            //   {
+            //     name: "3年+",
+            //     value: 4405
+            //   }
+            // ];
             // opPeriodData = [
             //   {
             //     name: "首贷",
@@ -552,7 +553,7 @@ export default {
                 value: [tmpData.longitude, tmpData.latitude]
               });
             },
-            3000,
+            5000,
             _that,
             index
           );
