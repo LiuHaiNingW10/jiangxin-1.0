@@ -26,6 +26,10 @@ export default {
           "#70ad47",
           "#ff0000"
         ],
+        grid:{
+          top:'10%',
+          right:'10%'
+        },
         series: [
           {
             type: "pie",
@@ -40,6 +44,7 @@ export default {
                 }
               }
             },
+            z: 99,
             label: {
               normal: {
                 formatter: params => {
