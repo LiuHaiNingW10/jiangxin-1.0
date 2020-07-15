@@ -26,9 +26,9 @@ export default {
           "#70ad47",
           "#ff0000"
         ],
-        grid:{
-          top:'10%',
-          right:'10%'
+        grid: {
+          top: "10%",
+          right: "10%"
         },
         series: [
           {
@@ -37,7 +37,7 @@ export default {
             radius: "62%",
             labelLine: {
               normal: {
-                length: 35,
+                length: 15,
                 length2: 60,
                 lineStyle: {
                   type: "solid"
@@ -62,22 +62,25 @@ export default {
                 padding: [0, -46],
                 height: 70,
                 fontSize: 13,
-                align: "center",
+                align: "left",
                 color: "#fff",
                 rich: {
                   b: {
-                    fontSize: 16,
+                    fontSize: 14,
                     lineHeight: 20,
-                    color: "rgba(255,255,255,.5)",
-                    padding: [25, 0, 5, 0]
+                    color: "rgba(255,255,255,.7)",
+                    padding: [15, 0, 5, 0]
                   },
                   c: {
-                    fontSize: 20,
+                    fontSize: 16,
                     lineHeight: 20,
                     color: "#fff",
                     padding: [15, 0, 5, 0]
                   }
-                }
+                },
+                // position: "outer",
+                // alignTo: "edge",
+                // margin: 50
               }
             },
             // label: {
