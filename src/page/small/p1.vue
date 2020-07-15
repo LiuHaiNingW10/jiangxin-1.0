@@ -273,6 +273,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import LineChart from "../../components/first-screen/lineChart.vue";
 import SecChart from "../../components/first-screen/secChart.vue";
 // import LeftIndicatorChart from "../../components/first-screen/leftIndicator.vue";
@@ -1379,8 +1380,7 @@ export default {
         type: "json"
       }).then(data => {
         if (data.data.code === 100 || data.data.data !== null) {
-          var tData = data.data.data;
-
+          var tData = Vue.filter('sortByValue')(data.data.data,'seq').reverse();
           // let total = tData.reduce((p, e) => p + e.val, 0);
           // _that.cityData = tData.map(item => {
           //   // let IconFont = undefined;
