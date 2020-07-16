@@ -25,6 +25,7 @@ export default {
   methods: {
     initMap(chartData, mapPopData) {
       // eslint-disable-next-line no-unused-vars
+      console.log(chartData)
       var that = this;
       var geoCoordMap = {
         上海: [119.1803, 31.2891],
@@ -290,7 +291,6 @@ export default {
             type: "effectScatter",
             coordinateSystem: "geo",
             zlevel: 8,
-
             data:
               chartData && chartData.length > 0
                 ? chartData
@@ -314,6 +314,7 @@ export default {
                   ],
             symbolSize: function(value, params) {
               const { sum } = params.data;
+              console.log(chartData)
               let num = parseInt(sum)
               var max = Math.max.apply(
                 null,
