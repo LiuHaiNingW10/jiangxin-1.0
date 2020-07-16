@@ -350,6 +350,7 @@ export default {
                       value: [103.9526, 30.7617, 48],
                     },
                   ],
+            symbolSize: 32,
             showEffectOn: "render",
 
             // 涟漪的设置
@@ -366,7 +367,7 @@ export default {
                 formatter: function(params) {
                   return `{a|公司名称:}{b|${params.data.company}}\n{a|省市:}{b|${params.data.province}}\n{a|授信金额:}{c|${params.data.credit}}`
                 },
-                position: [-300, -80],
+                position: [20, 120],
                 distance: 0,
                 // background: 'rgba(22, 28, 40, 0.32)',
                 // boxShadow: '0px 16px 24px 0 #030C24',

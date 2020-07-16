@@ -442,6 +442,8 @@ export default {
   background-size: 100% 100%;
   font-size: 28px;
   color: #fff;
+  overflow-x: hidden;
+  overflow-y: hidden;
   // overflow: hidden;
   // 标题样式
   .title-frame {

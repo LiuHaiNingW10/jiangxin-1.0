@@ -57,7 +57,8 @@ export default {
       enterpriseColumnarData: {},
       loanId: "loanId",
       bjAverange: [],
-      qxAverange: []
+      qxAverange: [],
+      averangeMonth: '',
     };
   },
   computed: {},
@@ -102,6 +103,7 @@ export default {
         if (data.data.code === 100) {
           var tData = data.data.data;
           this.qxAverange = tData.shift();
+          this.qxAverange.perc = this.thousandFormat(this.qxAverange.perc, 1);
           let xAxis = [];
           let yAxis = [];
           tData.forEach(item => {
