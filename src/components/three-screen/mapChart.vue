@@ -21,9 +21,9 @@ export default {
   },
   methods: {
     getData() {
-      this.axios.get("/api/p3/relationmapData").then((relaRes) => {
+      this.axios.get("/api/p3/relationmapData?count=10").then((relaRes) => {
         let relaData = relaRes.data.data;
-        // [
+        // let relaData = [
         //   {
         //     abnormal_related: "3",
         //     age: 52,
@@ -80,7 +80,7 @@ export default {
         //       },
         //     ],
         //   },
-        // ];;
+        // ];
         this.relationRes = relaData ? relaData : [];
         // this.axios
         //   .get("/api/p3/mapData")
@@ -144,7 +144,7 @@ export default {
       function locat(city, ch) {
         var leftlocation = ["新疆维吾尔自治区", "西藏", "青海", "云南", "甘肃"];
         if (ch.length > 4) {
-          return [-800, -230];
+          return [-550, -230];
         } else if (leftlocation.indexOf(city) != -1) {
           return [-560, -230];
         } else {
@@ -154,14 +154,18 @@ export default {
       //     this.relationRes[index].location == "新疆维吾尔自治区"
       // ? [340, -210]
       // : [20, -210],
-      function locat2(city) {
+      function locat2(city, ch) {
+        console.log(city,ch)
         var leftlocation = ["新疆维吾尔自治区", "西藏", "青海", "云南", "甘肃"];
         if (leftlocation.indexOf(city) != -1) {
-          return [300, -210];
-        } else if (city.length > 2) {
-          return [5, -210];
-        } else {
-          return [0, -210];
+          if (ch.length > 4) {
+            console.log(123)
+            return [360, -210];
+          } else {
+            return [315, -210];
+          }
+        } else if (city.length > 2 && city !== "新疆维吾尔自治区") {
+          return [20, -210];
         }
       }
       // console.log((data = data.slice(8, 9)), "datadata");
@@ -557,6 +561,123 @@ export default {
             coordinateSystem: "geo",
             zlevel: 10,
             symbolSize: 32,
+            data: this.relationRes,
+            itemStyle: {
+              normal: {
+                color: "#F5B523",
+                shadowBlur: 2,
+              },
+            },
+            // 标签
+            label: {
+              normal: {
+                show: true,
+                formatter: function(params) {
+                  var {
+                    location,
+                    appname,
+                    payamount,
+                    risktype,
+                    dealtypename,
+                    username,
+                    age,
+                    residence,
+                    risk,
+                    relate_factor,
+                    relationInfoList,
+                    currentTime,
+                  } = params.data;
+
+                  var reg = /(?<=.)./g;
+                  if (username.length < 3) {
+                    username = username.replace(reg, "*");
+                  } else {
+                    username = username.replace(reg, "*");
+                  }
+                  function sum(num) {
+                    var str = "";
+                    for (var i = 0; i < num; i++) {
+                      str += " ";
+                    }
+                    return str;
+                  }
+                  function price(pic) {
+                    if (String(pic).split(".").length === 2) {
+                      return pic;
+                    } else {
+                      return pic + ".00";
+                    }
+                  }
+
+                  // return `{a|时间}{b|${currentTime}}{a|          省市}{b|${location}}{a|                 场景}{b|${appname}}\n{a|金额}{b|${price(
+                  //   payamount
+                  // )}元}{a|${sum(
+                  //   String(payamount).length + (22 - String(payamount).length)
+                  // )}风险类型}{e|${risktype}}{a|        处置方式}{e|${dealtypename}}\n{f|${username}}{f|   ${age}岁}{f|   ${residence}}{e|   ${risk}}\n{a|异常关联}{b|${
+                  //   relationInfoList.length
+                  // }}{a|               关联要素}{d|${relate_factor}}`;
+                  return ``;
+                },
+                // position: locat(
+                //   this.relationRes[index].location,
+                //   this.relationRes[index].appname
+                // ),
+                distance: 0,
+                // width: 440,
+                // height: 180,
+                backgroundColor: {
+                  // image: require("@/assets/images/p3/map-alert.png"),
+                },
+                padding: [30, 40],
+                lineHeight: 40,
+                // verticalAlign: "middle",
+                color: "#fff",
+                z: 11,
+                textStyle: {
+                  fontSize: 20,
+                },
+                rich: {
+                  a: {
+                    color: "rgba(255,255,255,.7)",
+                    fontSize: 20,
+                  },
+                  b: {
+                    padding: [0, 10],
+                    color: "#ffffff",
+                    fontSize: 20,
+                    fontWeight: "bold",
+                  },
+                  c: {
+                    margin: 20,
+                    fontSize: 20,
+                    color: "rgba(255,255,255,.9)",
+                  },
+                  d: {
+                    padding: [0, 10],
+                    fontSize: 20,
+                    color: "#FFAF2B",
+                  },
+                  e: {
+                    padding: [0, 10],
+                    fontSize: 20,
+                    color: "#FF475D",
+                    fontWeight: "bold",
+                  },
+                  f: {
+                    padding: [0, 10, 0, 0],
+                    color: "#ffffff",
+                    fontSize: 20,
+                  },
+                },
+              },
+            },
+          },
+          {
+            // 关联关系
+            type: "effectScatter",
+            coordinateSystem: "geo",
+            zlevel: 10,
+            // symbolSize: 32,
             data: this.relationRes[index] ? [this.relationRes[index]] : [],
             itemStyle: {
               normal: {
@@ -726,7 +847,10 @@ export default {
                   return returnStr;
                   // return `aaaaaa`;
                 },
-                position: locat2(this.relationRes[index].location),
+                position: locat2(
+                  this.relationRes[index].location,
+                  this.relationRes[index].appname
+                ),
                 distance: 0,
                 width: 340,
                 height: 120,
