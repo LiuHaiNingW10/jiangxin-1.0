@@ -62,12 +62,13 @@ export default {
                   fontSize: 16,
                   lineHeight: 20,
                   color: "rgba(255,255,255,.5)",
-                  padding: [0, 0, 5, 0]
+                  padding: [15, 0, 5, 0]
                 },
                 c: {
                   fontSize: 20,
                   lineHeight: 20,
-                  color: "#fff"
+                  color: "#fff",
+                  padding: [15, 0, 3, 0]
                 }
               }
             }
