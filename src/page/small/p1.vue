@@ -130,7 +130,7 @@
           <div class="single-distribution half-bottom-distribution">
             <span class="single-graph-title">
               用信天数
-              <span class="avg-title">平均天数</span>
+              <span class="avg-title">平均月数</span>
               <span class="avg-num">{{creditDateAvg}}</span>
             </span>
             <simple-column
