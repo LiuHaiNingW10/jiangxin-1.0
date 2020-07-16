@@ -12,7 +12,7 @@
       <div class="middle-right middle-single">
         {{typeData.littleTitle[1]}}
         <span class="middle-titlea">
-          平均值
+          平均月数
           <span class="middle-num">{{qxAverange.perc}}月</span>
         </span>
       </div>
