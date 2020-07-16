@@ -109,7 +109,7 @@ export default {
           }
           index++;
           this.initMap(this.relationRes, index);
-        }, 120000);
+        }, 1000);
       });
     },
     nowTime() {
@@ -141,11 +141,14 @@ export default {
       return num;
     },
     initMap(data, index) {
+      var all = [];
+      for(var i=0;i<10;i++)
+      {
+        all.push(Math.round(Math.random() * 10 + 32))
+      }
       function locat(city, ch) {
         var leftlocation = ["新疆维吾尔自治区", "西藏", "青海", "云南", "甘肃"];
-        if (ch.length > 4) {
-          return [-550, -230];
-        } else if (leftlocation.indexOf(city) != -1) {
+        if (leftlocation.indexOf(city) != -1) {
           return [-560, -230];
         } else {
           return [-760, -230];
@@ -155,18 +158,31 @@ export default {
       // ? [340, -210]
       // : [20, -210],
       function locat2(city, ch) {
-        console.log(city,ch)
         var leftlocation = ["新疆维吾尔自治区", "西藏", "青海", "云南", "甘肃"];
         if (leftlocation.indexOf(city) != -1) {
           if (ch.length > 4) {
-            console.log(123)
             return [360, -210];
           } else {
             return [315, -210];
           }
-        } else if (city.length > 2 && city !== "新疆维吾尔自治区") {
-          return [20, -210];
+        } else if (leftlocation.indexOf(city) == -1) {
+          if (ch.length > 4) {
+            return [70, -210];
+          } else {
+            return [20, -210];
+          }
         }
+        // else if (city.length > 2 && city !== "新疆维吾尔自治区") {
+        //   return [20, -210];
+        // }
+      }
+      //       function size() {
+      // 2
+      // 3 return  Math.round(Math.random() * 10 + 32)
+      // 4
+      // 5 }
+      function size() {
+        return Math.round(Math.random() * 10 + 32);
       }
       // console.log((data = data.slice(8, 9)), "datadata");
       data =
@@ -678,6 +694,7 @@ export default {
             coordinateSystem: "geo",
             zlevel: 10,
             // symbolSize: 32,
+            symbolSize: all[index],
             data: this.relationRes[index] ? [this.relationRes[index]] : [],
             itemStyle: {
               normal: {
