@@ -5,23 +5,27 @@
       <div id="ChinaMap" v-if="showAudio"></div>
       <div class="light-spot">
         <!-- <canvas ></canvas> -->
-        <img id="audio-art" :src="require('../../assets/images/voice-view.png')" alt />
+        <img
+          id="audio-art"
+          :src="require('../../assets/images/voice-view.png')"
+          alt
+        />
       </div>
       <div class="chat-box demo" id="list-demo">
-        <div id="dialogue-box" >
+        <div id="dialogue-box">
           <!-- <vue-seamless-scroll :data="scrollList" :class-option="optionHover" class="seamless-warp"> -->
           <div v-if="showDialogue">
             <div
-              :class="index%2 === 0 ? 'server ' + index : 'user '+ index "
-              v-for="(item,index) in scrollList"
-              :key="Math.random()+index"
+              :class="index % 2 === 0 ? 'server ' + index : 'user ' + index"
+              v-for="(item, index) in scrollList"
+              :key="Math.random() + index"
               class="list-complete-item"
             >
-              <span class="title" v-if="index%2 === 0"></span>
-              <span v-if="index%2 === 0">{{item.value}}</span>
+              <span class="title" v-if="index % 2 === 0"></span>
+              <span v-if="index % 2 === 0">{{ item.value }}</span>
 
-              <span v-if="index%2 !== 0">{{item.value}}</span>
-              <span class="title" v-if="index%2 !== 0"></span>
+              <span v-if="index % 2 !== 0">{{ item.value }}</span>
+              <span class="title" v-if="index % 2 !== 0"></span>
             </div>
           </div>
           <!-- </vue-seamless-scroll> -->
@@ -29,7 +33,11 @@
       </div>
     </div>
     <div class="brain-foot">
-      <audio id="audio" ref="audio" :src="require('../../assets/video/chongqing.wav')"></audio>
+      <audio
+        id="audio"
+        ref="audio"
+        :src="require('../../assets/video/chongqing.wav')"
+      ></audio>
     </div>
   </div>
 </template>
@@ -62,41 +70,41 @@ export default {
       robot: baseBox.robot.value,
       list: [
         {
-          value: "您好，请问是王先生吗"
+          value: "您好，请问是王先生吗",
         },
       ],
       scrollList: [
         {
-          value: "您好，请问是王先生吗"
+          value: "您好，请问是王先生吗",
         },
       ],
       msgList: [
         {
-          value: "嗯，我是"
+          value: "嗯，我是",
         },
         {
           value:
-            "这里是百信银行的客服，我们看到您的贷款已经到期，金额是2500，您是忘了，还是什么情况"
+            "这里是百信银行的客服，我们看到您的贷款已经到期，金额是2500，您是忘了，还是什么情况",
         },
         {
-          value: "嗯，我查一下，可能是忘了，前段时间没得钱"
+          value: "嗯，我查一下，可能是忘了，前段时间没得钱",
         },
         {
-          value: "您看今天六点前可以处理吗"
+          value: "您看今天六点前可以处理吗",
         },
         {
-          value: "嗯，要的要的，可以，我晚上还"
+          value: "嗯，要的要的，可以，我晚上还",
         },
         {
           value:
-            "我们会关注您的还款，如未收到款项，后续会有工作人员再次与您联系，感谢您的接听，再见 "
-        }
-      ]
+            "我们会关注您的还款，如未收到款项，后续会有工作人员再次与您联系，感谢您的接听，再见 ",
+        },
+      ],
     };
   },
   components: {
     RiskPortraitChart,
-    vueSeamlessScroll
+    vueSeamlessScroll,
   },
   computed: {
     optionHover() {
@@ -106,14 +114,16 @@ export default {
         direction: 1, // 向下/上滚动
         step: 0.8, // 滚动速度
         singleHeight: 130, // 滚动单行
-        waitTime: 2800 // 单行停顿时间
+        waitTime: 2800, // 单行停顿时间
       };
-    }
+    },
   },
-  created() {},
+  created() {
+    console.log(this.bigPoint,'big')
+  },
   mounted() {
     this.init();
-    document.addEventListener("keydown", event => {
+    document.addEventListener("keydown", (event) => {
       let e = event || window.event || arguments.callee.caller.arguments[0];
       let l = this._.split(window.location.href, "manage/P", 2),
         targetUrl = 0;
@@ -141,8 +151,8 @@ export default {
       this.drawMap();
     },
     scrollList: function() {
-      return this.scrollList
-    }
+      return this.scrollList;
+    },
   },
   methods: {
     init() {
@@ -152,7 +162,7 @@ export default {
       let obj = this.tableData,
         seriesData = {
           ...obj,
-          value: [obj.longitude, obj.latitude]
+          value: [obj.longitude, obj.latitude],
         };
       let myChart = this.$echarts.init(document.getElementById("ChinaMap"));
       let mapName = "china";
@@ -194,9 +204,9 @@ export default {
         { name: "澳门", value: 0 },
         { name: "广西", value: 0 },
         { name: "海南", value: 0 },
-        { name: "台湾", value: 0 }
+        { name: "台湾", value: 0 },
       ];
-      data.forEach(item => {
+      data.forEach((item) => {
         if (item.name === curruntArea) {
           item.value = item.value + 150;
         } else {
@@ -226,7 +236,7 @@ export default {
           if (geoCoord) {
             res.push({
               name: data[i].name,
-              value: geoCoord.concat(data[i].value)
+              value: geoCoord.concat(data[i].value),
             });
           }
         }
@@ -242,31 +252,31 @@ export default {
           calculable: true,
           seriesIndex: [1],
           inRange: {
-            color: ["#467bc0", "#467bc0"] // 蓝绿
-          }
+            color: ["#467bc0", "#467bc0"], // 蓝绿
+          },
         },
         geo: {
           show: true,
           map: mapName,
           label: {
             normal: {
-              show: false
+              show: false,
             },
             emphasis: {
-              show: false
-            }
+              show: false,
+            },
           },
           roam: false,
           itemStyle: {
             normal: {
               borderColor: "rgba(0,255,255, 1)",
 
-              areaColor: "#023677"
+              areaColor: "#023677",
             },
             emphasis: {
-              areaColor: "#4499d0"
-            }
-          }
+              areaColor: "#4499d0",
+            },
+          },
         },
         series: [
           {
@@ -279,18 +289,18 @@ export default {
               normal: {
                 formatter: "{b}",
                 position: "right",
-                show: false
+                show: false,
               },
               emphasis: {
-                show: false
-              }
+                show: false,
+              },
             },
             itemStyle: {
               normal: {
                 show: false,
-                color: "#fff"
-              }
-            }
+                color: "#fff",
+              },
+            },
           },
           {
             type: "map",
@@ -300,28 +310,41 @@ export default {
             showLegendSymbol: false, // 存在legend时显示
             label: {
               normal: {
-                show: true
+                show: true,
               },
               emphasis: {
                 show: false,
                 textStyle: {
-                  color: "#fff"
-                }
-              }
+                  color: "#fff",
+                },
+              },
             },
             roam: true,
             itemStyle: {
               normal: {
                 borderColor: "#2cb3dd",
                 borderWidth: 0.8,
-                areaColor: "#031525"
+                areaColor: "#031525",
               },
               emphasis: {
-                areaColor: "#2B91B7"
-              }
+                areaColor: "#2B91B7",
+              },
             },
             animation: false,
-            data: data
+            data: data,
+          },
+          {
+            type: "effectScatter",
+            coordinateSystem: "geo",
+            zlevel: 10,
+            symbolSize: 32,
+            data: seriesData,
+            itemStyle: {
+              normal: {
+                color: "#F5B523",
+                shadowBlur: 2,
+              },
+            },
           },
           {
             type: "effectScatter",
@@ -332,8 +355,8 @@ export default {
             itemStyle: {
               normal: {
                 color: "#F5B523",
-                shadowBlur: 2
-              }
+                shadowBlur: 2,
+              },
             },
             // 标签
             label: {
@@ -350,7 +373,7 @@ export default {
                     action,
                     province,
                     handle,
-                    problem
+                    problem,
                   } = params.data;
                   let a = "";
                   if (accent) {
@@ -358,8 +381,10 @@ export default {
                   } else {
                     a =
                       status === "正常"
-                        ? `{a|行为}{b|${action}}{zc|${status}}\n{a|问题定位}{b|${problem || '--'}}\n{a|手机号码}{b|${mobile}}\n{a|省市}{b|${province}}`
-                        : `{a|行为}{b|${action}}{yc|${status}}\n{a|问题定位}{b|${problem || '--'}}\n{a|手机号码}{b|${mobile}}\n{a|省市}{b|${province}}`;
+                        ? `{a|行为}{b|${action}}{zc|${status}}\n{a|问题定位}{b|${problem ||
+                            "--"}}\n{a|手机号码}{b|${mobile}}\n{a|省市}{b|${province}}`
+                        : `{a|行为}{b|${action}}{yc|${status}}\n{a|问题定位}{b|${problem ||
+                            "--"}}\n{a|手机号码}{b|${mobile}}\n{a|省市}{b|${province}}`;
                   }
                   return a;
                 },
@@ -368,7 +393,7 @@ export default {
                 width: 340,
                 height: 170,
                 backgroundColor: {
-                  image: require("@/assets/images/map-modal.png")
+                  image: require("@/assets/images/map-modal.png"),
                 },
                 padding: [30, 50],
                 lineHeight: 40,
@@ -376,47 +401,47 @@ export default {
                 color: "#fff",
                 z: 11,
                 textStyle: {
-                  fontSize: 20
+                  fontSize: 20,
                 },
                 rich: {
                   a: {
                     color: "rgba(255,255,255,.6)",
                     fontSize: 20,
                     align: "left",
-                    fontWeight: "bold"
+                    fontWeight: "bold",
                   },
                   b: {
                     padding: [0, 10],
                     color: "#ffffff",
                     fontSize: 20,
-                    fontWeight: "bold"
+                    fontWeight: "bold",
                   },
                   c: {
                     align: "left",
-                    fontSize: 16
+                    fontSize: 16,
                   },
                   d: {
                     color: "#FF9431",
-                    fontSize: 16
+                    fontSize: 16,
                   },
                   zc: {
                     color: "#0088DC",
                     fontSize: 26,
                     padding: 4,
-                    bold: "1px solid #0088DC"
+                    bold: "1px solid #0088DC",
                   },
                   yc: {
                     color: "#FF9431",
                     fontSize: 26,
                     padding: 8,
                     borderWidth: 1,
-                    borderColor: '#FF9431',
-                    borderRadius: 8
-                  }
-                }
-              }
-            }
-          }
+                    borderColor: "#FF9431",
+                    borderRadius: 8,
+                  },
+                },
+              },
+            },
+          },
           // {
           //   name: "Top 5",
           //   type: "effectScatter",
@@ -452,7 +477,7 @@ export default {
           //   },
           //   zlevel: 1
           // }
-        ]
+        ],
       };
       myChart.setOption(option);
     },
@@ -471,13 +496,13 @@ export default {
         this.$emit("func", { value: true });
         this.$nextTick(() => {
           this.showAudio = true;
-          this.showDialogue = false
+          this.showDialogue = false;
         });
         // document.getElementById("dialogue-box").style.display = "none";
         document.getElementById("audio-art").style.display = "none";
         this.scrollList = this.list;
       }, audioTime * 1000);
-      this.changeProgress()
+      this.changeProgress();
       return;
       var source = atx.createMediaElementSource(audio);
       var analyser = atx.createAnalyser();
@@ -516,26 +541,26 @@ export default {
       }
       draw();
     },
-    changeProgress: function () {
-      const musicMp3 = document.getElementById('audio')
+    changeProgress: function() {
+      const musicMp3 = document.getElementById("audio");
       const timer = setInterval(() => {
-        const numbers = musicMp3.currentTime / musicMp3.duration
-        let perNumber = (numbers * 100).toFixed(2)
+        const numbers = musicMp3.currentTime / musicMp3.duration;
+        let perNumber = (numbers * 100).toFixed(2);
         if (perNumber >= 100) {
-          this.isStore = true
-          this.progress = 0
-          clearInterval(timer)
+          this.isStore = true;
+          this.progress = 0;
+          clearInterval(timer);
         }
-        this.progress = perNumber
-        let t = Number(perNumber)
+        this.progress = perNumber;
+        let t = Number(perNumber);
         // if(52 < t && t <= 57) {
         //   this.scrollList.shift()
         // }
-        if(52 < t && t <= 58) {
-          this.scrollList = this.scrollList.slice(2)
+        if (52 < t && t <= 58) {
+          this.scrollList = this.scrollList.slice(2);
         }
-        if( 68 < t && t <= 75 ) {
-          this.scrollList = this.scrollList.slice(2)
+        if (68 < t && t <= 75) {
+          this.scrollList = this.scrollList.slice(2);
         }
         //   document.getElementsByClassName('1')[0].style.display = 'none'
         // }else if( 35 <  t && t <= 44 ) {
@@ -545,30 +570,29 @@ export default {
         // }else if( 59 <  t && t <= 64 ) {
         //   document.getElementsByClassName('4')[0].style.display = 'none'
         // }
-      }, 2000)
+      }, 2000);
     },
     culTimeScroll() {
       setTimeout(() => {
-        this.scrollList = this.scrollList.concat(this.msgList[0])
+        this.scrollList = this.scrollList.concat(this.msgList[0]);
       }, 2800);
       setTimeout(() => {
-        this.scrollList = this.scrollList.concat(this.msgList[1])
+        this.scrollList = this.scrollList.concat(this.msgList[1]);
       }, 5400);
       setTimeout(() => {
-        this.scrollList = this.scrollList.concat(this.msgList[2])
+        this.scrollList = this.scrollList.concat(this.msgList[2]);
       }, 15000);
       setTimeout(() => {
-        this.scrollList = this.scrollList.concat(this.msgList[3])
+        this.scrollList = this.scrollList.concat(this.msgList[3]);
       }, 18000);
       setTimeout(() => {
-        this.scrollList = this.scrollList.concat(this.msgList[4])
+        this.scrollList = this.scrollList.concat(this.msgList[4]);
       }, 22000);
       setTimeout(() => {
-        this.scrollList = this.scrollList.concat(this.msgList[5])
+        this.scrollList = this.scrollList.concat(this.msgList[5]);
       }, 26000);
-    }
+    },
   },
-  
 };
 </script>
 <style lang="less" scoped>
@@ -707,4 +731,4 @@ export default {
   opacity: 0;
   transform: translateY(30px);
 }
-</style> 
+</style>

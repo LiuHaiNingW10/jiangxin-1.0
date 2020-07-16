@@ -1,5 +1,5 @@
 <template>
-<!-- p1 -->
+  <!-- p1 -->
   <div class="sec-map-charts">
     <div id="secMiddleMap"></div>
   </div>
@@ -8,16 +8,78 @@
 <script>
 export default {
   name: "mapChart",
-  props: ["chartData"],
+  // props: ["chartData"],
   mounted() {
-    this.initMap(this.chartData);
+    // this.initMap(this.chartData);
+    this.getData();
   },
   data() {
-    return {};
+    return {
+      mapData: [],
+    };
   },
   computed: {},
   methods: {
-    initMap(chartData) {
+    thousandFormat(value, fixed) {
+      fixed = fixed !== undefined ? fixed : 2;
+      if (value === null || value === undefined || isNaN(parseFloat(value))) {
+        return;
+      }
+      // 将数字进行千分位格式化
+      function toThousands(num) {
+        num = (num || 0).toString();
+        var parts = num.split(".");
+        var bigZeroPart = parts[0];
+        var result = "";
+        while (bigZeroPart.length > 3) {
+          result = "," + bigZeroPart.slice(-3) + result;
+          bigZeroPart = bigZeroPart.slice(0, bigZeroPart.length - 3);
+        }
+        if (bigZeroPart) {
+          result = bigZeroPart + result;
+        }
+        if (parts.length > 1) {
+          result += "." + parts[1].toString();
+        }
+        return result;
+      }
+
+      value = parseFloat(value).toFixed(fixed);
+      value = toThousands(value);
+      return value;
+    },
+    getData() {
+      this.axios({
+        url: "/api/p2/graphInfo",
+        method: "get",
+        data: "",
+        type: "json",
+      }).then((data) => {
+        if (data.data.code === 100) {
+          var chartData = data.data.data.map((item, index) => {
+            return {
+              company: item.companyname,
+              province: item.province,
+              credit: this.thousandFormat(item.credit, 2),
+              value: [item.longitude, item.latitude],
+              count:item.credit,
+            };
+          });
+
+          let index = 0;
+          this.initMap(chartData,index);
+          this.timer = setInterval(() => {
+            if (index >= chartData.length) {
+              this.getData();
+              clearInterval(this.timer);
+            }
+            index++;
+            this.initMap(chartData,index);
+          }, 5000);
+        }
+      });
+    },
+    initMap(chartData,index) {
       // if (!chartData || chartData.length === 0) return;
       var geoCoordMap = {
         上海: [119.1803, 31.2891],
@@ -313,15 +375,39 @@ export default {
             data: colorData,
           },
           {
-
             type: "effectScatter",
             coordinateSystem: "geo",
-            zlevel: 4,
+            zlevel: 10,
+            symbolSize: 
+            function(value, params) {
+              const { count } = params.data;
+              let num = parseInt(count);
+              var max = Math.max.apply(
+                null,
+                chartData.map((item) => item.count)
+              );
+              let size = (32 / max) * num;
+              let result = size > 5 ? size : 5;
+              return result;
+            },
+            data: chartData,
+            itemStyle: {
+              normal: {
+                color: "#F5B523",
+                shadowBlur: 2,
+              },
+            },
+          },
+          {
+            type: "effectScatter",
+            coordinateSystem: "geo",
+            zlevel: 20,
+            // symbolSize: 32,
             data:
-              chartData && chartData.length > 0
-                ? chartData
-                : [
-                    //   {
+              chartData[index] && chartData.length > 0
+                ?[chartData[index]]
+                :
+                   [ //   {
                     //     name: "王**",
                     //     age: "28岁",
                     //     sex: "男",
@@ -337,21 +423,10 @@ export default {
                     //     sum: "7000000",
                     //     value: [103.9526, 30.7617, 48]
                     //   }
-                    {
-                      company: "企业1",
-                      credit: "589,298",
-                      grade: "87",
-                      value: [116.4551, 40.2539, 48],
-                    },
-                    {
-                      company: "企业2",
-                      credit: "589,298,583",
-                      grade: "96",
-                      value: [103.9526, 30.7617, 48],
-                    },
-                  ],
-            symbolSize: 32,
-            showEffectOn: "render",
+                    ]
+                  ,
+            // symbolSize: 32,
+            // showEffectOn: "render",
 
             // 涟漪的设置
             // rippleEffect: {
@@ -365,14 +440,14 @@ export default {
               normal: {
                 show: true,
                 formatter: function(params) {
-                  return `{a|公司名称:}{b|${params.data.company}}\n{a|省市:}{b|${params.data.province}}\n{a|授信金额:}{c|${params.data.credit}}`
+                  return `{a|公司名称:}{b|${params.data.company}}\n{a|省市:}{b|${params.data.province}}\n{a|授信金额:}{c|${params.data.credit}}`;
                 },
                 position: [10, 135],
                 distance: 0,
                 // background: 'rgba(22, 28, 40, 0.32)',
                 // boxShadow: '0px 16px 24px 0 #030C24',
                 backgroundColor: {
-                  image: require("@/assets/images/p2/mapmodelbg.png")
+                  image: require("@/assets/images/p2/mapmodelbg.png"),
                 },
                 // borderColor: "rgba(0,191,255,.9)",
                 // borderWidth: 2,
@@ -402,21 +477,21 @@ export default {
                     padding: [0, 10],
                     fontSize: 20,
                     color: "#FFAF2B",
-                  }
-                }
+                  },
+                },
                 // rich: {
-                  // fline: {
-                  //   padding: [0, 10],
-                  //   color: "#ffffff",
-                  // },
+                // fline: {
+                //   padding: [0, 10],
+                //   color: "#ffffff",
+                // },
                 // },
               },
             },
             itemStyle: {
-             normal: {
+              normal: {
                 color: "#F5B523",
-                shadowBlur: 2
-              }
+                shadowBlur: 2,
+              },
             },
           },
           {
@@ -489,11 +564,11 @@ export default {
     },
   },
   components: {},
-  watch: {
-    chartData: function(newVal) {
-      this.initMap(newVal);
-    },
-  },
+  // watch: {
+  //   chartData: function(newVal) {
+  //     this.initMap(newVal);
+  //   },
+  // },
 };
 </script>
 

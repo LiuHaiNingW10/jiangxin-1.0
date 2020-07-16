@@ -40,7 +40,7 @@
       </div>
       <div class="content-middle">
         <centerTitleOrNum :title="ctitle" :num="cnum" />
-        <sec-map-chart v-if="mapJudge" :chartData="mapData" class="sec-map-charts" />
+        <sec-map-chart v-if="mapJudge" class="sec-map-charts" />
       </div>
       <div class="content-right">
         <titleOrNum :title="dtitle" :num="dnum" />
@@ -359,6 +359,7 @@ export default {
         data: "",
         type: "json"
       }).then(data => {
+        console.log(data)
         if (data.data.code === 100) {
           var tData = data.data.data;
           let index = 0;

@@ -23,6 +23,7 @@ export default {
     getData() {
       this.axios.get("/api/p3/relationmapData?count=10").then((relaRes) => {
         let relaData = relaRes.data.data;
+        console.log(relaData);
         // let relaData = [
         //   {
         //     abnormal_related: "3",
@@ -109,7 +110,7 @@ export default {
           }
           index++;
           this.initMap(this.relationRes, index);
-        }, 120000);
+        }, 15000);
       });
     },
     nowTime() {
@@ -141,11 +142,8 @@ export default {
       return num;
     },
     initMap(data, index) {
-      var all = [];
-      for(var i=0;i<10;i++)
-      {
-        all.push(Math.round(Math.random() * 10 + 32))
-      }
+      console.log(data, "123456");
+      var sum = data;
       function locat(city, ch) {
         var leftlocation = ["新疆维吾尔自治区", "西藏", "青海", "云南", "甘肃"];
         if (leftlocation.indexOf(city) != -1) {
@@ -181,9 +179,6 @@ export default {
       // 3 return  Math.round(Math.random() * 10 + 32)
       // 4
       // 5 }
-      function size() {
-        return Math.round(Math.random() * 10 + 32);
-      }
       // console.log((data = data.slice(8, 9)), "datadata");
       data =
         // let relationMesg = {};
@@ -576,7 +571,17 @@ export default {
             type: "effectScatter",
             coordinateSystem: "geo",
             zlevel: 10,
-            symbolSize: 32,
+            symbolSize: function(value, params) {
+              const { payamount } = params.data;
+              let num = parseInt(payamount);
+              var max = Math.max.apply(
+                null,
+                sum.map((item) => item.payamount)
+              );
+              let size = (32 / max) * num;
+              let result = size > 5 ? size : 5;
+              return result;
+            },
             data: this.relationRes,
             itemStyle: {
               normal: {
@@ -591,7 +596,6 @@ export default {
             coordinateSystem: "geo",
             zlevel: 10,
             // symbolSize: 32,
-            // symbolSize: all[index],
             data: this.relationRes[index] ? [this.relationRes[index]] : [],
             itemStyle: {
               normal: {
