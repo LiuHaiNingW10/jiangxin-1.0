@@ -13,14 +13,6 @@
     <div class="frame-content">
       <div class="content-left">
         <titleOrNum :title="xtitle" :num="xnum" />
-        <!-- <indicator-div
-          :titleContent="littleTitle[0]"
-          :titleStyle="littleTitleStyle[0]"
-          :digital="threeMoneyArr.third"
-          :digitalStyle="digitalStyle[0]"
-        /> -->
-        <!-- <portrayal-exp v-if="showPortrayal" class="left-center" :tableDatas="OpperiodAndFinance" /> -->
-        
         <div class="left-center">
           <div class="single-distribution">
             <span class="single-graph-title">首贷占比</span>
@@ -72,17 +64,13 @@
 import WeatherCom from "../../components/weather.vue";
 import CreditPropertiesChart from "../../components/second-screen/creditPropertiesChart.vue";
 import SecMapChart from "../../components/second-screen/secondMapChart.vue";
-// import PortrayalExp from "../../components/second-screen/portrayalExp.vue";
 import titleOrNum from "../../components/titleOrNum.vue"
 import centerTitleOrNum from "../../components/centerTitleOrNum.vue"
 import createOrLoan from "../../components/second-screen/createOrLoan.vue"
 import cyclicAndPie from "../../components/second-screen/cyclicAndPie.vue"
-// import dkOrFwModel from "../../components/second-screen/dkOrFwModel.vue"
-// import IndicatorDiv from "@/components/first-screen/indicatorDiv.vue";
 import CyclicAnnular from "@/components/second-screen/cyclicAnnlar.vue";
 import WholePieChart from "@/components/second-screen/wholePieChart.vue";
 
-// import PortrayalServer from "../../components/second-screen/portrayalServer.vue";
 export default {
   mounted() {},
   data() {
@@ -119,116 +107,11 @@ export default {
       serverData: [],
       mapData: [],
       mapJudge: false,
-
-      propertyIds: [
-        {
-          name: "授信金额"
-        },
-        {
-          name: "用信企业数量"
-        },
-        {
-          name: "时点余额"
-        }
-      ],
-      propertyPersonIds: [
-        {
-          name: "笔均"
-        },
-        {
-          name: "户均"
-        },
-        {
-          name: "平均用信次数"
-        }
-      ],
-
-      // 三农
-
       showRight: false,
-      agriculture: [{ id: "agriculture", title: "小微企业及三农" }],
-      agricultureJudge: false,
-      agricultureData: [],
 
-      // 主要产品
-      primaryPro: [{ id: "primaryPro", title: "主要产品" }],
-      primaryProData: [],
-
-      // 三农专案
-      threeProject: [{ id: "threeProject", title: "百兴贷三农专案" }],
-      threeProjectData: [],
-
-      // 分布数据
-      distributionIds: { id: "distributionIds", title: "养户分布" },
+      distributionIds: "distributionIds",
       distributionData: {},
       
-      // 对接接口数据
-      agricultureIndex: [
-        {
-          dataIndex: "indexname",
-          style: "",
-          formatJudge: false,
-          dollorJudge: false
-        },
-        {
-          dataIndex: "val",
-          style: "number-div",
-          formatJudge: true,
-          dollorJudge: false
-        },
-        {
-          dataIndex: "unit",
-          style: "",
-          formatJudge: false,
-          dollorJudge: false
-        }
-      ],
-      // agricultureHeader: ["产品", "累计放款金额", "累计放款企业数"],
-
-      primaryProIndex: [
-        {
-          dataIndex: "productname",
-          style: "",
-          formatJudge: false,
-          dollorJudge: true
-        },
-        {
-          dataIndex: "bal",
-          style: "number-div",
-          formatJudge: true,
-          dollorJudge: true
-        },
-        {
-          dataIndex: "company",
-          style: "number-div",
-          formatJudge: false,
-          dollorJudge: true
-        }
-      ],
-      primaryProHeader: ["产品", "累计放款金额", "累计放款企业数"],
-
-      threeProjectIndex: [
-        {
-          dataIndex: "person",
-          style: "number-div",
-          formatJudge: false,
-          dollorJudge: true
-        },
-        {
-          dataIndex: "quantity",
-          style: "number-div",
-          formatJudge: true,
-          dollorJudge: true
-        },
-        {
-          dataIndex: "bal",
-          style: "number-div",
-          formatJudge: true,
-          dollorJudge: true
-        }
-      ],
-      threeProjectHeader: ["农户数", "养猪头数", "放款金额"],
-
       mapInterval: undefined
     };
   },
@@ -236,10 +119,11 @@ export default {
   created() {
     this.getOpperiodAndFinance();
     this.getPropertyCredit();
-    this.getProductHandler();
+    // this.getProductHandler();
     this.getMapData();
     this.getLoanModelData()
     this.getServeModelData()
+    this.getTopData()
   },
   methods: {
     // 将数字进行千分位格式化
@@ -265,6 +149,7 @@ export default {
         }
         return result;
       },
+    // 信用占比
     getLoanModelData() {
       let _that = this;
       this.axios({
@@ -283,6 +168,7 @@ export default {
         _that.loanModelData = indiData
       });
     },
+    // 线上占比
     getServeModelData() {
       let _that = this;
       this.axios({
@@ -301,6 +187,7 @@ export default {
         _that.serveModelData = indiData
       });
     },
+    // 首贷占比，经营年限
     getOpperiodAndFinance() {
       this.axios
         .all([
@@ -381,7 +268,24 @@ export default {
           })
         );
     },
-
+    // 小微客户服务数/小微服务金额/小微贷款累计投放金额
+    getTopData() {
+      let _that = this;
+      this.axios
+        .all([
+          this.axios.get("/api/p2/custnum"),
+          this.axios.get("/api/p2/principal"),
+          this.axios.get("/api/p2/bal")
+        ])
+        .then(
+          this.axios.spread((...obj) => {
+            // 客服数
+            _that.xnum = this.toThousands(obj[0].data.data,'0')
+            _that.dnum = this.toThousands(obj[1].data.data)
+            _that.cnum = this.toThousands(obj[2].data.data)
+          })
+        );
+    },
     getPropertyCredit() {
       let _that = this;
       this.axios({
@@ -391,9 +295,6 @@ export default {
         type: "json"
       }).then(data => {
         var indiData = data.data.data || {};
-        _that.xnum = this.toThousands(indiData.custnum,'0')
-        _that.dnum = this.toThousands(indiData.bal)
-        _that.cnum = this.toThousands(indiData.principal)
         _that.propertyData = Object.assign(
           {},
           {
@@ -415,72 +316,6 @@ export default {
         });
       });
     },
-
-    // 获取右侧产品
-    getProductHandler() {
-      // this.agricultureData = [
-      //   {
-      //     indexname: "ljfkje",
-      //     val: 711745603,
-      //     unit: "元"
-      //   }
-      // ];
-      this.axios
-        .all([
-          this.axios.get("/api/p2/establishment?indexname=ljfkje"),
-          this.axios.get("/api/p2/product"),
-          this.axios.get("/api/p2/specialCase"),
-          this.axios.get("/api/p2/distribution"),
-          this.axios.get("/api/p2/specialCase"),
-          this.axios.get("/api/p2/establishment?indexname=ljfkqy"),
-          this.axios.get("/api/p2/establishment?indexname=ljsxed")
-        ])
-        .then(
-          this.axios.spread((...obj) => {
-            // 0、小微企业及三农
-            this.agricultureData = [];
-            this.agricultureData.push(
-              obj[0].data.data ? obj[0].data.data[0] : []
-            );
-            this.agricultureData.push(
-              obj[5].data.data ? obj[5].data.data[0] : []
-            );
-            this.agricultureData.push(
-              obj[6].data.data ? obj[6].data.data[0] : []
-            );
-
-            // // 主要产品
-            this.primaryProData = obj[1].data.data || 0;
-
-            // //百兴贷三农专案
-            this.threeProjectData = [obj[2].data.data] || 0;
-
-            // //养户分布
-            let chartData = obj[3].data.data || [];
-            let xAxis = [],
-              yAxis1 = [],
-              yAxis2 = [];
-            chartData.forEach(item => {
-              xAxis.push(item.province);
-              yAxis1.push(item.quantity);
-              yAxis2.push(item.person);
-            });
-            let totalData = obj[4].data.data || {};
-            xAxis.push("总计");
-            yAxis1.push(totalData.quantity);
-            yAxis2.push(totalData.person);
-            this.distributionData = Object.assign(
-              {},
-              { xAxis, yAxis1, yAxis2 }
-            );
-
-            this.$nextTick(() => {
-              this.showRight = true;
-            });
-          })
-        );
-    },
-
     getMapData() {
       this.getMapDataHandler();
     },
@@ -514,6 +349,7 @@ export default {
       value = toThousands(value);
       return value;
     },
+    // 地图卡片数据
     getMapDataHandler() {
       var _that = this;
       // 获取地图数据
@@ -560,24 +396,6 @@ export default {
           this.$nextTick(() => {
             _that.mapJudge = true;
           });
-          // _that.mapData = [
-          //   {
-          //     name: "王**",
-          //     age: "28岁",
-          //     sex: "男",
-          //     type: "授信申请",
-          //     sum: "3000",
-          //     value: [116.4551, 40.2539, 48]
-          //   },
-          //   {
-          //     name: "王**",
-          //     age: "25岁",
-          //     sex: "女",
-          //     type: "授信申请",
-          //     sum: "7000",
-          //     value: [103.9526, 30.7617, 48]
-          //   }
-          // ];
         }
       });
     }
@@ -585,14 +403,11 @@ export default {
   components: {
     "weather-com": WeatherCom,
     "credit-properties-chart": CreditPropertiesChart,
-    // "portrayal-exp": PortrayalExp,
-    // "portrayal-server": PortrayalServe,
     "sec-map-chart": SecMapChart,
     "titleOrNum":titleOrNum,
     "centerTitleOrNum":centerTitleOrNum,
     "createOrLoan":createOrLoan,
     "cyclicAndPie":cyclicAndPie,
-    // "indicator-div": IndicatorDiv,
     "cyclic-annular": CyclicAnnular,
     "whole-pie-chart": WholePieChart,
   }

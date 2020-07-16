@@ -21,9 +21,9 @@ export default {
   },
   methods: {
     getData() {
-      this.axios.get("/api/p3/relationmapData").then((relaRes) => {
+      this.axios.get("/api/p3/relationmapData?count=10").then((relaRes) => {
         let relaData = relaRes.data.data;
-        // [
+        // let relaData = [
         //   {
         //     abnormal_related: "3",
         //     age: 52,
@@ -80,7 +80,7 @@ export default {
         //       },
         //     ],
         //   },
-        // ];;
+        // ];
         this.relationRes = relaData ? relaData : [];
         // this.axios
         //   .get("/api/p3/mapData")
@@ -141,11 +141,14 @@ export default {
       return num;
     },
     initMap(data, index) {
+      var all = [];
+      for(var i=0;i<10;i++)
+      {
+        all.push(Math.round(Math.random() * 10 + 32))
+      }
       function locat(city, ch) {
         var leftlocation = ["新疆维吾尔自治区", "西藏", "青海", "云南", "甘肃"];
-        if (ch.length > 4) {
-          return [-800, -230];
-        } else if (leftlocation.indexOf(city) != -1) {
+        if (leftlocation.indexOf(city) != -1) {
           return [-560, -230];
         } else {
           return [-760, -230];
@@ -154,15 +157,32 @@ export default {
       //     this.relationRes[index].location == "新疆维吾尔自治区"
       // ? [340, -210]
       // : [20, -210],
-      function locat2(city) {
+      function locat2(city, ch) {
         var leftlocation = ["新疆维吾尔自治区", "西藏", "青海", "云南", "甘肃"];
         if (leftlocation.indexOf(city) != -1) {
-          return [300, -210];
-        } else if (city.length > 2) {
-          return [5, -210];
-        } else {
-          return [0, -210];
+          if (ch.length > 4) {
+            return [360, -210];
+          } else {
+            return [315, -210];
+          }
+        } else if (leftlocation.indexOf(city) == -1) {
+          if (ch.length > 4) {
+            return [70, -210];
+          } else {
+            return [20, -210];
+          }
         }
+        // else if (city.length > 2 && city !== "新疆维吾尔自治区") {
+        //   return [20, -210];
+        // }
+      }
+      //       function size() {
+      // 2
+      // 3 return  Math.round(Math.random() * 10 + 32)
+      // 4
+      // 5 }
+      function size() {
+        return Math.round(Math.random() * 10 + 32);
       }
       // console.log((data = data.slice(8, 9)), "datadata");
       data =
@@ -557,6 +577,21 @@ export default {
             coordinateSystem: "geo",
             zlevel: 10,
             symbolSize: 32,
+            data: this.relationRes,
+            itemStyle: {
+              normal: {
+                color: "#F5B523",
+                shadowBlur: 2,
+              },
+            },
+          },
+          {
+            // 关联关系
+            type: "effectScatter",
+            coordinateSystem: "geo",
+            zlevel: 10,
+            // symbolSize: 32,
+            // symbolSize: all[index],
             data: this.relationRes[index] ? [this.relationRes[index]] : [],
             itemStyle: {
               normal: {
@@ -726,7 +761,10 @@ export default {
                   return returnStr;
                   // return `aaaaaa`;
                 },
-                position: locat2(this.relationRes[index].location),
+                position: locat2(
+                  this.relationRes[index].location,
+                  this.relationRes[index].appname
+                ),
                 distance: 0,
                 width: 340,
                 height: 120,
