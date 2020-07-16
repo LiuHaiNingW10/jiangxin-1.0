@@ -81,30 +81,61 @@ export default {
         series: [
           {
             type: "bar",
-            data: chartData.yAxis,
+            data: chartData.yAxis.map((item, index) => {
+              let itemStyle1 = {
+                normal: {
+                  color: new this.$echarts.graphic.LinearGradient(
+                    0,
+                    0,
+                    0,
+                    1,
+                    [
+                      {
+                        offset: 0,
+                        color: "#4BE8FA" // 0% 处的颜色
+                      },
+                      {
+                        offset: 1,
+                        color: "#0047FF" // 100% 处的颜色
+                      }
+                    ],
+                    false
+                  )
+                }
+              };
+              let itemStyle2 = {
+                normal: {
+                  color: new this.$echarts.graphic.LinearGradient(
+                    0,
+                    0,
+                    0,
+                    1,
+                    [
+                      {
+                        offset: 0,
+                        color: "#FFC8B4" // 0% 处的颜色
+                      },
+                      {
+                        offset: 1,
+                        color: "#FF7744" // 100% 处的颜色
+                      }
+                    ],
+                    false
+                  )
+                }
+              };
+              return chartData.xAxis[index].indexOf("精准扶贫") !== -1
+                ? {
+                    value: item,
+                    itemStyle: itemStyle2
+                  }
+                : {
+                    value: item,
+                    itemStyle: itemStyle1
+                  };
+            }),
             // barWidth: "20px",
-            barWidth: 32,
-            itemStyle: {
-              normal: {
-                color: new this.$echarts.graphic.LinearGradient(
-                  0,
-                  0,
-                  0,
-                  1,
-                  [
-                    {
-                      offset: 0,
-                      color: "#4BE8FA" // 0% 处的颜色
-                    },
-                    {
-                      offset: 1,
-                      color: "#0047FF" // 100% 处的颜色
-                    }
-                  ],
-                  false
-                )
-              }
-            }
+            barWidth: 32
           }
         ]
       });
