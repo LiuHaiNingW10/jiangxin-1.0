@@ -92,7 +92,7 @@ export default {
         type: 2
       },
       averangeLoans: {
-        littleTitle: ["笔均金额", "贷款期限"],
+        littleTitle: ["户均金额", "贷款期限"],
         type: 2
       },
       showPortrayal: false,

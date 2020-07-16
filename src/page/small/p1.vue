@@ -116,7 +116,7 @@
             style="width: 46%; margin-right: 4%"
           >
             <span class="single-graph-title">
-              笔均金额
+              户均金额
               <span class="avg-title">平均值</span>
               <span class="avg-num">{{avgNumberAvg}}</span>
             </span>
@@ -130,7 +130,7 @@
           <div class="single-distribution half-bottom-distribution">
             <span class="single-graph-title">
               用信天数
-              <span class="avg-title">平均值</span>
+              <span class="avg-title">平均天数</span>
               <span class="avg-num">{{creditDateAvg}}</span>
             </span>
             <simple-column
@@ -545,7 +545,7 @@ export default {
             });
             _that.income = Object.assign({}, { xAxis: xAxis1, yAxis: yAxis1 });
 
-            // 笔均金额
+            // 户均金额
             let data2 = obj[1].data.data;
             let xAxis2 = [],
               yAxis2 = [];
@@ -564,7 +564,7 @@ export default {
               { xAxis: xAxis2, yAxis: yAxis2 }
             );
 
-            // 笔均金额
+            // 户均金额
             let data3 = obj[2].data.data;
             let xAxis3 = [],
               yAxis3 = [];
@@ -576,7 +576,7 @@ export default {
             let creditDateAvg = "";
             if (xAxis3[0] == "均值") {
               xAxis3.shift();
-              creditDateAvg = parseInt(yAxis3.shift()) + "天";
+              creditDateAvg = this.thousandFormat(yAxis3.shift(), 1); + "月";
             }
             _that.creditDateAvg = creditDateAvg;
             _that.creditDate = Object.assign(
