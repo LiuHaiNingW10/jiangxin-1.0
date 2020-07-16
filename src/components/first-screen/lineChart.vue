@@ -144,7 +144,7 @@ export default {
           ]
         },
         yAxis: {
-          name: (data.yAxis && data.yAxis[0]) || "单位：万",
+          name: (data.yAxis && data.yAxis[0]) || "单位：元",
           // nameRotate: 90,
           // nameLocation: "middle",
           // nameGap: "80",

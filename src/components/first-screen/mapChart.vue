@@ -8,22 +8,22 @@
 <script>
 export default {
   name: "mapChart",
-  props: ["chartData"],
+  props: ["chartData", "mapPopData"],
   mounted() {
-    this.initMap(this.chartData.slice(0, 1));
-    this.rollMap(this.chartData);
+    this.initMap(this.chartData, this.mapPopData);
+    // this.rollMap(this.chartData);
   },
   data() {
     return {
       mapIndex: 2,
       myEcharts: undefined,
-      rollMapInterval: undefined,
+      // rollMapInterval: undefined,
       l: this
     };
   },
   computed: {},
   methods: {
-    initMap(chartData) {
+    initMap(chartData, mapPopData) {
       // eslint-disable-next-line no-unused-vars
       var that = this;
       var geoCoordMap = {
@@ -95,7 +95,7 @@ export default {
         { name: "广西", value: 59 },
         { name: "海南", value: 14 },
         { name: "台湾", value: 15 },
-        { name: "南海诸岛", value: 16 },
+        { name: "南海诸岛", value: 16 }
       ];
 
       var convertData = function(data) {
@@ -289,7 +289,7 @@ export default {
           {
             type: "effectScatter",
             coordinateSystem: "geo",
-            zlevel: 10,
+            zlevel: 8,
 
             data:
               chartData && chartData.length > 0
@@ -312,8 +312,60 @@ export default {
                     //   value: [103.9526, 30.7617, 48]
                     // }
                   ],
-            symbolSize: 32,
+            symbolSize: function(value, params) {
+              const { sum } = params.data;
+              let num = parseInt(sum)
+              var max = Math.max.apply(
+                null,
+                chartData.map(item => item.sum)
+              );
+              let size = (32 / max) * num;
+              let result = size > 5 ? size : 5;
+              return result;
+            },
             showEffectOn: "render",
+
+            // 涟漪的设置
+            // rippleEffect: {
+            //   color: "#7FFFAA",
+            //   scale: 4,
+            //   brushType: "stroke"
+            // },
+            itemStyle: {
+              normal: {
+                color: "#F5B523",
+                shadowBlur: 2
+              }
+            }
+          },
+          {
+            type: "effectScatter",
+            coordinateSystem: "geo",
+            zlevel: 10,
+
+            data:
+              mapPopData && mapPopData.length > 0
+                ? mapPopData
+                : [
+                    // {
+                    //   name: "王**",
+                    //   age: "28岁",
+                    //   sex: "男",
+                    //   type: "授信申请",
+                    //   sum: "3000000",
+                    //   value: [116.4551, 40.2539, 48]
+                    // },
+                    // {
+                    //   name: "王**",
+                    //   age: "25岁",
+                    //   sex: "女",
+                    //   type: "授信申请",
+                    //   sum: "7000000",
+                    //   value: [103.9526, 30.7617, 48]
+                    // }
+                  ],
+            symbolSize: 1,
+            // showEffectOn: "render",
 
             // 涟漪的设置
             // rippleEffect: {
@@ -356,7 +408,7 @@ export default {
                   //   "{fline|" + " " + params.data.name + " " + "重点关注" + "}"
                   // );
                 },
-                position: [-275, -120],
+                position: [0, -120],
                 distance: 40,
                 backgroundColor: {
                   image: require("@/assets/images/material/exports/group-9.png")
@@ -500,34 +552,37 @@ export default {
       value = parseFloat(value).toFixed(fixed);
       value = toThousands(value);
       return value;
-    },
-    rollMap() {
-      var _that = this;
-      // if (mapInterval) clearInterval(mapInterval);
-      this.rollMapInterval = setInterval(
-        () => {
-          if (_that.mapIndex > this.chartData.length - 1) {
-            _that.mapIndex = 0;
-          }
-          _that.initMap(
-            _that.chartData.slice(_that.mapIndex, _that.mapIndex + 1)
-          );
-          this.$nextTick(() => {
-            _that.mapIndex += 2;
-          });
-        },
-        5000,
-        _that
-      );
     }
+    // rollMap() {
+    //   var _that = this;
+    //   // if (mapInterval) clearInterval(mapInterval);
+    //   this.rollMapInterval = setInterval(
+    //     () => {
+    //       if (_that.mapIndex > this.chartData.length - 1) {
+    //         _that.mapIndex = 0;
+    //       }
+    //       _that.initMap(
+    //         _that.chartData.slice(_that.mapIndex, _that.mapIndex + 1)
+    //       );
+    //       this.$nextTick(() => {
+    //         _that.mapIndex += 2;
+    //       });
+    //     },
+    //     5000,
+    //     _that
+    //   );
+    // }
   },
   beforeDestroy() {
-    clearInterval(this.rollMapInterval);
+    // clearInterval(this.rollMapInterval);
   },
   components: {},
   watch: {
     chartData: function(newVal) {
-      this.initMap(newVal.slice(0, 1));
+      this.initMap(newVal, this.mapPopData);
+    },
+    mapPopData: function(newVal) {
+      this.initMap(this.chartData, newVal);
     }
   }
 };
