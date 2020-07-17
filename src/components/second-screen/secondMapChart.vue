@@ -442,7 +442,7 @@ export default {
                 formatter: function(params) {
                   return `{a|公司名称:}{b|${params.data.company}}\n{a|省市:}{b|${params.data.province}}\n{a|授信金额:}{c|${params.data.credit}}`;
                 },
-                position: [10, 135],
+                position: [30, 115],
                 distance: 0,
                 // background: 'rgba(22, 28, 40, 0.32)',
                 // boxShadow: '0px 16px 24px 0 #030C24',
@@ -453,9 +453,9 @@ export default {
                 // borderWidth: 2,
                 padding: [30, 40],
                 borderRadius: 3,
-                lineHeight: 48,
+                lineHeight: 45,
                 width: 500,
-                height: 180,
+                height: 130,
                 verticalAlign: "middle",
                 color: "#fff",
                 z: 11,
