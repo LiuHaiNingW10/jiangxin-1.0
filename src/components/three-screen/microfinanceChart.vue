@@ -84,10 +84,10 @@ export default {
       moveLocaitons: 0,
       /* end */
       IDFdata: [
-        { flag: "名单层", callNum: 300, percent: 30 },
         { flag: "关系层", callNum: 300, percent: 30 },
+        { flag: "名单层", callNum: 300, percent: 30 },
         { flag: "场景层", callNum: 200, percent: 20 },
-        { flag: "行为层", callNum: 200, percent: 20 },
+        { flag: "行为层", callNum: 200, percent: 100.00 },
       ],
       frm_cc: base64.frm_cc.value,
     };
@@ -130,12 +130,28 @@ export default {
         .get("/api/p3/riskIdfMatrix")
         .then((response) => {
           this.IDFdata = response.data.data;
-          this.IDFdata.map(item=>{
-           return {
-             ...item,
-             percent:item.percent.toFixed(0)
-           }
-          })
+          var arr = [];
+          this.IDFdata.map((item) => {
+            if (item.flag == "名单层") {
+              arr[0] = item;
+            }
+            if (item.flag == "关系层") {
+              arr[1] = item;
+            }
+            if (item.flag == "场景层") {
+              arr[2] = item;
+            }
+            if (item.flag == "行为层") {
+              arr[3] = item;
+            }
+          });
+          this.IDFdata = arr;
+          // this.IDFdata.map((item) => {
+          //   return {
+          //     ...item,
+          //     percent: Number(item.percent).toFixed(2),
+          //   };
+          // });
           this.drawChart();
         })
         .catch(function(error) {
@@ -226,6 +242,7 @@ export default {
             type: "shadow",
           },
           formatter: function(params) {
+            console.log(params, "ssssssssssss");
             return (
               params[0].name +
               "<br/>" +
@@ -244,6 +261,7 @@ export default {
           left: "20%",
           right: "15%",
           bottom: "-3%",
+          width:235,
           containLabel: false,
         },
         xAxis: {
@@ -276,7 +294,7 @@ export default {
               formatter: function(data) {
                 /* 7月10日wk修改：添加左侧条形图 */
                 // return data.callNum;
-                return data.value + "%";
+                return data.value.toFixed(2) + "%";
                 /* end */
               },
             },
@@ -288,7 +306,7 @@ export default {
             type: "bar",
             barWidth: 18,
             barGap: "-115%",
-            data: [max, max, max, max],
+            data: [100, 100, 100, 100],
             itemStyle: {
               color: "rgba(255,255,255,0)",
               // barBorderRadius: 30,

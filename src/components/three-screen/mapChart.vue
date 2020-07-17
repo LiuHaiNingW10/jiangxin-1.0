@@ -22,65 +22,65 @@ export default {
   methods: {
     getData() {
       this.axios.get("/api/p3/relationmapData?count=10").then((relaRes) => {
-        let relaData = relaRes.data.data;
-        // let relaData = [
-        //   {
-        //     abnormal_related: "3",
-        //     age: 52,
-        //     appname: "百度闪付App",
-        //     currentTime: "2020/07/14 16:51:32",
-        //     dealtypename: "账户冻结",
-        //     id: 7,
-        //     latitude: 43.83,
-        //     location: "山西",
-        //     longitude: 87.62,
-        //     payamount: 19926.89,
-        //     relate_factor: "安卓设备",
-        //     relate_flag: "7",
-        //     relationInfoList: [
-        //       {
-        //         dealtypename: "账户冻结",
-        //         id: 23,
-        //         latitude: 23.13,
-        //         longitude: 113.28,
-        //         relate_age: 30,
-        //         relate_flag: "7",
-        //         relate_location: "广东省",
-        //         relate_name: "洪锐",
-        //       },
-        //       {
-        //         dealtypename: "账户冻结",
-        //         id: 23,
-        //         latitude: 23.13,
-        //         longitude: 113.28,
-        //         relate_age: 30,
-        //         relate_flag: "7",
-        //         relate_location: "广东省",
-        //         relate_name: "洪锐",
-        //       },
-        //       {
-        //         dealtypename: "账户冻结",
-        //         id: 23,
-        //         latitude: 23.13,
-        //         longitude: 113.28,
-        //         relate_age: 30,
-        //         relate_flag: "7",
-        //         relate_location: "广东省",
-        //         relate_name: "洪锐",
-        //       },
-        //     ],
-        //     residence: "四川省",
-        //     risk: "提现风险异常",
-        //     risktype: "伪冒开户",
-        //     username: "王云生",
-        //     value: [
-        //       {
-        //         0: 87.62,
-        //         1: 43.83,
-        //       },
-        //     ],
-        //   },
-        // ];
+        // let relaData = relaRes.data.data;
+        let relaData = [
+          {
+            abnormal_related: "3",
+            age: 52,
+            appname: "百度闪付App",
+            currentTime: "2020/07/14 16:51:32",
+            dealtypename: "账户冻结",
+            id: 7,
+            latitude: 43.83,
+            location: "乌鲁木齐市",
+            longitude: 87.62,
+            payamount: 19926.89,
+            relate_factor: "安卓设备",
+            relate_flag: "7",
+            relationInfoList: [
+              {
+                dealtypename: "账户冻结",
+                id: 23,
+                latitude: 23.13,
+                longitude: 113.28,
+                relate_age: 30,
+                relate_flag: "7",
+                relate_location: "广东省",
+                relate_name: "洪锐",
+              },
+              {
+                dealtypename: "账户冻结",
+                id: 23,
+                latitude: 23.13,
+                longitude: 113.28,
+                relate_age: 30,
+                relate_flag: "7",
+                relate_location: "广东省",
+                relate_name: "洪锐",
+              },
+              {
+                dealtypename: "账户冻结",
+                id: 23,
+                latitude: 23.13,
+                longitude: 113.28,
+                relate_age: 30,
+                relate_flag: "7",
+                relate_location: "广东省",
+                relate_name: "洪锐",
+              },
+            ],
+            residence: "四川省",
+            risk: "提现风险异常",
+            risktype: "伪冒开户",
+            username: "王云生",
+            value: [
+              {
+                0: 87.62,
+                1: 43.83,
+              },
+            ],
+          },
+        ];
         this.relationRes = relaData ? relaData : [];
         // this.axios
         //   .get("/api/p3/mapData")
@@ -143,7 +143,7 @@ export default {
     initMap(data, index) {
       var sum = data;
       function locat(city, ch) {
-        var leftlocation = ["新疆维吾尔自治区", "西藏", "青海", "云南", "甘肃"];
+        var leftlocation = ["新疆维吾尔自治区",'乌鲁木齐市', "西藏", "青海", "云南", "甘肃"];
         if (leftlocation.indexOf(city) != -1) {
           return [-560, -230];
         } else {
@@ -154,14 +154,14 @@ export default {
       // ? [340, -210]
       // : [20, -210],
       function locat2(city, ch) {
-        var leftlocation = ["新疆维吾尔自治区", "西藏", "青海", "云南", "甘肃"];
+        var leftlocation = ["新疆维吾尔自治区", '乌鲁木齐市',"西藏", "青海", "云南", "甘肃"];
         if (leftlocation.indexOf(city) != -1) {
           // if (ch.length > 4) {
           //   return [340, -210];
           // } else {
           //   return [295, -210];
           // }
-          if (city.length > 5) {
+          if (city.length >= 5) {
             if (ch.length > 4) {
               return [340, -210];
             } else {
@@ -175,7 +175,7 @@ export default {
             }
           }
         } else if (leftlocation.indexOf(city) == -1) {
-          if (city.length > 5) {
+          if (city.length >= 5) {
             if (ch.length > 4) {
               return [140, -210];
             } else {
