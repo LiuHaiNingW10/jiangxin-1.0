@@ -257,11 +257,11 @@ export default {
         .then(
           this.axios.spread((...obj) => {
             // 客服数
-            _that.xnum = this.toThousands(obj[0].data.data)
+            _that.xnum = this.thousandFormat(obj[0].data.data || 0, 0)
             // 贷款
-            _that.dnum = this.toThousands(obj[1].data.data)
+            _that.dnum = this.thousandFormat(obj[1].data.data || 0, 2)
             // 服务金额
-            _that.cnum = this.toThousands(obj[2].data.data)
+            _that.cnum = this.thousandFormat(obj[2].data.data || 0, 2)
           })
         );
     },

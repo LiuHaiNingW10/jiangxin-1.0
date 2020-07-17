@@ -471,7 +471,6 @@ export default {
           _that.ageData = tData.map(item => {
             return { name: item.xid, value: item.val };
           });
-
         }
         this.$nextTick(() => {
           _that.ageJudge = true;
@@ -576,7 +575,7 @@ export default {
             let creditDateAvg = "";
             if (xAxis3[0] == "均值") {
               xAxis3.shift();
-              creditDateAvg = this.thousandFormat(yAxis3.shift(), 1); + "月";
+              creditDateAvg = this.thousandFormat(yAxis3.shift(), 1) + "月";
             }
             _that.creditDateAvg = creditDateAvg;
             _that.creditDate = Object.assign(
