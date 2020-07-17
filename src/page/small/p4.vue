@@ -257,9 +257,9 @@ export default {
               } else if (i == 2) {
                 // this.tableDataRight[0].value = data || 150;
               } else if (i == 3) {
-                this.tableDataTop[0].value = data || "30%";
+                this.tableDataTop[0].value = data + '%' || "30%";
               } else if (i == 4) {
-                this.tableDataTop[1].value = data || "91%";
+                this.tableDataTop[1].value = data + '%' || "91%";
               } else if (i == 5) {
                 this.tableDataRight[1].value = data || 6;
               }
