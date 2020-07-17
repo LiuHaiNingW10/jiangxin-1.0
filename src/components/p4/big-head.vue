@@ -118,9 +118,6 @@ export default {
       };
     },
   },
-  created() {
-    console.log(this.bigPoint,'big')
-  },
   mounted() {
     this.init();
     document.addEventListener("keydown", (event) => {
@@ -148,7 +145,8 @@ export default {
       if (!this.showAudio) {
         return;
       }
-      this.drawMap();
+      clearInterval(this.timera)
+      this.drawMapCircle();
     },
     scrollList: function() {
       return this.scrollList;
@@ -156,64 +154,86 @@ export default {
   },
   methods: {
     init() {
-      this.drawMap();
+      this.drawMapCircle();
     },
-    drawMap() {
-      let obj = this.tableData,
-        seriesData = {
-          ...obj,
-          value: [obj.longitude, obj.latitude],
-        };
+    drawMapCircle() {
+      let mapIndex = 0, currentPoint = {};
+      this.drawMap(this.bigPoint[mapIndex])
+      this.timera = setInterval( () => {
+        mapIndex += 1;
+        if(mapIndex > 5) {
+          mapIndex = 0
+        }
+        currentPoint = this.bigPoint[mapIndex]
+        this.drawMap(currentPoint)
+      },3000)
+    },
+    drawMap(currentPoint) {
+      
       let myChart = this.$echarts.init(document.getElementById("ChinaMap"));
-      let mapName = "china";
+      let mapName = "china",mapSymbolSize = {}
       let curruntArea =
         obj &&
         ((obj.province && obj.province.split("省")[0]) ||
           (obj.accent && obj.accent.split("省")[0]));
       var data = [
-        { name: "北京", value: 0 },
-        { name: "天津", value: 0 },
-        { name: "河北", value: 0 },
-        { name: "山西", value: 0 },
-        { name: "内蒙古", value: 0 },
-        { name: "辽宁", value: 0 },
-        { name: "吉林", value: 0 },
-        { name: "黑龙江", value: 0 },
-        { name: "上海", value: 0 },
-        { name: "江苏", value: 0 },
-        { name: "浙江", value: 0 },
-        { name: "安徽", value: 0 },
-        { name: "福建", value: 0 },
-        { name: "江西", value: 0 },
-        { name: "山东", value: 0 },
-        { name: "河南", value: 0 },
-        { name: "湖北", value: 0 },
-        { name: "湖南", value: 0 },
-        { name: "重庆", value: 0 },
-        { name: "四川", value: 0 },
-        { name: "贵州", value: 0 },
-        { name: "云南", value: 0 },
-        { name: "西藏", value: 0 },
-        { name: "陕西", value: 0 },
-        { name: "甘肃", value: 0 },
-        { name: "青海", value: 0 },
-        { name: "宁夏", value: 0 },
-        { name: "新疆", value: 0 },
-        { name: "广东", value: 0 },
-        { name: "香港", value: 0 },
-        { name: "澳门", value: 0 },
-        { name: "广西", value: 0 },
-        { name: "海南", value: 0 },
-        { name: "台湾", value: 0 },
+        { name: "北京", value: 34 },
+        { name: "天津", value: 30 },
+        { name: "河北", value: 10 },
+        { name: "山西", value: 10 },
+        { name: "内蒙古", value: 10 },
+        { name: "辽宁", value: 10 },
+        { name: "吉林", value: 16 },
+        { name: "黑龙江", value: 12 },
+        { name: "上海", value: 23 },
+        { name: "江苏", value: 23 },
+        { name: "浙江", value: 36 },
+        { name: "安徽", value: 14 },
+        { name: "福建", value: 32 },
+        { name: "江西", value: 33 },
+        { name: "山东", value: 23 },
+        { name: "河南", value: 23 },
+        { name: "湖北", value: 32 },
+        { name: "湖南", value: 15 },
+        { name: "重庆", value: 15 },
+        { name: "四川", value: 14 },
+        { name: "贵州", value: 14 },
+        { name: "云南", value: 12 },
+        { name: "西藏", value: 3 },
+        { name: "陕西", value: 10 },
+        { name: "甘肃", value: 30 },
+        { name: "青海", value: 10 },
+        { name: "宁夏", value: 20 },
+        { name: "新疆", value: 10 },
+        { name: "广东", value: 33 },
+        { name: "香港", value: 34 },
+        { name: "澳门", value: 32 },
+        { name: "广西", value: 20 },
+        { name: "海南", value: 23 },
+        { name: "台湾", value: 12 },
       ];
       data.forEach((item) => {
+        mapSymbolSize[item.name] = item.value
         if (item.name === curruntArea) {
           item.value = item.value + 150;
         } else {
           item.value = 0;
         }
       });
-
+      let obj = this.bigPoint,seriesData = [],
+      mapPopData = [{
+        ...currentPoint,
+        value: [currentPoint.longitude, currentPoint.latitude],
+        symbolSize: mapSymbolSize[currentPoint.province.split("省")[0] || obj.accent.split("省")[0]]
+      }]
+      obj.forEach( it => {;
+        seriesData.push({
+          ...it,
+          value: [it.longitude, it.latitude],
+          symbolSize: mapSymbolSize[it.province.split("省")[0] || it.accent.split("省")[0]]
+        })
+      })
+      console.log(seriesData,mapPopData)
       var geoCoordMap = {};
 
       /*获取地图数据*/
@@ -224,10 +244,6 @@ export default {
         // 地区经纬度
         geoCoordMap[name] = v.properties.cp;
       });
-      var max = 480,
-        min = 9; // todo
-      var maxSize4Pin = 100,
-        minSize4Pin = 20;
 
       var convertData = function(data) {
         var res = [];
@@ -336,8 +352,11 @@ export default {
           {
             type: "effectScatter",
             coordinateSystem: "geo",
-            zlevel: 10,
-            symbolSize: 32,
+            zlevel: 8,
+            symbolSize: function (item,params) {
+              return params.data.symbolSize
+            },
+            showEffectOn: "render",
             data: seriesData,
             itemStyle: {
               normal: {
@@ -351,7 +370,9 @@ export default {
             coordinateSystem: "geo",
             zlevel: 10,
             symbolSize: 32,
-            data: [seriesData],
+            data: mapPopData && mapPopData.length > 0
+                ? mapPopData
+                : [],
             itemStyle: {
               normal: {
                 color: "#F5B523",
@@ -442,41 +463,6 @@ export default {
               },
             },
           },
-          // {
-          //   name: "Top 5",
-          //   type: "effectScatter",
-          //   coordinateSystem: "geo",
-          //   data: convertData(
-          //     data
-          //       .sort(function(a, b) {
-          //         return b.value - a.value;
-          //       })
-          //       .slice(0, 10)
-          //   ),
-          //   symbolSize: function(val) {
-          //     return val[2] / 8;
-          //   },
-          //   showEffectOn: "render",
-          //   rippleEffect: {
-          //     brushType: "stroke"
-          //   },
-          //   hoverAnimation: true,
-          //   label: {
-          //     normal: {
-          //       formatter: "{b}",
-          //       position: "left",
-          //       show: false
-          //     }
-          //   },
-          //   itemStyle: {
-          //     normal: {
-          //       color: "yellow",
-          //       shadowBlur: 10,
-          //       shadowColor: "yellow"
-          //     }
-          //   },
-          //   zlevel: 1
-          // }
         ],
       };
       myChart.setOption(option);
@@ -592,6 +578,9 @@ export default {
         this.scrollList = this.scrollList.concat(this.msgList[5]);
       }, 26000);
     },
+  },
+  beforeDestroy() {
+    clearInterval(this.timera);
   },
 };
 </script>

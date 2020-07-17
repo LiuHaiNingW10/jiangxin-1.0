@@ -252,7 +252,6 @@ export default {
                 this.tableDataC = data;
               } else if (i == 1) {
                 let arr = data;
-                this.bigPoints = arr[0];
                 this.tableDataA = arr;
                 // this.transTableDataB(arr);
               } else if (i == 2) {
@@ -298,8 +297,9 @@ export default {
     tA() {
       this.getTableDataA();
       this.timerB = setInterval(() => {
+        console.log('tA')
         this.getTableDataA();
-      }, 3000);
+      }, 15000);
     },
     tB() {
       this.getTableDataB();
@@ -318,12 +318,12 @@ export default {
         url: "/api/p4/smartOperation",
         method: "get",
         params: {
-          count: 1
+          count: 6
         },
         type: "json"
       }).then(data => {
         let arr = data.data.data;
-        this.bigPoints = arr[0];
+        this.bigPoints = arr;
       });
     },
     getTableDataB() {

@@ -45,6 +45,7 @@ export default {
           value: it.val,
           symbolSize: getSize(it.val),
           symbol: getSymbol(it.val),
+          symbolRotate: 45,
           draggable: true,
           label: {
             align: "center"
@@ -169,7 +170,7 @@ export default {
             type: "wordCloud",
             gridSize: 20,
             sizeRange: [24, 50],
-            rotationRange: [0, 90],
+            rotationRange: [90, 0],
             rotationStep: 90,
             // textRotation: [0, 90],
             shape: "circle",
