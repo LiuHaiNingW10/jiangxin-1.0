@@ -130,6 +130,12 @@ export default {
         .get("/api/p3/riskIdfMatrix")
         .then((response) => {
           this.IDFdata = response.data.data;
+          this.IDFdata.map(item=>{
+           return {
+             ...item,
+             percent:item.percent.toFixed(0)
+           }
+          })
           this.drawChart();
         })
         .catch(function(error) {
@@ -238,7 +244,6 @@ export default {
           left: "20%",
           right: "15%",
           bottom: "-3%",
-          width:260,
           containLabel: false,
         },
         xAxis: {
