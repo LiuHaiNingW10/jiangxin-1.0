@@ -45,7 +45,6 @@ export default {
           value: it.val,
           symbolSize: getSize(it.val),
           symbol: getSymbol(it.val),
-          symbolRotate: 45,
           draggable: true,
           label: {
             align: "center"
@@ -146,7 +145,7 @@ export default {
       let randcolor = () => {
         let r = 100 + ~~(Math.random() * 100);
         let g = 135 + ~~(Math.random() * 100);
-        let b = 100 + ~~(Math.random() * 100);
+        let b = 100 + ~~(Math.random() * 100)
         return `rgb(${r}, ${g}, ${b})`;
       };
       myChart.setOption({

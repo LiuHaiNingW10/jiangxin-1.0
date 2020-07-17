@@ -24,7 +24,6 @@ export default {
       this.axios.get('/api/p3/interceptAmountTrend')
       .then( (res)  => {
           let arr = res.data.data   
-          console.log(arr,'arrrrrrr') 
           this.drawChart(arr)
 
       })

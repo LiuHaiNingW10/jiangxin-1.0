@@ -243,7 +243,7 @@ export default {
       idRiskR: {
         id: "echarts05",
         style: "height: 300px",
-        title: "风险类型占比",
+        title: "欺诈类型占比",
       },
     };
   },
