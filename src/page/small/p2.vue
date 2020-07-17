@@ -353,7 +353,6 @@ export default {
         data: "",
         type: "json"
       }).then(data => {
-        console.log(data)
         if (data.data.code === 100) {
           var tData = data.data.data;
           let index = 0;

@@ -233,7 +233,6 @@ export default {
           symbolSize: mapSymbolSize[it.province.split("省")[0] || it.accent.split("省")[0]]
         })
       })
-      console.log(seriesData,mapPopData)
       var geoCoordMap = {};
 
       /*获取地图数据*/

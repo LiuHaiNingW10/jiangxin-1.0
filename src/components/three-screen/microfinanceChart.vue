@@ -130,7 +130,6 @@ export default {
         .get("/api/p3/riskIdfMatrix")
         .then((response) => {
           this.IDFdata = response.data.data;
-          console.log(  this.IDFdata)
           this.drawChart();
         })
         .catch(function(error) {
@@ -187,7 +186,6 @@ export default {
         percentData.push(el.percent);
       });
       let max = Vue.filter("sortByValue")(this.IDFdata, "percent")[0].percent;
-      console.log(max,'max')
       // console.log(percentData);
       /* end */
       // 绘制图表

@@ -23,7 +23,6 @@ export default {
     getData() {
       this.axios.get("/api/p3/relationmapData?count=10").then((relaRes) => {
         let relaData = relaRes.data.data;
-        console.log(relaData);
         // let relaData = [
         //   {
         //     abnormal_related: "3",
@@ -142,7 +141,6 @@ export default {
       return num;
     },
     initMap(data, index) {
-      console.log(data, "123456");
       var sum = data;
       function locat(city, ch) {
         var leftlocation = ["新疆维吾尔自治区", "西藏", "青海", "云南", "甘肃"];
