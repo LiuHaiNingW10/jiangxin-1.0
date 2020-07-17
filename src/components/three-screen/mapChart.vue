@@ -109,7 +109,7 @@ export default {
           }
           index++;
           this.initMap(this.relationRes, index);
-        }, 1000);
+        }, 15000);
       });
     },
     nowTime() {
