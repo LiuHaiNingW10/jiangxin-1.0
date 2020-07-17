@@ -130,8 +130,8 @@ export default {
         .get("/api/p3/riskIdfMatrix")
         .then((response) => {
           this.IDFdata = response.data.data;
-         var a= this.IDFdata.sort(function(a, b) {
-            return a.cnt - b.cnt;
+          this.IDFdata.sort(function(a, b) {
+            return b.seq - a.seq;
           });
           this.drawChart();
         })
