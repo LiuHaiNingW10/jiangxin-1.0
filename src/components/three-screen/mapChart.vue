@@ -27,14 +27,14 @@ export default {
         //   {
         //     abnormal_related: "3",
         //     age: 52,
-        //     appname: "百度闪付",
+        //     appname: "百度闪付App",
         //     currentTime: "2020/07/14 16:51:32",
         //     dealtypename: "账户冻结",
         //     id: 7,
         //     latitude: 43.83,
-        //     location: "新疆维吾尔自治区",
+        //     location: "山西",
         //     longitude: 87.62,
-        //     payamount: 1996.89,
+        //     payamount: 19926.89,
         //     relate_factor: "安卓设备",
         //     relate_flag: "7",
         //     relationInfoList: [
@@ -109,7 +109,7 @@ export default {
           }
           index++;
           this.initMap(this.relationRes, index);
-        }, 15000);
+        }, 1000);
       });
     },
     nowTime() {
@@ -156,21 +156,58 @@ export default {
       function locat2(city, ch) {
         var leftlocation = ["新疆维吾尔自治区", "西藏", "青海", "云南", "甘肃"];
         if (leftlocation.indexOf(city) != -1) {
-          if (ch.length > 4) {
-            return [360, -210];
+          // if (ch.length > 4) {
+          //   return [340, -210];
+          // } else {
+          //   return [295, -210];
+          // }
+          if (city.length > 5) {
+            if (ch.length > 4) {
+              return [340, -210];
+            } else {
+              return [310, -210];
+            }
           } else {
-            return [315, -210];
+            if (ch.length > 4) {
+              return [240, -210];
+            } else {
+              return [210, -210];
+            }
           }
         } else if (leftlocation.indexOf(city) == -1) {
-          if (ch.length > 4) {
-            return [70, -210];
+          if (city.length > 5) {
+            if (ch.length > 4) {
+              return [140, -210];
+            } else {
+              return [110, -210];
+            }
           } else {
-            return [20, -210];
+            if (ch.length > 4) {
+              return [40, -210];
+            } else {
+              return [10, -210];
+            }
           }
         }
         // else if (city.length > 2 && city !== "新疆维吾尔自治区") {
         //   return [20, -210];
         // }
+      }
+      function width(city, ch, mone) {
+        mone = parseInt(mone);
+        if (city.length > 5) {
+          if (ch.length > 4) {
+            return 810;
+          } else {
+            return 780;
+          }
+        } else {
+          if (ch.length > 4) {
+            return 710;
+          } else {
+            return 680;
+          }
+        }
       }
       //       function size() {
       // 2
@@ -656,8 +693,12 @@ export default {
                   this.relationRes[index].appname
                 ),
                 distance: 0,
-                // width: 440,
-                // height: 180,
+                width: width(
+                  this.relationRes[index].location,
+                  this.relationRes[index].appname,
+                  this.relationRes[index].payamount
+                ),
+                height: 180,
                 backgroundColor: {
                   image: require("@/assets/images/p3/map-alert.png"),
                 },
