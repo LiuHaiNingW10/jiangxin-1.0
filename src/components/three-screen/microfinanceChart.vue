@@ -131,7 +131,7 @@ export default {
         .then((response) => {
           this.IDFdata = response.data.data;
           this.IDFdata.sort(function(a, b) {
-            return b.seq - a.seq;
+            return a.seq - b.seq;
           });
           this.drawChart();
         })
