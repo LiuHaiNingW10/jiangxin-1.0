@@ -259,9 +259,9 @@ export default {
             // 客服数
             _that.xnum = this.thousandFormat(obj[0].data.data || 0, 0)
             // 贷款
-            _that.dnum = this.thousandFormat(obj[1].data.data || 0, 2)
+            _that.dnum = this.thousandFormat(obj[2].data.data || 0, 2)
             // 服务金额
-            _that.cnum = this.thousandFormat(obj[2].data.data || 0, 2)
+            _that.cnum = this.thousandFormat(obj[1].data.data || 0, 2)
           })
         );
     },
