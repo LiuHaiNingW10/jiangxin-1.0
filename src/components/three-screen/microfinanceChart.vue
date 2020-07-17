@@ -129,7 +129,13 @@ export default {
       this.axios
         .get("/api/p3/riskIdfMatrix")
         .then((response) => {
-          // this.IDFdata = response.data.data;
+          this.IDFdata = response.data.data;
+          this.IDFdata.map(item=>{
+           return {
+             ...item,
+             percent:item.percent.toFixed(0)
+           }
+          })
           this.drawChart();
         })
         .catch(function(error) {
@@ -282,7 +288,7 @@ export default {
             type: "bar",
             barWidth: 18,
             barGap: "-115%",
-            data: [max * 1.6, max * 1.6, max * 1.6, max * 1.6],
+            data: [max, max, max, max],
             itemStyle: {
               color: "rgba(255,255,255,0)",
               // barBorderRadius: 30,

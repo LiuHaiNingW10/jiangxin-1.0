@@ -25,7 +25,6 @@ export default {
   methods: {
     initMap(chartData, mapPopData) {
       // eslint-disable-next-line no-unused-vars
-      console.log(chartData)
       var that = this;
       var geoCoordMap = {
         上海: [119.1803, 31.2891],

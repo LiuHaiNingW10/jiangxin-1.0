@@ -48,7 +48,7 @@ export default {
       value = toThousands(value);
       return value;
     },
-    getData() {
+    getData(num = 0) {
       this.axios({
         url: "/api/p2/graphInfo",
         method: "get",
@@ -56,30 +56,38 @@ export default {
         type: "json",
       }).then((data) => {
         if (data.data.code === 100) {
-          var chartData = data.data.data.map((item, index) => {
-            return {
-              company: item.companyname,
-              province: item.province,
-              credit: this.thousandFormat(item.credit, 2),
-              value: [item.longitude, item.latitude],
-              count:item.credit,
-            };
-          });
-
+          var mydata = data.data.data;
+          var chartData = data.data.data
+            .slice(num*5, (num * 5)+5)
+            .map((item, index) => {
+              return {
+                company: item.companyname,
+                province: item.province,
+                credit: this.thousandFormat(item.credit, 2),
+                value: [item.longitude, item.latitude],
+                count: item.credit,
+              };
+            });
           let index = 0;
-          this.initMap(chartData,index);
+          let ind = num;
+          this.initMap(chartData, index);
           this.timer = setInterval(() => {
             if (index >= chartData.length) {
-              this.getData();
+              index = 0;
+              num++;
+              if (num * 5 >= mydata.length) {
+                num = 0;
+              }
+              this.getData(num);
               clearInterval(this.timer);
             }
             index++;
-            this.initMap(chartData,index);
+            this.initMap(chartData, index);
           }, 5000);
         }
       });
     },
-    initMap(chartData,index) {
+    initMap(chartData, index) {
       // if (!chartData || chartData.length === 0) return;
       var geoCoordMap = {
         上海: [119.1803, 31.2891],
@@ -378,8 +386,7 @@ export default {
             type: "effectScatter",
             coordinateSystem: "geo",
             zlevel: 10,
-            symbolSize: 
-            function(value, params) {
+            symbolSize: function(value, params) {
               const { count } = params.data;
               let num = parseInt(count);
               var max = Math.max.apply(
@@ -405,9 +412,9 @@ export default {
             // symbolSize: 32,
             data:
               chartData[index] && chartData.length > 0
-                ?[chartData[index]]
-                :
-                   [ //   {
+                ? [chartData[index]]
+                : [
+                    //   {
                     //     name: "王**",
                     //     age: "28岁",
                     //     sex: "男",
@@ -423,8 +430,7 @@ export default {
                     //     sum: "7000000",
                     //     value: [103.9526, 30.7617, 48]
                     //   }
-                    ]
-                  ,
+                  ],
             // symbolSize: 32,
             // showEffectOn: "render",
 
@@ -442,7 +448,7 @@ export default {
                 formatter: function(params) {
                   return `{a|公司名称:}{b|${params.data.company}}\n{a|省市:}{b|${params.data.province}}\n{a|授信金额:}{c|${params.data.credit}}`;
                 },
-                position: [30, 115],
+                position: [-580, 105],
                 distance: 0,
                 // background: 'rgba(22, 28, 40, 0.32)',
                 // boxShadow: '0px 16px 24px 0 #030C24',
