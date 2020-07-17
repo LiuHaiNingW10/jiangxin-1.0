@@ -224,13 +224,13 @@ export default {
       mapPopData = [{
         ...currentPoint,
         value: [currentPoint.longitude, currentPoint.latitude],
-        symbolSize: mapSymbolSize[currentPoint.province.split("省")[0] || obj.accent.split("省")[0]]
+        symbolSize: 30
       }]
       obj.forEach( it => {;
         seriesData.push({
           ...it,
           value: [it.longitude, it.latitude],
-          symbolSize: mapSymbolSize[it.province.split("省")[0] || it.accent.split("省")[0]]
+          symbolSize: Math.random()*10 + 10
         })
       })
       var geoCoordMap = {};
