@@ -20,25 +20,25 @@
             <li :style="moveLocaiton === 1 ? 'color: #fff' : 'color: #FFF'">
               <img src="../../assets/images/p3/frm-cricle1.png" alt />
               <div>
-                <div class="title">{{ IDFdatas[0].flag }}</div>
+                <div class="title">名单层</div>
               </div>
             </li>
             <li :style="moveLocaiton === 2 ? 'color: #fff' : 'color:  #FFF'">
               <img src="../../assets/images/p3/frm-cricle2.png" alt />
               <div>
-                <div class="title">{{ IDFdatas[1].flag }}</div>
+                <div class="title">关系层</div>
               </div>
             </li>
             <li :style="moveLocaiton === 3 ? 'color: #fff' : 'color:  #FFF'">
               <img src="../../assets/images/p3/frm-cricle1.png" alt />
               <div>
-                <div class="title">{{ IDFdatas[2].flag }}</div>
+                <div class="title">场景层</div>
               </div>
             </li>
             <li :style="moveLocaiton === 4 ? 'color: #fff' : 'color:  #FFF'">
               <img src="../../assets/images/p3/frm-cricle2.png" alt />
               <div>
-                <div class="title">{{ IDFdatas[3].flag }}</div>
+                <div class="title">行为层</div>
               </div>
             </li>
             <!-- end -->
@@ -87,7 +87,7 @@ export default {
         { flag: "关系层", callNum: 300, percent: 30 },
         { flag: "名单层", callNum: 300, percent: 30 },
         { flag: "场景层", callNum: 200, percent: 20 },
-        { flag: "行为层", callNum: 200, percent: 100.00 },
+        { flag: "行为层", callNum: 200, percent: 100.0 },
       ],
       frm_cc: base64.frm_cc.value,
     };
@@ -130,28 +130,9 @@ export default {
         .get("/api/p3/riskIdfMatrix")
         .then((response) => {
           this.IDFdata = response.data.data;
-          var arr = [];
-          this.IDFdata.map((item) => {
-            if (item.flag == "名单层") {
-              arr[0] = item;
-            }
-            if (item.flag == "关系层") {
-              arr[1] = item;
-            }
-            if (item.flag == "场景层") {
-              arr[2] = item;
-            }
-            if (item.flag == "行为层") {
-              arr[3] = item;
-            }
+         var a= this.IDFdata.sort(function(a, b) {
+            return a.cnt - b.cnt;
           });
-          this.IDFdata = arr;
-          // this.IDFdata.map((item) => {
-          //   return {
-          //     ...item,
-          //     percent: Number(item.percent).toFixed(2),
-          //   };
-          // });
           this.drawChart();
         })
         .catch(function(error) {
@@ -242,7 +223,7 @@ export default {
             type: "shadow",
           },
           formatter: function(params) {
-            console.log(params, "ssssssssssss");
+            // console.log(params, "ssssssssssss");
             return (
               params[0].name +
               "<br/>" +
@@ -261,7 +242,7 @@ export default {
           left: "20%",
           right: "15%",
           bottom: "-3%",
-          width:235,
+          width: 235,
           containLabel: false,
         },
         xAxis: {
