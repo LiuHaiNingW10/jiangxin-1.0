@@ -39,7 +39,6 @@ export default {
     setTimeout( () => {
       this.animate = true
     },2000)
-    this.circle()
   },
   computed: {
     optionHover() {
@@ -48,7 +47,7 @@ export default {
         hoverStop: false, // 鼠标悬停停止滚动
         // direction: 1, // 向下/上滚动
         limitMoveNum: 10, // 开启无缝滚动的数据量
-        step: this.spreed, // 滚动速度
+        step: 2.5, // 滚动速度
         // singleHeight: 78, // 滚动单行
         // waitTime: 0 // 单行停顿时间
       };
@@ -56,14 +55,6 @@ export default {
   },
   
   methods: {
-    circle() {
-      this.timerA = setInterval( () => {
-        this.spreed = 1
-      },5000)
-      this.timerB = setInterval( () => {
-        this.spreed = 2.5
-      },7000)
-    },
   },
   beforeDestroy() {
     clearInterval(this.timerA);
