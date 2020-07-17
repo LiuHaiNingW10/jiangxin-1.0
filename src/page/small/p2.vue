@@ -112,7 +112,8 @@ export default {
       distributionIds: "distributionIds",
       distributionData: {},
       
-      mapInterval: undefined
+      mapInterval: undefined,
+      coinInterval: undefined,
     };
   },
   computed: {},
@@ -123,7 +124,7 @@ export default {
     this.getMapData();
     this.getLoanModelData()
     this.getServeModelData()
-    this.getTopData()
+    this.rollData()
   },
   methods: {
     // 将数字进行千分位格式化
@@ -208,46 +209,22 @@ export default {
                   };
                 })
               : [];
-            opPeriodData = obj[0].data.data
-              ? obj[0].data.data.map(item => {
+            function compare(property){
+                return function(a,b){
+                  var value1 = a[property];
+                  var value2 = b[property];
+                  return value1 - value2;
+                }
+            }
+            const data= obj[0].data.data.sort(compare('seq'))
+            opPeriodData = data
+              ? data.map(item => {
                   return {
                     name: item.xid,
                     value: item.perc
                   };
                 })
               : [];
-            // financeData = [
-            //   {
-            //     name: "1年",
-            //     value: 2158
-            //   },
-            //   {
-            //     name: "2年",
-            //     value: 1896
-            //   },
-            //   {
-            //     name: "3年",
-            //     value: 1543
-            //   },
-            //   {
-            //     name: "3年+",
-            //     value: 4405
-            //   }
-            // ];
-            // opPeriodData = [
-            //   {
-            //     name: "首贷",
-            //     value: 5475
-            //   },
-            //   {
-            //     name: "两次",
-            //     value: 3947
-            //   },
-            //   {
-            //     name: "三次及以上",
-            //     value: 578
-            //   }
-            // ];
             this.financeData=financeData;
             this.opPeriodData=opPeriodData;
             this.OpperiodAndFinance = Object.assign(
@@ -273,18 +250,35 @@ export default {
       let _that = this;
       this.axios
         .all([
-          this.axios.get("/api/p2/custnum"),
-          this.axios.get("/api/p2/principal"),
-          this.axios.get("/api/p2/bal")
+          this.axios.get("/api/p2/custnum"), //客服数
+          this.axios.get("/api/p2/bal"), // 贷款投放
+          this.axios.get("/api/p2/principal"), // 服务金额
         ])
         .then(
           this.axios.spread((...obj) => {
             // 客服数
-            _that.xnum = this.toThousands(obj[0].data.data,'0')
+            _that.xnum = this.toThousands(obj[0].data.data)
+            // 贷款
             _that.dnum = this.toThousands(obj[1].data.data)
+            // 服务金额
             _that.cnum = this.toThousands(obj[2].data.data)
           })
         );
+    },
+    // 5s请求一次数据
+    rollData() {
+      this.getTopData();
+      var _that = this;
+      var index = 0;
+      // if (coinInterval) clearInterval(coinInterval);
+      this.coinInterval = setInterval(
+        () => {
+          this.getTopData();
+        },
+        5000,
+        _that,
+        index
+      );
     },
     getPropertyCredit() {
       let _that = this;
@@ -400,6 +394,9 @@ export default {
         }
       });
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.coinInterval);
   },
   components: {
     "weather-com": WeatherCom,
