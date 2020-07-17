@@ -129,7 +129,8 @@ export default {
       this.axios
         .get("/api/p3/riskIdfMatrix")
         .then((response) => {
-          // this.IDFdata = response.data.data;
+          this.IDFdata = response.data.data;
+          console.log(  this.IDFdata)
           this.drawChart();
         })
         .catch(function(error) {
@@ -186,6 +187,7 @@ export default {
         percentData.push(el.percent);
       });
       let max = Vue.filter("sortByValue")(this.IDFdata, "percent")[0].percent;
+      console.log(max,'max')
       // console.log(percentData);
       /* end */
       // 绘制图表
@@ -238,6 +240,7 @@ export default {
           left: "20%",
           right: "15%",
           bottom: "-3%",
+          width:260,
           containLabel: false,
         },
         xAxis: {
@@ -282,7 +285,7 @@ export default {
             type: "bar",
             barWidth: 18,
             barGap: "-115%",
-            data: [max * 1.6, max * 1.6, max * 1.6, max * 1.6],
+            data: [max, max, max, max],
             itemStyle: {
               color: "rgba(255,255,255,0)",
               // barBorderRadius: 30,
