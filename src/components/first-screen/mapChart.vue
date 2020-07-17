@@ -314,7 +314,6 @@ export default {
                   ],
             symbolSize: function(value, params) {
               const { sum } = params.data;
-              console.log(chartData)
               let num = parseInt(sum)
               var max = Math.max.apply(
                 null,

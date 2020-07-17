@@ -29,7 +29,7 @@ export default {
       tableData: this.tableDatas,
       id: this.ids,
       animate: false,
-      spreed: 4
+      spreed: 2.5
     };
   },
   components: {
@@ -58,10 +58,10 @@ export default {
   methods: {
     circle() {
       this.timerA = setInterval( () => {
-        this.spreed = 2
+        this.spreed = 1
       },5000)
       this.timerB = setInterval( () => {
-        this.spreed = 4
+        this.spreed = 2.5
       },7000)
     },
   },
