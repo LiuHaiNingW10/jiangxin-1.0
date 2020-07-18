@@ -33,7 +33,7 @@ export default {
       tableData: this.tableDatas,
       id: this.ids,
       animate: false,
-      spreed: 2.5
+      spreed: 1.2
     };
   },
   components: {
@@ -51,7 +51,7 @@ export default {
         hoverStop: false, // 鼠标悬停停止滚动
         // direction: 1, // 向下/上滚动
         limitMoveNum: 10, // 开启无缝滚动的数据量
-        step: 2.5 // 滚动速度
+        step: 1.2 // 滚动速度
         // singleHeight: 78, // 滚动单行
         // waitTime: 0 // 单行停顿时间
       };

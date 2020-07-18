@@ -135,6 +135,7 @@ export default {
           document.getElementById("audio-art").style.display = "block";
         }, 800);
         this.culTimeScroll();
+        clearInterval(this.timera)
         this.DrawVideo("audio-art");
       }
     });
@@ -157,8 +158,8 @@ export default {
       this.drawMapCircle();
     },
     drawMapCircle() {
-      let mapIndex = 0, currentPoint = {};
-      this.drawMap(this.bigPoint[mapIndex])
+      let mapIndex = 0, currentPoint = this.bigPoint[mapIndex];
+      currentPoint && this.drawMap(currentPoint)
       this.timera = setInterval( () => {
         mapIndex += 1;
         if(mapIndex > 5) {
@@ -223,7 +224,7 @@ export default {
       let obj = this.bigPoint,seriesData = [],
       mapPopData = [{
         ...currentPoint,
-        value: [currentPoint.longitude, currentPoint.latitude],
+        value: [currentPoint.longitude || 10, currentPoint.latitude || 10],
         symbolSize: 30
       }]
       obj.forEach( it => {;
@@ -485,11 +486,15 @@ export default {
         });
         // document.getElementById("dialogue-box").style.display = "none";
         document.getElementById("audio-art").style.display = "none";
+        setTimeout( () => {
+          this.drawMapCircle()
+        },1000)
         this.scrollList = this.list;
       }, audioTime * 1000);
       this.changeProgress();
       return;
-      var source = atx.createMediaElementSource(audio);
+      var source = atx.createMediaE
+      lementSource(audio);
       var analyser = atx.createAnalyser();
       source.connect(analyser);
       analyser.connect(atx.destination);
