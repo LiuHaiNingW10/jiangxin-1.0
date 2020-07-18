@@ -37,14 +37,14 @@ export default {
   methods: {
     translate(arr) {
       let a = [];
-      let maxItem = Vue.filter("sortByValue")(arr, "val")[0];
-      arr.forEach(it => {
+      arr = Vue.filter("sortByValue")(arr, "val");
+      arr.forEach((it,i) => {
         a.push({
           name: it.key,
           // value: it.num + "人",
-          value: it.val,
-          symbolSize: getSize(it.val),
-          symbol: getSymbol(it.val),
+          value: i < 3 ? Math.floor(Math.random()*20) + 10 : it.value,
+          // symbolSize: getSize(it.val),
+          // symbol: getSymbol(it.val),
           draggable: true,
           label: {
             align: "center"
