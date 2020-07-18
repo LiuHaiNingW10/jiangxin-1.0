@@ -42,7 +42,7 @@ export default {
         a.push({
           name: it.key,
           // value: it.num + "人",
-          value: i < 3 ? Math.floor(Math.random()*20) + 10 : it.value,
+          value: i < 3 ? Math.floor(Math.random()*20) + 10 : it.val,
           // symbolSize: getSize(it.val),
           // symbol: getSymbol(it.val),
           draggable: true,
