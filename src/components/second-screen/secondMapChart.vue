@@ -451,7 +451,7 @@ export default {
                   return `{a|公司名称:}{b|${
                     params.data.company
                   }}\n{a|省市:}{b|${params.data.province}}\n{a|${
-                    params.data.basicinfo
+                    params.data.basicinfo.slice(0,2) === "授信申请" ? "授信金额" : "用信金额"
                   }:}{c|${params.data.credit}}`;
                 },
                 position: [-580, 105],
