@@ -58,7 +58,7 @@ export default {
         if (data.data.code === 100) {
           var mydata = data.data.data;
           var chartData = data.data.data
-            .slice(num*5, (num * 5)+5)
+            .slice(num * 5, num * 5 + 5)
             .map((item, index) => {
               return {
                 company: item.companyname,
@@ -66,12 +66,14 @@ export default {
                 credit: this.thousandFormat(item.credit, 2),
                 value: [item.longitude, item.latitude],
                 count: item.credit,
+                basicinfo: item.basicinfo,
               };
             });
           let index = 0;
           let ind = num;
           this.initMap(chartData, index);
           this.timer = setInterval(() => {
+            index++;   
             if (index >= chartData.length) {
               index = 0;
               num++;
@@ -81,9 +83,9 @@ export default {
               this.getData(num);
               clearInterval(this.timer);
             }
-            index++;
             this.initMap(chartData, index);
-          }, 5000);
+          }, 3000);
+
         }
       });
     },
@@ -446,7 +448,11 @@ export default {
               normal: {
                 show: true,
                 formatter: function(params) {
-                  return `{a|公司名称:}{b|${params.data.company}}\n{a|省市:}{b|${params.data.province}}\n{a|授信金额:}{c|${params.data.credit}}`;
+                  return `{a|公司名称:}{b|${
+                    params.data.company
+                  }}\n{a|省市:}{b|${params.data.province}}\n{a|${
+                    params.data.basicinfo === "10" ? "授信金额" : "用信金额"
+                  }:}{c|${params.data.credit}}`;
                 },
                 position: [-580, 105],
                 distance: 0,

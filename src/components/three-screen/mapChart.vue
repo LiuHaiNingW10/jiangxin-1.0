@@ -151,46 +151,46 @@ export default {
         }
       }
       //     this.relationRes[index].location == "新疆维吾尔自治区"
-      // ? [340, -210]
-      // : [20, -210],
+      // ? [340, -230]
+      // : [20, -230],
       function locat2(city, ch) {
         var leftlocation = ["新疆维吾尔自治区", '乌鲁木齐市',"西藏", "青海", "云南", "甘肃"];
         if (leftlocation.indexOf(city) != -1) {
           // if (ch.length > 4) {
-          //   return [340, -210];
+          //   return [340, -230];
           // } else {
-          //   return [295, -210];
+          //   return [295, -230];
           // }
           if (city.length >= 5) {
             if (ch.length > 4) {
-              return [340, -210];
+              return [330, -230];
             } else {
-              return [310, -210];
+              return [300, -230];
             }
           } else {
             if (ch.length > 4) {
-              return [240, -210];
+              return [230, -230];
             } else {
-              return [210, -210];
+              return [200, -230];
             }
           }
         } else if (leftlocation.indexOf(city) == -1) {
           if (city.length >= 5) {
             if (ch.length > 4) {
-              return [140, -210];
+              return [130, -230];
             } else {
-              return [110, -210];
+              return [100, -230];
             }
           } else {
             if (ch.length > 4) {
-              return [40, -210];
+              return [30, -230];
             } else {
-              return [10, -210];
+              return [0, -230];
             }
           }
         }
         // else if (city.length > 2 && city !== "新疆维吾尔自治区") {
-        //   return [20, -210];
+        //   return [20, -230];
         // }
       }
       function width(city, ch, mone) {
