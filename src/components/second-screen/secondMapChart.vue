@@ -69,11 +69,12 @@ export default {
                 basicinfo: item.basicinfo,
               };
             });
+            console.log(chartData)
           let index = 0;
           let ind = num;
           this.initMap(chartData, index);
           this.timer = setInterval(() => {
-            index++;   
+            index++;
             if (index >= chartData.length) {
               index = 0;
               num++;
@@ -85,7 +86,6 @@ export default {
             }
             this.initMap(chartData, index);
           }, 3000);
-
         }
       });
     },
@@ -451,7 +451,7 @@ export default {
                   return `{a|公司名称:}{b|${
                     params.data.company
                   }}\n{a|省市:}{b|${params.data.province}}\n{a|${
-                    params.data.basicinfo === "10" ? "授信金额" : "用信金额"
+                    params.data.basicinfo
                   }:}{c|${params.data.credit}}`;
                 },
                 position: [-580, 105],
