@@ -69,7 +69,6 @@ export default {
                 basicinfo: item.basicinfo,
               };
             });
-            console.log(chartData)
           let index = 0;
           let ind = num;
           this.initMap(chartData, index);
