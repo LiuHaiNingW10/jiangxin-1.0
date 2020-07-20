@@ -84,7 +84,7 @@ export default {
               clearInterval(this.timer);
             }
             this.initMap(chartData, index);
-          }, 3000);
+          }, 5000);
         }
       });
     },
